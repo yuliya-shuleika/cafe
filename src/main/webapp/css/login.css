@@ -75,7 +75,7 @@ body {
 
 :root {
     --anchorColor: inherit;
-    --anchorHoverColor: #1dabb8;
+    --anchorHoverColor: #4CAF50;
 }
 
 a {
@@ -180,7 +180,7 @@ input[type='submit'] {
 }
 
 .login input[type='submit'] {
-    background-color: #1dabb8;
+    background-color: #4CAF50;
     border-radius: var(--loginInputBorderRadius);
     color: #fff;
     font-weight: 700;
@@ -191,7 +191,7 @@ input[type='submit'] {
 
 .login input[type='submit']:focus,
 .login input[type='submit']:hover {
-    background-color: #198d98;
+    background-color: #4CAF50;
 }
 
 .login__footer {

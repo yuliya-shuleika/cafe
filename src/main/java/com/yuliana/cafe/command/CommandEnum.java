@@ -1,11 +1,28 @@
 package com.yuliana.cafe.command;
 
-import com.yuliana.cafe.command.impl.LoginCommand;
-import com.yuliana.cafe.command.impl.LogoutCommand;
-import com.yuliana.cafe.command.impl.OpenRegisterCommand;
-import com.yuliana.cafe.command.impl.RegisterCommand;
+import com.yuliana.cafe.command.impl.*;
 
 public enum CommandEnum {
+    TO_LOGIN {
+        {
+            this.command = new ToLoginCommand();
+        }
+    },
+    TO_HOME{
+        {
+            this.command = new ToHomeCommand();
+        }
+    },
+    TO_REGISTER {
+        {
+            this.command = new ToRegisterCommand();
+        }
+    },
+    TRANSLATE{
+        {
+            this.command = new TranslateCommand();
+        }
+    },
     LOGIN {
         {
             this.command = new LoginCommand();
@@ -14,11 +31,6 @@ public enum CommandEnum {
     REGISTER {
         {
             this.command = new RegisterCommand();
-        }
-    },
-    OPENREGISTER {
-        {
-            this.command = new OpenRegisterCommand();
         }
     },
     LOGOUT {

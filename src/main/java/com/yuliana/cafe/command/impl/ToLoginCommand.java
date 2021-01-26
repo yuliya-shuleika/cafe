@@ -4,12 +4,13 @@ import com.yuliana.cafe.command.ActionCommand;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class OpenRegisterCommand implements ActionCommand {
+public class ToLoginCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        String page = "/jsp/register.jsp";
+        String page = "/jsp/login.jsp";
         request.getSession().invalidate();
         return page;
     }
 }
+
