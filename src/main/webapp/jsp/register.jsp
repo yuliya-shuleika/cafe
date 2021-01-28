@@ -37,7 +37,7 @@
         </div>
         <footer class="login__footer">
             <input type="submit" value="register">
-            <p><a href="controller?command=logout">${login}</a></p>
+            <p><a href="controller?command=to_login">${login}</a></p>
         </footer>
     </form>
 </div>

@@ -1,6 +1,7 @@
 package com.yuliana.cafe.command.impl;
 
 import com.yuliana.cafe.command.ActionCommand;
+import com.yuliana.cafe.command.Pages;
 import com.yuliana.cafe.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,13 +14,13 @@ public class RegisterCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        String page = null;
+        String page;
         UserService service = new UserService();
         String name = request.getParameter(PARAM_NAME);
         String login = request.getParameter(PARAM_EMAIL);
         String pass = request.getParameter(PARAM_PASSWORD);
         service.registerUser(name, login, pass);
-        page = "/jsp/login.jsp";
+        page = Pages.LOGIN_PAGE;
         return page;
     }
 }

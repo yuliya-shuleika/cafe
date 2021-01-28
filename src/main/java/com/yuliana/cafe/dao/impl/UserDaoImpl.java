@@ -1,7 +1,9 @@
 package com.yuliana.cafe.dao.impl;
 
+import com.yuliana.cafe.dao.DaoException;
 import com.yuliana.cafe.dao.UserDao;
 import com.yuliana.cafe.entity.User;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,7 +37,7 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    public void register(User user, String password){
+    public void register(User user, String password) throws DaoException {
         try(PreparedStatement statement = connection.prepareStatement(INSERT_USER)){
             statement.setString(2, user.getName());
             statement.setString(3, user.getEmail());
@@ -43,11 +45,12 @@ public class UserDaoImpl implements UserDao {
             statement.setString(5, user.getRole());
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            logger.log(Level.ERROR, e.getMessage());
+            throw new DaoException();
         }
     }
 
-    public User login(String email, String password){
+    public User login(String email, String password) throws DaoException{
         try(PreparedStatement statement = connection.prepareStatement(SQL_LOGIN)){
             statement.setString(1, email);
             statement.setString(2, password);
@@ -61,8 +64,8 @@ public class UserDaoImpl implements UserDao {
                 return user;
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
-            return null;
+            logger.log(Level.ERROR, e.getMessage());
+            throw new DaoException(e.getMessage());
         }
         return null;
     }

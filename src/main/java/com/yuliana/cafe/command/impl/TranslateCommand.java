@@ -1,6 +1,7 @@
 package com.yuliana.cafe.command.impl;
 
 import com.yuliana.cafe.command.ActionCommand;
+import com.yuliana.cafe.command.Pages;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,7 +25,7 @@ public class TranslateCommand implements ActionCommand {
         }else {
             session.setAttribute(LANG_ATTRIBUTE, LANG_EN);
         }
-        String page = "/jsp/login.jsp";
+        String page = Pages.LOGIN_PAGE;
         return page;
     }
 }
