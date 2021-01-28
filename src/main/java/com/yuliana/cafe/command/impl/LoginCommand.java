@@ -1,7 +1,6 @@
 package com.yuliana.cafe.command.impl;
 
 import com.yuliana.cafe.command.ActionCommand;
-import com.yuliana.cafe.command.Pages;
 import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.service.UserService;
 import org.apache.logging.log4j.Level;
