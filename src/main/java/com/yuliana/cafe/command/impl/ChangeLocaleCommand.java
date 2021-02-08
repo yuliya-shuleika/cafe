@@ -1,11 +1,12 @@
 package com.yuliana.cafe.command.impl;
 
 import com.yuliana.cafe.command.ActionCommand;
+import com.yuliana.cafe.command.PagePath;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-public class TranslateCommand implements ActionCommand {
+public class ChangeLocaleCommand implements ActionCommand {
 
     private static final String LANG_ATTRIBUTE = "lang";
     private static final String LANG_EN = "en";
@@ -21,10 +22,10 @@ public class TranslateCommand implements ActionCommand {
             } else {
                 session.setAttribute(LANG_ATTRIBUTE, LANG_EN);
             }
-        }else {
+        } else {
             session.setAttribute(LANG_ATTRIBUTE, LANG_EN);
         }
-        String page = Pages.LOGIN_PAGE;
+        String page = PagePath.LOGIN_PAGE;
         return page;
     }
 }

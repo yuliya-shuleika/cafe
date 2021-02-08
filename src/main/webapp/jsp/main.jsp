@@ -25,7 +25,7 @@
 <fmt:message bundle="${loc}" key="lang.label.sushi_set" var="sushi_set"/>
 <fmt:message bundle="${loc}" key="lang.label.soup" var="soup"/>
 <fmt:message bundle="${loc}" key="lang.label.noodles" var="noodles"/>
-
+<fmt:message bundle="${loc}" key="lang.label.choose" var="choose"/>
 <body>
     <c:choose>
         <c:when test="${sessionScope.user.getRole() eq 'ADMIN'}">
@@ -42,10 +42,11 @@
         <div class="team" id="team">
         <div class="container">
             <div class="default-heading">
-                <h2>Catalog</h2>
+                <h2>Menu</h2>
             </div>
             <div class="filters">
-                <form method="post">
+                <form method="post" action="controller">
+                    <input type="hidden" name="command" value="choose_category" />
                     <select name="categories">
                         <option value="choose a category">${choose}</option>
                         <option value="sushi">${sushi}</option>

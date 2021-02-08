@@ -19,7 +19,7 @@ public class DishDaoImpl implements DishDao {
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
     private static final String SELECT_ALL_DISHES = "SELECT dish_id, name, category, picture_name, price FROM dishes";
     private static final String SELECT_DISHES_BY_CATEGORY = "SELECT dish_id, name, category, picture_name, price FROM dishes WHERE category = ?";
-    private static final String SELECT_DISHES_BY_NAME = "SELECT dish_id, name, category, picture_name, price FROM dishes WHERE name = ?";
+    private static final String SELECT_DISHES_BY_NAME = "SELECT dish_id, name, category, picture_name, price FROM dishes WHERE name like '%' + ? + '%'";
     private static final String SELECT_DISHES_BY_PRICE= "SELECT dish_id, name, category, picture_name, price FROM dishes WHERE price > ? and price < ?";
 
     @Override

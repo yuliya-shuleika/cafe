@@ -27,7 +27,7 @@ public class ConnectionCreator {
     private ConnectionCreator() {
     }
 
-    public static Connection createConnection(){
+    static Connection createConnection(){
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(DB_URL+ DB_TIMEZONE, DB_USER, DB_PASSWORD);

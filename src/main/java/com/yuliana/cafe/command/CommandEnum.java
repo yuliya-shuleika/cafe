@@ -28,9 +28,14 @@ public enum CommandEnum {
             this.command = new ToUsersListCommand();
         }
     },
-    TRANSLATE{
+    CHOOSE_CATEGORY {
         {
-            this.command = new TranslateCommand();
+            this.command = new ChooseCategoryCommand();
+        }
+    },
+    CHANGE_LOCALE {
+        {
+            this.command = new ChangeLocaleCommand();
         }
     },
     LOGIN {

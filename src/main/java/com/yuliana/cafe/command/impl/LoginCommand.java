@@ -1,6 +1,7 @@
 package com.yuliana.cafe.command.impl;
 
 import com.yuliana.cafe.command.ActionCommand;
+import com.yuliana.cafe.command.PagePath;
 import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.service.UserService;
 import org.apache.logging.log4j.Level;
@@ -29,11 +30,11 @@ public class LoginCommand implements ActionCommand {
         if(user != null) {
             HttpSession session = request.getSession();
             session.setAttribute(ATTRIBUTE_USER, user);
-            page = Pages.HOME_PAGE;
+            page = PagePath.HOME_PAGE;
         } else {
             request.setAttribute(PARAM_ERROR, ERROR_MESSAGE);
             logger.log(Level.DEBUG, "Wrong password.");
-            page = Pages.LOGIN_PAGE;
+            page = PagePath.LOGIN_PAGE;
         }
         return page;
     }
