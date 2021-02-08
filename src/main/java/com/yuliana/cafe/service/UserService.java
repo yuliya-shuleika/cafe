@@ -4,6 +4,7 @@ import com.yuliana.cafe.dao.DaoException;
 import com.yuliana.cafe.dao.UserDao;
 import com.yuliana.cafe.dao.impl.UserDaoImpl;
 import com.yuliana.cafe.entity.User;
+import com.yuliana.cafe.entity.UserRole;
 import com.yuliana.cafe.util.validator.EmailValidator;
 import com.yuliana.cafe.util.validator.PasswordValidator;
 import org.apache.logging.log4j.Level;
@@ -33,7 +34,7 @@ public class UserService {
     }
 
     public void registerUser(String name, String email, String password){
-        User user = new User(name, email,  "user");
+        User user = new User(name, email,  UserRole.USER);
         try {
             userDao.register(user, password);
         }catch (DaoException e){

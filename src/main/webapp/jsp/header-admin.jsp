@@ -6,9 +6,11 @@
 </head>
 <body>
 <div class="topnav">
+    <a href="controller?command=to_home">${menu}</a>
     <a href="controller?command=to_home">${home}</a>
     <a href="controller?command=to_login">${login}</a>
     <a href="controller?command=to_register">${register}</a>
+    <a href="controller?command=to_users_list">${users_list}</a>
     <a href="controller?command=translate">${translate}</a>
 </div>
 </body>

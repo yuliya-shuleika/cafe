@@ -1,5 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,10 +12,22 @@
 <fmt:setBundle basename="lang" var="loc"/>
 <fmt:message bundle="${loc}" key="lang.label.home" var="home"/>
 <fmt:message bundle="${loc}" key="lang.label.login" var="login"/>
+<fmt:message bundle="${loc}" key="lang.label.management" var="management"/>
 <fmt:message bundle="${loc}" key="lang.label.register" var="register"/>
+<fmt:message bundle="${loc}" key="lang.label.users_list" var="users_list"/>
 <fmt:message bundle="${loc}" key="lang.label.translate" var="translate"/>
 <body class="align">
-    <%@ include file="header.jsp"%>
+    <c:choose>
+        <c:when test="${sessionScope.user.getRole() eq 'ADMIN'}">
+            <%@ include file="header-admin.jsp"%>
+        </c:when>
+        <c:when test="${sessionScope.user.getRole() eq 'USER'}">
+            <%@ include file="header.jsp"%>
+        </c:when>
+        <c:when test="${sessionScope.user.getRole() == null}">
+            <%@ include file="header.jsp"%>
+        </c:when>
+    </c:choose>
 <div class="grid">
     <form method="post" class="form login" action="controller">
         <input type="hidden" name="command" value="login" />

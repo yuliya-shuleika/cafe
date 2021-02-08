@@ -8,7 +8,7 @@ public enum CommandEnum {
             this.command = new ToLoginCommand();
         }
     },
-    TO_HOME{
+    TO_HOME {
         {
             this.command = new ToHomeCommand();
         }
@@ -16,6 +16,16 @@ public enum CommandEnum {
     TO_REGISTER {
         {
             this.command = new ToRegisterCommand();
+        }
+    },
+    TO_MANAGEMENT {
+        {
+            this.command = new ToManagementCommand();
+        }
+    },
+    TO_USERS_LIST {
+        {
+            this.command = new ToUsersListCommand();
         }
     },
     TRANSLATE{
