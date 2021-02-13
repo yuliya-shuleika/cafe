@@ -8,7 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnectionCreator {
+class ConnectionCreator {
 
     private static final Logger logger = LogManager.getLogger();
     private static final String DB_USER = "root";

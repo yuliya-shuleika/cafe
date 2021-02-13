@@ -13,6 +13,11 @@ public enum CommandEnum {
             this.command = new ToHomeCommand();
         }
     },
+    TO_MENU {
+        {
+            this.command = new ToMenuCommand();
+        }
+    },
     TO_REGISTER {
         {
             this.command = new ToRegisterCommand();

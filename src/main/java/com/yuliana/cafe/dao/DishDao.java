@@ -3,7 +3,6 @@ package com.yuliana.cafe.dao;
 import com.yuliana.cafe.entity.Category;
 import com.yuliana.cafe.entity.Dish;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface DishDao {

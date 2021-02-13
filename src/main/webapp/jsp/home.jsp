@@ -6,14 +6,9 @@
     <title>Home</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style><%@include file="/css/main.css"%></style>-+
-    <style><%@include file="/css/bootstrap.css"%></style>
 </head>
 <fmt:setLocale value='<%=request.getSession().getAttribute("lang")%>'/>
 <fmt:setBundle basename="lang" var="loc"/>
-<fmt:message bundle="${loc}" key="lang.label.home" var="home"/>
-<fmt:message bundle="${loc}" key="lang.label.login" var="login"/>
-<fmt:message bundle="${loc}" key="lang.label.register" var="register"/>
 <fmt:message bundle="${loc}" key="lang.label.users_list" var="users_list"/>
 <fmt:message bundle="${loc}" key="lang.label.management" var="management"/>
 <fmt:message bundle="${loc}" key="lang.label.welcome" var="welcome"/>
@@ -29,13 +24,13 @@
 <body>
     <c:choose>
         <c:when test="${sessionScope.user.getRole() eq 'ADMIN'}">
-            <%@ include file="header-admin.jsp"%>
+            <%@ include file="/jsp/header/header-admin.jsp"%>
         </c:when>
         <c:when test="${sessionScope.user.getRole() eq 'USER'}">
-            <%@ include file="header.jsp"%>
+            <%@ include file="/jsp/header/header-user.jsp"%>
         </c:when>
         <c:when test="${sessionScope.user.getRole() == null}">
-            <%@ include file="header.jsp"%>
+            <%@ include file="/jsp/header/header.jsp"%>
         </c:when>
     </c:choose>
     <main>

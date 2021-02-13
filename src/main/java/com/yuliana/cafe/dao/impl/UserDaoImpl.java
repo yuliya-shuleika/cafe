@@ -70,7 +70,8 @@ public class UserDaoImpl implements UserDao {
         try (Statement statement = connection.createStatement()){
             ResultSet result = statement.executeQuery(SELECT_ALL_USERS);
             while (result.next()) {
-                users.add(createUser(result));
+                User user = createUser(result);
+                users.add(user);
             }
         }catch (SQLException e){
             logger.log(Level.ERROR, e.getMessage());

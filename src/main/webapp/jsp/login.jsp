@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,6 +10,8 @@
 <fmt:setLocale value='<%=request.getSession().getAttribute("lang")%>'/>
 <fmt:setBundle basename="lang" var="loc"/>
 <fmt:message bundle="${loc}" key="lang.label.home" var="home"/>
+<fmt:message bundle="${loc}" key="lang.label.cart" var="cart"/>
+<fmt:message bundle="${loc}" key="lang.label.account" var="account"/>
 <fmt:message bundle="${loc}" key="lang.label.login" var="login"/>
 <fmt:message bundle="${loc}" key="lang.label.management" var="management"/>
 <fmt:message bundle="${loc}" key="lang.label.register" var="register"/>
@@ -19,13 +20,13 @@
 <body class="align">
     <c:choose>
         <c:when test="${sessionScope.user.getRole() eq 'ADMIN'}">
-            <%@ include file="header-admin.jsp"%>
+            <%@ include file="/jsp/header/header-admin.jsp"%>
         </c:when>
         <c:when test="${sessionScope.user.getRole() eq 'USER'}">
-            <%@ include file="header.jsp"%>
+            <%@ include file="/jsp/header/header-user.jsp"%>
         </c:when>
         <c:when test="${sessionScope.user.getRole() == null}">
-            <%@ include file="header.jsp"%>
+            <%@ include file="/jsp/header/header.jsp"%>
         </c:when>
     </c:choose>
 <div class="grid">
