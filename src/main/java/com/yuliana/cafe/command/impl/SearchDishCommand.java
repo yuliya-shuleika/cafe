@@ -3,7 +3,7 @@ package com.yuliana.cafe.command.impl;
 import com.yuliana.cafe.command.ActionCommand;
 import com.yuliana.cafe.command.PagePath;
 import com.yuliana.cafe.entity.Dish;
-import com.yuliana.cafe.service.MenuService;
+import com.yuliana.cafe.service.DishService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -16,10 +16,10 @@ public class SearchDishCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
         String name = request.getParameter(PARAM_DISH_NAME);
-        MenuService service = new MenuService();
-        List<Dish> dishes = service.searchItemsByName(name);
+        DishService service = new DishService();
+        List<Dish> dishes = service.searchDishesByName(name);
         request.setAttribute(ATTRIBUTE_DISHES_LIST, dishes);
-        String page = PagePath.HOME_PAGE;
+        String page = PagePath.MENU_PAGE;
         return page;
     }
 }

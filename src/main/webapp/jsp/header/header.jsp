@@ -44,15 +44,21 @@
                 <div class = "header-user">
                     <ul class="header-ul">
                         <li>
-                            <form class="header-form" method="post">
-                            <input class="header-search" type="search" id="mySearch" name="q"
+                            <form class="header-form" method="post" action="controller">
+                                <input type="hidden" name="command" value="search_dish" />
+                                <input class="header-search" type="search" id="mySearch" name="dish_name"
                                    placeholder="Search..." required
                                    minlength="1" maxlength="20">
                             </form>
                         </li>
                         <li class="header-icon">
                             <i class="fas fa-shopping-cart"> </i>
-                            <a class="header-icon-link" href="controller?command=to_register">${cart}</a>
+                            <c:if test="${sessionScope.cart_items == null || sessionScope.cart_items.size() == 0}">
+                                <a class="header-icon-link" href="controller?command=to_register">${cart}(0)</a>
+                            </c:if>
+                            <c:if test="${sessionScope.cart_items != null || sessionScope.cart_items.size() > 0}">
+                                <a class="header-icon-link" href="controller?command=to_register">${cart}(${sessionScope.cart_items.size()})</a>
+                            </c:if>
                         </li>
                         <li class="header-li">
                             <a class="header-link" href="controller?command=to_login">${login}</a>

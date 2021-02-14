@@ -12,41 +12,51 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuService {
+public class DishService {
 
     private static final Logger logger = LogManager.getLogger();
     private DishDao dishDao;
 
-    public MenuService(){
+    public DishService(){
         dishDao = new DishDaoImpl();
     }
 
-    public List<Dish> getAllMenuItems(){
+    public Dish getDishById(int dishId){
+        Dish dish = null;
+        try {
+            dish = dishDao.getDishById(dishId);
+        } catch (DaoException e) {
+            logger.log(Level.ERROR, e);
+        }
+        return dish;
+    }
+
+    public List<Dish> getAllDishes(){
         List<Dish> menuItems = new ArrayList<>();
         try {
             menuItems = dishDao.getAllDishes();
         } catch (DaoException e) {
-            logger.log(Level.ERROR, e.getMessage());
+            logger.log(Level.ERROR, e);
         }
         return menuItems;
     }
 
-    public List<Dish> searchMenuItemsByCategory(Category category){
+    public List<Dish> searchDishesByCategory(Category category){
         List<Dish> menuItems = new ArrayList<>();
         try {
             menuItems = dishDao.findDishesByCategory(category);
         } catch (DaoException e) {
-            logger.log(Level.ERROR, e.getMessage());
+            logger.log(Level.ERROR, e);
         }
         return menuItems;
     }
 
-    public List<Dish> searchItemsByName(String name){
+    public List<Dish> searchDishesByName(String name){
         List<Dish> menuItems = new ArrayList<>();
         try {
             menuItems = dishDao.findDishesByName(name);
         } catch (DaoException e) {
-            logger.log(Level.ERROR, e.getMessage());
+            logger.log(Level.ERROR, e);
         }
         return menuItems;
     }

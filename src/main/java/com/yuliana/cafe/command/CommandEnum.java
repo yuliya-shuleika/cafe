@@ -33,6 +33,11 @@ public enum CommandEnum {
             this.command = new ToUsersListCommand();
         }
     },
+    ADD_TO_GUEST_CART {
+        {
+            this.command = new AddToGuestCartCommand();
+        }
+    },
     CHOOSE_CATEGORY {
         {
             this.command = new ChooseCategoryCommand();
@@ -56,6 +61,11 @@ public enum CommandEnum {
     LOGOUT {
         {
             this.command = new LogoutCommand();
+        }
+    },
+    SEARCH_DISH {
+        {
+            this.command = new SearchDishCommand();
         }
     };
     ActionCommand command;

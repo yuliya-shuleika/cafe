@@ -19,8 +19,10 @@ public class DishDaoImpl implements DishDao {
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
     private static final String SELECT_ALL_DISHES = "SELECT dish_id, name, category, picture_name, price FROM dishes";
     private static final String SELECT_DISHES_BY_CATEGORY = "SELECT dish_id, name, category, picture_name, price FROM dishes WHERE category = ?";
-    private static final String SELECT_DISHES_BY_NAME = "SELECT dish_id, name, category, picture_name, price FROM dishes WHERE name like '%' + ? + '%'";
+    private static final String SELECT_DISHES_BY_NAME = "SELECT dish_id, name, category, picture_name, price FROM dishes WHERE name LIKE ?";
     private static final String SELECT_DISHES_BY_PRICE= "SELECT dish_id, name, category, picture_name, price FROM dishes WHERE price > ? and price < ?";
+    private static final String SELECT_DISHES_SORTED_BY_PRICE= "SELECT dish_id, name, category, picture_name, price FROM dishes ORDER BY price";
+    private static final String SELECT_DISH_BY_ID= "SELECT dish_id, name, category, picture_name, price FROM dishes WHERE dish_id = ?";
 
     @Override
     public List<Dish> getAllDishes() throws DaoException{
@@ -82,7 +84,8 @@ public class DishDaoImpl implements DishDao {
         Connection connection = pool.getConnection();
         List<Dish> dishes = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(SELECT_DISHES_BY_NAME)){
-            statement.setString(1, name);
+            String namePattern = '%' + name +'%';
+            statement.setString(1, namePattern);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 dishes.add(createDish(result));
@@ -93,6 +96,29 @@ public class DishDaoImpl implements DishDao {
             pool.releaseConnection(connection);
         }
         return dishes;
+    }
+
+    @Override
+    public List<Dish> getDishesOrderByPrice() throws DaoException {
+        return null;
+    }
+
+    @Override
+    public Dish getDishById(int dishId) throws DaoException {
+        Connection connection = pool.getConnection();
+        Dish dish = null;
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_DISH_BY_ID)){
+            statement.setInt(1, dishId);
+            ResultSet result = statement.executeQuery();
+            if(result.next()){
+                dish = createDish(result);
+            }
+        }catch (SQLException e){
+            throw new DaoException(e.getMessage());
+        }finally {
+            pool.releaseConnection(connection);
+        }
+        return dish;
     }
 
     private Dish createDish(ResultSet dishData) throws DaoException{

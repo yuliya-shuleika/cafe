@@ -22,13 +22,13 @@
 <body class="align">
     <c:choose>
         <c:when test="${sessionScope.user.getRole() eq 'ADMIN'}">
-            <%@ include file="IdeaProjects/Cafe/src/main/webapp/jsp/header/header-admin.jsp"%>
+            <%@ include file="/jsp/header/header-admin.jsp"%>
         </c:when>
         <c:when test="${sessionScope.user.getRole() eq 'USER'}">
-            <%@ include file="IdeaProjects/Cafe/src/main/webapp/jsp/header/header.jsp"%>
+            <%@ include file="/jsp/header/header.jsp"%>
         </c:when>
         <c:when test="${sessionScope.user.getRole() == null}">
-            <%@ include file="IdeaProjects/Cafe/src/main/webapp/jsp/header/header.jsp"%>
+            <%@ include file="/jsp/header/header.jsp"%>
         </c:when>
     </c:choose>
 <div class="grid">
