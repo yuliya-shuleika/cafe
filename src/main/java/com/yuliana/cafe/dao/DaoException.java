@@ -1,7 +1,5 @@
 package com.yuliana.cafe.dao;
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes;
-
 public class DaoException extends Exception {
 
     public DaoException() {

@@ -16,6 +16,7 @@
 <fmt:message bundle="${loc}" key="lang.label.account" var="account"/>
 <fmt:message bundle="${loc}" key="lang.label.login" var="login"/>
 <fmt:message bundle="${loc}" key="lang.label.register" var="register"/>
+<fmt:message bundle="${loc}" key="lang.label.translate" var="translate"/>
 <body>
     <header class="header-page">
         <div class="container header-container">

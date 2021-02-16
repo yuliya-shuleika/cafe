@@ -100,7 +100,19 @@ public class DishDaoImpl implements DishDao {
 
     @Override
     public List<Dish> getDishesOrderByPrice() throws DaoException {
-        return null;
+        Connection connection = pool.getConnection();
+        List<Dish> dishes = new ArrayList<>();
+        try (Statement statement = connection.createStatement()){
+            ResultSet result = statement.executeQuery(SELECT_DISHES_SORTED_BY_PRICE);
+            while (result.next()) {
+                dishes.add(createDish(result));
+            }
+        }catch (SQLException e){
+            throw new DaoException(e.getMessage());
+        }finally {
+            pool.releaseConnection(connection);
+        }
+        return dishes;
     }
 
     @Override

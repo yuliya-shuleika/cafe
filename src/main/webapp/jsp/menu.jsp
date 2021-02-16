@@ -75,7 +75,7 @@
                             <h3 class="menu-item-title">${dish.getName()}</h3>
                             <p class = "menu-item-description">something</p>
                         </div>
-                        <div class="menu-title-bottom">
+                        <div class="menu-item-bottom">
                             <div class="menu-item-price">
                                 <span class="menu-item-price-value">${dish.getPrice()}</span>
                             </div>
