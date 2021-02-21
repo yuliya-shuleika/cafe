@@ -37,7 +37,8 @@
         <header class="login__header">
             <h3 class="login__title">${register}</h3>
         </header>
-        <div class="login__body">
+        <form class="login__body" method="post" action="controller">
+            <input type="hidden" name="command" value="register" />
             <div class="form__field">
                 <input type="text" name = "name" placeholder="Name" required pattern="[А-Яа-яA-Za-z0-9_]{3,20}">
             </div>
@@ -50,11 +51,11 @@
             <div class="form__field">
                 <input type="password" name = "password" placeholder="Repeat password" required pattern="[A-Za-z0-9_]{5,20}">
             </div>
-        </div>
         <footer class="login__footer">
             <input type="submit" value="register">
             <p><a href="controller?command=to_login">${login}</a></p>
         </footer>
+        </form>
     </form>
 </div>
 </body>

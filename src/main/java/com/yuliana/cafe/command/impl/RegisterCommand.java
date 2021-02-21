@@ -5,6 +5,7 @@ import com.yuliana.cafe.command.PagePath;
 import com.yuliana.cafe.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class RegisterCommand implements ActionCommand {
 
@@ -13,7 +14,7 @@ public class RegisterCommand implements ActionCommand {
     private static final String PARAM_PASSWORD = "password";
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page;
         UserService service = new UserService();
         String name = request.getParameter(PARAM_NAME);

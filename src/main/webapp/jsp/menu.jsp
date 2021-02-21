@@ -5,6 +5,9 @@
 <head>
     <title>Menu</title>
     <style><%@include file="/css/menu.css"%></style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+            type="text/javascript"></script>
+    <script><%@include file="/js/menu.js"%></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&family=Rubik:wght@400;500&display=swap" rel="stylesheet">
@@ -18,17 +21,17 @@
 <fmt:message bundle="${loc}" key="lang.label.noodles" var="noodles"/>
 <fmt:message bundle="${loc}" key="lang.label.add_to_cart" var="add_to_cart"/>
 <body>
-    <c:choose>
-        <c:when test="${sessionScope.user.getRole() eq 'ADMIN'}">
-            <%@ include file="/jsp/header/header-admin.jsp"%>
-        </c:when>
-        <c:when test="${sessionScope.user.getRole() eq 'USER'}">
-            <%@ include file="/jsp/header/header-user.jsp"%>
-        </c:when>
-        <c:when test="${sessionScope.user.getRole() == null}">
-            <%@ include file="/jsp/header/header.jsp"%>
-        </c:when>
-    </c:choose>
+<c:choose>
+    <c:when test="${sessionScope.user.getRole() eq 'ADMIN'}">
+        <%@ include file="/jsp/header/header-admin.jsp"%>
+    </c:when>
+    <c:when test="${sessionScope.user.getRole() eq 'USER'}">
+        <%@ include file="/jsp/header/header-user.jsp"%>
+    </c:when>
+    <c:when test="${sessionScope.user.getRole() == null}">
+        <%@ include file="/jsp/header/header.jsp"%>
+    </c:when>
+</c:choose>
     <div class="menu-container">
         <header class="menu-header">
             <h2 class="menu-title">${menu}</h2>
@@ -63,7 +66,7 @@
                         <button class="menu-categories-button">${noodles}</button>
                     </li>
                 </form>
-                </ul>
+            </ul>
             <div class="menu-panel">
                 <div class="menu-filters">
                 </div>
@@ -81,16 +84,18 @@
                             </div>
                             <c:choose>
                                 <c:when test="${sessionScope.user.getRole() eq 'USER'}">
-                                    <form method="post" action="controller">
-                                        <button class="menu-item-button" type="submit">${add_to_cart}</button>
-                                    </form>
-                                </c:when>
-                                <c:when test="${sessionScope.user.getRole() == null}">
-                                    <form method="post" action="controller">
+                                    <div id="add-item-form">
                                         <input type="hidden" name="command" value="add_to_guest_cart"/>
                                         <input type="hidden" name="dish_id" value="${dish.getDishId()}"/>
-                                        <button class="menu-item-button" type="submit">${add_to_cart}</button>
-                                    </form>
+                                        <button class="menu-item-button" type="button">${add_to_cart}</button>
+                                    </div>
+                                </c:when>
+                                <c:when test="${sessionScope.user.getRole() == null}">
+                                    <div id="add-item-form">
+                                        <input type="hidden" name="command" value="add_to_guest_cart"/>
+                                        <input type="hidden" name="dish_id" value="${dish.getDishId()}"/>
+                                        <button class="menu-item-button" type="button">${add_to_cart}</button>
+                                    </div>
                                 </c:when>
                             </c:choose>
                         </div>

@@ -6,6 +6,7 @@ import com.yuliana.cafe.entity.Dish;
 import com.yuliana.cafe.service.DishService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class ToHomeCommand implements ActionCommand {
@@ -13,7 +14,7 @@ public class ToHomeCommand implements ActionCommand {
     private static final String ATTRIBUTE_DISHES_LIST = "dishes_list";
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         DishService dishService = new DishService();
         List<Dish> menuItems = dishService.getAllDishes();
         request.setAttribute(ATTRIBUTE_DISHES_LIST, menuItems);

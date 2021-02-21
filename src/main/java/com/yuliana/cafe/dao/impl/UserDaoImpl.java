@@ -25,9 +25,9 @@ public class UserDaoImpl implements UserDao {
     public void register(User user, String password) throws DaoException {
         Connection connection = pool.getConnection();
         try(PreparedStatement statement = connection.prepareStatement(INSERT_USER)){
-            statement.setString(2, user.getName());
-            statement.setString(3, user.getEmail());
-            statement.setString(4, password);
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, password);
             statement.setString(4, user.getRole().name());
             statement.executeUpdate();
         } catch (SQLException e) {

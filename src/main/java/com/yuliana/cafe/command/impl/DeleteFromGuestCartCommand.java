@@ -17,13 +17,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AddToGuestCartCommand implements ActionCommand {
+public class DeleteFromGuestCartCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
     private static final String ATTRIBUTE_CART_ITEMS = "cart_items";
     private static final String ATTRIBUTE_DISHES_LIST = "dishes_list";
     private static final String ATTRIBUTE_CART_ITEMS_COUNT = "cart_items_count";
-    private static final String PARAM_DISH_ID = "dish_id";
+    private static final String PARAM_DISH_ID = "cart_item_id";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -31,8 +31,8 @@ public class AddToGuestCartCommand implements ActionCommand {
         int cartItemsCount;
         DishService service = new DishService();
         HttpSession session = request.getSession();
-        String dishIdParam = request.getParameter(PARAM_DISH_ID);
-        int dishId = Integer.parseInt(dishIdParam);
+        String cartItemIdParam = request.getParameter(PARAM_DISH_ID);
+        int cartItemId = Integer.parseInt(cartItemIdParam);
         Object cartItemsAttribute = session.getAttribute(ATTRIBUTE_CART_ITEMS);
         if(cartItemsAttribute != null){
             cartItems = (Map<Dish, Integer>) cartItemsAttribute;
@@ -45,14 +45,10 @@ public class AddToGuestCartCommand implements ActionCommand {
         } else {
             cartItemsCount = 0;
         }
-        cartItemsCount++;
-        Dish dish = service.getDishById(dishId);
-        if(cartItems.containsKey(dish)){
-            int count = cartItems.get(dish);
-            cartItems.replace(dish, ++count);
-        }else {
-            cartItems.put(dish, 1);
-        }
+        Dish cartItem = service.getDishById(cartItemId);
+        int count = cartItems.get(cartItem);
+        cartItemsCount -= count;
+        cartItems.remove(cartItem);
         session.setAttribute(ATTRIBUTE_CART_ITEMS_COUNT, cartItemsCount);
         session.setAttribute(ATTRIBUTE_CART_ITEMS, cartItems);
         List<Dish> menuItems = service.getAllDishes();
@@ -71,5 +67,4 @@ public class AddToGuestCartCommand implements ActionCommand {
         }
 
     }
-
 }

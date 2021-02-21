@@ -4,6 +4,7 @@ import com.yuliana.cafe.command.ActionCommand;
 import com.yuliana.cafe.command.PagePath;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ChangeLocaleCommand implements ActionCommand {
@@ -13,7 +14,7 @@ public class ChangeLocaleCommand implements ActionCommand {
     private static final String LANG_RU = "ru";
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         String lang = (String) session.getAttribute(LANG_ATTRIBUTE);
         if(lang != null) {

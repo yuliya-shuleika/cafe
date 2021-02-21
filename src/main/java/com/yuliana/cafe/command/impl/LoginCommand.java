@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class LoginCommand implements ActionCommand {
@@ -21,7 +22,7 @@ public class LoginCommand implements ActionCommand {
     private static final String ERROR_MESSAGE = "error, please try again";
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page;
         UserService service = new UserService();
         String login = request.getParameter(PARAM_NAME_EMAIL);

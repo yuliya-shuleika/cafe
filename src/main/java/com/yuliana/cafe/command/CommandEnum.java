@@ -67,6 +67,11 @@ public enum CommandEnum {
         {
             this.command = new SearchDishCommand();
         }
+    },
+    DELETE_FROM_GUEST_CART{
+        {
+            this.command = new DeleteFromGuestCartCommand();
+        }
     };
     ActionCommand command;
     public ActionCommand getCurrentCommand() {

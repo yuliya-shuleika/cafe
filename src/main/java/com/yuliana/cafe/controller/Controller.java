@@ -13,6 +13,7 @@ import java.io.IOException;
 
 @WebServlet(name = "Controller", value ="/controller")
 public class Controller extends HttpServlet {
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -27,7 +28,7 @@ public class Controller extends HttpServlet {
         String page;
         ActionFactory client = new ActionFactory();
         ActionCommand command = client.defineCommand(request);
-        page = command.execute(request);
+        page = command.execute(request, response);
         if (page != null) {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
             dispatcher.forward(request, response);
