@@ -20,18 +20,22 @@
 <fmt:message bundle="${loc}" key="lang.label.soup" var="soup"/>
 <fmt:message bundle="${loc}" key="lang.label.noodles" var="noodles"/>
 <fmt:message bundle="${loc}" key="lang.label.add_to_cart" var="add_to_cart"/>
+<fmt:message bundle="${loc}" key="lang.label.sort" var="sort"/>
+<fmt:message bundle="${loc}" key="lang.label.by_price" var="by_price"/>
+<fmt:message bundle="${loc}" key="lang.label.discount_first" var="discount_first"/>
+<fmt:message bundle="${loc}" key="lang.label.show_filters" var="show_filters"/>
 <body>
-<c:choose>
-    <c:when test="${sessionScope.user.getRole() eq 'ADMIN'}">
-        <%@ include file="/jsp/header/header-admin.jsp"%>
-    </c:when>
-    <c:when test="${sessionScope.user.getRole() eq 'USER'}">
-        <%@ include file="/jsp/header/header-user.jsp"%>
-    </c:when>
-    <c:when test="${sessionScope.user.getRole() == null}">
-        <%@ include file="/jsp/header/header.jsp"%>
-    </c:when>
-</c:choose>
+    <c:choose>
+        <c:when test="${sessionScope.user.getRole() eq 'ADMIN'}">
+            <%@ include file="/jsp/header/header-admin.jsp"%>
+        </c:when>
+        <c:when test="${sessionScope.user.getRole() eq 'USER'}">
+            <%@ include file="/jsp/header/header-user.jsp"%>
+        </c:when>
+        <c:when test="${sessionScope.user.getRole() == null}">
+            <%@ include file="/jsp/header/header.jsp"%>
+        </c:when>
+    </c:choose>
     <div class="menu-container">
         <header class="menu-header">
             <h2 class="menu-title">${menu}</h2>
@@ -68,10 +72,19 @@
                 </form>
             </ul>
             <div class="menu-panel">
-                <div class="menu-filters">
-                </div>
+                    <div class="menu-items-sort">
+                        <p class="menu-sort-label">${sort}</p>
+                        <form action="controller" method="post" class="menu-sorting-form">
+                            <input type="hidden" name="command" value="sort_by_price">
+                            <button class="menu-sort-criteria" type="submit">${by_price}</button>
+                        </form>
+                        <form action="controller" method="post" class="menu-sorting-form">
+                            <input type="hidden" name="command" value="show_discount_first">
+                            <button class="menu-sort-criteria" type="submit">${discount_first}</button>
+                        </form>
+                    </div>
                 <div class="menu-items">
-                    <c:forEach var="dish" items="${dishes_list}">
+                    <c:forEach var="dish" items="${sessionScope.dishes_list}">
                     <div class="menu-item">
                         <img src="${pageContext.request.contextPath}${dish.getPictureName()}" alt="${dish.getName()}">
                         <div class="menu-item-content">

@@ -2,7 +2,12 @@ h3, h4, ul, form, span, button, p{
     margin: 0;
     padding: 0;
 }
-button:active,button:focus{
+
+form{
+    width: auto;
+}
+
+button:active, button:focus, input:active, input:focus{
     outline: none;
 }
 
@@ -175,6 +180,7 @@ button:active,button:focus{
 .cart-item-count-update:hover{
     background: #4CAF50;
     color: #fff;
+    cursor: pointer;
 }
 
 .cart-item-count-update:hover{
@@ -205,10 +211,12 @@ button:active,button:focus{
 }
 
 .cart-items-delimiter{
-    size: 5px;
+    background-color: #545454;
     color: #545454;
+    size: 5px;
     display: block;
     padding: 0 40px 0;
+    width: 100%;
 }
 
 /*cart-footer*/

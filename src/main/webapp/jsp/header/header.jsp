@@ -30,7 +30,7 @@
                             <a class="header-link" href="controller?command=to_menu">${menu}</a>
                         </li>
                         <li class="header-li">
-                            <a class="header-link" href="#">${reviews}</a>
+                            <a class="header-link" href="controller?command=to_reviews">${reviews}</a>
                         </li>
                         <li class="header-li">
                             <a class="header-link" href="#">${about}</a>
@@ -57,12 +57,12 @@
                             <c:if test="${sessionScope.cart_items == null || sessionScope.cart_items.size() == 0}">
                                 <a class="header-icon-link" href="#cart">${cart}(<span class="header-items-count">0</span>)</a>
                             </c:if>
-                            <c:if test="${sessionScope.cart_items != null || sessionScope.cart_items.size() > 0}">
+                            <c:if test="${sessionScope.cart_items != null && sessionScope.cart_items.size() > 0}">
                                 <a class="header-icon-link" href="#cart">${cart}(<span class="header-items-count">${sessionScope.cart_items_count}</span>)</a>
                             </c:if>
                         </li>
                         <li class="header-li">
-                            <a class="header-link" href="controller?command=to_login">${login}</a>
+                            <a class="header-link" href="#login">${login}</a>
                         </li>
                     </ul>
                 </div>
@@ -70,5 +70,7 @@
         </div>
     </header>
     <%@ include file="/jsp/modal/cart.jsp"%>
+    <%@ include file="/jsp/modal/login.jsp"%>
+    <%@ include file="/jsp/modal/register.jsp"%>
 </body>
 </html>

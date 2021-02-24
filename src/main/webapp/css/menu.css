@@ -1,6 +1,6 @@
 body{
     margin: 0;
-    background-color: #eaeaea;
+    background-color: #fff;
 }
 
 h2 {
@@ -11,6 +11,12 @@ h2 {
 }
 
 p{
+    margin: 0;
+    padding: 0;
+}
+
+form{
+    width: auto;
     margin: 0;
     padding: 0;
 }
@@ -50,20 +56,27 @@ p{
     justify-content: flex-start;
 }
 .menu-categories-item{
+    border: none;
     display: block;
-    border-color: #5e5e5e;
-    border-width: 1px;
-    border-style: solid;
     min-width: 200px;
+    margin-bottom: 20px;
 }
 .menu-categories-button{
-    background-color: transparent;
     cursor: pointer;
-    border-radius: 0;
+    border-radius: 8px;
     border: 0;
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
     font-size: 24px;
+    width: 100%;
+    background: #e0e0e0;
+    color: #545454;
+    padding: 4px 0 4px;
+    transition: 0.2s;
+}
+
+.menu-categories-button:hover{
+    background: #d1d1d1;
 }
 
 .menu-categories-button:active{
@@ -71,19 +84,65 @@ p{
     border-style: none;
 }
 
+.menu-panel{
+    display: flex;
+    flex-direction: column;
+    margin-left: 80px;
+}
+
+/*menu-filters*/
+
+.menu-items-sort{
+    display: inline-flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    align-items: start;
+}
+
+.menu-sort-label{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #545454;
+    display: block;
+}
+
+.menu-sorting-form{
+    width: auto;
+}
+
+.menu-sort-criteria{
+    display: inline-block;
+    border: none;
+    border-radius: 6px;
+    transition: 0.2s;
+    background: #e0e0e0;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    color: #545454;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 3px;
+    margin-left: 15px;
+}
+
+.menu-sort-criteria:hover{
+    background: #d1d1d1;
+}
+
 /*menu-items*/
 .menu-items{
     display: flex;
     flex-wrap: wrap;
-    margin-left: 60px;
 }
 .menu-item{
     display: inline-flex;
-    margin-left: 30px;
+    margin-right: 30px;
     margin-bottom: 60px;
     flex-direction: column;
     width: 300px;
 }
+
 .menu-item-title{
     display: block;
     margin: 20px 0 5px;

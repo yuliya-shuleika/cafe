@@ -1,6 +1,7 @@
 package com.yuliana.cafe.dao;
 
 import com.yuliana.cafe.entity.User;
+import com.yuliana.cafe.exception.DaoException;
 
 import java.util.List;
 

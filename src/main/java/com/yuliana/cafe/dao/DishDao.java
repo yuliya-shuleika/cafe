@@ -2,6 +2,7 @@ package com.yuliana.cafe.dao;
 
 import com.yuliana.cafe.entity.Category;
 import com.yuliana.cafe.entity.Dish;
+import com.yuliana.cafe.exception.DaoException;
 
 import java.util.List;
 

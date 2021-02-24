@@ -2,8 +2,7 @@ package com.yuliana.cafe.dao.impl;
 
 import com.yuliana.cafe.connection.ConnectionPool;
 import com.yuliana.cafe.dao.CartDao;
-import com.yuliana.cafe.dao.DaoException;
-import com.yuliana.cafe.dao.DishDao;
+import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.entity.Category;
 import com.yuliana.cafe.entity.Dish;
 import com.yuliana.cafe.entity.User;

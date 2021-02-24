@@ -1,7 +1,7 @@
 package com.yuliana.cafe.controller;
 
-import com.yuliana.cafe.command.ActionCommand;
-import com.yuliana.cafe.command.ActionFactory;
+import com.yuliana.cafe.controller.command.ActionCommand;
+import com.yuliana.cafe.controller.command.ActionFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

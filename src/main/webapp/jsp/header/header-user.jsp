@@ -30,7 +30,7 @@
                         <a class="header-link" href="controller?command=to_menu">${menu}</a>
                     </li>
                     <li class="header-li">
-                        <a class="header-link" href="#">${reviews}</a>
+                        <a class="header-link" href="controller?command=to_reviews">${reviews}</a>
                     </li>
                     <li class="header-li">
                         <a class="header-link" href="#">${about}</a>

@@ -4,6 +4,7 @@ $(document).ready(function (){
         let command = paramsList[0].value
         let dish_id = paramsList[1].value
         let data = {command:command, dish_id:dish_id};
+        console.log(data)
         $.ajax({
             url:'controller',
             type: 'POST',

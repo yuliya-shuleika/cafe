@@ -1,7 +1,7 @@
 package com.yuliana.cafe.dao.impl;
 
 import com.yuliana.cafe.connection.ConnectionPool;
-import com.yuliana.cafe.dao.DaoException;
+import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.dao.UserDao;
 import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.entity.UserRole;
