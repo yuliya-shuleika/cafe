@@ -92,8 +92,7 @@ public class UserDaoImpl implements UserDao {
             UserRole userRole = UserRole.valueOf(role.toUpperCase());
             user = new User(userId, name, email, userRole);
         } catch (SQLException e) {
-            logger.log(Level.ERROR, e.getMessage());
-            throw new DaoException(e.getMessage());
+            throw new DaoException(e);
         }
         return user;
     }

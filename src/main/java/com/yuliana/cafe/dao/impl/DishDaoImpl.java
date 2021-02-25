@@ -173,7 +173,7 @@ public class DishDaoImpl implements DishDao {
             double price = dishData.getDouble(5);
             dish = new Dish(dishId, name, category, pictureName,price);
         } catch (SQLException e) {
-            throw new DaoException(e.getMessage());
+            throw new DaoException(e);
         }
         return dish;
     }
