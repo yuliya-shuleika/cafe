@@ -2,6 +2,11 @@ p, h4, h2{
     margin: 0;
     padding: 0;
 }
+
+.review-stars-count{
+    display: none;
+}
+
 .reviews-container{
     display: flex;
     flex-direction: column;
@@ -108,3 +113,4 @@ p, h4, h2{
     color: #545454;
     text-align: justify;
 }
+

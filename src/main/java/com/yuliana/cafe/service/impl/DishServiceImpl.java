@@ -37,6 +37,17 @@ public class DishServiceImpl implements DishService {
         return menuItems;
     }
 
+    @Override
+    public List<Dish> getDishesSortedByPrice() throws ServiceException {
+        List sortedItems = new ArrayList();
+        try {
+            sortedItems = dishDao.getDishesSortedByPrice();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return sortedItems;
+    }
+
     public List<Dish> searchDishesByCategory(Category category) throws ServiceException{
         List<Dish> menuItems = new ArrayList<>();
         try {
@@ -51,6 +62,17 @@ public class DishServiceImpl implements DishService {
         List<Dish> menuItems = new ArrayList<>();
         try {
             menuItems = dishDao.findDishesByName(name);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return menuItems;
+    }
+
+    @Override
+    public List<Dish> getDishesSortedByDiscount() throws ServiceException {
+        List<Dish> menuItems = new ArrayList<>();
+        try {
+            menuItems = dishDao.getDishesSortedByDiscount();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

@@ -2,12 +2,10 @@ package com.yuliana.cafe.dao.impl;
 
 import com.yuliana.cafe.connection.ConnectionPool;
 import com.yuliana.cafe.dao.CartDao;
+import com.yuliana.cafe.dao.transaction.Transaction;
 import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.entity.Category;
 import com.yuliana.cafe.entity.Dish;
-import com.yuliana.cafe.entity.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,9 +16,9 @@ import java.util.Map;
 
 public class CartDaoImpl implements CartDao {
 
-    private static final Logger logger = LogManager.getLogger();
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
-    private static final String SELECT_USER_ITEM = "SELECT dish_id FROM cart_items WHERE dish_id = ? AND user_id = ?";
+    private static final String SELECT_ITEM_COUNT = "SELECT count FROM cart_items WHERE dish_id = ? AND user_id = ?";
+    private static final String UPDATE_ITEM_COUNT = "UPDATE cart_items SET count = ? WHERE dish_id = ? AND user_id = ?";
     private static final String SELECT_ALL_USER_ITEMS = "SELECT dishes.dish_id, dishes.name, dishes.category, " +
             "dishes.picture_name, dishes.price, dishes.discount_price, cart_items.count FROM cart_items JOIN " +
             "dishes ON cart_items.dish_id = dishes.dish_id WHERE user_id = ?";
@@ -28,26 +26,43 @@ public class CartDaoImpl implements CartDao {
     private static final String DELETE_ITEM = "DELETE FROM cart_items WHERE dish_id = ? AND user_id = ?";
 
     @Override
-    public void addItem(User user, Dish dish, int count) throws DaoException{
+    public void addItem(int userId, int dishId, int count) throws DaoException{
         Connection connection = pool.getConnection();
-        try(PreparedStatement statement = connection.prepareStatement(ADD_ITEM)){
-            statement.setInt(1, user.getUserId());
-            statement.setInt(2, dish.getDishId());
-            statement.setInt(3, count);
+        Transaction transaction = new Transaction(connection);
+        try{
+            transaction.setAutoCommit(false);
+            PreparedStatement statement = connection.prepareStatement(SELECT_ITEM_COUNT);
+            statement.setInt(1, userId);
+            statement.setInt(2, dishId);
+            ResultSet resultSet = statement.executeQuery();
             statement.executeQuery();
+            if(resultSet.next()){
+                int itemCount = resultSet.getInt(1);
+                statement = connection.prepareStatement(UPDATE_ITEM_COUNT);
+                statement.setInt(3, count + itemCount);
+            } else {
+                statement = connection.prepareStatement(ADD_ITEM);
+                statement.setInt(3, count);
+            }
+            statement.setInt(1,userId);
+            statement.setInt(2, dishId);
+            statement.executeUpdate();
+            transaction.commit();
         } catch (SQLException e){
+            transaction.rollback();
             throw new DaoException(e);
         } finally {
-            pool.releaseConnection(connection);
+            transaction.setAutoCommit(true);
+            transaction.close();
         }
     }
 
     @Override
-    public void deleteItem(User user, Dish dish) throws DaoException{
+    public void deleteItem(int userId, int dishId, int count) throws DaoException{
         Connection connection = pool.getConnection();
         try(PreparedStatement statement = connection.prepareStatement(DELETE_ITEM)){
-            statement.setInt(1, user.getUserId());
-            statement.setInt(2, dish.getDishId());
+            statement.setInt(1, userId);
+            statement.setInt(2, userId);
             statement.executeQuery();
         } catch (SQLException e){
             throw new DaoException(e);
@@ -58,11 +73,11 @@ public class CartDaoImpl implements CartDao {
 
 
     @Override
-    public Map<Dish, Integer> getAllUserItems(User user) throws DaoException {
+    public Map<Dish, Integer> getAllUserItems(int userId) throws DaoException {
         Connection connection = pool.getConnection();
         Map<Dish, Integer> cartItems = new HashMap<>();
         try(PreparedStatement statement = connection.prepareStatement(SELECT_ALL_USER_ITEMS)){
-            statement.setInt(1, user.getUserId());
+            statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 Dish dish = createDish(resultSet);
@@ -75,25 +90,6 @@ public class CartDaoImpl implements CartDao {
             pool.releaseConnection(connection);
         }
         return cartItems;
-    }
-
-    @Override
-    public boolean isItemInCart(Dish dish, User user) throws DaoException {
-        Connection connection = pool.getConnection();
-        boolean result = false;
-        try(PreparedStatement statement = connection.prepareStatement(SELECT_USER_ITEM)){
-            statement.setInt(1, dish.getDishId());
-            statement.setInt(2, user.getUserId());
-            ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
-                result = true;
-            }
-        } catch (SQLException e){
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
-        return result;
     }
 
     private Dish createDish(ResultSet dishData) throws DaoException{

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class RegisterCommand implements ActionCommand {
 
+
     private static final Logger logger = LogManager.getLogger();
     private static final String PARAM_NAME = "name";
     private static final String PARAM_EMAIL = "email";
@@ -34,4 +35,5 @@ public class RegisterCommand implements ActionCommand {
         page = PagePath.MENU_PAGE;
         return page;
     }
+
 }

@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 
 public class UserServiceImpl implements UserService {
 
-    private static final Logger logger = LogManager.getLogger();
     private UserDao userDao = new UserDaoImpl();
     private User user;
 

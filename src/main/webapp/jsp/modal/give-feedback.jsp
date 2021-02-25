@@ -20,34 +20,36 @@
     <div class="feedback-body">
         <div class="feedback-content">
             <div class="give-feedback">
-                <form>
+                <form action="controller" method="post">
                     <div class="feedback-header">
                         <h3 class="feedback-title">${login}</h3>
                         <a class="feedback-close" id="feedback-close">x</a>
                     </div>
-                    <div class="feedback-body">
-                        <div class="feedback-title">
+                    <div class="feedback-form">
+                        <input type="hidden" name="command" value="give_feedback">
+                        <div class="feedback-general">
                             <span class="feedback-label">${feedback_header}</span>
-                            <input type="text" placeholder="Header" name="review_header">
+                            <input class="feedback-general-input" type="text" placeholder="Header" name="review_header">
                         </div>
                         <div class="feedback-mark">
                             <span class="feedback-label">${your_mark}</span>
                             <div class="feedback-rating">
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
+                                <input type="hidden" name="review_rating" value="5">
+                                <span class="fa fa-star feedback-star" id="star_one"></span>
+                                <span class="fa fa-star feedback-star" id="star_two"></span>
+                                <span class="fa fa-star feedback-star" id="star_three"></span>
+                                <span class="fa fa-star feedback-star" id="star_four"></span>
+                                <span class="fa fa-star feedback-star" id="star_five"></span>
                             </div>
                         </div>
-                        <div>
+                        <div class="feedback-text-container">
                             <span class="feedback-label">${your_feedback}</span>
-                            <textarea></textarea>
+                            <textarea class="feedback-text" name="review_text"></textarea>
                         </div>
                     </div>
                     <div class="feedback-footer">
-                        <input type="file">
-                        <button type="submit">${submit}</button>
+                        <input class="feedback-file" type="file">
+                        <button class="feedback-submit" type="submit">${submit}</button>
                     </div>
                 </form>
             </div>

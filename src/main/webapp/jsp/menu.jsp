@@ -79,12 +79,13 @@
                             <button class="menu-sort-criteria" type="submit">${by_price}</button>
                         </form>
                         <form action="controller" method="post" class="menu-sorting-form">
-                            <input type="hidden" name="command" value="show_discount_first">
+                            <input type="hidden" name="command" value="show_discounts">
                             <button class="menu-sort-criteria" type="submit">${discount_first}</button>
                         </form>
                     </div>
                 <div class="menu-items">
-                    <c:forEach var="dish" items="${sessionScope.dishes_list}">
+                    <c:if test="${dishes_list != null}">
+                    <c:forEach var="dish" items="${dishes_list}">
                     <div class="menu-item">
                         <img src="${pageContext.request.contextPath}${dish.getPictureName()}" alt="${dish.getName()}">
                         <div class="menu-item-content">
@@ -114,6 +115,39 @@
                         </div>
                     </div>
                     </c:forEach>
+                    </c:if>
+                        <c:if test="${dishes_list == null}">
+                        <c:forEach var="dish" items="${sessionScope.dishes_list}">
+                        <div class="menu-item">
+                            <img src="${pageContext.request.contextPath}${dish.getPictureName()}" alt="${dish.getName()}">
+                            <div class="menu-item-content">
+                                <h3 class="menu-item-title">${dish.getName()}</h3>
+                                <p class = "menu-item-description">something</p>
+                            </div>
+                            <div class="menu-item-bottom">
+                                <div class="menu-item-price">
+                                    <span class="menu-item-price-value">${dish.getPrice()}</span>
+                                </div>
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.getRole() eq 'USER'}">
+                                        <div id="add-item-form">
+                                            <input type="hidden" name="command" value="add_to_guest_cart"/>
+                                            <input type="hidden" name="dish_id" value="${dish.getDishId()}"/>
+                                            <button class="menu-item-button" type="button">${add_to_cart}</button>
+                                        </div>
+                                    </c:when>
+                                    <c:when test="${sessionScope.user.getRole() == null}">
+                                        <div id="add-item-form">
+                                            <input type="hidden" name="command" value="add_to_guest_cart"/>
+                                            <input type="hidden" name="dish_id" value="${dish.getDishId()}"/>
+                                            <button class="menu-item-button" type="button">${add_to_cart}</button>
+                                        </div>
+                                    </c:when>
+                                </c:choose>
+                            </div>
+                        </div>
+                    </c:forEach>
+                    </c:if>
                 </div>
             </div>
         </div>

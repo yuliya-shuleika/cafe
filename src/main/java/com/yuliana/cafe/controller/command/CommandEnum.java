@@ -67,6 +67,21 @@ public enum CommandEnum {
         {
             this.command = new DeleteFromGuestCartCommand();
         }
+    },
+    SORT_BY_PRICE{
+        {
+            this.command = new SortByPriceCommand();
+        }
+    },
+    SHOW_DISCOUNTS{
+        {
+            this.command = new ShowDiscountsCommand();
+        }
+    },
+    GIVE_FEEDBACK{
+        {
+            this.command = new GiveFeedbackCommand();
+        }
     };
     ActionCommand command;
     public ActionCommand getCurrentCommand() {

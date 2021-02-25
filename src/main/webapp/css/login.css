@@ -78,6 +78,7 @@ button:active,button:focus{
 }
 .login-close:hover{
     color: #4CAF50;
+    cursor: pointer;
 }
 
 /*login form*/

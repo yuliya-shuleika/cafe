@@ -1,3 +1,7 @@
+textarea:active, textarea:focus{
+    outline: none;
+}
+
 .feedback{
     position: fixed;
     width: 100%;
@@ -23,7 +27,7 @@
 
 .feedback-content{
     background-color: white;
-    color: black;
+    color: #545454;
     width: 40%;
     display: flex;
     flex-direction: column;
@@ -32,3 +36,118 @@
     font-weight: 500;
 }
 
+.feedback-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.feedback-title{
+    width: 100%;
+    display: block;
+    font-size: 36px;
+    color: #545454;
+    text-align: center;
+    padding: 20px;
+}
+.feedback-close{
+    text-decoration: none;
+    color: #545454;
+    font-size: 24px;
+    padding-right: 10px;
+    transition: 0.2s;
+}
+.feedback-close:hover{
+    color: #4CAF50;
+    cursor: pointer;
+}
+
+.feedback-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin: 0 40px;
+}
+
+.feedback-general{
+    display: inline-flex;
+    margin: 10px 0;
+}
+
+.feedback-label{
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    display: block;
+    text-align: end;
+    color: #545454;
+}
+
+.feedback-general-input{
+    display: block;
+    width: 100%;
+    font-size: 18px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    background: #ededed;
+    margin-left: 10px;
+    color: #545454;
+}
+
+.feedback-mark{
+    display: inline-flex;
+    flex-direction: row;
+    margin: 10px 0;
+}
+
+.feedback-rating{
+    display: block;
+    cursor: pointer;
+    transition: 0.2s;
+    color: #545454;
+    margin-left: 10px;
+}
+
+.feedback-text-container{
+    display: inline-flex;
+    flex-direction: row;
+    margin: 10px 0;
+
+}
+
+.feedback-text{
+    display: block;
+    width: 100%;
+    font-size: 18px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    background: #ededed;
+    min-height: 250px;
+    margin-left: 10px;
+}
+
+.feedback-footer{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 40px 30px;
+}
+
+.feedback-submit{
+    display: block;
+    font-size: 18px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    background-color: #4CAF50;
+    border-radius: 7px;
+    color: #fff;
+    padding: 0.75em 1.25em;
+    border-width: 0;
+    transition: 0.2s;
+}
+
+.feedback-submit:hover{
+    color: #3d8a40;
+    cursor: pointer;
+}

@@ -33,7 +33,7 @@ public class Controller extends HttpServlet {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
             dispatcher.forward(request, response);
         } else {
-            page = "index.jsp";
+            page = "/index.jsp";
             response.sendRedirect(request.getContextPath() + page);
         }
     }

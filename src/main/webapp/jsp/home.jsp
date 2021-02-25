@@ -11,8 +11,6 @@
 <fmt:setBundle basename="lang" var="loc"/>
 <fmt:message bundle="${loc}" key="lang.label.users_list" var="users_list"/>
 <fmt:message bundle="${loc}" key="lang.label.management" var="management"/>
-<fmt:message bundle="${loc}" key="lang.label.welcome" var="welcome"/>
-<fmt:message bundle="${loc}" key="lang.label.hello" var="hello"/>
 <fmt:message bundle="${loc}" key="lang.label.logout" var="logout"/>
 <fmt:message bundle="${loc}" key="lang.label.translate" var="translate"/>
 <fmt:message bundle="${loc}" key="lang.label.add_to_cart" var="add_to_cart"/>
@@ -62,7 +60,7 @@
                         <span class="dig">${dish.getPrice()}</span>
                         <a href="cart/id25125">${add_to_cart}</a>
                     </div>
-            </div>
+                </div>
             </c:forEach>
         </div>
         </div>

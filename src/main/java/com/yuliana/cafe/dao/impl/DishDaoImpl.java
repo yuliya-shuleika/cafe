@@ -1,6 +1,7 @@
 package com.yuliana.cafe.dao.impl;
 
 import com.yuliana.cafe.connection.ConnectionPool;
+import com.yuliana.cafe.dao.transaction.Transaction;
 import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.dao.DishDao;
 import com.yuliana.cafe.entity.Category;
@@ -20,8 +21,10 @@ public class DishDaoImpl implements DishDao {
     private static final String SELECT_ALL_DISHES = "SELECT dish_id, name, category, picture_name, price FROM dishes";
     private static final String SELECT_DISHES_BY_CATEGORY = "SELECT dish_id, name, category, picture_name, price FROM dishes WHERE category = ?";
     private static final String SELECT_DISHES_BY_NAME = "SELECT dish_id, name, category, picture_name, price FROM dishes WHERE name LIKE ?";
-    private static final String SELECT_DISHES_BY_PRICE= "SELECT dish_id, name, category, picture_name, price FROM dishes WHERE price > ? and price < ?";
-    private static final String SELECT_DISHES_SORTED_BY_PRICE= "SELECT dish_id, name, category, picture_name, price FROM dishes ORDER BY price";
+    private static final String SELECT_DISHES_BY_PRICE = "SELECT dish_id, name, category, picture_name, price FROM dishes WHERE price > ? and price < ?";
+    private static final String SELECT_DISHES_SORTED_BY_PRICE = "SELECT dish_id, name, category, picture_name, price FROM dishes ORDER BY price";
+    private static final String SELECT_DISHES_WITH_DISCOUNT = "SELECT dish_id, name, category, picture_name, price FROM dishes WHERE discount_price > 0.0";
+    private static final String SELECT_DISHES_WITHOUT_DISCOUNT = "SELECT dish_id, name, category, picture_name, price FROM dishes WHERE discount_price = 0.0";
     private static final String SELECT_DISH_BY_ID= "SELECT dish_id, name, category, picture_name, price FROM dishes WHERE dish_id = ?";
 
     @Override
@@ -99,7 +102,7 @@ public class DishDaoImpl implements DishDao {
     }
 
     @Override
-    public List<Dish> getDishesOrderByPrice() throws DaoException {
+    public List<Dish> getDishesSortedByPrice() throws DaoException {
         Connection connection = pool.getConnection();
         List<Dish> dishes = new ArrayList<>();
         try (Statement statement = connection.createStatement()){
@@ -111,6 +114,32 @@ public class DishDaoImpl implements DishDao {
             throw new DaoException(e.getMessage());
         }finally {
             pool.releaseConnection(connection);
+        }
+        return dishes;
+    }
+
+    @Override
+    public List<Dish> getDishesSortedByDiscount() throws DaoException {
+        Connection connection = pool.getConnection();
+        Transaction transaction = new Transaction(connection);
+        transaction.setAutoCommit(false);
+        List<Dish> dishes = new ArrayList<>();
+        try (Statement statement = connection.createStatement()){
+            ResultSet result = statement.executeQuery(SELECT_DISHES_WITH_DISCOUNT);
+            while (result.next()) {
+                dishes.add(createDish(result));
+            }
+            result = statement.executeQuery(SELECT_DISHES_WITHOUT_DISCOUNT);
+            while (result.next()) {
+                dishes.add(createDish(result));
+            }
+            transaction.commit();
+        }catch (SQLException e){
+            transaction.rollback();
+            throw new DaoException(e);
+        }finally {
+            transaction.setAutoCommit(true);
+            transaction.close();
         }
         return dishes;
     }

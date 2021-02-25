@@ -38,7 +38,7 @@
             <button class="give-feedback-button">${give_feedback}</button>
         </div>
         <ul class="reviews-list">
-            <c:forEach var="review" items="${sessionScope.dishes_list}">
+            <c:forEach var="review" items="${sessionScope.reviews_list}">
                 <li class="reviews-list-item">
                     <div class="review-author">
                         <p class="review-author-name">name</p>
@@ -46,8 +46,9 @@
                     </div>
                     <div class="review-content-container">
                         <div class="review-header">
-                            <h4 class="review-header-title">!!!!!Title of my review!!!!!!!</h4>
+                            <h4 class="review-header-title">${review.getHeader()}</h4>
                             <div class="review-rating">
+                                <span id="review-stars-count" class="review-stars-count">${review.getRating()}</span>
                                 <span class="fa fa-star"></span>
                                 <span class="fa fa-star"></span>
                                 <span class="fa fa-star"></span>
@@ -56,14 +57,7 @@
                             </div>
                         </div>
                         <div class="review-content">
-                            <p>Lorem Ipsum is simply dummy text of the printing
-                                and typesetting industry. Lorem Ipsum has been the industry's
-                                standard dummy text ever since the 1500s, when an unknown printer took
-                                a galley of type and scrambled it to make a type specimen book. It has
-                                survived not only five centuries, but also the leap into electronic typesetting,
-                                remaining essentially unchanged. It was popularised in the 1960s with the release of
-                                Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing
-                                software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                            <p>${review.getText()}</p>
                         </div>
                     </div>
                 </li>
