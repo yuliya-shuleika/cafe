@@ -21,7 +21,7 @@ public class SortByPriceCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        DishService service = new DishServiceImpl();
+        DishService service = DishServiceImpl.getInstance();
         List<Dish> dishes = null;
         try {
             dishes = service.getDishesSortedByPrice();

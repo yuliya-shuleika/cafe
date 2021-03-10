@@ -2,7 +2,7 @@ package com.yuliana.cafe.controller.command;
 
 import com.yuliana.cafe.controller.command.impl.*;
 
-public enum CommandEnum {
+public enum CommandType {
     TO_HOME {
         {
             this.command = new ToHomeCommand();
@@ -26,6 +26,11 @@ public enum CommandEnum {
     TO_USERS_LIST {
         {
             this.command = new ToUsersListCommand();
+        }
+    },
+    TO_PAYMENT{
+        {
+            this.command = new ToPaymentCommand();
         }
     },
     ADD_TO_GUEST_CART {
@@ -81,6 +86,16 @@ public enum CommandEnum {
     GIVE_FEEDBACK{
         {
             this.command = new GiveFeedbackCommand();
+        }
+    },
+    CLEAN_CART{
+        {
+            this.command = new CleanCartCommand();
+        }
+    },
+    CHECKOUT_COMMAND{
+        {
+            this.command = new CheckoutCommand();
         }
     };
     ActionCommand command;

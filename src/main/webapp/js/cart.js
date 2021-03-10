@@ -2,7 +2,7 @@ $(document).ready(function (){
     //count price
     $('#total-price').html(countTotalPrice())
     //delete item from cart
-    $('.cart-item-delete').click(function (){
+    $('.cart-items').on('click', '.cart-item-delete', function (){
         let cart_item = this.closest(".cart-item")
         let params = cart_item.getElementsByTagName('input')
         let command
@@ -23,15 +23,23 @@ $(document).ready(function (){
             url:'controller',
             type: 'POST',
             data: data,
-            success: function(response) {
+            success: function() {
+                let items_count_header = $('.header-items-count')[0]
+                let items_count = items_count_header.innerHTML
+                let cart_item_count = findCurrentItemCount(cart_item_id).innerHTML
+                items_count = items_count - cart_item_count
+                items_count_header.innerHTML= items_count
+                if(items_count == 0){
+                    changeCart();
+                }
                 cart_item.remove()
-                $('.header-items-count').html(response)
+                removeFromCartIds(cart_item_id)
                 $('#total-price').html(countTotalPrice())
             }
         });
     });
     //update item count
-    $('.cart-item-count-update').click(function (){
+    $('.cart-items').on('click', '.cart-item-count-update', function (){
         let cart_item = this.closest(".cart-item")
         let params = cart_item.getElementsByTagName('input')
         let parent = this.parentElement
@@ -45,31 +53,53 @@ $(document).ready(function (){
         command = this.getElementsByTagName('input')[0].value
         let items_count = 1
         let data = {command:command, dish_id:dish_id, items_count:items_count};
-        console.log(data)
         $.ajax({
             url:'controller',
             type: 'POST',
             data: data,
-            success: function(response) {
+            success: function() {
                 let itemCount = parent.getElementsByClassName('cart-item-count-label')[0]
-                console.log(itemCount)
                 let itemCountVal = itemCount.innerHTML
+                let items_count_header = $('.header-items-count')[0]
+                let items_count = items_count_header.innerHTML
                 if(command == 'delete_from_guest_cart') {
+                    items_count_header.innerHTML= --items_count
                     if (itemCountVal == 1) {
                         cart_item.remove()
+                        removeFromCartIds(cart_item_ids)
+                        changeCart()
                     } else {
-                        itemCountVal--;
+                        itemCountVal--
                         itemCount.innerHTML = itemCountVal
                     }
                 }else {
+                    items_count_header.innerHTML= ++items_count
+                    if(itemCountVal == 0){
+                        changeCart();
+                    }
                     itemCountVal++;
                     itemCount.innerHTML = itemCountVal
                 }
-                $('.header-items-count').html(response)
                 $('#total-price').html(countTotalPrice())
             }
         });
     });
+    $('#clean-cart').click(function (){
+        let command = 'clean_cart'
+        let data = {command:command};
+        let cart_items = document.getElementsByClassName('cart-item')
+        $.ajax({
+            url:'controller',
+            type: 'POST',
+            data: data,
+            success: function() {
+                console.log(cart_items.length)
+                for (let i = 0; i < cart_items.length; i++){
+                    cart_items[0].remove()
+                }
+            }
+        });
+    })
 });
 
 function countTotalPrice(){
@@ -79,4 +109,12 @@ function countTotalPrice(){
         total += Number.parseFloat(prices[i].innerHTML)
     }
     return total.toFixed(2);
+}
+
+function removeFromCartIds(cart_item_id){
+    for(let i = 0; i < cart_item_ids.length; i++){
+        if(cart_item_id == cart_item_ids[i]){
+            cart_item_ids.splice(i, 1)
+        }
+    }
 }

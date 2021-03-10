@@ -8,13 +8,18 @@ import com.yuliana.cafe.entity.UserRole;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.UserService;
 import com.yuliana.cafe.util.PasswordEncryptor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class UserServiceImpl implements UserService {
 
-    private UserDao userDao = new UserDaoImpl();
+    private static final UserServiceImpl INSTANCE = new UserServiceImpl();
+    private static final UserDao userDao = new UserDaoImpl();
     private User user;
+
+    public static UserServiceImpl getInstance(){
+        return INSTANCE;
+    }
+
+    private UserServiceImpl(){}
 
     public User loginUser(String email, String password) throws ServiceException {
         String passwordHash = PasswordEncryptor.encrypt(password);

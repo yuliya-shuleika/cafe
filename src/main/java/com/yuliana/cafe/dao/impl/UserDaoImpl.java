@@ -31,8 +31,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(4, user.getRole().name());
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.log(Level.ERROR, e.getMessage());
-            throw new DaoException();
+            throw new DaoException(e);
         } finally {
             pool.releaseConnection(connection);
         }
@@ -64,7 +63,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> getUsers() throws DaoException {
+    public List<User> findAllUsers() throws DaoException {
         Connection connection = pool.getConnection();
         List<User> users = new ArrayList<>();
         try (Statement statement = connection.createStatement()){
@@ -74,8 +73,7 @@ public class UserDaoImpl implements UserDao {
                 users.add(user);
             }
         }catch (SQLException e){
-            logger.log(Level.ERROR, e.getMessage());
-            throw new DaoException(e.getMessage());
+            throw new DaoException(e);
         }finally {
             pool.releaseConnection(connection);
         }

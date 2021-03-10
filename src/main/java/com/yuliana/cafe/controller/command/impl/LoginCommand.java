@@ -26,7 +26,7 @@ public class LoginCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page;
-        UserService service = new UserServiceImpl();
+        UserService service = UserServiceImpl.getInstance();
         String login = request.getParameter(PARAM_NAME_EMAIL);
         String pass = request.getParameter(PARAM_NAME_PASSWORD);
         User user = null;

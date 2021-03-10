@@ -16,14 +16,14 @@ import java.util.List;
 
 public class SearchDishCommand implements ActionCommand {
 
-    private final static Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
     private static final String PARAM_DISH_NAME = "dish_name";
     private static final String ATTRIBUTE_DISHES_LIST = "search_dishes_list";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String name = request.getParameter(PARAM_DISH_NAME);
-        DishService service = new DishServiceImpl();
+        DishService service = DishServiceImpl.getInstance();
         List<Dish> dishes = null;
         try {
             dishes = service.searchDishesByName(name);

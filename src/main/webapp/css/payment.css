@@ -1,0 +1,327 @@
+h3, h4, ul, form, span, button, p{
+    margin: 0;
+    padding: 0;
+}
+
+ul{
+    list-style: none;
+}
+
+input[type="text"]{
+    color: inherit;
+    font: inherit;
+}
+
+input[type="checkbox"]:checked,
+input[type="checkbox"]:not(:checked) {
+    position: absolute;
+    left: -9999px;
+}
+
+input[type="checkbox"]:checked + label,
+input[type="checkbox"]:not(:checked) + label{
+    display: inline-block;
+    position: relative;
+    padding-left: 28px;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked + label:before,
+input[type="checkbox"]:not(:checked) + label:before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #dddddd;
+    background-color: #ffffff;
+}
+
+input[type="checkbox"]:checked + label:before,
+input[type="checkbox"]:not(:checked) + label:before {
+    border-radius: 2px;
+}
+
+
+input[type="checkbox"]:checked + label:after,
+input[type="checkbox"]:not(:checked) + label:after{
+    content: "";
+    position: absolute;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+input[type="checkbox"]:checked + label:after,
+input[type="checkbox"]:not(:checked) + label:after {
+    left: 3px;
+    top: 4px;
+    width: 10px;
+    height: 5px;
+    border-radius: 1px;
+    border-left: 4px solid #4CAF50;
+    border-bottom: 4px solid #4CAF50;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+
+input[type="checkbox"]:not(:checked) + label:after {
+    opacity: 0;
+}
+
+input[type="checkbox"]:checked + label:after{
+    opacity: 1;
+}
+
+.payment-section-header{
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    color: #545454;
+    display: block;
+    padding-bottom: 15px;
+}
+
+.payment-container{
+    display: flex;
+    flex-direction: column;
+    margin: 60px 17% 0;
+}
+
+.payment-header{
+    display: block;
+    text-align: center;
+}
+
+.payment-title{
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 48px;
+    color: #545454;
+}
+
+.payment-body{
+    display: flex;
+    flex-direction: column;
+}
+
+.payment-cart{
+    display: flex;
+    flex-direction: column;
+    background-color: #f2f2f2;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.payment-cart-items{
+    display: flex;
+    flex-direction: column;
+}
+
+.payment-cart-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 5px 0;
+}
+
+.payment-extra-items{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.extra-items{
+    display: flex;
+    flex-direction: column;
+}
+
+.extra-item{
+    display: block;
+    padding: 3px 0;
+}
+
+.extra-item-title{
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #545454;
+}
+
+/*delivery info*/
+
+.delivery-or-pickup{
+    display: flex;
+    flex-direction: row;
+    border-radius: 12px;
+    background: #f2f2f2;
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+.delivery-or-pickup-item{
+    width: 50%;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    height: 100%;
+    font-size: 22px;
+    color: #545454;
+    transition: .2s
+}
+
+.delivery-or-pickup-item:hover{
+    background: #3d8a40;
+    color: #fff;
+}
+
+.delivery-or-pickup-item.is-active{
+    background: #4CAF50;
+    color: #fff;
+}
+
+.delivery-address{
+    display: flex;
+    flex-direction: column;
+}
+
+.delivery-address-house{
+    display: flex;
+    flex-direction: row;
+}
+
+.delivery-address-field{
+    display: inline-flex;
+    margin: 10px 25px 10px  0;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    color: #545454;
+}
+
+.delivery-address-label{
+    font-size: 18px;
+    padding-right: 6px;
+}
+
+.delivery-address-input-long{
+    font-size: 18px;
+    width: 200px;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    background: #f2f2f2;
+    margin-bottom: 15px;
+    padding-left: 3px;
+}
+
+.delivery-address-input-short{
+    font-size: 18px;
+    width: 100px;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    background: #f2f2f2;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.delivery-time{
+    display: flex;
+    flex-direction: column;
+    margin: 30px 0;
+}
+.payment-method{
+    display: flex;
+    flex-direction: column;
+}
+
+/*promo-code*/
+
+.promo-code-field{
+    display: inline-flex;
+    flex-direction: row;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    color: #545454;
+    padding-top: 20px;
+}
+
+.promo-code-label{
+    font-size: 18px;
+    padding-right: 10px;
+}
+
+.promo-code-input{
+    font-size: 18px;
+    width: 250px;
+    height: 35px;
+    border: none;
+    border-radius: 10px;
+    background: #f2f2f2;
+    margin-bottom: 18px;
+    padding-left: 5px;
+}
+
+/*payment-footer*/
+
+.comment-order{
+    display: flex;
+    margin-top: 20px;
+}
+
+.comment-order-input{
+    width: 100%;
+    resize: none;
+    background: #f2f2f2;
+    border: none;
+    border-radius: 15px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    color: #545454;
+    font-size: 18px;
+    padding: 10px 20px;
+    outline: none;
+    min-height: 140px;
+}
+
+/*confirm-order*/
+
+.payment-confirm{
+    display: flex;
+    margin: 20px 0;
+    width: 100%;
+    justify-content: end;
+}
+
+.payment-confirm-button{
+    background-color: #4CAF50;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    padding: 0.75em 1.25em;
+    border-width: 0;
+    transition: 0.2s;
+    font-size: 20px;
+    display: block;
+    margin-top: 10px;
+}
+
+.payment-confirm-button:hover{
+    background-color: #3d8a40;
+    cursor: pointer;
+    border: none;
+}
+
+

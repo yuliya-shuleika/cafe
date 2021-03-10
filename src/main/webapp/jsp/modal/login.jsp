@@ -23,8 +23,8 @@
                     <h3 class="login-title">${login}</h3>
                     <a class="login-close" href="#">x</a>
                 </div>
-                <div class="login-form">
-                    <form action="controller" method="post">
+                <div class="login-form-container">
+                    <form class="login-form" action="controller" method="post">
                         <input type="hidden" name="command" value="login">
                         <div class="login-form-field">
                             <input class="login-field-input" type="email" name = "email" placeholder="Email" required>
@@ -33,7 +33,7 @@
                             <input class="login-field-input" type="password" name = "password" placeholder="Password"
                                    required pattern="[A-Za-z0-9_]{5,20}">
                         </div>
-                        <input class="login-form-submit" type="submit" value="login">
+                        <input class="login-form-submit" type="submit" value="Войти">
                     </form>
                 </div>
                 <footer class="login-footer">

@@ -24,6 +24,7 @@ public class CartDaoImpl implements CartDao {
             "dishes ON cart_items.dish_id = dishes.dish_id WHERE user_id = ?";
     private static final String ADD_ITEM = "INSERT INTO cart_items (user_id, dish_id, count) VALUES (?, ?, ?)";
     private static final String DELETE_ITEM = "DELETE FROM cart_items WHERE dish_id = ? AND user_id = ?";
+    private static final String DELETE_ALL_ITEMS = "DELETE FROM cart_items WHERE user_id = ?";
 
     @Override
     public void addItem(int userId, int dishId, int count) throws DaoException{
@@ -73,7 +74,7 @@ public class CartDaoImpl implements CartDao {
 
 
     @Override
-    public Map<Dish, Integer> getAllUserItems(int userId) throws DaoException {
+    public Map<Dish, Integer> findAllUserItems(int userId) throws DaoException {
         Connection connection = pool.getConnection();
         Map<Dish, Integer> cartItems = new HashMap<>();
         try(PreparedStatement statement = connection.prepareStatement(SELECT_ALL_USER_ITEMS)){
@@ -90,6 +91,19 @@ public class CartDaoImpl implements CartDao {
             pool.releaseConnection(connection);
         }
         return cartItems;
+    }
+
+    @Override
+    public void deleteAllItems(int userId) throws DaoException {
+        Connection connection = pool.getConnection();
+        try(PreparedStatement statement = connection.prepareStatement(DELETE_ALL_ITEMS)){
+            statement.setInt(1, userId);
+            statement.executeUpdate();
+        } catch (SQLException e){
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
     }
 
     private Dish createDish(ResultSet dishData) throws DaoException{

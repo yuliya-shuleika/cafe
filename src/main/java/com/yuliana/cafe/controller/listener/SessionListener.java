@@ -1,6 +1,6 @@
 package com.yuliana.cafe.controller.listener;
 
-import com.yuliana.cafe.controller.SessionAttribute;
+import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.entity.Dish;
 import com.yuliana.cafe.entity.Review;;
 import com.yuliana.cafe.exception.ServiceException;
@@ -32,8 +32,8 @@ public class SessionListener implements HttpSessionListener {
     public void sessionCreated(HttpSessionEvent se) {
         logger.log(Level.INFO, "Session created.");
         HttpSession session = se.getSession();
-        DishService dishService = new DishServiceImpl();
-        ReviewService reviewService = new ReviewServiceImpl();
+        DishService dishService = DishServiceImpl.getInstance();
+        ReviewService reviewService = ReviewServiceImpl.getInstance();
         List<Dish> menuItems = new ArrayList<>();
         List<Review> reviewsList = new ArrayList<>();
         Map<Dish, Integer> cartItems = new HashMap<>();
@@ -43,11 +43,11 @@ public class SessionListener implements HttpSessionListener {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        session.setAttribute(SessionAttribute.DISHES_LIST, menuItems);
-        session.setAttribute(SessionAttribute.REVIEWS_LIST, reviewsList);
-        session.setAttribute(SessionAttribute.LANGUAGE, LANG_RU);
-        session.setAttribute(SessionAttribute.CART_ITEMS, cartItems);
-        session.setAttribute(SessionAttribute.CART_ITEMS_COUNT, 0);
+        session.setAttribute(AttributeName.DISHES_LIST, menuItems);
+        session.setAttribute(AttributeName.REVIEWS_LIST, reviewsList);
+        session.setAttribute(AttributeName.LANGUAGE, LANG_RU);
+        session.setAttribute(AttributeName.CART_ITEMS, cartItems);
+        session.setAttribute(AttributeName.CART_ITEMS_COUNT, 0);
     }
 
     @Override

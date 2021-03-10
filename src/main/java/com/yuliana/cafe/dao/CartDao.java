@@ -9,5 +9,6 @@ public interface CartDao {
 
     void addItem(int userId, int dishId, int count) throws DaoException;
     void deleteItem(int userId, int dishId, int count) throws DaoException;
-    Map<Dish, Integer> getAllUserItems(int userId) throws DaoException;
+    Map<Dish, Integer> findAllUserItems(int userId) throws DaoException;
+    void deleteAllItems(int userId) throws DaoException;
 }

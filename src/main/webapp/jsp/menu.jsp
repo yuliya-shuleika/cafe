@@ -87,7 +87,8 @@
                     <c:if test="${dishes_list != null}">
                     <c:forEach var="dish" items="${dishes_list}">
                     <div class="menu-item">
-                        <img src="${pageContext.request.contextPath}${dish.getPictureName()}" alt="${dish.getName()}">
+                        <img src="${pageContext.request.contextPath}${dish.getPictureName()}" alt="${dish.getName()}"
+                             class="menu-item-picture">
                         <div class="menu-item-content">
                             <h3 class="menu-item-title">${dish.getName()}</h3>
                             <p class = "menu-item-description">something</p>

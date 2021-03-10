@@ -1,6 +1,6 @@
 package com.yuliana.cafe.controller.command.impl;
 
-import com.yuliana.cafe.controller.SessionAttribute;
+import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.controller.command.PagePath;
 import com.yuliana.cafe.entity.Dish;
@@ -28,15 +28,15 @@ public class DeleteFromGuestCartCommand implements ActionCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Map<Dish, Integer> cartItems;
         int cartItemsCount;
-        DishService service = new DishServiceImpl();
+        DishService service = DishServiceImpl.getInstance();
         HttpSession session = request.getSession();
         String cartItemIdParam = request.getParameter(PARAM_DISH_ID);
         int cartItemId = Integer.parseInt(cartItemIdParam);
         String itemsToDeleteParam = request.getParameter(PARAM_ITEMS_TO_DELETE);
         int itemsToDelete = Integer.parseInt(itemsToDeleteParam);
-        Object cartItemsAttribute = session.getAttribute(SessionAttribute.CART_ITEMS);
+        Object cartItemsAttribute = session.getAttribute(AttributeName.CART_ITEMS);
         cartItems = (Map<Dish, Integer>) cartItemsAttribute;
-        Object cartItemsCountAttribute = session.getAttribute(SessionAttribute.CART_ITEMS_COUNT);
+        Object cartItemsCountAttribute = session.getAttribute(AttributeName.CART_ITEMS_COUNT);
         cartItemsCount = (Integer) cartItemsCountAttribute;
         Dish cartItem = null;
         try {
@@ -52,8 +52,8 @@ public class DeleteFromGuestCartCommand implements ActionCommand {
             cartItems.replace(cartItem, countUpdate);
         }
         cartItemsCount -= itemsToDelete;
-        session.setAttribute(SessionAttribute.CART_ITEMS_COUNT, cartItemsCount);
-        session.setAttribute(SessionAttribute.CART_ITEMS, cartItems);
+        session.setAttribute(AttributeName.CART_ITEMS_COUNT, cartItemsCount);
+        session.setAttribute(AttributeName.CART_ITEMS, cartItems);
         makeResponse(response, cartItemsCount);
         //current page
         String page = PagePath.MENU_PAGE;

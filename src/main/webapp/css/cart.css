@@ -48,6 +48,10 @@ button:active, button:focus, input:active, input:focus{
     justify-content: space-between;
 }
 
+.cart-items-container{
+    display: none;
+}
+
 .cart-title{
     width: 100%;
     display: block;
@@ -299,6 +303,42 @@ button:active, button:focus, input:active, input:focus{
     cursor: pointer;
     border: none;
 }
+
+/*empty cart*/
+
+.cart-empty{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 250px;
+    margin-bottom: 40px;
+}
+
+.cart-empty-label{
+    display: block;
+    color: #545454;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.cart-empty-link{
+    display: block;
+    text-decoration: none;
+    color: #4CAF50;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    transition: 0.2s;
+    padding-left: 7px;
+}
+
+.cart-empty-link:hover{
+    color: #3d8a40;
+}
+
 
 
 

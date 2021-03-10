@@ -21,7 +21,7 @@ public class ToHomeCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        DishService dishService = new DishServiceImpl();
+        DishService dishService = DishServiceImpl.getInstance();
         List<Dish> menuItems = null;
         try {
             menuItems = dishService.getAllDishes();

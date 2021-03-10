@@ -126,6 +126,7 @@ textarea:active, textarea:focus{
     background: #ededed;
     min-height: 250px;
     margin-left: 10px;
+    resize: none;
 }
 
 .feedback-footer{

@@ -21,6 +21,7 @@ class ConnectionCreator {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             logger.log(Level.FATAL, "Couldn't load driver.");
+            throw new RuntimeException();
         }
     }
 
@@ -33,6 +34,7 @@ class ConnectionCreator {
             connection = DriverManager.getConnection(DB_URL+ DB_TIMEZONE, DB_USER, DB_PASSWORD);
         } catch (SQLException throwables) {
             logger.log(Level.FATAL, "Couldn't create connection.");
+            throw new RuntimeException();
         }
         return connection;
     }

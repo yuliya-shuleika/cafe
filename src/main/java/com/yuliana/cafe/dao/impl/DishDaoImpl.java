@@ -28,7 +28,7 @@ public class DishDaoImpl implements DishDao {
     private static final String SELECT_DISH_BY_ID= "SELECT dish_id, name, category, picture_name, price FROM dishes WHERE dish_id = ?";
 
     @Override
-    public List<Dish> getAllDishes() throws DaoException{
+    public List<Dish> findAllDishes() throws DaoException{
         Connection connection = pool.getConnection();
         List<Dish> dishes = new ArrayList<>();
         try (Statement statement = connection.createStatement()){
@@ -102,7 +102,7 @@ public class DishDaoImpl implements DishDao {
     }
 
     @Override
-    public List<Dish> getDishesSortedByPrice() throws DaoException {
+    public List<Dish> findDishesSortedByPrice() throws DaoException {
         Connection connection = pool.getConnection();
         List<Dish> dishes = new ArrayList<>();
         try (Statement statement = connection.createStatement()){
@@ -119,7 +119,7 @@ public class DishDaoImpl implements DishDao {
     }
 
     @Override
-    public List<Dish> getDishesSortedByDiscount() throws DaoException {
+    public List<Dish> findDishesSortedByDiscount() throws DaoException {
         Connection connection = pool.getConnection();
         Transaction transaction = new Transaction(connection);
         transaction.setAutoCommit(false);
@@ -145,7 +145,7 @@ public class DishDaoImpl implements DishDao {
     }
 
     @Override
-    public Dish getDishById(int dishId) throws DaoException {
+    public Dish findDishById(int dishId) throws DaoException {
         Connection connection = pool.getConnection();
         Dish dish = null;
         try (PreparedStatement statement = connection.prepareStatement(SELECT_DISH_BY_ID)){
@@ -162,19 +162,15 @@ public class DishDaoImpl implements DishDao {
         return dish;
     }
 
-    private Dish createDish(ResultSet dishData) throws DaoException{
+    private Dish createDish(ResultSet dishData) throws SQLException{
         Dish dish;
-        try {
-            int dishId = dishData.getInt(1);
-            String name = dishData.getString(2);
-            String dishCategory = dishData.getString(3);
-            Category category = Category.valueOf(dishCategory.toUpperCase());
-            String pictureName = dishData.getString(4);
-            double price = dishData.getDouble(5);
-            dish = new Dish(dishId, name, category, pictureName,price);
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
+        int dishId = dishData.getInt(1);
+        String name = dishData.getString(2);
+        String dishCategory = dishData.getString(3);
+        Category category = Category.valueOf(dishCategory.toUpperCase());
+        String pictureName = dishData.getString(4);
+        double price = dishData.getDouble(5);
+        dish = new Dish(dishId, name, category, pictureName,price);
         return dish;
     }
 

@@ -1,6 +1,6 @@
 package com.yuliana.cafe.controller.command.impl;
 
-import com.yuliana.cafe.controller.SessionAttribute;
+import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.controller.command.PagePath;
 import com.yuliana.cafe.entity.Dish;
@@ -27,13 +27,13 @@ public class AddToGuestCartCommand implements ActionCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Map<Dish, Integer> cartItems;
         int cartItemsCount;
-        DishService service = new DishServiceImpl();
+        DishService service = DishServiceImpl.getInstance();
         HttpSession session = request.getSession();
         String dishIdParam = request.getParameter(PARAM_DISH_ID);
         int dishId = Integer.parseInt(dishIdParam);
-        Object cartItemsAttribute = session.getAttribute(SessionAttribute.CART_ITEMS);
+        Object cartItemsAttribute = session.getAttribute(AttributeName.CART_ITEMS);
         cartItems = (Map<Dish, Integer>) cartItemsAttribute;
-        Object cartItemsCountAttribute = session.getAttribute(SessionAttribute.CART_ITEMS_COUNT);
+        Object cartItemsCountAttribute = session.getAttribute(AttributeName.CART_ITEMS_COUNT);
         cartItemsCount = (Integer) cartItemsCountAttribute;
         cartItemsCount++;
         Dish dish = null;
@@ -48,8 +48,8 @@ public class AddToGuestCartCommand implements ActionCommand {
         }else {
             cartItems.put(dish, 1);
         }
-        session.setAttribute(SessionAttribute.CART_ITEMS_COUNT, cartItemsCount);
-        session.setAttribute(SessionAttribute.CART_ITEMS, cartItems);
+        session.setAttribute(AttributeName.CART_ITEMS_COUNT, cartItemsCount);
+        session.setAttribute(AttributeName.CART_ITEMS, cartItems);
         makeResponse(response, cartItemsCount);
         String page = PagePath.MENU_PAGE;
         return page;

@@ -8,4 +8,5 @@ public class PagePath {
     public static final String REVIEWS_PAGE = "/jsp/reviews.jsp";
     public static final String MANAGEMENT_PAGE = "/jsp/management.jsp";
     public static final String USERS_LIST_PAGE = "/jsp/users-list.jsp";
+    public static final String PAYMENT_PAGE = "/jsp/payment.jsp";
 }

@@ -25,7 +25,7 @@ public class ChooseCategoryCommand implements ActionCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String categoryName = request.getParameter(PARAM_CATEGORY);
         Category category = Category.valueOf(categoryName.toUpperCase());
-        DishService service = new DishServiceImpl();
+        DishService service = DishServiceImpl.getInstance();
         List<Dish> dishes = null;
         try {
             dishes = service.searchDishesByCategory(category);

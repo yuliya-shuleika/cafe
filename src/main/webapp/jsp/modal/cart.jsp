@@ -16,6 +16,8 @@
 <fmt:message bundle="${loc}" key="lang.label.cart" var="cart"/>
 <fmt:message bundle="${loc}" key="lang.label.clear_cart" var="clear_cart"/>
 <fmt:message bundle="${loc}" key="lang.label.checkout" var="checkout"/>
+<fmt:message bundle="${loc}" key="lang.label.empty_cart" var="empty_cart"/>
+<fmt:message bundle="${loc}" key="lang.label.from_menu" var="from_menu"/>
 <body>
 <div class="cart" id="cart">
     <div class="cart-body">
@@ -24,6 +26,7 @@
                 <h3 class="cart-title">${cart}</h3>
                 <a class="cart-close" href="#">x</a>
             </div>
+            <div class="cart-items-container">
             <div class="cart-items">
                 <ul class="cart-items-list">
                     <c:forEach var="item" items="${cart_items}">
@@ -72,9 +75,17 @@
                     <span class="total-currency">$</span>
                 </div>
                 <div class="cart-items-manage">
-                    <button class="clean-cart">${clear_cart}</button>
-                    <button class="checkout">${checkout}</button>
+                    <button class="clean-cart" id="clean-cart">${clear_cart}</button>
+                    <form action="controller" method="post">
+                        <input type="hidden" name="command" value="to_payment">
+                        <button class="checkout" type="submit">${checkout}</button>
+                    </form>
                 </div>
+            </div>
+            </div>
+            <div class="cart-empty">
+                <p class="cart-empty-label">${empty_cart} </p>
+                <a class="cart-empty-link" href="controller?command=to_menu">${from_menu}</a>
             </div>
         </div>
     </div>

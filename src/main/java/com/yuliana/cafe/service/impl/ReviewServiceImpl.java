@@ -12,7 +12,14 @@ import java.util.List;
 
 public class ReviewServiceImpl implements ReviewService {
 
+    private static final ReviewServiceImpl INSTANCE = new ReviewServiceImpl();
     private ReviewDao reviewDao = new ReviewDaoImpl();
+
+    private ReviewServiceImpl(){}
+
+    public static ReviewServiceImpl getInstance(){
+        return INSTANCE;
+    }
 
     @Override
     public void addReview(int userId, String header, String text, String rating) throws ServiceException {

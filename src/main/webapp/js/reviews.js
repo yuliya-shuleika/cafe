@@ -39,6 +39,20 @@ $(document).ready(function (){
             stars[i].style.color = '#545454';
             i++;
         }
-        rating.getElementsByTagName("input").value = count;
+        console.log(count)
+        rating.getElementsByTagName("input")[0].value = count;
     })
+    let review_ratings = document.getElementsByClassName('review-rating')
+    console.log(review_ratings)
+    for(let i = 0; i < review_ratings.length; i++){
+        let stars = review_ratings[i].getElementsByClassName('fa-star')
+        let rating = review_ratings[i].getElementsByClassName('review-stars-count')[0].innerHTML
+        console.log(rating)
+        let j = 0
+        while (j < rating){
+            stars[j]. style.color = '#4CAF50';
+            j++;
+        }
+    }
+
 });
