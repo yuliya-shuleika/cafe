@@ -40,26 +40,19 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User login(String email, String password) throws DaoException{
         Connection connection = pool.getConnection();
+        User user;
         try(PreparedStatement statement = connection.prepareStatement(SQL_LOGIN)){
             statement.setString(1, email);
             statement.setString(2, password);
             ResultSet result = statement.executeQuery();
-            User user = new User();
-            if(result.next()){
-                user.setUserId(result.getInt(1));
-                user.setName(result.getString(2));
-                String role = result.getString(3);
-                user.setRole(UserRole.valueOf(role.toUpperCase()));
-                user.setEmail(email);
-                return user;
-            }
+            user = createUser(result);
         } catch (SQLException e) {
             logger.log(Level.ERROR, e.getMessage());
             throw new DaoException(e.getMessage());
         }finally {
             pool.releaseConnection(connection);
         }
-        return null;
+        return user;
     }
 
     @Override
@@ -80,18 +73,14 @@ public class UserDaoImpl implements UserDao {
         return users;
     }
 
-    private User createUser(ResultSet userData) throws DaoException{
+    private User createUser(ResultSet userData) throws SQLException{
         User user;
-        try {
-            int userId = userData.getInt(1);
-            String name = userData.getString(2);
-            String email = userData.getString(3);
-            String role = userData.getString(5);
-            UserRole userRole = UserRole.valueOf(role.toUpperCase());
-            user = new User(userId, name, email, userRole);
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
+        int userId = userData.getInt(1);
+        String name = userData.getString(2);
+        String email = userData.getString(3);
+        String role = userData.getString(5);
+        UserRole userRole = UserRole.valueOf(role.toUpperCase());
+        user = new User(userId, name, email, userRole);
         return user;
     }
 }

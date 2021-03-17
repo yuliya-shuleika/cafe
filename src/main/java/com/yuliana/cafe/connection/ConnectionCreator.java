@@ -4,24 +4,30 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 class ConnectionCreator {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "yuliana245yuliana";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/cafe";
-    private static final String DB_TIMEZONE = "?serverTimezone=Europe/Minsk&allowMultiQueries=true";
+    private static final String PROPERTIES_PATH = "pool_config/config.properties";
+    private static final String DRIVER_PROPERTY = "db.driver";
+    private static final String URL_PROPERTY = "db.url";
+    private static final Properties PROPERTIES = new Properties();
 
-    static{
+    static {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            logger.log(Level.FATAL, "Couldn't load driver.");
-            throw new RuntimeException();
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            InputStream input = classLoader.getResourceAsStream(PROPERTIES_PATH);
+            PROPERTIES.load(input);
+            String driver = PROPERTIES.getProperty(DRIVER_PROPERTY);
+            Class.forName(driver);
+        } catch (IOException | ClassNotFoundException e) {
+            logger.log(Level.FATAL, "Error during connecting driver", e);
         }
     }
 
@@ -31,7 +37,7 @@ class ConnectionCreator {
     static Connection createConnection(){
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection(DB_URL+ DB_TIMEZONE, DB_USER, DB_PASSWORD);
+            connection = DriverManager.getConnection(PROPERTIES.getProperty(URL_PROPERTY), PROPERTIES);
         } catch (SQLException throwables) {
             logger.log(Level.FATAL, "Couldn't create connection.");
             throw new RuntimeException();

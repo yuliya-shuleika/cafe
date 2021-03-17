@@ -6,7 +6,7 @@ public class Address {
     private String city;
     private String street;
     private short house;
-    private byte entrance;
+    private short entrance;
     private short floor;
     private short flat;
 
@@ -17,7 +17,7 @@ public class Address {
         this.house = house;
     }
 
-    public Address(int addressId, String city, String street, short house, byte entrance, short floor, short flat) {
+    public Address(int addressId, String city, String street, short house, short entrance, short floor, short flat) {
         this.addressId = addressId;
         this.city = city;
         this.street = street;
@@ -33,7 +33,7 @@ public class Address {
         this.house = house;
     }
 
-    public Address(String city, String street, short house, byte entrance, short floor, short flat) {
+    public Address(String city, String street, short house, short entrance, short floor, short flat) {
         this.city = city;
         this.street = street;
         this.house = house;
@@ -43,6 +43,10 @@ public class Address {
     }
 
     public Address(){}
+
+    public int getAddressId() {
+        return addressId;
+    }
 
     public String getCity() {
         return city;
@@ -68,7 +72,7 @@ public class Address {
         this.house = house;
     }
 
-    public byte getEntrance() {
+    public short getEntrance() {
         return entrance;
     }
 

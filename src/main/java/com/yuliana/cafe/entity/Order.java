@@ -8,21 +8,21 @@ public class Order {
     private Date date;
     private double total;
     private int userId;
-    private Address address;
+    private int addressId;
 
-    public Order(int orderId, Date date, double total, int userId, Address address) {
+    public Order(int orderId, Date date, double total, int userId, int addressId) {
         this.orderId = orderId;
         this.date = date;
         this.total = total;
         this.userId = userId;
-        this.address = address;
+        this.addressId = addressId;
     }
 
-    public Order(Date date, double total, int userId, Address address) {
+    public Order(Date date, double total, int userId, int addressId) {
         this.date = date;
         this.total = total;
         this.userId = userId;
-        this.address = address;
+        this.addressId = addressId;
     }
 
     public Order(){}
@@ -55,12 +55,12 @@ public class Order {
         this.userId = userId;
     }
 
-    public Address getAddress() {
-        return address;
+    public int getAddressId() {
+        return addressId;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class Order {
         if (Double.compare(order.total, total) != 0) return false;
         if (userId != order.userId) return false;
         if (date != null ? !date.equals(order.date) : order.date != null) return false;
-        return address != null ? address.equals(order.address) : order.address == null;
+        return addressId == order.addressId;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class Order {
         temp = Double.doubleToLongBits(total);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + userId;
-        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + addressId;
         return result;
     }
 
@@ -95,7 +95,7 @@ public class Order {
         sb.append(", date=").append(date);
         sb.append(", total=").append(total);
         sb.append(", userId=").append(userId);
-        sb.append(", address=").append(address);
+        sb.append(", address=").append(addressId);
         sb.append('}');
         return sb.toString();
     }

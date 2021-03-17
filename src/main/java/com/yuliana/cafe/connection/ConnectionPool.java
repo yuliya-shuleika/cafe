@@ -42,9 +42,11 @@ public enum  ConnectionPool {
     }
 
     public void releaseConnection(Connection connection){
-        ProxyConnection proxyConnection = (ProxyConnection) connection;
-        givenAwayConnections.remove(proxyConnection);
-        freeConnections.offer(proxyConnection);
+        if (connection.getClass() == ProxyConnection.class) {
+            ProxyConnection proxyConnection = (ProxyConnection) connection;
+            givenAwayConnections.remove(proxyConnection);
+            freeConnections.offer(proxyConnection);
+        }
     }
 
     public void destroyPool(){
@@ -65,7 +67,7 @@ public enum  ConnectionPool {
             try {
                 DriverManager.deregisterDriver(driver);
             } catch (SQLException throwables) {
-                logger.log(Level.ERROR, "Couldn't deregister driver.");
+                logger.log(Level.ERROR, "Can't deregister driver.");
             }
         });
     }
