@@ -1,8 +1,9 @@
 package com.yuliana.cafe.controller.command.impl;
 
 import com.yuliana.cafe.controller.command.ActionCommand;
-import com.yuliana.cafe.controller.command.PagePath;
+import com.yuliana.cafe.controller.PagePath;
 import com.yuliana.cafe.entity.User;
+import com.yuliana.cafe.entity.UserRole;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.UserService;
 import com.yuliana.cafe.service.impl.UserServiceImpl;
@@ -25,7 +26,7 @@ public class LoginCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String page;
+        String page = PagePath.MENU_PAGE;
         UserService service = UserServiceImpl.getInstance();
         String login = request.getParameter(PARAM_NAME_EMAIL);
         String pass = request.getParameter(PARAM_NAME_PASSWORD);
@@ -38,11 +39,15 @@ public class LoginCommand implements ActionCommand {
         if(user != null) {
             HttpSession session = request.getSession();
             session.setAttribute(ATTRIBUTE_USER, user);
-            page = PagePath.HOME_PAGE;
+            UserRole role = user.getRole();
+            if(role.equals(UserRole.USER)) {
+                page = PagePath.MENU_PAGE;
+            } else if(role.equals(UserRole.ADMIN)){
+                page = PagePath.USERS_LIST_PAGE;
+            }
         } else {
             request.setAttribute(PARAM_ERROR, ERROR_MESSAGE);
             logger.log(Level.DEBUG, "Wrong password.");
-            //dont change page
             page = PagePath.MENU_PAGE;
         }
         return page;

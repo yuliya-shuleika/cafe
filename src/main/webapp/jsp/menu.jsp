@@ -26,9 +26,6 @@
 <fmt:message bundle="${loc}" key="lang.label.show_filters" var="show_filters"/>
 <body>
     <c:choose>
-        <c:when test="${sessionScope.user.getRole() eq 'ADMIN'}">
-            <%@ include file="/jsp/header/header-admin.jsp"%>
-        </c:when>
         <c:when test="${sessionScope.user.getRole() eq 'USER'}">
             <%@ include file="/jsp/header/header-user.jsp"%>
         </c:when>

@@ -1,18 +1,16 @@
-package com.yuliana.cafe.util.validator;
+package com.yuliana.cafe.service.validator;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class UserValidator {
+public class UserValidator extends BaseValidator{
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String FIELD_NAME = "name";
     private static final String FIELD_EMAIL = "email";
+    private static final String FIELD_NAME = "name";
     private static final String FIELD_PASSWORD = "password";
     private static final String EMAIL_REGEX = "[A-Za-z0-9_.]{2,22}@[a-z]{2,10}\\.[a-z]{2,6}";
     private static final String PASSWORD_REGEX = "[A-Za-z0-9_]{5,20}";
@@ -69,11 +67,5 @@ public class UserValidator {
             }
         }
         return isValidForm;
-    }
-
-    private static boolean isValidField(String regex, String statement){
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(statement);
-        return matcher.matches();
     }
 }

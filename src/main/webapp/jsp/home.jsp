@@ -9,7 +9,6 @@
 </head>
 <fmt:setLocale value='<%=request.getSession().getAttribute("lang")%>'/>
 <fmt:setBundle basename="lang" var="loc"/>
-<fmt:message bundle="${loc}" key="lang.label.users_list" var="users_list"/>
 <fmt:message bundle="${loc}" key="lang.label.management" var="management"/>
 <fmt:message bundle="${loc}" key="lang.label.logout" var="logout"/>
 <fmt:message bundle="${loc}" key="lang.label.translate" var="translate"/>
@@ -21,9 +20,6 @@
 <fmt:message bundle="${loc}" key="lang.label.choose" var="choose"/>
 <body>
     <c:choose>
-        <c:when test="${sessionScope.user.getRole() eq 'ADMIN'}">
-            <%@ include file="/jsp/header/header-admin.jsp"%>
-        </c:when>
         <c:when test="${sessionScope.user.getRole() eq 'USER'}">
             <%@ include file="/jsp/header/header-user.jsp"%>
         </c:when>

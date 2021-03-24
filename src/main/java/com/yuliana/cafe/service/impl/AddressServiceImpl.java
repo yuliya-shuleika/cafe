@@ -6,19 +6,47 @@ import com.yuliana.cafe.entity.Address;
 import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.AddressService;
+import com.yuliana.cafe.service.validator.CheckoutValidator;
+
+import java.util.Map;
+import java.util.Optional;
 
 public class AddressServiceImpl implements AddressService {
 
     private static final AddressServiceImpl INSTANCE = new AddressServiceImpl();
     private AddressDao addressDao = new AddressDaoImpl();
 
-    public void addAddress(String city, String street, short house, short entrance, short floor, short flat) throws ServiceException{
-        //add validation
-        Address address = new Address(city, street, house, entrance, floor, flat);
-        try {
-            addressDao.addAddress(address);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
+    private static final String CITY = "city";
+    private static final String STREET = "street";
+    private static final String ENTRANCE = "entrance";
+    private static final String HOUSE = "house";
+    private static final String FLOOR = "floor";
+    private static final String FLAT = "flat";
+
+    private AddressServiceImpl(){}
+
+    public static AddressServiceImpl getInstance(){
+        return INSTANCE;
     }
+
+    public int addAddress(Map<String, String> addressForm) throws ServiceException {
+        int addressId = 0;
+        boolean isValid = CheckoutValidator.isAddressFormValid(addressForm);
+        if(isValid){
+            String city = addressForm.get(CITY);
+            String street = addressForm.get(STREET);
+            short house = Short.parseShort(addressForm.get(HOUSE));
+            short entrance = Short.parseShort(addressForm.get(ENTRANCE));
+            short floor = Short.parseShort(addressForm.get(FLOOR));
+            short flat = Short.parseShort(addressForm.get(FLAT));
+            Address address = new Address(city, street, house, entrance, floor, flat);
+            try {
+                addressId = addressDao.addAddress(address);
+            } catch (DaoException e) {
+                throw new ServiceException(e);
+            }
+        }
+        return addressId;
+    }
+
 }

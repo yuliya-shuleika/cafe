@@ -93,10 +93,16 @@ public enum CommandType {
             this.command = new CleanCartCommand();
         }
     },
-    CHECKOUT_COMMAND{
+    CHECKOUT{
         {
             this.command = new CheckoutCommand();
         }
+    },
+    ADD_DISH{
+
+    },
+    EDIT_DISH{
+
     };
     ActionCommand command;
     public ActionCommand getCurrentCommand() {

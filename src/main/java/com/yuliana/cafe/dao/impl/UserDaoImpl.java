@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
 
@@ -38,21 +39,23 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User login(String email, String password) throws DaoException{
+    public Optional<User> login(String email, String password) throws DaoException{
         Connection connection = pool.getConnection();
+        Optional<User> userOptional = Optional.empty();
         User user;
         try(PreparedStatement statement = connection.prepareStatement(SQL_LOGIN)){
             statement.setString(1, email);
             statement.setString(2, password);
             ResultSet result = statement.executeQuery();
             user = createUser(result);
+            userOptional = Optional.of(user);
         } catch (SQLException e) {
             logger.log(Level.ERROR, e.getMessage());
             throw new DaoException(e.getMessage());
         }finally {
             pool.releaseConnection(connection);
         }
-        return user;
+        return userOptional;
     }
 
     @Override

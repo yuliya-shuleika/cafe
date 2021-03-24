@@ -122,34 +122,34 @@
                         <div class="delivery-address-field">
                             <label class="delivery-address-label" for="city">${city}</label>
                             <input class="delivery-address-input-long" id="city" type="text"
-                                   placeholder="Город" required>
+                                   name="city" placeholder="Город" required>
                         </div>
                         <div class="delivery-address-field">
                             <label class="delivery-address-label" for="street">${street}</label>
                             <input class="delivery-address-input-long" id="street" type="text"
-                                   placeholder="Улица" required>
+                                   name="street" placeholder="Улица" required>
                         </div>
                     </div>
                     <div class="delivery-address-house">
                         <div class="delivery-address-field">
                             <label class="delivery-address-label" for="house">${house}</label>
                             <input class="delivery-address-input-short" id="house" type="text"
-                                   placeholder="Дом" required pattern="[1-9][0-9]{0,3}">
+                                   name="house" placeholder="Дом" required pattern="[1-9][0-9]{0,3}">
                         </div>
                         <div class="delivery-address-field">
                             <label class="delivery-address-label" for="entrance">${entrance}</label>
                             <input class="delivery-address-input-short" id="entrance" type="text"
-                                   placeholder="Подъезд" equired pattern="[1-9][0-9]{0,2}">
+                                   name="entrance" placeholder="Подъезд" pattern="[1-9][0-9]{0,2}">
                         </div>
                         <div class="delivery-address-field">
                             <label class="delivery-address-label" for="floor">${floor}</label>
                             <input class="delivery-address-input-short" id="floor" type="text"
-                                   placeholder="Этаж" required pattern="(-|[1-9])[0-9]{0,3}">
+                                   name="floor" placeholder="Этаж" pattern="(-|[1-9])[0-9]{0,3}">
                         </div>
                         <div class="delivery-address-field">
                             <label class="delivery-address-label" for="flat">${flat}</label>
                             <input class="delivery-address-input-short" id="flat" type="text"
-                                   placeholder="Квартира" required pattern="[1-9][0-9]{0,5}">
+                                   name="flat" placeholder="Квартира" pattern="[1-9][0-9]{0,5}">
                         </div>
                     </div>
                 </div>

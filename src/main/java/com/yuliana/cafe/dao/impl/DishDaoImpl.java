@@ -37,8 +37,7 @@ public class DishDaoImpl implements DishDao {
                 dishes.add(createDish(result));
             }
         }catch (SQLException e){
-            logger.log(Level.ERROR, e.getMessage());
-            throw new DaoException(e.getMessage());
+            throw new DaoException(e);
         }finally {
             pool.releaseConnection(connection);
         }
@@ -57,7 +56,7 @@ public class DishDaoImpl implements DishDao {
                 dishes.add(createDish(result));
             }
         }catch (SQLException e){
-            throw new DaoException(e.getMessage());
+            throw new DaoException(e);
         }finally {
             pool.releaseConnection(connection);
         }
@@ -75,7 +74,7 @@ public class DishDaoImpl implements DishDao {
                 dishes.add(createDish(result));
             }
         }catch (SQLException e){
-            throw new DaoException(e.getMessage());
+            throw new DaoException(e);
         }finally {
             pool.releaseConnection(connection);
         }
@@ -94,7 +93,7 @@ public class DishDaoImpl implements DishDao {
                 dishes.add(createDish(result));
             }
         }catch (SQLException e){
-            throw new DaoException(e.getMessage());
+            throw new DaoException(e);
         }finally {
             pool.releaseConnection(connection);
         }
@@ -111,13 +110,14 @@ public class DishDaoImpl implements DishDao {
                 dishes.add(createDish(result));
             }
         }catch (SQLException e){
-            throw new DaoException(e.getMessage());
+            throw new DaoException(e);
         }finally {
             pool.releaseConnection(connection);
         }
         return dishes;
     }
 
+    //without transaction
     @Override
     public List<Dish> findDishesSortedByDiscount() throws DaoException {
         Connection connection = pool.getConnection();

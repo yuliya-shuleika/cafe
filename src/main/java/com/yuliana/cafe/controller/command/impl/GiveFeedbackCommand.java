@@ -2,7 +2,7 @@ package com.yuliana.cafe.controller.command.impl;
 
 import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.command.ActionCommand;
-import com.yuliana.cafe.controller.command.PagePath;
+import com.yuliana.cafe.controller.PagePath;
 import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.ReviewService;

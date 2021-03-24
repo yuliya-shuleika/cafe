@@ -1,0 +1,29 @@
+.admin-container{
+    display: flex;
+    margin: 120px 10% 0;
+}
+
+.admin-header{
+    display: flex;
+    justify-content: center;
+}
+
+.admin-title{
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 48px;
+    color: #4CAF50;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 20px;
+}
+
+th, td{
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #d1d1d1;
+}
