@@ -38,8 +38,8 @@ public class SessionListener implements HttpSessionListener {
         List<Review> reviewsList = new ArrayList<>();
         Map<Dish, Integer> cartItems = new HashMap<>();
         try {
-            menuItems = dishService.getAllDishes();
-            reviewsList = reviewService.getAllReviews();
+            menuItems = dishService.findAllDishes();
+            reviewsList = reviewService.findAllReviews();
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }

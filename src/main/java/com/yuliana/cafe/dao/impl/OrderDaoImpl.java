@@ -7,12 +7,15 @@ import com.yuliana.cafe.exception.DaoException;
 
 import java.sql.*;
 import java.util.Date;
+import java.util.List;
 
 public class OrderDaoImpl implements OrderDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
     private static final String INSERT_ORDER = "INSERT into orders " +
             "(datetime, total, user_id, address_id) VALUES(?, ?, ?, ?)";
+    private static final String SELECT_ALL_ORDERS = "SELECT order_id, datetime, total, user_id, address_id" +
+            "FROM orders";
 
     @Override
     public int addOrder(Order order) throws DaoException {
@@ -32,6 +35,11 @@ public class OrderDaoImpl implements OrderDao {
             pool.releaseConnection(connection);
         }
         return orderId;
+    }
+
+    @Override
+    public List<Order> findAllOrders() throws DaoException {
+        return null;
     }
 
     private Order createOrder(ResultSet orderData) throws SQLException {

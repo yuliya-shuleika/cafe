@@ -23,7 +23,7 @@
             </div>
             <div class="login-form-container">
                 <form class="login-form" action="controller" method="post">
-                    <input type="hidden" name="command" value="login">
+                    <input type="hidden" name="command" value="register">
                     <div class="login-form-field">
                         <input class="login-field-input" type="text" name="name" required pattern="[A-Za-zА-Яа-яёЁ]{3,25}">
                     </div>

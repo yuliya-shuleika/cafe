@@ -1,8 +1,8 @@
 package com.yuliana.cafe.controller.command.impl;
 
 import com.yuliana.cafe.controller.AttributeName;
-import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.controller.PagePath;
+import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.UserService;
@@ -13,21 +13,23 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
-public class ToUsersListCommand implements ActionCommand {
+public class SearchUserByEmailCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
+    private static final String EMAIL_PARAM = "email";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String email = request.getParameter(EMAIL_PARAM);
         UserService userService = UserServiceImpl.getInstance();
-        List<User> users;
+        List<User> users = new ArrayList<>();
         try {
-            users = userService.findAllUsers();
+            users = userService.findUsersByEmail(email);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
-            return PagePath.ERROR_PAGE;
         }
         request.setAttribute(AttributeName.USERS_LIST, users);
         String page = PagePath.USERS_LIST_PAGE;

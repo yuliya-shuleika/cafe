@@ -33,10 +33,21 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<Review> getAllReviews() throws ServiceException{
-        List<Review> reviews = new ArrayList<>();
+    public List<Review> findAllReviews() throws ServiceException{
+        List<Review> reviews;
         try {
-            reviews = reviewDao.getAllReviews();
+            reviews = reviewDao.findAllReviews();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return reviews;
+    }
+
+    @Override
+    public List<Review> findReviewByHeader(String header) throws ServiceException {
+        List<Review> reviews;
+        try {
+            reviews = reviewDao.findReviewByHeader(header);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

@@ -1,6 +1,19 @@
+button:active, button:focus, input:active, input:focus{
+    outline: none;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance:none;
+}
+
+form{
+    padding: 0;
+    margin: 0;
+}
 .admin-container{
     display: flex;
-    margin: 120px 10% 0;
+    flex-direction: column;
+    margin: 80px 10% 0;
 }
 
 .admin-header{
@@ -13,7 +26,57 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 48px;
-    color: #4CAF50;
+    color: #545454;
+}
+
+.admin-manage{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.admin-manage-start, .admin-manage-end{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.admin-sort-label{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #545454;
+    display: block;
+}
+
+.admin-sort-criteria{
+    display: inline-block;
+    border: none;
+    border-radius: 6px;
+    transition: 0.2s;
+    background: #e0e0e0;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    color: #545454;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 3px;
+    margin-left: 15px;
+}
+.admin-sorting-form{
+    width: auto;
+}
+
+.admin-search{
+    font-size: 18px;
+    display: block;
+    border-radius: 10px;
+    width: 200px;
+    height: 30px;
+    background: #fff;
+    border-style: solid;
+    border-width: 2px;
 }
 
 table{
@@ -22,8 +85,61 @@ table{
     font-size: 20px;
 }
 
-th, td{
+th{
     padding: 15px;
     text-align: left;
-    border-bottom: 1px solid #d1d1d1;
+    border-bottom: 2px solid #545454;
+    border-top: 2px solid #545454;
+    background: #a3d1a5;
+}
+
+td{
+    padding: 15px;
+    text-align: left;
+    border-bottom: 2px solid #d1d1d1;
+}
+
+th{
+    color: #545454;
+    font-family: 'Rubik', sans-serif;
+}
+
+td{
+    font-family: 'Rubik', sans-serif;
+    font-weight: normal;
+    font-size: 18px;
+    color: #545454;
+}
+
+td:hover{
+    cursor: pointer;
+}
+
+a{
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.admin-add{
+    color: #4CAF50;
+}
+
+.admin-add:hover{
+    color: #3d8a40;
+}
+
+.admin-edit{
+    color: #4CAF50;
+}
+
+.admin-edit:hover{
+    color: #3d8a40;
+}
+
+.admin-delete{
+    color: #f04872;
+}
+
+.admin-delete:hover{
+    color: #bf3b5c;
 }

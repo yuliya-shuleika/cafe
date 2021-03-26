@@ -18,7 +18,10 @@ public class ReviewDaoImpl implements ReviewDao {
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
     private static final String INSERT_REVIEW = "INSERT INTO reviews (user_id, header, text, rating) " +
             "VALUES (?, ?, ?, ?)";
-    private static final String SELECT_ALL_REVIEWS = "SELECT review_id, user_id, header, text, rating FROM reviews";
+    private static final String SELECT_ALL_REVIEWS = "SELECT review_id, user_id, header, text, rating " +
+            "FROM reviews";
+    private static final String SELECT_REVIEWS_BY_HEADER = "SELECT review_id, user_id, header, text, rating " +
+            "FROM reviews WHERE email COLLATE UTF8_GENERAL_CI LIKE ?";
 
     @Override
     public void addReview(Review review, int userId) throws DaoException{
@@ -38,11 +41,29 @@ public class ReviewDaoImpl implements ReviewDao {
     }
 
     @Override
-    public List<Review> getAllReviews() throws DaoException {
+    public List<Review> findAllReviews() throws DaoException {
         Connection connection = pool.getConnection();
         List<Review> reviews = new ArrayList<>();
         try (Statement statement = connection.createStatement()){
             ResultSet result = statement.executeQuery(SELECT_ALL_REVIEWS);
+            while (result.next()) {
+                Review review = createReview(result);
+                reviews.add(review);
+            }
+        }catch (SQLException e){
+            throw new DaoException(e);
+        }finally {
+            pool.releaseConnection(connection);
+        }
+        return reviews;
+    }
+
+    @Override
+    public List<Review> findReviewByHeader(String header) throws DaoException {
+        Connection connection = pool.getConnection();
+        List<Review> reviews = new ArrayList<>();
+        try (Statement statement = connection.createStatement()){
+            ResultSet result = statement.executeQuery(SELECT_REVIEWS_BY_HEADER);
             while (result.next()) {
                 Review review = createReview(result);
                 reviews.add(review);

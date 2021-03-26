@@ -9,13 +9,14 @@ import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.OrderService;
 
 import java.util.Date;
+import java.util.List;
 
 public class OrderServiceImpl implements OrderService {
 
     private static final OrderServiceImpl INSTANCE = new OrderServiceImpl();
     private OrderDao orderDao = new OrderDaoImpl();
 
-    public static OrderServiceImpl getINSTANCE() {
+    public static OrderServiceImpl getInstance() {
         return INSTANCE;
     }
 
@@ -31,5 +32,16 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException(e);
         }
         return orderId;
+    }
+
+    @Override
+    public List<Order> findAllOrders() throws ServiceException {
+        List<Order> orders;
+        try {
+            orders = orderDao.findAllOrders();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return orders;
     }
 }

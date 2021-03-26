@@ -1,5 +1,6 @@
 package com.yuliana.cafe.controller.command.impl;
 
+import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.controller.PagePath;
 import com.yuliana.cafe.entity.User;
@@ -14,6 +15,8 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Optional;
 
 public class LoginCommand implements ActionCommand {
 
@@ -27,22 +30,29 @@ public class LoginCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page = PagePath.MENU_PAGE;
-        UserService service = UserServiceImpl.getInstance();
+        UserService userService = UserServiceImpl.getInstance();
         String login = request.getParameter(PARAM_NAME_EMAIL);
         String pass = request.getParameter(PARAM_NAME_PASSWORD);
-        User user = null;
+        Optional<User> userOptional = Optional.empty();
         try {
-            user = service.loginUser(login, pass);
+            userOptional = userService.loginUser(login, pass);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        if(user != null) {
+        if(userOptional.isPresent()) {
+            User user = userOptional.get();
             HttpSession session = request.getSession();
             session.setAttribute(ATTRIBUTE_USER, user);
             UserRole role = user.getRole();
             if(role.equals(UserRole.USER)) {
                 page = PagePath.MENU_PAGE;
             } else if(role.equals(UserRole.ADMIN)){
+                try {
+                    List<User> users = userService.findAllUsers();
+                    request.setAttribute(AttributeName.USERS_LIST, users);
+                } catch (ServiceException e) {
+                    logger.log(Level.ERROR, e);
+                }
                 page = PagePath.USERS_LIST_PAGE;
             }
         } else {

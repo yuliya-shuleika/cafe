@@ -15,6 +15,7 @@ public class UserValidator extends BaseValidator{
     private static final String EMAIL_REGEX = "[A-Za-z0-9_.]{2,22}@[a-z]{2,10}\\.[a-z]{2,6}";
     private static final String PASSWORD_REGEX = "[A-Za-z0-9_]{5,20}";
     private static final String NAME_REGEX = "[A-Za-zА-Яа-яёЁ]{3,25}";
+    private static final String EMAIL_SEARCH_REGEX = "[A-Za-z0-9_.@]{1,25}";
 
     public static boolean isValidRegistrationForm(Map<String, String> registrationForm){
         boolean isValidForm = true;
@@ -68,4 +69,10 @@ public class UserValidator extends BaseValidator{
         }
         return isValidForm;
     }
+
+    public static boolean isValidEmailSearch(String email){
+        boolean isValid = isValidField(EMAIL_SEARCH_REGEX, email);
+        return isValid;
+    }
+
 }

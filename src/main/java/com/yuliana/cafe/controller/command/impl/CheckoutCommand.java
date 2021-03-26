@@ -78,7 +78,7 @@ public class CheckoutCommand implements ActionCommand {
         }
         String total = request.getParameter(TOTAL_PARAM);
         double totalPrice = Double.parseDouble(total);
-        OrderService orderService = OrderServiceImpl.getINSTANCE();
+        OrderService orderService = OrderServiceImpl.getInstance();
         int orderId;
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(AttributeName.USER);

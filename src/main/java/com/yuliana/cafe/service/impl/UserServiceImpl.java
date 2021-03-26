@@ -7,13 +7,17 @@ import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.entity.UserRole;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.UserService;
+import com.yuliana.cafe.service.validator.UserValidator;
 import com.yuliana.cafe.util.PasswordEncryptor;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
 
     private static final UserServiceImpl INSTANCE = new UserServiceImpl();
     private static final UserDao userDao = new UserDaoImpl();
-    private User user;
 
     public static UserServiceImpl getInstance(){
         return INSTANCE;
@@ -21,14 +25,15 @@ public class UserServiceImpl implements UserService {
 
     private UserServiceImpl(){}
 
-    public User loginUser(String email, String password) throws ServiceException {
+    public Optional<User> loginUser(String email, String password) throws ServiceException {
+        Optional<User> userOptional = Optional.empty();
         String passwordHash = PasswordEncryptor.encrypt(password);
         try {
-            user = userDao.login(email, passwordHash);
+            userOptional = userDao.login(email, passwordHash);
         }catch (DaoException e){
             throw new ServiceException(e);
         }
-        return user;
+        return userOptional;
     }
 
     public void registerUser(String name, String email, String password) throws ServiceException {
@@ -39,5 +44,43 @@ public class UserServiceImpl implements UserService {
         }catch (DaoException e){
             throw new ServiceException(e);
         }
+    }
+
+    @Override
+    public List<User> findAllUsers() throws ServiceException {
+        List<User> users;
+        try {
+            users = userDao.findAllUsers();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> findUsersSortedByName() throws ServiceException {
+        List<User> users;
+        try {
+            users = userDao.findUsersSortedByEmail();
+        } catch (DaoException e) {
+            throw  new ServiceException(e);
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> findUsersByEmail(String email) throws ServiceException {
+        List<User> users;
+        boolean isValid = UserValidator.isValidEmailSearch(email);
+        if(isValid) {
+            try {
+                users = userDao.findUsersByEmail(email);
+            } catch (DaoException e) {
+                throw new ServiceException(e);
+            }
+        } else {
+            users = new ArrayList<>();
+        }
+        return users;
     }
 }

@@ -15,5 +15,6 @@ public interface DishDao {
     List<Dish> findDishesSortedByPrice() throws DaoException;
     List<Dish> findDishesSortedByDiscount() throws DaoException;
     Dish findDishById(int dishId) throws DaoException;
-
+    List<Dish> findDishesSortedByName() throws DaoException;
+    void deleteDishById(int dishId) throws DaoException;
 }

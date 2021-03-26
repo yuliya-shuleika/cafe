@@ -24,7 +24,7 @@ public class ShowDiscountsCommand implements ActionCommand {
         DishService service = DishServiceImpl.getInstance();
         List<Dish> dishes = null;
         try {
-            dishes = service.getDishesSortedByDiscount();
+            dishes = service.findDishesSortedByDiscount();
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }

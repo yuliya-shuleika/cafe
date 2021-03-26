@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface ReviewDao {
     void addReview(Review review, int userId) throws DaoException;
-    List<Review> getAllReviews() throws DaoException;
+    List<Review> findAllReviews() throws DaoException;
+    List<Review> findReviewByHeader(String header) throws DaoException;
 }

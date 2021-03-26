@@ -26,7 +26,7 @@ public class SearchDishCommand implements ActionCommand {
         DishService service = DishServiceImpl.getInstance();
         List<Dish> dishes = null;
         try {
-            dishes = service.searchDishesByName(name);
+            dishes = service.findDishesByName(name);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }

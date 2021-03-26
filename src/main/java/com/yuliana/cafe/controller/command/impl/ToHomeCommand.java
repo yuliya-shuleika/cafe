@@ -24,7 +24,7 @@ public class ToHomeCommand implements ActionCommand {
         DishService dishService = DishServiceImpl.getInstance();
         List<Dish> menuItems = null;
         try {
-            menuItems = dishService.getAllDishes();
+            menuItems = dishService.findAllDishes();
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }

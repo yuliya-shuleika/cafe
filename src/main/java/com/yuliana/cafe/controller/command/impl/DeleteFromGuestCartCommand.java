@@ -40,7 +40,7 @@ public class DeleteFromGuestCartCommand implements ActionCommand {
         cartItemsCount = (Integer) cartItemsCountAttribute;
         Dish cartItem = null;
         try {
-            cartItem = service.getDishById(cartItemId);
+            cartItem = service.findDishById(cartItemId);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }

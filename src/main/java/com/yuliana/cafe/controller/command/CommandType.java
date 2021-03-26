@@ -28,7 +28,22 @@ public enum CommandType {
             this.command = new ToUsersListCommand();
         }
     },
-    TO_PAYMENT{
+    TO_DISHES_LIST {
+        {
+            this.command = new ToDishesListCommand();
+        }
+    },
+    TO_ORDERS_LIST {
+        {
+            this.command = new ToOrdersListCommand();
+        }
+    },
+    TO_REVIEWS_LIST {
+        {
+            this.command = new ToReviewsListCommand();
+        }
+    },
+    TO_PAYMENT {
         {
             this.command = new ToPaymentCommand();
         }
@@ -68,42 +83,63 @@ public enum CommandType {
             this.command = new SearchDishCommand();
         }
     },
-    DELETE_FROM_GUEST_CART{
+    DELETE_FROM_GUEST_CART {
         {
             this.command = new DeleteFromGuestCartCommand();
         }
     },
-    SORT_BY_PRICE{
+    SORT_BY_PRICE {
         {
-            this.command = new SortByPriceCommand();
+            this.command = new SortDishesByPriceCommand();
         }
     },
-    SHOW_DISCOUNTS{
+    SHOW_DISCOUNTS {
         {
             this.command = new ShowDiscountsCommand();
         }
     },
-    GIVE_FEEDBACK{
+    GIVE_FEEDBACK {
         {
             this.command = new GiveFeedbackCommand();
         }
     },
-    CLEAN_CART{
+    CLEAN_CART {
         {
             this.command = new CleanCartCommand();
         }
     },
-    CHECKOUT{
+    CHECKOUT {
         {
             this.command = new CheckoutCommand();
         }
     },
-    ADD_DISH{
+    ADD_DISH {
 
     },
-    EDIT_DISH{
+    EDIT_DISH {
 
-    };
+    },
+    DELETE_DISH_FROM_MENU {
+        {
+            this.command = new DeleteDishFromMenuCommand();
+        }
+    },
+    SEARCH_USER_BY_EMAIL {
+        {
+            this.command = new SearchUserByEmailCommand();
+        }
+    },
+    SEARCH_REVIEW_BY_HEADER {
+        {
+            this.command = new SearchReviewByHeaderCommand();
+        }
+    },
+    SORT_DISHES_BY_NAME {
+        {
+            this.command = new SortDishesByNameCommand();
+        }
+    }
+    ;
     ActionCommand command;
     public ActionCommand getCurrentCommand() {
         return command;

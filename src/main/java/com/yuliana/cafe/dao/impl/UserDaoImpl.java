@@ -5,9 +5,6 @@ import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.dao.UserDao;
 import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.entity.UserRole;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,11 +13,16 @@ import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
 
-    private static final Logger logger = LogManager.getLogger();
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
-    private static final String SQL_LOGIN = "SELECT user_id, name, role FROM users WHERE email = ? AND password = ?";
-    private static final String INSERT_USER = "INSERT INTO users ( name , email , password , role ) VALUES ( ? , ? , ? , ? )";
+    private static final String SQL_LOGIN = "SELECT user_id, name, email, role FROM users " +
+            "WHERE email = ? AND password = ?";
+    private static final String INSERT_USER = "INSERT INTO users ( name , email , password , role ) " +
+            "VALUES ( ? , ? , ? , ? )";
     private static final String SELECT_ALL_USERS = "SELECT user_id, name, email, role FROM users";
+    private static final String SELECT_USER_SORTED_BY_EMAIL = "SELECT user_id, name, email, role " +
+            "FROM users ORDER BY email";
+    private static final String SELECT_USERS_BY_EMAIL = "SELECT user_id, name, email, role " +
+            "FROM users WHERE email COLLATE UTF8_GENERAL_CI LIKE ?";
 
     @Override
     public void register(User user, String password) throws DaoException {
@@ -42,16 +44,17 @@ public class UserDaoImpl implements UserDao {
     public Optional<User> login(String email, String password) throws DaoException{
         Connection connection = pool.getConnection();
         Optional<User> userOptional = Optional.empty();
-        User user;
+        User user = null;
         try(PreparedStatement statement = connection.prepareStatement(SQL_LOGIN)){
             statement.setString(1, email);
             statement.setString(2, password);
             ResultSet result = statement.executeQuery();
-            user = createUser(result);
+            if(result.next()) {
+                user = createUser(result);
+            }
             userOptional = Optional.of(user);
         } catch (SQLException e) {
-            logger.log(Level.ERROR, e.getMessage());
-            throw new DaoException(e.getMessage());
+            throw new DaoException(e);
         }finally {
             pool.releaseConnection(connection);
         }
@@ -76,13 +79,49 @@ public class UserDaoImpl implements UserDao {
         return users;
     }
 
+    @Override
+    public List<User> findUsersSortedByEmail() throws DaoException {
+        Connection connection = pool.getConnection();
+        List<User> users = new ArrayList<>();
+        try (Statement statement = connection.createStatement()){
+            ResultSet result = statement.executeQuery(SELECT_USER_SORTED_BY_EMAIL);
+            while (result.next()) {
+                users.add(createUser(result));
+            }
+        }catch (SQLException e){
+            throw new DaoException(e);
+        }finally {
+            pool.releaseConnection(connection);
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> findUsersByEmail(String email) throws DaoException {
+        Connection connection = pool.getConnection();
+        List<User> users = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_USERS_BY_EMAIL)){
+            String searchPattern = '%' + email +'%';
+            statement.setString(1, searchPattern);
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                users.add(createUser(result));
+            }
+        }catch (SQLException e){
+            throw new DaoException(e);
+        }finally {
+            pool.releaseConnection(connection);
+        }
+        return users;
+    }
+
     private User createUser(ResultSet userData) throws SQLException{
         User user;
         int userId = userData.getInt(1);
         String name = userData.getString(2);
         String email = userData.getString(3);
-        String role = userData.getString(5);
-        UserRole userRole = UserRole.valueOf(role.toUpperCase());
+        String role = userData.getString(4);
+        UserRole userRole = UserRole.valueOf(role);
         user = new User(userId, name, email, userRole);
         return user;
     }

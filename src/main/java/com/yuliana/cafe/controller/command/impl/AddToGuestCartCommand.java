@@ -21,7 +21,7 @@ import java.util.Map;
 public class AddToGuestCartCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String PARAM_DISH_ID = "dish_id";
+    private static final String DISH_ID_PARAM = "dish_id";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -29,7 +29,7 @@ public class AddToGuestCartCommand implements ActionCommand {
         int cartItemsCount;
         DishService service = DishServiceImpl.getInstance();
         HttpSession session = request.getSession();
-        String dishIdParam = request.getParameter(PARAM_DISH_ID);
+        String dishIdParam = request.getParameter(DISH_ID_PARAM);
         int dishId = Integer.parseInt(dishIdParam);
         Object cartItemsAttribute = session.getAttribute(AttributeName.CART_ITEMS);
         cartItems = (Map<Dish, Integer>) cartItemsAttribute;
@@ -38,7 +38,7 @@ public class AddToGuestCartCommand implements ActionCommand {
         cartItemsCount++;
         Dish dish = null;
         try {
-            dish = service.getDishById(dishId);
+            dish = service.findDishById(dishId);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
@@ -50,19 +50,8 @@ public class AddToGuestCartCommand implements ActionCommand {
         }
         session.setAttribute(AttributeName.CART_ITEMS_COUNT, cartItemsCount);
         session.setAttribute(AttributeName.CART_ITEMS, cartItems);
-        makeResponse(response, cartItemsCount);
         String page = PagePath.MENU_PAGE;
         return page;
-    }
-
-    private void makeResponse(HttpServletResponse response, int cartItemsCount){
-        response.setContentType("text/plain");
-        try (PrintWriter out = response.getWriter()) {
-            out.print(cartItemsCount);
-        }catch (IOException e){
-            logger.log(Level.WARN, "Error making response with cart items count.");
-        }
-
     }
 
 }

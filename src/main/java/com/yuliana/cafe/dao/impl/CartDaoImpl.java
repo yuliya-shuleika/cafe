@@ -64,7 +64,7 @@ public class CartDaoImpl implements CartDao {
         try(PreparedStatement statement = connection.prepareStatement(DELETE_ITEM)){
             statement.setInt(1, userId);
             statement.setInt(2, userId);
-            statement.executeQuery();
+            statement.executeUpdate();
         } catch (SQLException e){
             throw new DaoException(e);
         } finally {

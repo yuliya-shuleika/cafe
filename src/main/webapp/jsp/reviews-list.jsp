@@ -13,25 +13,26 @@
 <fmt:setBundle basename="lang" var="loc"/>
 <fmt:message bundle="${loc}" key="lang.label.number" var="number"/>
 <fmt:message bundle="${loc}" key="lang.label.action" var="action"/>
-<fmt:message bundle="${loc}" key="lang.label.dish" var="dish"/>
+<fmt:message bundle="${loc}" key="lang.label.review" var="review"/>
 <fmt:message bundle="${loc}" key="lang.label.add" var="add"/>
 <fmt:message bundle="${loc}" key="lang.label.edit" var="edit"/>
 <fmt:message bundle="${loc}" key="lang.label.delete" var="delete"/>
-<fmt:message bundle="${loc}" key="lang.label.by_name" var="by_name"/>
 <fmt:message bundle="${loc}" key="lang.label.sort" var="sort"/>
+<fmt:message bundle="${loc}" key="lang.label.sort" var="sort"/>
+<fmt:message bundle="${loc}" key="lang.label.by_header" var="by_header"/>
 <body>
 <%@ include file="/jsp/header/header-admin.jsp"%>
 <div class = "admin-container">
     <div class = "admin-header">
-        <h2 class="admin-title">${dishes}</h2>
+        <h2 class="admin-title">${reviews}</h2>
     </div>
-    <div class="dishes-list-body">
+    <div class="reviews-list-body">
         <div class="admin-manage">
             <div class="admin-manage-start">
                 <p class="admin-sort-label">${sort}</p>
                 <form action="controller" method="post" class="admin-sorting-form">
                     <input type="hidden" name="command" value="sort_by_email">
-                    <button class="admin-sort-criteria" type="submit">${by_name}</button>
+                    <button class="admin-sort-criteria" type="submit">${by_header}</button>
                 </form>
             </div>
             <div class="admin-manage-end">
@@ -47,14 +48,14 @@
             <table>
                 <thead>
                 <th>${number}</th>
-                <th>${dish}</th>
+                <th>${review}</th>
                 <th colspan="2">${action}</th>
                 </thead>
                 <tbody>
-                <c:forEach var="user" items="${dishes_list}">
+                <c:forEach var="user" items="${reviews_list}">
                     <tr>
                         <td>1</td>
-                        <td>${user.getName()}</td>
+                        <td>${user.getHeader()}</td>
                         <td><a href="#" class="admin-edit">${edit}</a></td>
                         <td><a href="#" class="admin-delete">${delete}</a></td>
                     </tr>
