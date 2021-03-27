@@ -11,6 +11,7 @@ public class PagePath {
     public static final String DISHES_LIST_PAGE = "/jsp/dishes-list.jsp";
     public static final String ORDERS_LIST_PAGE = "/jsp/orders-list.jsp";
     public static final String REVIEWS_LIST_PAGE = "/jsp/reviews-list.jsp";
+    public static final String PROMO_CODES_LIST_PAGE = "/jsp/promo-codes-list.jsp";
     public static final String PAYMENT_PAGE = "/jsp/payment.jsp";
     public static final String ERROR_PAGE = "/jsp/error/error-page.jsp";
 }

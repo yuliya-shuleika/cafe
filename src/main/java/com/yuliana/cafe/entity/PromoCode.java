@@ -4,15 +4,15 @@ public class PromoCode {
 
     private int promoCodeId;
     private String name;
-    private int discountPercents;
+    private short discountPercents;
 
-    public PromoCode(int promoCodeId, String name, int discountPercents) {
+    public PromoCode(int promoCodeId, String name, short discountPercents) {
         this.promoCodeId = promoCodeId;
         this.name = name;
         this.discountPercents = discountPercents;
     }
 
-    public PromoCode(String name, int discountPercents) {
+    public PromoCode(String name, short discountPercents) {
         this.name = name;
         this.discountPercents = discountPercents;
     }
@@ -29,11 +29,11 @@ public class PromoCode {
         this.name = name;
     }
 
-    public int getDiscountPercents() {
+    public short getDiscountPercents() {
         return discountPercents;
     }
 
-    public void setDiscountPercents(int discountPercents) {
+    public void setDiscountPercents(short discountPercents) {
         this.discountPercents = discountPercents;
     }
 

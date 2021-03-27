@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class SearchDishCommand implements ActionCommand {
+public class SearchDishByNameCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
     private static final String PARAM_DISH_NAME = "dish_name";

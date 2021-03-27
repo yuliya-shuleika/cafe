@@ -6,18 +6,21 @@ public class User {
     private String name;
     private String email;
     private UserRole role;
+    private UserStatus status;
 
-    public User(String name, String email, UserRole role) {
+    public User(String name, String email, UserRole role, UserStatus status) {
         this.name = name;
         this.email = email;
         this.role = role;
+        this.status = status;
     }
 
-    public User(int userId, String name, String email, UserRole role) {
+    public User(int userId, String name, String email, UserRole role, UserStatus status) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.role = role;
+        this.status = status;
     }
 
     public User(){}
@@ -55,6 +58,14 @@ public class User {
         this.role = role;
     }
 
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -63,7 +74,8 @@ public class User {
         return userId == user.userId &&
                 name.equals(user.name) &&
                 email.equals(user.email) &&
-                role == user.role;
+                role == user.role &&
+                status == user.status;
     }
 
     @Override
@@ -73,6 +85,7 @@ public class User {
         result = 31 * result * name.hashCode();
         result = 31 * result * email.hashCode();
         result = 31 * result * role.ordinal();
+        result = 31 * result * status.ordinal();
         return result;
     }
 
@@ -83,6 +96,7 @@ public class User {
         sb.append(", name='").append(name).append('\'');
         sb.append(", email='").append(email).append('\'');
         sb.append(", role=").append(role);
+        sb.append(", status=").append(status);
         sb.append('}');
         return sb.toString();
     }

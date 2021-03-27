@@ -1,5 +1,6 @@
 package com.yuliana.cafe.service.impl;
 
+import com.yuliana.cafe.entity.UserStatus;
 import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.dao.UserDao;
 import com.yuliana.cafe.dao.impl.UserDaoImpl;
@@ -26,18 +27,26 @@ public class UserServiceImpl implements UserService {
     private UserServiceImpl(){}
 
     public Optional<User> loginUser(String email, String password) throws ServiceException {
-        Optional<User> userOptional = Optional.empty();
+        Optional<User> userOptional;
         String passwordHash = PasswordEncryptor.encrypt(password);
         try {
             userOptional = userDao.login(email, passwordHash);
         }catch (DaoException e){
             throw new ServiceException(e);
         }
+        if(userOptional.isPresent()){
+            User user = userOptional.get();
+            try {
+                userDao.updateStatus(user.getUserId(), UserStatus.ONLINE);
+            } catch (DaoException e) {
+                throw new ServiceException(e);
+            }
+        }
         return userOptional;
     }
 
     public void registerUser(String name, String email, String password) throws ServiceException {
-        User user = new User(name, email,  UserRole.USER);
+        User user = new User(name, email,  UserRole.USER, UserStatus.OFFLINE);
         String passwordHash = PasswordEncryptor.encrypt(password);
         try {
             userDao.register(user, passwordHash);
@@ -82,5 +91,14 @@ public class UserServiceImpl implements UserService {
             users = new ArrayList<>();
         }
         return users;
+    }
+
+    @Override
+    public void blockUser(int userId) throws ServiceException {
+        try {
+            userDao.updateStatus(userId, UserStatus.BLOCKED);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 }

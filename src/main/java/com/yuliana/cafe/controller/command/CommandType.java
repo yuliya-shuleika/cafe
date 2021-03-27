@@ -43,6 +43,11 @@ public enum CommandType {
             this.command = new ToReviewsListCommand();
         }
     },
+    TO_PROMO_CODES_LIST {
+        {
+            this.command = new ToPromoCodesListCommand();
+        }
+    },
     TO_PAYMENT {
         {
             this.command = new ToPaymentCommand();
@@ -80,7 +85,7 @@ public enum CommandType {
     },
     SEARCH_DISH {
         {
-            this.command = new SearchDishCommand();
+            this.command = new SearchDishByNameCommand();
         }
     },
     DELETE_FROM_GUEST_CART {
@@ -117,7 +122,9 @@ public enum CommandType {
 
     },
     EDIT_DISH {
-
+        {
+            this.command = new EditDishCommand();
+        }
     },
     DELETE_DISH_FROM_MENU {
         {
@@ -138,8 +145,37 @@ public enum CommandType {
         {
             this.command = new SortDishesByNameCommand();
         }
-    }
-    ;
+    },
+    BLOCK_USER {
+        {
+            this.command = new BlockUserCommand();
+        }
+    },
+    EDIT_REVIEW {
+        {
+            this.command = new EditReviewCommand();
+        }
+    },
+    EDIT_PROMO_CODE {
+        {
+            this.command = new EditPromoCodeCommand();
+        }
+    },
+    DELETE_PROMO_CODE {
+        {
+            this.command = new DeletePromoCodeCommand();
+        }
+    },
+    DELETE_REVIEW {
+        {
+            this.command = new DeleteReviewCommand();
+        }
+    },
+    SEARCH_PROMO_CODE_BY_NAME_PART {
+        {
+            this.command = new SearchPromoCodeByNamePartCommand();
+        }
+    };
     ActionCommand command;
     public ActionCommand getCurrentCommand() {
         return command;

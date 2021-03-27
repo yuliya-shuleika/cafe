@@ -22,6 +22,11 @@ public class ReviewDaoImpl implements ReviewDao {
             "FROM reviews";
     private static final String SELECT_REVIEWS_BY_HEADER = "SELECT review_id, user_id, header, text, rating " +
             "FROM reviews WHERE email COLLATE UTF8_GENERAL_CI LIKE ?";
+    private static final String DELETE_REVIEW = "DELETE FROM reviews WHERE review_id = ?";
+    private static final String UPDATE_REVIEW = "UPDATE reviews " +
+            "SET header = ?, text = ?, rating = ? WHERE reviewId = ?";
+    private static final String SELECT_ALL_DISHES_SORTED_BY_HEADER = "SELECT review_id, user_id, header, text, rating " +
+            "FROM reviews ORDER BY header";
 
     @Override
     public void addReview(Review review, int userId) throws DaoException{
@@ -62,8 +67,10 @@ public class ReviewDaoImpl implements ReviewDao {
     public List<Review> findReviewByHeader(String header) throws DaoException {
         Connection connection = pool.getConnection();
         List<Review> reviews = new ArrayList<>();
-        try (Statement statement = connection.createStatement()){
-            ResultSet result = statement.executeQuery(SELECT_REVIEWS_BY_HEADER);
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_REVIEWS_BY_HEADER)){
+            String searchPattern = '%' + header + '%';
+            statement.setString(1, searchPattern);
+            ResultSet result = statement.executeQuery();
             while (result.next()) {
                 Review review = createReview(result);
                 reviews.add(review);
@@ -76,18 +83,59 @@ public class ReviewDaoImpl implements ReviewDao {
         return reviews;
     }
 
-    private Review createReview(ResultSet userData) throws DaoException{
-        Review review;
-        try {
-            int reviewId = userData.getInt(1);
-            int userId = userData.getInt(2);
-            String header = userData.getString(3);
-            String text = userData.getString(4);
-            int rating = userData.getInt(5);
-            review = new Review(reviewId, header, text, rating);
+    @Override
+    public void deleteReview(int reviewId) throws DaoException {
+        Connection connection = pool.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_REVIEW)){
+            statement.setInt(1, reviewId);
+            statement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
         }
+    }
+
+    @Override
+    public void editReview(Review review) throws DaoException {
+        Connection connection = pool.getConnection();
+        try(PreparedStatement statement = connection.prepareStatement(UPDATE_REVIEW)){
+            statement.setString(1, review.getHeader());
+            statement.setString(2, review.getText());
+            statement.setInt(3, review.getRating());
+            statement.setInt(4, review.getReviewId());
+            statement.executeUpdate();
+        } catch (SQLException e){
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
+    }
+
+    @Override
+    public List<Review> findAllReviewsSortedByHeader() throws DaoException {
+        Connection connection = pool.getConnection();
+        List<Review> reviews = new ArrayList<>();
+        try (Statement statement = connection.createStatement()){
+            ResultSet result = statement.executeQuery(SELECT_ALL_DISHES_SORTED_BY_HEADER);
+            while (result.next()) {
+                Review review = createReview(result);
+                reviews.add(review);
+            }
+        }catch (SQLException e){
+            throw new DaoException(e);
+        }finally {
+            pool.releaseConnection(connection);
+        }
+        return reviews;
+    }
+
+    private Review createReview(ResultSet userData) throws SQLException{
+        int reviewId = userData.getInt(1);
+        String header = userData.getString(2);
+        String text = userData.getString(3);
+        int rating = userData.getInt(4);
+        Review review = new Review(reviewId, header, text, rating);
         return review;
     }
 

@@ -13,4 +13,5 @@ public interface UserService {
     List<User> findAllUsers() throws ServiceException;
     List<User> findUsersSortedByName() throws ServiceException;
     List<User> findUsersByEmail(String email) throws ServiceException;
+    void blockUser(int userId) throws ServiceException;
 }

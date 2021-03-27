@@ -4,6 +4,9 @@
 <html>
 <head>
     <title>Users</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+            type="text/javascript"></script>
+    <script><%@include file="/js/users-list.js"%></script>
     <style><%@include file="/css/admin.css"%></style>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
@@ -20,6 +23,7 @@
 <fmt:message bundle="${loc}" key="lang.label.sort" var="sort"/>
 <fmt:message bundle="${loc}" key="lang.label.by_email" var="by_email"/>
 <fmt:message bundle="${loc}" key="lang.label.by_date" var="by_date"/>
+<fmt:message bundle="${loc}" key="lang.label.status" var="status"/>
 <body>
     <%@ include file="/jsp/header/header-admin.jsp"%>
     <div class = "admin-container">
@@ -53,6 +57,7 @@
                     <thead>
                         <th>${number}</th>
                         <th>${user}</th>
+                        <th>${status}</th>
                         <th colspan="2">${action}</th>
                     </thead>
                     <tbody>
@@ -60,8 +65,13 @@
                             <tr>
                                 <td>1</td>
                                 <td>${user.getEmail()}</td>
+                                <td class = "user-status">${user.getStatus()}</td>
                                 <td><a href="#" class="admin-edit">${edit}</a></td>
-                                <td><a href="#" class="admin-delete">${ban}</a></td>
+                                <td>
+                                    <input type="hidden" name="command" value="block_user">
+                                    <input type="hidden" name="user_id" value="${user.getUserId()}">
+                                    <a href="#" class="admin-delete">${ban}</a>
+                                </td>
                             </tr>
                         </c:forEach>
                     </tbody>

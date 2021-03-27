@@ -66,7 +66,7 @@ public class CheckoutCommand implements ActionCommand {
             PromoCodeService promoCodeService = PromoCodeServiceImpl.getInstance();
             Optional<PromoCode> promoCode;
             try {
-                promoCode = promoCodeService.findDiscountByPromoCodeName(promoCodeName);
+                promoCode = promoCodeService.findPromoCodeByName(promoCodeName);
             } catch (ServiceException e) {
                 logger.log(Level.ERROR, e);
                 return PagePath.ERROR_PAGE;

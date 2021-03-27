@@ -13,7 +13,7 @@
 <fmt:setBundle basename="lang" var="loc"/>
 <fmt:message bundle="${loc}" key="lang.label.number" var="number"/>
 <fmt:message bundle="${loc}" key="lang.label.action" var="action"/>
-<fmt:message bundle="${loc}" key="lang.label.dish" var="dish"/>
+<fmt:message bundle="${loc}" key="lang.label.promo_code" var="promo_code"/>
 <fmt:message bundle="${loc}" key="lang.label.add" var="add"/>
 <fmt:message bundle="${loc}" key="lang.label.edit" var="edit"/>
 <fmt:message bundle="${loc}" key="lang.label.delete" var="delete"/>
@@ -47,14 +47,14 @@
             <table>
                 <thead>
                 <th>${number}</th>
-                <th>${dish}</th>
+                <th>${promo_code}</th>
                 <th colspan="2">${action}</th>
                 </thead>
                 <tbody>
-                <c:forEach var="user" items="${dishes_list}">
+                <c:forEach var="promoCode" items="${promo_codes_list}">
                     <tr>
                         <td>1</td>
-                        <td>${user.getName()}</td>
+                        <td>${promoCode.getName()}</td>
                         <td><a href="#" class="admin-edit">${edit}</a></td>
                         <td><a href="#" class="admin-delete">${delete}</a></td>
                     </tr>

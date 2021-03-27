@@ -7,7 +7,6 @@ import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.ReviewService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewServiceImpl implements ReviewService {
@@ -53,4 +52,35 @@ public class ReviewServiceImpl implements ReviewService {
         }
         return reviews;
     }
+
+    @Override
+    public void deleteReview(int reviewId) throws ServiceException {
+        try {
+            reviewDao.deleteReview(reviewId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void editReview(int reviewId, String header, String text, int rating) throws ServiceException {
+        Review review = new Review(reviewId, header, text, rating);
+        try {
+            reviewDao.editReview(review);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Review> findAllReviewsSortedByHeader(String header) throws ServiceException {
+        List<Review> reviews;
+        try {
+            reviews = reviewDao.findAllReviewsSortedByHeader();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return reviews;
+    }
+
 }
