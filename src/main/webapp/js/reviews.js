@@ -4,14 +4,14 @@ $(document).ready(function (){
         let feedback = document.getElementById('feedback')
         feedback.style.display = 'block';
     });
-    $('.feedback-close').click(function (){
+    $('.edit-close').click(function (){
         let feedback = document.getElementById('feedback')
         feedback.style.display = 'none';
     });
-    $('.feedback-star').hover( function (){
+    $('.edit-star').hover( function (){
         let mark = this.id;
         let rating = this.closest('div');
-        let stars = rating.getElementsByClassName('feedback-star')
+        let stars = rating.getElementsByClassName('edit-star')
         let count
         let i = 0
         switch (mark) {

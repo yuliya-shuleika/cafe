@@ -46,7 +46,7 @@
                     <ul class="header-ul">
                         <li>
                             <form class="header-form" method="post" action="controller">
-                                <input type="hidden" name="command" value="search_dish" />
+                                <input type="hidden" name="command" value="search_dish_by_name" />
                                 <input class="header-search" type="search" id="mySearch" name="dish_name"
                                    placeholder="Search..." required
                                    minlength="1" maxlength="20">

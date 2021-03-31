@@ -1,0 +1,185 @@
+textarea:active, textarea:focus, input:active, input:focus{
+    outline: none;
+}
+
+.edit{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    top: 0;
+    left: 0;
+    display: none;
+    z-index: 5;
+}
+
+.edit:target{
+    display: block;
+}
+
+.edit-body{
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 10px;
+}
+
+.edit-content{
+    background-color: white;
+    color: #545454;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
+
+.edit-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.edit-title{
+    width: 100%;
+    display: block;
+    font-size: 36px;
+    color: #545454;
+    text-align: center;
+    padding: 20px;
+}
+.edit-close{
+    text-decoration: none;
+    color: #545454;
+    font-size: 24px;
+    padding-right: 10px;
+    transition: 0.2s;
+}
+.edit-close:hover{
+    color: #4CAF50;
+    cursor: pointer;
+}
+
+.edit-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin: 0 40px;
+}
+
+.edit-general{
+    display: inline-flex;
+    margin: 10px 0;
+    align-items: center;
+}
+
+.edit-label{
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    display: block;
+    text-align: end;
+    color: #545454;
+}
+
+.edit-general-input{
+    display: block;
+    width: 100%;
+    font-size: 18px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    background: #ededed;
+    margin-left: 10px;
+    color: #545454;
+}
+
+.edit-select-input{
+    display: block;
+    font-size: 18px;
+    height: 40px;
+    border-radius: 10px;
+    background: #ededed;
+    margin-left: 10px;
+    color: #545454;
+    font-family: 'Rubik', sans-serif;
+    border: none;
+}
+
+.edit-file-input{
+    opacity:0;
+    overflow:hidden;
+    position:absolute;
+    z-index:-1;
+}
+
+.load-file-input{
+    margin-left: 15px;
+    color: #545454;
+    font-family: 'Rubik', sans-serif;
+}
+
+.load-file-input:hover{
+    color: #414141;
+    cursor: pointer;
+}
+
+.edit-mark{
+    display: inline-flex;
+    flex-direction: row;
+    margin: 10px 0;
+}
+
+.edit-rating{
+    display: block;
+    cursor: pointer;
+    transition: 0.2s;
+    color: #545454;
+    margin-left: 10px;
+}
+
+.edit-text-container{
+    display: inline-flex;
+    flex-direction: row;
+    margin: 10px 0;
+
+}
+
+.edit-text{
+    display: block;
+    width: 100%;
+    font-size: 18px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    background: #ededed;
+    min-height: 250px;
+    margin-left: 10px;
+    resize: none;
+}
+
+.edit-footer{
+    display: flex;
+    margin: 10px 40px 30px;
+    justify-content: flex-end;
+}
+
+.edit-submit{
+    display: block;
+    font-size: 18px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    background-color: #4CAF50;
+    border-radius: 7px;
+    color: #fff;
+    padding: 0.75em 1.25em;
+    border-width: 0;
+    transition: 0.2s;
+}
+
+.edit-submit:hover{
+    color: #3d8a40;
+    cursor: pointer;
+}

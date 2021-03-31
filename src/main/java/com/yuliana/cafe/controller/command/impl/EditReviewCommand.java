@@ -11,6 +11,8 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditReviewCommand implements ActionCommand {
 
@@ -19,21 +21,25 @@ public class EditReviewCommand implements ActionCommand {
     private static final String REVIEW_HEADER_PARAM = "review_header";
     private static final String REVIEW_TEXT_PARAM = "review_text";
     private static final String REVIEW_RATING_PARAM = "review_rating";
+    private static final String REVIEW_STATUS_PARAM = "review_status";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String reviewIdParam = request.getParameter(REVIEW_ID_PARAM);
         int reviewId = Integer.parseInt(reviewIdParam);
-        String header = request.getParameter(REVIEW_HEADER_PARAM);
-        String text = request.getParameter(REVIEW_TEXT_PARAM);
+        Map<String, String> reviewFields = new HashMap<>();
+        reviewFields.put(REVIEW_HEADER_PARAM, request.getParameter(REVIEW_HEADER_PARAM));
+        reviewFields.put(REVIEW_TEXT_PARAM, request.getParameter(REVIEW_TEXT_PARAM));
         String ratingParam = request.getParameter(REVIEW_RATING_PARAM);
         int rating = Integer.parseInt(REVIEW_RATING_PARAM);
+        String status = request.getParameter(REVIEW_STATUS_PARAM);
         ReviewService reviewService = ReviewServiceImpl.getInstance();
         try {
-            reviewService.editReview(reviewId, header, text, rating);
+            reviewService.editReview(reviewId, reviewFields, rating, status);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
+        //check
         String page = PagePath.REVIEWS_LIST_PAGE;
         return page;
     }

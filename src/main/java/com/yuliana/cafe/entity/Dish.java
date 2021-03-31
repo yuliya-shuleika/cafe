@@ -4,23 +4,28 @@ public class Dish {
 
     private int dishId;
     private String name;
-    private Category category;
+    private DishCategory category;
     private String pictureName;
     private double price;
+    private short discountPercents;
 
-    public Dish(int dishId, String name, Category category, String pictureName, double price) {
+    public Dish(int dishId, String name, DishCategory category,
+                String pictureName, double price, short discountPercents) {
         this.dishId = dishId;
         this.name = name;
         this.category = category;
         this.pictureName = pictureName;
         this.price = price;
+        this.discountPercents = discountPercents;
     }
 
-    public Dish(String name, Category category, String pictureName, double price) {
+    public Dish(String name, DishCategory category, String pictureName,
+                double price, short discountPercents) {
         this.name = name;
         this.category = category;
         this.pictureName = pictureName;
         this.price = price;
+        this.discountPercents = discountPercents;
     }
 
     public Dish(){}
@@ -37,11 +42,11 @@ public class Dish {
         this.name = name;
     }
 
-    public Category getCategory() {
+    public DishCategory getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(DishCategory category) {
         this.category = category;
     }
 
@@ -61,6 +66,18 @@ public class Dish {
         this.pictureName = pictureName;
     }
 
+    public void setDishId(int dishId) {
+        this.dishId = dishId;
+    }
+
+    public short getDiscountPercents() {
+        return discountPercents;
+    }
+
+    public void setDiscountPercents(short discountPercents) {
+        this.discountPercents = discountPercents;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -70,7 +87,8 @@ public class Dish {
                 name.equals(dish.name) &&
                 category == dish.category &&
                 pictureName.equals(dish.pictureName) &&
-                price == dish.price;
+                price == dish.price &&
+                discountPercents == dish.discountPercents;
     }
 
     @Override
@@ -81,6 +99,7 @@ public class Dish {
         result = 31 * result * category.ordinal();
         result = 31 * result * pictureName.hashCode();
         result = 31 * result * (int)price;
+        result = 31 * result * discountPercents;
         return result;
     }
 
@@ -92,6 +111,7 @@ public class Dish {
         sb.append(", category=").append(category);
         sb.append(", pictureName='").append(pictureName).append('\'');
         sb.append(", price=").append(price);
+        sb.append(", discountPercents=").append(discountPercents);
         sb.append('}');
         return sb.toString();
     }

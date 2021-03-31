@@ -1,7 +1,8 @@
 $(document).ready(function (){
     $('.admin-delete').on('click', function (){
         let paramsList = this.parentElement.getElementsByTagName('input')
-        let row = this.parentElement.parentElement
+        let status = this.parentElement.parentElement.getElementsByClassName('user-status')[0]
+        let blockButton = this
         let command = paramsList[0].value
         let user_id = paramsList[1].value
         let data = {command:command, user_id:user_id}
@@ -10,9 +11,8 @@ $(document).ready(function (){
             type: 'POST',
             data: data,
             success: function() {
-                console.log(row)
-                console.log(command)
-                console.log(user_id)
+                status.innerHTML ='BLOCKED'
+                this.innerHTML = "${unblock}"
             }
         });
     });

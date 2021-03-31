@@ -39,9 +39,11 @@
 <fmt:message bundle="${loc}" key="lang.label.cash" var="cash"/>
 <fmt:message bundle="${loc}" key="lang.label.bank_card" var="bank_card"/>
 <fmt:message bundle="${loc}" key="lang.label.payment_by_card_online" var="payment_by_card_online"/>
-<fmt:message bundle="${loc}" key="lang.label.promo_code" var="promo_code"/>
+<fmt:message bundle="${loc}" key="lang.label.promo_code_optional" var="promo_code"/>
 <fmt:message bundle="${loc}" key="lang.label.enter_promo_code" var="enter_promo_code"/>
 <fmt:message bundle="${loc}" key="lang.label.your_comment" var="your_comment"/>
+<fmt:message bundle="${loc}" key="lang.label.choose_cafe" var="choose_cafe"/>
+
 <body>
     <%@ include file="/jsp/header/header-user.jsp"%>
     <div class="payment-container">
@@ -114,8 +116,8 @@
             </div>
             <div class="payment-delivery">
                 <div class="delivery-or-pickup">
-                    <div class="delivery-or-pickup-item is-active">${delivery}</div>
-                    <div class="delivery-or-pickup-item">${pickup}</div>
+                    <div id="delivery" class="delivery-or-pickup-item is-active">${delivery}</div>
+                    <div id="pickup" class="delivery-or-pickup-item">${pickup}</div>
                 </div>
                 <div class="delivery-address">
                     <div class="delivery-address-house">
@@ -153,24 +155,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="pick-up-info">
-                    <c:forEach var="item" items="${cafe_addresses}">
-                        <label><input class="pickup-address" type="radio">${item.getAddress()}</label>
-                    </c:forEach>
-                </div>
-                <div class="delivery-time">
-                    <h4 class="payment-section-header">${delivery_time}</h4>
-                    <div class="delivery-or-pickup">
-                        <div class="delivery-or-pickup-item is-active">${as_soon_as_possible}</div>
-                        <div class="delivery-or-pickup-item">${certain_time}</div>
-                    </div>
+                <div class="pickup-info">
+                    <p class="pickup-label">${choose_cafe}</p>
+                    <select class="payment-select">
+                        <c:forEach var="address" items="${cafe_addresses}">
+                            <option>
+                                ${address.getCity()}, ${address.getStreet()}, ${address.getHouse()}
+                            </option>
+                        </c:forEach>
+                    </select>
                 </div>
                 <div class="promo-code">
                     <h4 class="payment-section-header">${promo_code}</h4>
                     <div class="promo-code-field">
                         <label class="promo-code-label" for="promo-code">${enter_promo_code}</label>
                         <input class="promo-code-input" id="promo-code" type="text" placeholder="Promo code"
-                        pattern="[A-Za-zА-Яа-яёЁ0-9_]{5,20}">
+                        pattern="[A-Za-zА-Яа-яёЁ0-9_]{5,45}">
                     </div>
                 </div>
                 <div class="payment-method">

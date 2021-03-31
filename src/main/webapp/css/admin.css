@@ -2,6 +2,10 @@ button:active, button:focus, input:active, input:focus{
     outline: none;
 }
 
+h2{
+    margin: 0;
+}
+
 input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance:none;
 }
@@ -18,7 +22,32 @@ form{
 
 .admin-header{
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+}
+
+.admin-add-container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.admin-add{
+    display: block;
+    font-size: 16px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    background: #a3d1a5;
+    border-radius: 10px;
+    color: #545454;
+    padding: 0.75em 1.25em;
+    border-width: 0;
+    transition: 0.2s;
+}
+
+.admin-add:hover{
+    background: #d1d1d1;
+    cursor: pointer;
 }
 
 .admin-title{
@@ -27,6 +56,8 @@ form{
     font-weight: 500;
     font-size: 48px;
     color: #545454;
+    width: 100%;
+    text-align: center;
 }
 
 .admin-manage{
@@ -64,6 +95,11 @@ form{
     padding: 3px;
     margin-left: 15px;
 }
+
+.admin-sort-criteria:hover{
+    background: #d1d1d1;
+}
+
 .admin-sorting-form{
     width: auto;
 }
@@ -118,14 +154,6 @@ td:hover{
 a{
     text-decoration: none;
     transition: 0.2s;
-}
-
-.admin-add{
-    color: #4CAF50;
-}
-
-.admin-add:hover{
-    color: #3d8a40;
 }
 
 .admin-edit{

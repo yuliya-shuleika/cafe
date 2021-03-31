@@ -2,9 +2,8 @@ package com.yuliana.cafe.dao.impl;
 
 import com.yuliana.cafe.connection.ConnectionPool;
 import com.yuliana.cafe.dao.CartDao;
-import com.yuliana.cafe.dao.transaction.Transaction;
 import com.yuliana.cafe.exception.DaoException;
-import com.yuliana.cafe.entity.Category;
+import com.yuliana.cafe.entity.DishCategory;
 import com.yuliana.cafe.entity.Dish;
 
 import java.sql.Connection;
@@ -20,7 +19,7 @@ public class CartDaoImpl implements CartDao {
     private static final String SELECT_ITEM_COUNT = "SELECT count FROM cart_items WHERE dish_id = ? AND user_id = ?";
     private static final String UPDATE_ITEM_COUNT = "UPDATE cart_items SET count = ? WHERE dish_id = ? AND user_id = ?";
     private static final String SELECT_ALL_USER_ITEMS = "SELECT dishes.dish_id, dishes.name, dishes.category, " +
-            "dishes.picture_name, dishes.price, dishes.discount_price, cart_items.count FROM cart_items JOIN " +
+            "dishes.picture_name, dishes.price, dishes.discount_percents, cart_items.count FROM cart_items JOIN " +
             "dishes ON cart_items.dish_id = dishes.dish_id WHERE user_id = ?";
     private static final String ADD_ITEM = "INSERT INTO cart_items (user_id, dish_id, count) VALUES (?, ?, ?)";
     private static final String DELETE_ITEM = "DELETE FROM cart_items WHERE dish_id = ? AND user_id = ?";
@@ -29,9 +28,7 @@ public class CartDaoImpl implements CartDao {
     @Override
     public void addItem(int userId, int dishId, int count) throws DaoException{
         Connection connection = pool.getConnection();
-        Transaction transaction = new Transaction(connection);
         try{
-            transaction.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement(SELECT_ITEM_COUNT);
             statement.setInt(1, userId);
             statement.setInt(2, dishId);
@@ -48,13 +45,10 @@ public class CartDaoImpl implements CartDao {
             statement.setInt(1,userId);
             statement.setInt(2, dishId);
             statement.executeUpdate();
-            transaction.commit();
         } catch (SQLException e){
-            transaction.rollback();
             throw new DaoException(e);
         } finally {
-            transaction.setAutoCommit(true);
-            transaction.close();
+            pool.releaseConnection(connection);
         }
     }
 
@@ -106,19 +100,15 @@ public class CartDaoImpl implements CartDao {
         }
     }
 
-    private Dish createDish(ResultSet dishData) throws DaoException{
-        Dish dish;
-        try {
-            int dishId = dishData.getInt(1);
-            String name = dishData.getString(2);
-            String dishCategory = dishData.getString(3);
-            Category category = Category.valueOf(dishCategory.toUpperCase());
-            String pictureName = dishData.getString(4);
-            double price = dishData.getDouble(5);
-            dish = new Dish(dishId, name, category, pictureName,price);
-        } catch (SQLException e) {
-            throw new DaoException(e.getMessage());
-        }
+    private Dish createDish(ResultSet dishData) throws SQLException {
+        int dishId = dishData.getInt(1);
+        String name = dishData.getString(2);
+        String dishCategory = dishData.getString(3);
+        DishCategory category = DishCategory.valueOf(dishCategory.toUpperCase());
+        String pictureName = dishData.getString(4);
+        double price = dishData.getDouble(5);
+        short discount = dishData.getShort(6);
+        Dish dish = new Dish(dishId, name, category, pictureName, price, discount);
         return dish;
     }
 }

@@ -14,6 +14,8 @@ public class AttributeName {
     public static final String PROMO_CODE = "promo_code";
     public static final String USERS_LIST = "users_list";
     public static final String ORDERS_LIST = "orders_list";
+    public static final String ADD_ITEM_ERROR_MESSAGE = "adding_error";
+    public static final String CAFE_ADDRESSES = "cafe_addresses";
 
     private AttributeName(){}
 }

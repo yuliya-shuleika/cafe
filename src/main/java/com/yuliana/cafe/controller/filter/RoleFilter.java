@@ -56,7 +56,6 @@ public class RoleFilter implements Filter {
                     chain.doFilter(request, response);
                 }
                 break;
-            case ADD_DISH:
             case EDIT_DISH:
                 if(!role.equals(UserRole.ADMIN)) {
                     httpResponse.sendRedirect(httpRequest.getContextPath() + PagePath.ERROR_PAGE);

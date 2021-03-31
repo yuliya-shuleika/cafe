@@ -5,7 +5,7 @@ import com.yuliana.cafe.exception.DaoException;
 
 import java.util.Map;
 
-public interface CartDao {
+public interface CartDao extends BaseDao{
 
     void addItem(int userId, int dishId, int count) throws DaoException;
     void deleteItem(int userId, int dishId, int count) throws DaoException;

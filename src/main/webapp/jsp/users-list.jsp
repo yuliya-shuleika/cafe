@@ -2,6 +2,10 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<fmt:setLocale value='<%=request.getSession().getAttribute("lang")%>'/>
+<fmt:setBundle basename="lang" var="loc"/>
+<fmt:message bundle="${loc}" key="lang.label.block" var="block"/>
+<fmt:message bundle="${loc}" key="lang.label.unblock" var="unblock"/>
 <head>
     <title>Users</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
@@ -12,17 +16,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&family=Rubik:wght@400;500&display=swap" rel="stylesheet">
 </head>
-<fmt:setLocale value='<%=request.getSession().getAttribute("lang")%>'/>
-<fmt:setBundle basename="lang" var="loc"/>
 <fmt:message bundle="${loc}" key="lang.label.number" var="number"/>
 <fmt:message bundle="${loc}" key="lang.label.action" var="action"/>
 <fmt:message bundle="${loc}" key="lang.label.user" var="user"/>
 <fmt:message bundle="${loc}" key="lang.label.add" var="add"/>
 <fmt:message bundle="${loc}" key="lang.label.edit" var="edit"/>
-<fmt:message bundle="${loc}" key="lang.label.ban" var="ban"/>
 <fmt:message bundle="${loc}" key="lang.label.sort" var="sort"/>
 <fmt:message bundle="${loc}" key="lang.label.by_email" var="by_email"/>
-<fmt:message bundle="${loc}" key="lang.label.by_date" var="by_date"/>
 <fmt:message bundle="${loc}" key="lang.label.status" var="status"/>
 <body>
     <%@ include file="/jsp/header/header-admin.jsp"%>
@@ -37,10 +37,6 @@
                     <form action="controller" method="post" class="admin-sorting-form">
                         <input type="hidden" name="command" value="sort_by_email">
                         <button class="admin-sort-criteria" type="submit">${by_email}</button>
-                    </form>
-                    <form action="controller" method="post" class="admin-sorting-form">
-                        <input type="hidden" name="command" value="show_discounts">
-                        <button class="admin-sort-criteria" type="submit">${by_date}</button>
                     </form>
                 </div>
                 <div class="admin-manage-end">
@@ -57,7 +53,7 @@
                     <thead>
                         <th>${number}</th>
                         <th>${user}</th>
-                        <th>${status}</th>
+                        <th class="user-status">${status}</th>
                         <th colspan="2">${action}</th>
                     </thead>
                     <tbody>
@@ -70,7 +66,12 @@
                                 <td>
                                     <input type="hidden" name="command" value="block_user">
                                     <input type="hidden" name="user_id" value="${user.getUserId()}">
-                                    <a href="#" class="admin-delete">${ban}</a>
+                                    <c:if test="${sessionScope.user.status != 'BLOCKED'}">
+                                        <a href="#" class="admin-delete">${block}</a>
+                                    </c:if>
+                                    <c:if test="${sessionScope.user.status == 'BLOCKED'}">
+                                        <a href="#" class="admin-delete">${unblock}</a>
+                                    </c:if>
                                 </td>
                             </tr>
                         </c:forEach>

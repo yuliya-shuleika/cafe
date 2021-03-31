@@ -28,6 +28,6 @@ public class DeletePromoCodeCommand implements ActionCommand {
             logger.log(Level.ERROR, e);
         }
         String page = PagePath.PROMO_CODES_LIST_PAGE;
-        return null;
+        return page;
     }
 }

@@ -1,6 +1,6 @@
 package com.yuliana.cafe.entity;
 
-public enum Category {
+public enum DishCategory {
     SUSHI,
     SOUP,
     NOODLES,

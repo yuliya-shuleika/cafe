@@ -12,6 +12,7 @@
 <fmt:message bundle="${loc}" key="lang.label.dishes" var="dishes"/>
 <fmt:message bundle="${loc}" key="lang.label.orders" var="orders"/>
 <fmt:message bundle="${loc}" key="lang.label.reviews" var="reviews"/>
+<fmt:message bundle="${loc}" key="lang.label.promo_codes" var="promo_codes"/>
 <fmt:message bundle="${loc}" key="lang.label.logout" var="logout"/>
 <fmt:message bundle="${loc}" key="lang.label.translate" var="translate"/>
 <body>
@@ -21,19 +22,22 @@
             <nav class="header-nav">
                 <ul class="header-ul">
                     <li class="header-li">
-                        <a class="header-link" href="controller?command=to_users_list">${users}</a>
+                        <a class="header-link" href="users.do?command=to_users_list">${users}</a>
                     </li>
                     <li class="header-li">
-                        <a class="header-link" href="controller?command=to_dishes_list">${dishes}</a>
+                        <a class="header-link" href="dishes.do?command=to_dishes_list">${dishes}</a>
                     </li>
                     <li class="header-li">
-                        <a class="header-link" href="controller?command=to_orders_list">${orders}</a>
+                        <a class="header-link" href="orders.do?command=to_orders_list">${orders}</a>
                     </li>
                     <li class="header-li">
-                        <a class="header-link" href="controller?command=to_reviews_list">${reviews}</a>
+                        <a class="header-link" href="reviews.do?command=to_reviews_list">${reviews}</a>
                     </li>
                     <li class="header-li">
-                        <a class="header-link" href="reviews.do?command=change_locale">${translate}</a>
+                        <a class="header-link" href="promo-codes.do?command=to_promo_codes_list">${promo_codes}</a>
+                    </li>
+                    <li class="header-li">
+                        <a class="header-link" href="controller?command=change_locale">${translate}</a>
                     </li>
                 </ul>
             </nav>

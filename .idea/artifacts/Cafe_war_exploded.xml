@@ -20,6 +20,8 @@
           <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.11.4" />
           <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
           <element id="library" level="project" name="Maven: org.webjars:jquery:3.5.1" />
+          <element id="library" level="project" name="Maven: commons-fileupload:commons-fileupload:1.4" />
+          <element id="library" level="project" name="Maven: commons-io:commons-io:2.2" />
         </element>
       </element>
       <element id="directory" name="META-INF">

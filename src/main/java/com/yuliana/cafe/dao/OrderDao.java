@@ -6,7 +6,9 @@ import com.yuliana.cafe.exception.DaoException;
 import java.util.List;
 
 
-public interface OrderDao {
-    int addOrder(Order order) throws DaoException;
+public interface OrderDao extends BaseDao{
+    int addOrder(Order order, int userId, int addressId) throws DaoException;
     List<Order> findAllOrders() throws DaoException;
+    List<Order> findOrdersByUserId(int userId) throws DaoException;
+    void addOrderedDish(int count, int orderId, int dishId) throws DaoException;
 }

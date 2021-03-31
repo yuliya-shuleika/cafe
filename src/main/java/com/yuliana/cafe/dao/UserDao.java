@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface UserDao {
+public interface UserDao extends BaseDao{
 
     void register(User user, String password) throws DaoException;
     Optional<User> login(String email, String password) throws DaoException;

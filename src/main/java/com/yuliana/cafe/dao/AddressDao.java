@@ -5,7 +5,8 @@ import com.yuliana.cafe.exception.DaoException;
 
 import java.util.Optional;
 
-public interface AddressDao {
+public interface AddressDao extends BaseDao {
 
     int addAddress(Address address) throws DaoException;
+    Optional<Address> findAddressById(int addressId) throws DaoException;
 }

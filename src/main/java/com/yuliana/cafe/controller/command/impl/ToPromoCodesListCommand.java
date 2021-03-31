@@ -25,7 +25,7 @@ public class ToPromoCodesListCommand implements ActionCommand {
         PromoCodeService promoCodeService = PromoCodeServiceImpl.getInstance();
         List<PromoCode> promoCodes = new ArrayList<>();
         try {
-            promoCodeService.findAllPromoCodes();
+            promoCodes = promoCodeService.findAllPromoCodes();
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }

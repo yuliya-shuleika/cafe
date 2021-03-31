@@ -14,29 +14,32 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GiveFeedbackCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String PARAM_REVIEW_HEADER = "review_header";
-    private static final String PARAM_REVIEW_RATING = "review_rating";
-    private static final String PARAM_REVIEW_TEXT = "review_text";
+    private static final String REVIEW_HEADER_PARAM = "review_header";
+    private static final String REVIEW_RATING_PARAM = "review_rating";
+    private static final String REVIEW_TEXT_PARAM = "review_text";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page;
         ReviewService service = ReviewServiceImpl.getInstance();
-        String header = request.getParameter(PARAM_REVIEW_HEADER);
-        String rating = request.getParameter(PARAM_REVIEW_RATING);
-        String text = request.getParameter(PARAM_REVIEW_TEXT);
+        Map<String, String> reviewFields = new HashMap<>();
+        reviewFields.put(REVIEW_HEADER_PARAM, request.getParameter(REVIEW_HEADER_PARAM));
+        reviewFields.put(REVIEW_TEXT_PARAM, request.getParameter(REVIEW_TEXT_PARAM));
+        String rating = request.getParameter(REVIEW_RATING_PARAM);
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute(AttributeName.USER);
         try {
-            service.addReview(user.getUserId(), header, text, rating);
+            service.addReview(user.getUserId(), reviewFields, rating);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        page = PagePath.MENU_PAGE;
+        page = PagePath.REVIEWS_PAGE;
         return page;
     }
 }

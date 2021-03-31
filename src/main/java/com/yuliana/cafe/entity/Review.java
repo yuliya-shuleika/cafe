@@ -6,20 +6,23 @@ public class Review {
     private String header;
     private String text;
     private int rating;
+    private ReviewStatus status;
 
     public Review(){}
 
-    public Review(int reviewId, String header, String text, int rating) {
+    public Review(int reviewId, String header, String text, int rating, ReviewStatus status) {
         this.reviewId = reviewId;
         this.header = header;
         this.text = text;
         this.rating = rating;
+        this.status = status;
     }
 
-    public Review(String header, String text, int rating) {
+    public Review(String header, String text, int rating, ReviewStatus status) {
         this.header = header;
         this.text = text;
         this.rating = rating;
+        this.status = status;
     }
 
     public int getReviewId() {
@@ -50,6 +53,14 @@ public class Review {
         this.rating = rating;
     }
 
+    public ReviewStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ReviewStatus status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -58,7 +69,8 @@ public class Review {
         if (reviewId != review.reviewId) return false;
         if (rating != review.rating) return false;
         if (header != null ? !header.equals(review.header) : review.header != null) return false;
-        return text != null ? text.equals(review.text) : review.text == null;
+        if (text != null ? !text.equals(review.text) : review.text != null) return false;
+        return status == review.status;
     }
 
     @Override
@@ -67,6 +79,7 @@ public class Review {
         result = 31 * result + (header != null ? header.hashCode() : 0);
         result = 31 * result + (text != null ? text.hashCode() : 0);
         result = 31 * result + rating;
+        result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
     }
 
@@ -77,6 +90,7 @@ public class Review {
         sb.append(", header='").append(header).append('\'');
         sb.append(", text='").append(text).append('\'');
         sb.append(", rating=").append(rating);
+        sb.append(", status=").append(status);
         sb.append('}');
         return sb.toString();
     }

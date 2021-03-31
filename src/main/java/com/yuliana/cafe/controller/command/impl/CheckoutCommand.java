@@ -3,6 +3,7 @@ package com.yuliana.cafe.controller.command.impl;
 import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.controller.PagePath;
+import com.yuliana.cafe.entity.Dish;
 import com.yuliana.cafe.entity.PromoCode;
 import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.exception.ServiceException;
@@ -35,7 +36,6 @@ public class CheckoutCommand implements ActionCommand {
     private static final String FLAT_PARAM = "flat";
     private static final String PROMO_CODE_PARAM = "promo_code";
     private static final String TOTAL_PARAM = "total";
-
     private static final int ADDRESS_FORM_SIZE = 6;
 
     @Override
@@ -76,22 +76,21 @@ public class CheckoutCommand implements ActionCommand {
                 request.setAttribute(AttributeName.PROMO_CODE, promoCodeName);
             }
         }
-        String total = request.getParameter(TOTAL_PARAM);
-        double totalPrice = Double.parseDouble(total);
+        //String total = request.getParameter(TOTAL_PARAM);
+        //double totalPrice = Double.parseDouble(total);
+        double totalPrice = 10.0;
         OrderService orderService = OrderServiceImpl.getInstance();
         int orderId;
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(AttributeName.USER);
+        Map<Dish, Integer> cartItems = (Map<Dish, Integer>) session.getAttribute(AttributeName.CART_ITEMS);
         try {
-            orderId = orderService.addOrder(user, addressId, totalPrice, discount);
+            orderId = orderService.addOrder(user.getUserId(), addressId, totalPrice, discount, cartItems);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
             return PagePath.ERROR_PAGE;
         }
-        //add ordered dishes
-        //Map<Dish, Integer> orderedDishes =
-        //HttpSession session = request.getSession();
-        //User user = (User) session.getAttribute(AttributeName.USER);
+        session.setAttribute(AttributeName.CART_ITEMS, new HashMap<Dish, Integer>());
         return PagePath.MENU_PAGE;
     }
 }

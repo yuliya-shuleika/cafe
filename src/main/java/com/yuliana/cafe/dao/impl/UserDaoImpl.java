@@ -49,16 +49,15 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Optional<User> login(String email, String password) throws DaoException{
         Connection connection = pool.getConnection();
-        Optional<User> userOptional;
-        User user = null;
+        Optional<User> userOptional = Optional.empty();
         try(PreparedStatement statement = connection.prepareStatement(SELECT_USER_BY_EMAIL_AND_PASSWORD)){
             statement.setString(1, email);
             statement.setString(2, password);
             ResultSet result = statement.executeQuery();
             if(result.next()) {
-                user = createUser(result);
+                User user = createUser(result);
+                userOptional = Optional.of(user);
             }
-            userOptional = Optional.of(user);
         } catch (SQLException e) {
             throw new DaoException(e);
         }finally {

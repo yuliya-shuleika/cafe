@@ -7,6 +7,8 @@ ul{
     list-style: none;
 }
 
+
+
 input[type="text"]{
     color: inherit;
     font: inherit;
@@ -246,6 +248,20 @@ input[type="checkbox"]:checked + label:after{
     flex-direction: column;
 }
 
+.pickup-info{
+    display: none;
+    margin:30px 0;
+    flex-direction: column;
+}
+
+.pickup-label{
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    color: #545454;
+    font-size: 18px;
+}
+
+
 /*promo-code*/
 
 .promo-code-field{
@@ -271,6 +287,18 @@ input[type="checkbox"]:checked + label:after{
     background: #f2f2f2;
     margin-bottom: 18px;
     padding-left: 5px;
+}
+
+.payment-select{
+    display: block;
+    font-size: 18px;
+    height: 40px;
+    border-radius: 10px;
+    background: #ededed;
+    color: #545454;
+    font-family: 'Rubik', sans-serif;
+    border: none;
+    margin-top: 20px;
 }
 
 /*payment-footer*/

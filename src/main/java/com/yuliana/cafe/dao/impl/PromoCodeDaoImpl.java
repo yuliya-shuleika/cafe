@@ -19,13 +19,15 @@ public class PromoCodeDaoImpl implements PromoCodeDao {
             "FROM promo_codes WHERE name COLLATE UTF8_GENERAL_CI LIKE ?";
     private static final String SELECT_PROMO_CODE_BY_ID = "SELECT promo_code_id, name, discount_percents " +
             "FROM promo_codes WHERE promo_code_id = ?";
-    private static final String DELETE_PROMO_CODE = "DELETE FROM promo_codes WHERE id = ?";
+    private static final String DELETE_PROMO_CODE = "DELETE FROM promo_codes WHERE promo_code_id = ?";
     private static final String INSERT_PROMO_CODE = "INSERT INTO promo_codes (name, discount_percents) " +
             "VALUES (?, ?)";
     private static final String SELECT_ALL_PROMO_CODES = "SELECT promo_code_id, name, discount_percents " +
             "FROM promo_codes";
     private static final String UPDATE_PROMO_CODE = "UPDATE promo_codes " +
             "SET name = ?, discount_percents = ? WHERE promo_code_id = ?";
+    private static final String SELECT_ALL_PROMO_CODES_SORTED_BY_NAME = "SELECT promo_code_id, name, discount_percents " +
+            "FROM promo_codes ORDER BY name";
 
     @Override
     public Optional<PromoCode> findPromoCodeByName(String name) throws DaoException{
@@ -70,17 +72,19 @@ public class PromoCodeDaoImpl implements PromoCodeDao {
     }
 
     @Override
-    public void addPromoCode(PromoCode promoCode) throws DaoException {
+    public int addPromoCode(PromoCode promoCode) throws DaoException {
         Connection connection = pool.getConnection();
+        int promoCodeId;
         try(PreparedStatement statement = connection.prepareStatement(INSERT_PROMO_CODE)){
             statement.setString(1, promoCode.getName());
             statement.setShort(2, promoCode.getDiscountPercents());
-            statement.executeUpdate();
+            promoCodeId = statement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             pool.releaseConnection(connection);
         }
+        return promoCodeId;
     }
 
     @Override
@@ -147,6 +151,24 @@ public class PromoCodeDaoImpl implements PromoCodeDao {
         } finally {
             pool.releaseConnection(connection);
         }
+    }
+
+    @Override
+    public List<PromoCode> findAllPromoCodesSortedByName() throws DaoException {
+        Connection connection = pool.getConnection();
+        List<PromoCode> promoCodes = new ArrayList<>();
+        try (Statement statement = connection.createStatement()){
+            ResultSet result = statement.executeQuery(SELECT_ALL_PROMO_CODES_SORTED_BY_NAME);
+            while (result.next()) {
+                PromoCode promoCode = createPromoCode(result);
+                promoCodes.add(promoCode);
+            }
+        }catch (SQLException e){
+            throw new DaoException(e);
+        }finally {
+            pool.releaseConnection(connection);
+        }
+        return promoCodes;
     }
 
     private PromoCode createPromoCode(ResultSet result) throws SQLException{

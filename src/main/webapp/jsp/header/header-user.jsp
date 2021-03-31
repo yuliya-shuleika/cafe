@@ -19,6 +19,7 @@
 <fmt:message bundle="${loc}" key="lang.label.translate" var="translate"/>
 <body>
 <header class="header-page">
+    <%@ include file="/jsp/modal/cart.jsp"%>
     <div class="container header-container">
         <div class="header-start">
             <nav class="header-nav">
@@ -46,6 +47,7 @@
                 <ul class="header-ul">
                     <li>
                         <form class="header-form" method="post">
+                            <input type="hidden" name="command" value="search_dish_by_name" />
                             <input class="header-search" type="search" id="mySearch" name="q"
                                    placeholder="Search..." required
                                    minlength="1" maxlength="20">
@@ -53,11 +55,16 @@
                     </li>
                     <li class="header-icon">
                         <i class="fas fa-shopping-cart"> </i>
-                        <a class="header-icon-link" href="controller?command=to_register">${cart}</a>
+                        <c:if test="${sessionScope.cart_items == null || sessionScope.cart_items.size() == 0}">
+                            <a class="header-icon-link" href="#cart">${cart}(<span class="header-items-count">0</span>)</a>
+                        </c:if>
+                        <c:if test="${sessionScope.cart_items != null && sessionScope.cart_items.size() > 0}">
+                            <a class="header-icon-link" href="#cart">${cart}(<span class="header-items-count">${sessionScope.cart_items_count}</span>)</a>
+                        </c:if>
                     </li>
                     <li class="header-icon">
                         <i class="fas fa-user"> </i>
-                        <a class="header-icon-link" href="controller?command=to_register">${account}</a>
+                        <a class="header-icon-link" href="account.do?command=to_register">${account}</a>
                     </li>
                 </ul>
             </div>

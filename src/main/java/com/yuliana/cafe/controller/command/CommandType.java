@@ -83,7 +83,7 @@ public enum CommandType {
             this.command = new LogoutCommand();
         }
     },
-    SEARCH_DISH {
+    SEARCH_DISH_BY_NAME {
         {
             this.command = new SearchDishByNameCommand();
         }
@@ -118,8 +118,10 @@ public enum CommandType {
             this.command = new CheckoutCommand();
         }
     },
-    ADD_DISH {
-
+    ADD_DISH_TO_MENU {
+        {
+            this.command = new AddDishToMenuCommand();
+        }
     },
     EDIT_DISH {
         {
@@ -174,6 +176,26 @@ public enum CommandType {
     SEARCH_PROMO_CODE_BY_NAME_PART {
         {
             this.command = new SearchPromoCodeByNamePartCommand();
+        }
+    },
+    SORT_PROMO_CODES_BY_NAME {
+        {
+            this.command = new SortPromoCodesByNameCommand();
+        }
+    },
+    SORT_REVIEWS_BY_HEADER {
+        {
+            this.command = new SortReviewsByHeaderCommand();
+        }
+    },
+    SORT_USERS_BY_EMAIL {
+        {
+            this.command = new SortUsersByEmailCommand();
+        }
+    },
+    ADD_PROMO_CODE {
+        {
+            this.command = new AddPromoCodeCommand();
         }
     };
     ActionCommand command;
