@@ -1,12 +1,15 @@
 package com.yuliana.cafe.entity;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Order {
 
     private int orderId;
     private Date date;
     private double total;
+    private Map<Dish, Integer> orderedDishes;
 
     public Order(Date date, double total) {
         this.date = date;
@@ -17,6 +20,19 @@ public class Order {
         this.orderId = orderId;
         this.date = date;
         this.total = total;
+    }
+
+    public Order(int orderId, Date date, double total, Map<Dish, Integer> orderedDishes) {
+        this.orderId = orderId;
+        this.date = date;
+        this.total = total;
+        this.orderedDishes = orderedDishes;
+    }
+
+    public Order(Date date, double total, Map<Dish, Integer> orderedDishes) {
+        this.date = date;
+        this.total = total;
+        this.orderedDishes = orderedDishes;
     }
 
     public Order(){}
@@ -39,6 +55,10 @@ public class Order {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public Map<Dish, Integer> getOrderedDishes() {
+        return new HashMap<>(orderedDishes);
     }
 
     @Override

@@ -27,7 +27,8 @@ import java.util.Optional;
 
 public class CheckoutCommand implements ActionCommand {
 
-    private final static Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
+    //private static final String
     private static final String CITY_PARAM = "city";
     private static final String STREET_PARAM = "street";
     private static final String HOUSE_PARAM = "house";
@@ -76,16 +77,13 @@ public class CheckoutCommand implements ActionCommand {
                 request.setAttribute(AttributeName.PROMO_CODE, promoCodeName);
             }
         }
-        //String total = request.getParameter(TOTAL_PARAM);
-        //double totalPrice = Double.parseDouble(total);
-        double totalPrice = 10.0;
         OrderService orderService = OrderServiceImpl.getInstance();
         int orderId;
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(AttributeName.USER);
         Map<Dish, Integer> cartItems = (Map<Dish, Integer>) session.getAttribute(AttributeName.CART_ITEMS);
         try {
-            orderId = orderService.addOrder(user.getUserId(), addressId, totalPrice, discount, cartItems);
+            orderId = orderService.addOrder(user.getUserId(), addressId, discount, cartItems);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
             return PagePath.ERROR_PAGE;

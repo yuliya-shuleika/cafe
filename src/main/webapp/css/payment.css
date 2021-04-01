@@ -1,4 +1,4 @@
-h3, h4, ul, form, span, button, p{
+h3, h4, ul, form, span, button, p, input{
     margin: 0;
     padding: 0;
 }
@@ -7,6 +7,11 @@ ul{
     list-style: none;
 }
 
+button:active, button:focus,
+input:active, input:focus,
+select:active, select:focus{
+    outline: none;
+}
 
 
 input[type="text"]{
@@ -160,7 +165,7 @@ input[type="checkbox"]:checked + label:after{
 
 /*delivery info*/
 
-.delivery-or-pickup{
+.choose{
     display: flex;
     flex-direction: row;
     border-radius: 12px;
@@ -169,7 +174,7 @@ input[type="checkbox"]:checked + label:after{
     margin: 20px 0;
 }
 
-.delivery-or-pickup-item{
+.choose-item{
     width: 50%;
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
@@ -183,12 +188,12 @@ input[type="checkbox"]:checked + label:after{
     transition: .2s
 }
 
-.delivery-or-pickup-item:hover{
+.choose-item:hover{
     background: #3d8a40;
     color: #fff;
 }
 
-.delivery-or-pickup-item.is-active{
+.choose-item.is-active{
     background: #4CAF50;
     color: #fff;
 }
@@ -196,6 +201,7 @@ input[type="checkbox"]:checked + label:after{
 .delivery-address{
     display: flex;
     flex-direction: column;
+    margin: 30px 0 50px;
 }
 
 .delivery-address-house{
@@ -264,6 +270,10 @@ input[type="checkbox"]:checked + label:after{
 
 /*promo-code*/
 
+.promo-code{
+    margin-bottom: 30px;
+}
+
 .promo-code-field{
     display: inline-flex;
     flex-direction: row;
@@ -299,6 +309,50 @@ input[type="checkbox"]:checked + label:after{
     font-family: 'Rubik', sans-serif;
     border: none;
     margin-top: 20px;
+}
+
+
+/*payment-card*/
+
+.credit-card-form{
+    margin: 20px 0;
+    display: none;
+    width: 100%;
+    font-family: 'Rubik', sans-serif;
+    font-weight: normal;
+    flex-direction: column;
+    color: #545454;
+}
+
+.card-field{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.card-label{
+    font-size: 14px;
+}
+
+.card-input-long{
+    font-size: 18px;
+    width: 40%;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    background: #f2f2f2;
+    padding-left: 3px;
+}
+
+.card-input-short{
+    font-size: 18px;
+    width: 20%;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    background: #f2f2f2;
+    padding-left: 3px;
+
 }
 
 /*payment-footer*/

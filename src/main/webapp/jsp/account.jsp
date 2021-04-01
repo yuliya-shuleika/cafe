@@ -8,10 +8,13 @@
 </head>
 <fmt:setLocale value='<%=request.getSession().getAttribute("lang")%>'/>
 <fmt:setBundle basename="lang" var="loc"/>
-<fmt:message bundle="${loc}" key="lang.label.number" var="number"/>
-<fmt:message bundle="${loc}" key="lang.label.action" var="action"/>
-<fmt:message bundle="${loc}" key="lang.label.dish" var="dish"/>
+<fmt:message bundle="${loc}" key="lang.label.name" var="name"/>
+<fmt:message bundle="${loc}" key="lang.label.email" var="email"/>
+<fmt:message bundle="${loc}" key="lang.label.edit" var="edit"/>
+<fmt:message bundle="${loc}" key="lang.label.repeat" var="repeat"/>
+<fmt:message bundle="${loc}" key="lang.label.my_orders" var="my_orders"/>
 <body>
+    <%@ include file="/jsp/header/header-user.jsp"%>
     <div class="account-container">
         <div class="account-header">
             <h2 class="account-title"></h2>
@@ -28,20 +31,24 @@
         </div>
         <div class="account-orders">
             <c:forEach var="order" items="${user_orders}">
-                <div class="account-order">
-                    <div class="order-info"></div>
-                    <p class="order-date"></p>
-                    <p class="order-dishes">
-                        <c:forEach var="dish" items="${order.getDishes()}">
-                            ${dish.getKey().getName()} x ${dish.getValue()}<br>
-                        </c:forEach>
-                    </p>
-                    <div class="order-price-container">
-                        <p class="order-price"></p>
-                        <span class="total-currency">$</span>
+                <div class="account-orders">
+                    <div class="account-orders">
+                        <h3>${my_orders}</h3>
                     </div>
-                    <div class="order-repeat">
-                        <button class="order-repeat-button">${repeat}</button>
+                    <div class="order-info">
+                        <p class="order-date"><fmt:formatDate value="${order.getDate()}" type = "date" /></p>
+                        <p class="order-dishes">
+                            <c:forEach var="dish" items="${order.getOrderedDishes()}">
+                                ${dish.getKey().getName()} x ${dish.getValue()}<br>
+                            </c:forEach>
+                        </p>
+                        <div class="order-price-container">
+                            <p class="order-price">${order.getPrice()}</p>
+                            <span class="total-currency">$</span>
+                        </div>
+                        <div class="order-repeat">
+                            <button class="order-repeat-button">${repeat}</button>
+                        </div>
                     </div>
                 </div>
             </c:forEach>

@@ -53,6 +53,11 @@ public enum CommandType {
             this.command = new ToPaymentCommand();
         }
     },
+    TO_ACCOUNT {
+        {
+            this.command = new ToAccountCommand();
+        }
+    },
     ADD_TO_GUEST_CART {
         {
             this.command = new AddToGuestCartCommand();

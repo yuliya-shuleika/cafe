@@ -64,7 +64,7 @@
                     </li>
                     <li class="header-icon">
                         <i class="fas fa-user"> </i>
-                        <a class="header-icon-link" href="account.do?command=to_register">${account}</a>
+                        <a class="header-icon-link" href="account.do?command=to_account">${account}</a>
                     </li>
                 </ul>
             </div>

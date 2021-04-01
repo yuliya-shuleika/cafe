@@ -6,8 +6,13 @@
     <title>Menu</title>
     <style><%@include file="/css/cart.css"%></style>
     <style><%@include file="/css/payment.css"%></style>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-            type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"
+            integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw=="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"
+            integrity="sha512-0XDfGxFliYJPFrideYOoxdgNIvrwGTLnmK20xZbCAvPfLGQMzHUsaqZK8ZoH+luXGRxTrS46+Aq400nCnAT0/w=="
+            crossorigin="anonymous"></script>
     <script><%@include file="/js/payment.js"%></script>
     <script><%@include file="/js/cart.js"%></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -43,7 +48,10 @@
 <fmt:message bundle="${loc}" key="lang.label.enter_promo_code" var="enter_promo_code"/>
 <fmt:message bundle="${loc}" key="lang.label.your_comment" var="your_comment"/>
 <fmt:message bundle="${loc}" key="lang.label.choose_cafe" var="choose_cafe"/>
-
+<fmt:message bundle="${loc}" key="lang.label.card_owner_name" var="card_owner_name"/>
+<fmt:message bundle="${loc}" key="lang.label.card_number" var="card_number"/>
+<fmt:message bundle="${loc}" key="lang.label.expiration_date" var="expiration_date"/>
+<fmt:message bundle="${loc}" key="lang.label.security_code" var="security_code"/>
 <body>
     <%@ include file="/jsp/header/header-user.jsp"%>
     <div class="payment-container">
@@ -115,9 +123,9 @@
                 </ul>
             </div>
             <div class="payment-delivery">
-                <div class="delivery-or-pickup">
-                    <div id="delivery" class="delivery-or-pickup-item is-active">${delivery}</div>
-                    <div id="pickup" class="delivery-or-pickup-item">${pickup}</div>
+                <div class="choose">
+                    <div id="delivery" class="choose-item is-active">${delivery}</div>
+                    <div id="pickup" class="choose-item">${pickup}</div>
                 </div>
                 <div class="delivery-address">
                     <div class="delivery-address-house">
@@ -175,13 +183,33 @@
                 </div>
                 <div class="payment-method">
                     <h4 class="payment-section-header">${payment_method}</h4>
-                    <div class="delivery-or-pickup">
-                        <div class="delivery-or-pickup-item is-active">${cash}</div>
-                        <div class="delivery-or-pickup-item">${bank_card}</div>
-                        <div class="delivery-or-pickup-item">${payment_by_card_online}</div>
+                    <div class="choose">
+                        <div class="choose-item is-active" id="cash">${cash}</div>
+                        <div class="choose-item" id="bank-card">${bank_card}</div>
+                        <div class="choose-item" id="bank-card-online">${payment_by_card_online}</div>
+                    </div>
+                    <div class="credit-card-form" id="credit-card-form">
+                        <div class="card-field">
+                            <label class="card-label" for="security-code">${card_owner_name}</label>
+                            <input id="name" maxlength="30" type="text" class="card-input-long">
+                        </div>
+                        <div class="card-field">
+                            <label class="card-label" for="security-code">${card_number}</label>
+                            <input id="card-number" type="text" pattern="[0-9]*" inputmode="numeric"
+                                   class="card-input-long">
+                        </div>
+                        <div class="card-field">
+                            <label class="card-label" for="expiration-date">${expiration_date}</label>
+                            <input id="expiration-date" type="text" pattern="[0-9]*" inputmode="numeric"
+                                   class="card-input-short">
+                        </div>
+                        <div class="card-field">
+                            <label class="card-label" for="security-code">${security_code}</label>
+                            <input id="security-code" type="text" pattern="[0-9]*" inputmode="numeric"
+                                   class="card-input-short">
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="payment-footer">

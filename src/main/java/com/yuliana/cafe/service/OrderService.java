@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface OrderService {
-    int addOrder(int userId, int addressId, double total,
-                 int discount, Map<Dish, Integer> dishes) throws ServiceException;
+    int addOrder(int userId, int addressId, int discount,
+                 Map<Dish, Integer> dishes) throws ServiceException;
     List<Order> findAllOrders() throws ServiceException;
+    List<Order> findOrdersByUserId(int userId) throws ServiceException;
 }

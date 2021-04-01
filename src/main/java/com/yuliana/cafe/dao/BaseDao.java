@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public interface BaseDao {
 
@@ -38,6 +39,17 @@ public interface BaseDao {
                 connection.setAutoCommit(autoCommit);
             } catch (SQLException e) {
                 logger.log(Level.ERROR, e);
+            }
+        }
+    }
+
+    default void close(Statement statement) {
+        final Logger logger = LogManager.getLogger();
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                logger.log(Level.ERROR, "Statement was`t closed.", e);
             }
         }
     }

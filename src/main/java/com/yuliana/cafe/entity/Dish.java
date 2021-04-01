@@ -1,6 +1,8 @@
 package com.yuliana.cafe.entity;
 
-public class Dish {
+import java.io.Serializable;
+
+public class Dish implements Serializable {
 
     private int dishId;
     private String name;

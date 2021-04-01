@@ -23,11 +23,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public int addOrder(int userId, int addressId, double total,
-                        int discount, Map<Dish, Integer> dishes) throws ServiceException {
+    public int addOrder(int userId, int addressId, int discount,
+                        Map<Dish, Integer> dishes) throws ServiceException {
         Date date = new Date();
-        double totalPrice = total * discount / 100;
-        int orderId = 0;
+        double price = 0.0;
+        for (Dish dish : dishes.keySet()){
+            int count = dishes.get(dish);
+            price += dish.getPrice() * count;
+        }
+        double total = price * discount / 100;
+        int orderId;
         Order order = new Order(date, total);
         try {
             orderId = orderDao.addOrder(order, userId, addressId);
@@ -46,6 +51,17 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders;
         try {
             orders = orderDao.findAllOrders();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return orders;
+    }
+
+    @Override
+    public List<Order> findOrdersByUserId(int userId) throws ServiceException {
+        List<Order> orders;
+        try {
+            orders = orderDao.findOrdersByUserId(userId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

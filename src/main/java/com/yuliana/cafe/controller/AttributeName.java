@@ -16,6 +16,7 @@ public class AttributeName {
     public static final String ORDERS_LIST = "orders_list";
     public static final String ADD_ITEM_ERROR_MESSAGE = "adding_error";
     public static final String CAFE_ADDRESSES = "cafe_addresses";
+    public static final String USER_ORDERS = "user_orders";
 
     private AttributeName(){}
 }
