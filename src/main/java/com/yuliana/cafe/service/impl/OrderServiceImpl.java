@@ -2,9 +2,7 @@ package com.yuliana.cafe.service.impl;
 
 import com.yuliana.cafe.dao.OrderDao;
 import com.yuliana.cafe.dao.impl.OrderDaoImpl;
-import com.yuliana.cafe.entity.Dish;
-import com.yuliana.cafe.entity.Order;
-import com.yuliana.cafe.entity.User;
+import com.yuliana.cafe.entity.*;
 import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.OrderService;
@@ -12,6 +10,7 @@ import com.yuliana.cafe.service.OrderService;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class OrderServiceImpl implements OrderService {
 
@@ -23,23 +22,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public int addOrder(int userId, int addressId, int discount,
-                        Map<Dish, Integer> dishes) throws ServiceException {
+    public int addOrder(int userId, int addressId, int discount, Map<Dish, Integer> dishes,
+                        GettingType gettingType, PaymentType paymentType, String comment) throws ServiceException {
         Date date = new Date();
         double price = 0.0;
         for (Dish dish : dishes.keySet()){
             int count = dishes.get(dish);
             price += dish.getPrice() * count;
         }
-        double total = price * discount / 100;
+        if(discount > 0) {
+            price = price * discount / 100;
+        }
         int orderId;
-        Order order = new Order(date, total);
+        Order order = new Order(date, price, comment, dishes, paymentType, gettingType);
         try {
             orderId = orderDao.addOrder(order, userId, addressId);
-            for(Dish dish : dishes.keySet()){
-                int count = dishes.get(dish);
-                orderDao.addOrderedDish(count, orderId, dish.getDishId());
-            }
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -66,5 +63,16 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException(e);
         }
         return orders;
+    }
+
+    @Override
+    public Optional<Order> findOrderById(int orderId) throws ServiceException {
+        Optional<Order> orderOptional;
+        try {
+            orderOptional = orderDao.findOrderById(orderId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return orderOptional;
     }
 }

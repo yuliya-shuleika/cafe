@@ -38,6 +38,38 @@ $(document).ready(function (){
             }
         });
     });
+    $('.menu-favorite').on('click', function (){
+        let paramsList = this.parentElement.getElementsByTagName('input')
+        let like = this
+        let command = paramsList[0].value
+        let dish_id = paramsList[1].value
+        let data = {command:command, dish_id:dish_id}
+        $.ajax({
+            url:'controller',
+            type: 'POST',
+            data: data,
+            success: function () {
+                like.classList.remove('menu-favorite')
+                like.classList.add('menu-favorite-added')
+            }
+        });
+    });
+    $('.menu-favorite-added').on('click', function (){
+        let paramsList = this.parentElement.getElementsByTagName('input')
+        let unlike = this
+        let command = paramsList[0].value
+        let dish_id = paramsList[1].value
+        let data = {command:command, dish_id:dish_id}
+        $.ajax({
+            url:'controller',
+            type: 'POST',
+            data: data,
+            success: function () {
+                unlike.classList.remove('menu-favorite-added')
+                unlike.classList.add('menu-favorite')
+            }
+        });
+    });
 });
 
 function changeCart(){
@@ -119,7 +151,7 @@ function createCartItem(cart_items_list, dish_id, dish_picture, dish_title, dish
     let add_command = document.createElement('input')
     add_command.setAttribute("type", "hidden")
     add_command.setAttribute("name", "command")
-    add_command.setAttribute("value", 'add_to_guest_cart')
+    add_command.setAttribute("value", 'add_to_cart')
     cart_item_count_inc.appendChild(add_command)
     let plus_button = document.createElement('span')
     plus_button.innerHTML = '+'
@@ -135,7 +167,7 @@ function createCartItem(cart_items_list, dish_id, dish_picture, dish_title, dish
     let delete_command = document.createElement('input')
     delete_command.setAttribute("type", "hidden")
     delete_command.setAttribute("name", "command")
-    delete_command.setAttribute("value", 'delete_from_guest_cart')
+    delete_command.setAttribute("value", 'delete_from_cart')
     cart_item_count_dec.appendChild(delete_command)
     let minus_button = document.createElement('span')
     minus_button.innerHTML = '-'
@@ -147,7 +179,7 @@ function createCartItem(cart_items_list, dish_id, dish_picture, dish_title, dish
     let delete_item_command = document.createElement('input')
     delete_item_command.setAttribute("type", "hidden")
     delete_item_command.setAttribute("name", "command")
-    delete_item_command.setAttribute("value", 'delete_from_guest_cart')
+    delete_item_command.setAttribute("value", 'delete_from_cart')
     cart_item_count_dec.appendChild(delete_command)
     let cart_item_delete_button = document.createElement("div")
     cart_item_delete_button.classList.add("cart-item-delete-button")

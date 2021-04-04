@@ -2,9 +2,12 @@ package com.yuliana.cafe.service.impl;
 
 import com.yuliana.cafe.dao.CartDao;
 import com.yuliana.cafe.dao.impl.CartDaoImpl;
+import com.yuliana.cafe.entity.Dish;
 import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.CartService;
+
+import java.util.Map;
 
 public class CartServiceImpl implements CartService {
 
@@ -18,13 +21,21 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void AddItem(int userId, int dishId, int count) throws ServiceException {
-
+    public void addItem(int userId, int dishId) throws ServiceException {
+        try {
+            cartDao.addItem(userId, dishId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
     public void deleteItem(int userId, int dishId, int count) throws ServiceException{
-
+        try {
+            cartDao.deleteItem(userId, dishId, count);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
@@ -34,5 +45,16 @@ public class CartServiceImpl implements CartService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+    }
+
+    @Override
+    public Map<Dish, Integer> findUserItems(int userId) throws ServiceException {
+        Map<Dish, Integer> cartItems;
+        try {
+            cartItems = cartDao.findUserItems(userId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return cartItems;
     }
 }

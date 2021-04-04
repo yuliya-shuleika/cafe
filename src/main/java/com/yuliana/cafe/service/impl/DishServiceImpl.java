@@ -9,8 +9,10 @@ import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.DishService;
 import com.yuliana.cafe.service.validator.DishValidator;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class DishServiceImpl implements DishService {
 
@@ -18,9 +20,10 @@ public class DishServiceImpl implements DishService {
     private DishDao dishDao = new DishDaoImpl();
     private static final String FIELD_DISH_NAME = "dish_name";
     private static final String FIELD_DISH_CATEGORY = "dish_category";
-    private static final String FIELD_DISH_PICTURE_NAME = "dish_picture_name";
     private static final String FIELD_DISH_PRICE = "dish_price";
     private static final String FIELD_DISH_DISCOUNT = "dish_discount";
+    private static final String FIELD_DISH_DESCRIPTION = "dish_description";
+    private static final String FIELD_DISH_WEIGHT = "dish_weight";
 
     private DishServiceImpl(){}
 
@@ -28,14 +31,14 @@ public class DishServiceImpl implements DishService {
         return INSTANCE;
     }
 
-    public Dish findDishById(int dishId) throws ServiceException {
-        Dish dish;
+    public Optional<Dish> findDishById(int dishId) throws ServiceException {
+        Optional<Dish> dishOptional = Optional.empty();
         try {
-            dish = dishDao.findDishById(dishId);
+            dishOptional = dishDao.findDishById(dishId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return dish;
+        return dishOptional;
     }
 
     public List<Dish> findAllDishes() throws ServiceException{
@@ -111,11 +114,11 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public int addDishToMenu(Map<String, String> dishFields) throws ServiceException {
+    public int addDishToMenu(Map<String, String> dishFields, String pictureName) throws ServiceException {
         boolean isValid = DishValidator.isValidDishForm(dishFields);
         int dishId = 0;
         if(isValid){
-            Dish dish = createDish(dishFields);
+            Dish dish = createDish(dishFields, pictureName);
             try {
                 dishId = dishDao.addDish(dish);
             } catch (DaoException e) {
@@ -126,10 +129,10 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public void editDish(Map<String, String> dishFields) throws ServiceException {
+    public void editDish(Map<String, String> dishFields, String pictureName) throws ServiceException {
         boolean isValid = DishValidator.isValidDishForm(dishFields);
         if(isValid){
-            Dish dish = createDish(dishFields);
+            Dish dish = createDish(dishFields, pictureName);
             try {
                 dishDao.editDish(dish);
             } catch (DaoException e) {
@@ -138,16 +141,19 @@ public class DishServiceImpl implements DishService {
         }
     }
 
-    private Dish createDish(Map<String,String> dishFields){
+    private Dish createDish(Map<String,String> dishFields, String picture){
         String name = dishFields.get(FIELD_DISH_NAME);
         String dishCategory = dishFields.get(FIELD_DISH_CATEGORY);
         DishCategory category = DishCategory.valueOf(dishCategory.toUpperCase());
-        String picture = dishFields.get(FIELD_DISH_PICTURE_NAME);
         String dishPrice = dishFields.get(FIELD_DISH_PRICE);
         Double price = Double.parseDouble(dishPrice);
         String dishDiscount = dishFields.get(FIELD_DISH_DISCOUNT);
         short discount = Short.parseShort(dishDiscount);
-        Dish dish = new Dish(name, category, picture, price, discount);
+        String description = dishFields.get(FIELD_DISH_DESCRIPTION);
+        String dishWeight = dishFields.get(FIELD_DISH_WEIGHT);
+        short weight = Short.parseShort(dishWeight);
+        Date addedDate = new Date();
+        Dish dish = new Dish(name, category, picture, price, discount, addedDate, description, weight);
         return dish;
     }
 }

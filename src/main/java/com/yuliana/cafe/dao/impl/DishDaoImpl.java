@@ -9,31 +9,44 @@ import com.yuliana.cafe.entity.Dish;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static com.yuliana.cafe.dao.creator.EntityCreator.createDish;
 
 public class DishDaoImpl implements DishDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
-    private static final String SELECT_ALL_DISHES = "SELECT dish_id, name, category, picture_name, price, discount_percents " +
+    private static final String SELECT_ALL_DISHES = "SELECT dish_id, name, category, picture_name, price, " +
+            "discount_percents, date, description, weight " +
             "FROM dishes";
-    private static final String SELECT_DISHES_BY_CATEGORY = "SELECT dish_id, name, category, picture_name, price, discount_percents " +
+    private static final String SELECT_DISHES_BY_CATEGORY = "SELECT dish_id, name, category, picture_name, " +
+            "price, discount_percents, date, description, weight " +
             "FROM dishes WHERE category = ?";
-    private static final String SELECT_DISHES_BY_NAME = "SELECT dish_id, name, category, picture_name, price, discount_percents " +
+    private static final String SELECT_DISHES_BY_NAME = "SELECT dish_id, name, category, picture_name, price, " +
+            "discount_percents, date, description, weight " +
             "FROM dishes WHERE name LIKE ?";
-    private static final String SELECT_DISHES_BY_PRICE = "SELECT dish_id, name, category, picture_name, price, discount_percents " +
+    private static final String SELECT_DISHES_BY_PRICE = "SELECT dish_id, name, category, picture_name, price, " +
+            "discount_percents, date, description, weight " +
             "FROM dishes WHERE price > ? and price < ?";
-    private static final String SELECT_DISHES_SORTED_BY_PRICE = "SELECT dish_id, name, category, picture_name, price, discount_percents " +
+    private static final String SELECT_DISHES_SORTED_BY_PRICE = "SELECT dish_id, name, category, picture_name, " +
+            "price, discount_percents, date, description, weight " +
             "FROM dishes ORDER BY price";
-    private static final String SELECT_ALL_DISHES_SORTED_BY_NAME = "SELECT dish_id, name, category, picture_name, price, discount_percents " +
+    private static final String SELECT_ALL_DISHES_SORTED_BY_NAME = "SELECT dish_id, name, category, " +
+            "picture_name, price, discount_percents, date, description, weight " +
             "FROM dishes ORDER BY name";
-    private static final String SELECT_DISHES_WITH_DISCOUNT = "SELECT dish_id, name, category, picture_name, price, discount_percents " +
+    private static final String SELECT_DISHES_WITH_DISCOUNT = "SELECT dish_id, name, category, picture_name, " +
+            "price, discount_percents, date, description, weight " +
             "FROM dishes WHERE discount_price > 0.0";
-    private static final String SELECT_DISHES_WITHOUT_DISCOUNT = "SELECT dish_id, name, category, picture_name, price, discount_percents " +
+    private static final String SELECT_DISHES_WITHOUT_DISCOUNT = "SELECT dish_id, name, category, " +
+            "picture_name, price, discount_percents, date, description, weight " +
             "FROM dishes WHERE discount_price = 0.0";
-    private static final String SELECT_DISH_BY_ID= "SELECT dish_id, name, category, picture_name, price, discount_percents " +
+    private static final String SELECT_DISH_BY_ID= "SELECT dish_id, name, category, picture_name, price, " +
+            "discount_percents, date, description, weight " +
             "FROM dishes WHERE dish_id = ?";
     private static final String DELETE_DISH_BY_ID= "DELETE FROM dishes WHERE dish_id = ?";
-    private static final String INSERT_DISH = "INSERT INTO dishes (name, category, picture_name, price, discount_percents) " +
-            " VALUES (?, ?, ?, ?, ?)";
+    private static final String INSERT_DISH = "INSERT INTO dishes (name, category, picture_name, price, " +
+            "discount_percents, date, description, weight) " +
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_DISH = "UPDATE dishes " +
             "SET name = ?, category = ?, picture_name = ?, price = ?, discount_percents = ? " +
             "WHERE dish_id = ?";
@@ -150,21 +163,22 @@ public class DishDaoImpl implements DishDao {
     }
 
     @Override
-    public Dish findDishById(int dishId) throws DaoException {
+    public Optional<Dish> findDishById(int dishId) throws DaoException {
         Connection connection = pool.getConnection();
-        Dish dish = null;
+        Optional dishOptional = Optional.empty();
         try (PreparedStatement statement = connection.prepareStatement(SELECT_DISH_BY_ID)){
             statement.setInt(1, dishId);
             ResultSet result = statement.executeQuery();
             if(result.next()){
-                dish = createDish(result);
+                Dish dish = createDish(result);
+                dishOptional = Optional.ofNullable(dish);
             }
         }catch (SQLException e){
-            throw new DaoException(e.getMessage());
+            throw new DaoException(e);
         }finally {
             pool.releaseConnection(connection);
         }
-        return dish;
+        return dishOptional;
     }
 
     @Override
@@ -253,17 +267,5 @@ public class DishDaoImpl implements DishDao {
         }
     }
 
-    private Dish createDish(ResultSet dishData) throws SQLException{
-        Dish dish;
-        int dishId = dishData.getInt(1);
-        String name = dishData.getString(2);
-        String dishCategory = dishData.getString(3);
-        DishCategory category = DishCategory.valueOf(dishCategory.toUpperCase());
-        String pictureName = dishData.getString(4);
-        double price = dishData.getDouble(5);
-        short discount = dishData.getShort(6);
-        dish = new Dish(dishId, name, category, pictureName, price, discount);
-        return dish;
-    }
 
 }

@@ -1,5 +1,6 @@
 package com.yuliana.cafe.service.impl;
 
+import com.yuliana.cafe.entity.Address;
 import com.yuliana.cafe.entity.UserStatus;
 import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.dao.UserDao;
@@ -100,5 +101,16 @@ public class UserServiceImpl implements UserService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+    }
+
+    @Override
+    public Optional<Address> findUserAddress(int userId) throws ServiceException {
+        Optional<Address> addressOptional;
+        try {
+           addressOptional = userDao.findUserAddress(userId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return addressOptional;
     }
 }

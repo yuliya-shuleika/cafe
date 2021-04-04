@@ -7,12 +7,6 @@
     <style><%@include file="/css/cart.css"%></style>
     <style><%@include file="/css/payment.css"%></style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"
-            integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw=="
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"
-            integrity="sha512-0XDfGxFliYJPFrideYOoxdgNIvrwGTLnmK20xZbCAvPfLGQMzHUsaqZK8ZoH+luXGRxTrS46+Aq400nCnAT0/w=="
-            crossorigin="anonymous"></script>
     <script><%@include file="/js/payment.js"%></script>
     <script><%@include file="/js/cart.js"%></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -123,6 +117,7 @@
                 </ul>
             </div>
             <div class="payment-delivery">
+                <input type="hidden" name="getting_type" value="delivery">
                 <div class="choose">
                     <div id="delivery" class="choose-item is-active">${delivery}</div>
                     <div id="pickup" class="choose-item">${pickup}</div>
@@ -164,9 +159,11 @@
                     </div>
                 </div>
                 <div class="pickup-info">
+                    <input type="hidden" name="getting_type" value="pickup">
                     <p class="pickup-label">${choose_cafe}</p>
                     <select class="payment-select">
                         <c:forEach var="address" items="${cafe_addresses}">
+                            <input type="hidden" name="address_id" value="${address.getAddressId()}">
                             <option>
                                 ${address.getCity()}, ${address.getStreet()}, ${address.getHouse()}
                             </option>
@@ -184,9 +181,18 @@
                 <div class="payment-method">
                     <h4 class="payment-section-header">${payment_method}</h4>
                     <div class="choose">
-                        <div class="choose-item is-active" id="cash">${cash}</div>
-                        <div class="choose-item" id="bank-card">${bank_card}</div>
-                        <div class="choose-item" id="bank-card-online">${payment_by_card_online}</div>
+                        <div class="choose-item is-active" id="cash">
+                            ${cash}
+                            <input type="hidden" name="payment_type" value="cash">
+                        </div>
+                        <div class="choose-item" id="bank-card">
+                            ${bank_card}
+                            <input type="hidden" name="payment_type" value="bank_card">
+                        </div>
+                        <div class="choose-item" id="bank-card-online">
+                            ${payment_by_card_online}
+                            <input type="hidden" name="payment_type" value="bank_card_online">
+                        </div>
                     </div>
                     <div class="credit-card-form" id="credit-card-form">
                         <div class="card-field">
@@ -215,7 +221,7 @@
         <div class="payment-footer">
             <div class="comment-order">
                 <h4 class="payment-section-header">${your_comment}</h4>
-                <textarea class="comment-order-input" placeholder="Your comment..."></textarea>
+                <textarea class="comment-order-input" placeholder="Your comment..." name="comment"></textarea>
             </div>
             <div class="payment-confirm">
                 <button class="payment-confirm-button" type="submit">${checkout}</button>

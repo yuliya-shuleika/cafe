@@ -5,10 +5,7 @@ import com.yuliana.cafe.dao.AddressDao;
 import com.yuliana.cafe.entity.Address;
 import com.yuliana.cafe.exception.DaoException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Optional;
 
 public class AddressDaoImpl implements AddressDao {
@@ -21,16 +18,20 @@ public class AddressDaoImpl implements AddressDao {
 
     @Override
     public int addAddress(Address address) throws DaoException {
-        int addressId;
+        int addressId = 0;
         Connection connection = pool.getConnection();
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_ADDRESS)){
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_ADDRESS, Statement.RETURN_GENERATED_KEYS)){
             statement.setString(1, address.getCity());
             statement.setString(2,address.getStreet());
             statement.setShort(3, address.getHouse());
             statement.setShort(4, address.getEntrance());
             statement.setShort(5, address.getFloor());
             statement.setShort(6, address.getFlat());
-            addressId = statement.executeUpdate();
+            statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                addressId = generatedKeys.getInt(1);
+            }
         } catch (SQLException e){
             throw new DaoException(e);
         } finally {
@@ -64,7 +65,7 @@ public class AddressDaoImpl implements AddressDao {
         short house = result.getShort(3);
         short entrance = result.getShort(4);
         short floor = result.getShort(5);
-        short flat = result.getShort(5);
+        short flat = result.getShort(6);
         Address address = new Address(city, street, house, entrance, floor, flat);
         return address;
     }

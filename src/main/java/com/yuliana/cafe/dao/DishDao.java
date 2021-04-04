@@ -5,6 +5,7 @@ import com.yuliana.cafe.entity.Dish;
 import com.yuliana.cafe.exception.DaoException;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DishDao extends BaseDao{
 
@@ -14,7 +15,7 @@ public interface DishDao extends BaseDao{
     List<Dish> findDishesByName(String name) throws DaoException;
     List<Dish> findDishesSortedByPrice() throws DaoException;
     List<Dish> findDishesSortedByDiscount() throws DaoException;
-    Dish findDishById(int dishId) throws DaoException;
+    Optional<Dish> findDishById(int dishId) throws DaoException;
     List<Dish> findDishesSortedByName() throws DaoException;
     void deleteDishById(int dishId) throws DaoException;
     int addDish(Dish dish) throws DaoException;

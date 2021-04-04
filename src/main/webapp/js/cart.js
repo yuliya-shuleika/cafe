@@ -62,7 +62,7 @@ $(document).ready(function (){
                 let itemCountVal = itemCount.innerHTML
                 let items_count_header = $('.header-items-count')[0]
                 let items_count = items_count_header.innerHTML
-                if(command == 'delete_from_guest_cart') {
+                if(command == 'delete_from_cart') {
                     items_count_header.innerHTML= --items_count
                     if (itemCountVal == 1) {
                         cart_item.remove()

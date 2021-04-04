@@ -13,23 +13,30 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.yuliana.cafe.dao.creator.EntityCreator.createDish;
+
 public class CartDaoImpl implements CartDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
-    private static final String SELECT_ITEM_COUNT = "SELECT count FROM cart_items WHERE dish_id = ? AND user_id = ?";
-    private static final String UPDATE_ITEM_COUNT = "UPDATE cart_items SET count = ? WHERE dish_id = ? AND user_id = ?";
+    private static final String SELECT_ITEM_COUNT = "SELECT count FROM cart_items " +
+            "WHERE dish_id = ? AND user_id = ?";
+    private static final String UPDATE_ITEM_COUNT = "UPDATE cart_items SET count = ? " +
+            "WHERE dish_id = ? AND user_id = ?";
     private static final String SELECT_ALL_USER_ITEMS = "SELECT dishes.dish_id, dishes.name, dishes.category, " +
-            "dishes.picture_name, dishes.price, dishes.discount_percents, cart_items.count FROM cart_items JOIN " +
-            "dishes ON cart_items.dish_id = dishes.dish_id WHERE user_id = ?";
+            "dishes.picture_name, dishes.price, dishes.discount_percents, " +
+            "dishes.date, dishes.description, dishes.weight, cart_items.count " +
+            "FROM cart_items JOIN dishes ON cart_items.dish_id = dishes.dish_id " +
+            "WHERE cart_items.user_id = ?";
     private static final String ADD_ITEM = "INSERT INTO cart_items (user_id, dish_id, count) VALUES (?, ?, ?)";
     private static final String DELETE_ITEM = "DELETE FROM cart_items WHERE dish_id = ? AND user_id = ?";
-    private static final String DELETE_ALL_ITEMS = "DELETE FROM cart_items WHERE user_id = ?";
+    private static final String DELETE_ALL_ITEMS = "DELETE FROM cart_items";
 
     @Override
-    public void addItem(int userId, int dishId, int count) throws DaoException{
+    public void addItem(int userId, int dishId) throws DaoException{
         Connection connection = pool.getConnection();
-        try{
-            PreparedStatement statement = connection.prepareStatement(SELECT_ITEM_COUNT);
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SELECT_ITEM_COUNT);
             statement.setInt(1, userId);
             statement.setInt(2, dishId);
             ResultSet resultSet = statement.executeQuery();
@@ -37,10 +44,38 @@ public class CartDaoImpl implements CartDao {
             if(resultSet.next()){
                 int itemCount = resultSet.getInt(1);
                 statement = connection.prepareStatement(UPDATE_ITEM_COUNT);
-                statement.setInt(3, count + itemCount);
+                statement.setInt(3, ++itemCount);
             } else {
                 statement = connection.prepareStatement(ADD_ITEM);
-                statement.setInt(3, count);
+                statement.setInt(3, 1);
+            }
+            statement.setInt(1,userId);
+            statement.setInt(2, dishId);
+            statement.executeUpdate();
+        } catch (SQLException e){
+            throw new DaoException(e);
+        } finally {
+            close(statement);
+            pool.releaseConnection(connection);
+        }
+    }
+
+    @Override
+    public void deleteItem(int userId, int dishId, int count) throws DaoException{
+        Connection connection = pool.getConnection();
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SELECT_ITEM_COUNT);
+            statement.setInt(1, userId);
+            statement.setInt(2, dishId);
+            ResultSet resultSet = statement.executeQuery();
+            statement.executeQuery();
+            if(resultSet.next()){
+                int itemCount = resultSet.getInt(1);
+                statement = connection.prepareStatement(UPDATE_ITEM_COUNT);
+                statement.setInt(3, itemCount - count);
+            } else {
+                statement = connection.prepareStatement(DELETE_ITEM);
             }
             statement.setInt(1,userId);
             statement.setInt(2, dishId);
@@ -53,22 +88,7 @@ public class CartDaoImpl implements CartDao {
     }
 
     @Override
-    public void deleteItem(int userId, int dishId, int count) throws DaoException{
-        Connection connection = pool.getConnection();
-        try(PreparedStatement statement = connection.prepareStatement(DELETE_ITEM)){
-            statement.setInt(1, userId);
-            statement.setInt(2, userId);
-            statement.executeUpdate();
-        } catch (SQLException e){
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
-    }
-
-
-    @Override
-    public Map<Dish, Integer> findAllUserItems(int userId) throws DaoException {
+    public Map<Dish, Integer> findUserItems(int userId) throws DaoException {
         Connection connection = pool.getConnection();
         Map<Dish, Integer> cartItems = new HashMap<>();
         try(PreparedStatement statement = connection.prepareStatement(SELECT_ALL_USER_ITEMS)){
@@ -76,7 +96,7 @@ public class CartDaoImpl implements CartDao {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 Dish dish = createDish(resultSet);
-                int count = resultSet.getInt(6);
+                int count = resultSet.getInt(10);
                 cartItems.put(dish, count);
             }
         } catch (SQLException e){
@@ -100,15 +120,4 @@ public class CartDaoImpl implements CartDao {
         }
     }
 
-    private Dish createDish(ResultSet dishData) throws SQLException {
-        int dishId = dishData.getInt(1);
-        String name = dishData.getString(2);
-        String dishCategory = dishData.getString(3);
-        DishCategory category = DishCategory.valueOf(dishCategory.toUpperCase());
-        String pictureName = dishData.getString(4);
-        double price = dishData.getDouble(5);
-        short discount = dishData.getShort(6);
-        Dish dish = new Dish(dishId, name, category, pictureName, price, discount);
-        return dish;
-    }
 }

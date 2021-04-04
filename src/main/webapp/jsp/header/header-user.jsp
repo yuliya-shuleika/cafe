@@ -46,9 +46,9 @@
             <div class = "header-user">
                 <ul class="header-ul">
                     <li>
-                        <form class="header-form" method="post">
+                        <form class="header-form" method="post" action="controller">
                             <input type="hidden" name="command" value="search_dish_by_name" />
-                            <input class="header-search" type="search" id="mySearch" name="q"
+                            <input class="header-search" type="search" id="mySearch" name="dish_name"
                                    placeholder="Search..." required
                                    minlength="1" maxlength="20">
                         </form>
@@ -59,7 +59,7 @@
                             <a class="header-icon-link" href="#cart">${cart}(<span class="header-items-count">0</span>)</a>
                         </c:if>
                         <c:if test="${sessionScope.cart_items != null && sessionScope.cart_items.size() > 0}">
-                            <a class="header-icon-link" href="#cart">${cart}(<span class="header-items-count">${sessionScope.cart_items_count}</span>)</a>
+                            <a class="header-icon-link" href="#cart">${cart}(<span class="header-items-count">${sessionScope.cart_items.size()}</span>)</a>
                         </c:if>
                     </li>
                     <li class="header-icon">

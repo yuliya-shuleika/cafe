@@ -17,6 +17,9 @@ public class AttributeName {
     public static final String ADD_ITEM_ERROR_MESSAGE = "adding_error";
     public static final String CAFE_ADDRESSES = "cafe_addresses";
     public static final String USER_ORDERS = "user_orders";
+    public static final String USER_ADDRESS = "user_address";
+    public static final String USER_FAVORITES = "user_favorites";
+    public static final String CURRENT_PAGE = "current_page";
 
     private AttributeName(){}
 }

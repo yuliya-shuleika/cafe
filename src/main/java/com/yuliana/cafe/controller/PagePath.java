@@ -15,4 +15,6 @@ public class PagePath {
     public static final String ACCOUNT_PAGE = "/jsp/account.jsp";
     public static final String PAYMENT_PAGE = "/jsp/payment.jsp";
     public static final String ERROR_PAGE = "/jsp/error/error-page.jsp";
+    public static final String ORDER_CONFIRM_PAGE = "/jsp/checkout-confirm.jsp";
+    public static final String ACCOUNT_EDIT_PAGE = "/jsp/account-edit.jsp";
 }

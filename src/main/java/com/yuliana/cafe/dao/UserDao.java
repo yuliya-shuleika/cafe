@@ -1,5 +1,6 @@
 package com.yuliana.cafe.dao;
 
+import com.yuliana.cafe.entity.Address;
 import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.entity.UserStatus;
 import com.yuliana.cafe.exception.DaoException;
@@ -17,4 +18,6 @@ public interface UserDao extends BaseDao{
     List<User> findUsersSortedByEmail() throws DaoException;
     List<User> findUsersByEmail(String email) throws DaoException;
     Optional<User> findUserById(int userId) throws DaoException;
+    Optional<Address> findUserAddress(int userId) throws DaoException;
+
 }

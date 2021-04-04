@@ -8,6 +8,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
             type="text/javascript"></script>
     <script><%@include file="/js/menu.js"%></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&family=Rubik:wght@400;500&display=swap" rel="stylesheet">
@@ -24,6 +25,7 @@
 <fmt:message bundle="${loc}" key="lang.label.by_price" var="by_price"/>
 <fmt:message bundle="${loc}" key="lang.label.discount_first" var="discount_first"/>
 <fmt:message bundle="${loc}" key="lang.label.show_filters" var="show_filters"/>
+<fmt:message bundle="${loc}" key="lang.label.dishes_not_found" var="dishes_not_found"/>
 <body>
     <c:choose>
         <c:when test="${sessionScope.user.getRole() eq 'USER'}">
@@ -84,6 +86,22 @@
                     <c:if test="${dishes_list != null}">
                     <c:forEach var="dish" items="${dishes_list}">
                     <div class="menu-item">
+                        <c:if test="${sessionScope.user.getRole() eq 'USER'}">
+                            <c:if test="${!user_favorites.contains(dish)}">
+                                <div class="add-to-favorites">
+                                    <input type="hidden" name="command" value="add_dish_to_favorites">
+                                    <input type="hidden" name="dish_id" value="${dish.getDishId()}">
+                                    <i class="fa fa-heart menu-favorite"></i>
+                                </div>
+                            </c:if>
+                            <c:if test="${user_favorites.contains(dish)}">
+                                <div class="add-to-favorites">
+                                    <input type="hidden" name="command" value="delete_from_favorites">
+                                    <input type="hidden" name="dish_id" value="${dish.getDishId()}">
+                                    <i class="fa fa-heart menu-favorite-added"></i>
+                                </div>
+                            </c:if>
+                        </c:if>
                         <img src="${pageContext.request.contextPath}${dish.getPictureName()}" alt="${dish.getName()}"
                              class="menu-item-picture">
                         <div class="menu-item-content">
@@ -94,57 +112,21 @@
                             <div class="menu-item-price">
                                 <span class="menu-item-price-value">${dish.getPrice()}</span>
                             </div>
-                            <c:choose>
-                                <c:when test="${sessionScope.user.getRole() eq 'USER'}">
-                                    <div id="add-item-form">
-                                        <input type="hidden" name="command" value="add_to_guest_cart"/>
-                                        <input type="hidden" name="dish_id" value="${dish.getDishId()}"/>
-                                        <button class="menu-item-button" type="button">${add_to_cart}</button>
-                                    </div>
-                                </c:when>
-                                <c:when test="${sessionScope.user.getRole() == null}">
-                                    <div id="add-item-form">
-                                        <input type="hidden" name="command" value="add_to_guest_cart"/>
-                                        <input type="hidden" name="dish_id" value="${dish.getDishId()}"/>
-                                        <button class="menu-item-button" type="button">${add_to_cart}</button>
-                                    </div>
-                                </c:when>
-                            </c:choose>
+                            <div id="add-item-form">
+                                <input type="hidden" name="command" value="add_to_cart"/>
+                                <input type="hidden" name="dish_id" value="${dish.getDishId()}"/>
+                                <button class="menu-item-button" type="button">${add_to_cart}</button>
+                            </div>
                         </div>
                     </div>
                     </c:forEach>
                     </c:if>
-                        <c:if test="${dishes_list == null}">
-                        <c:forEach var="dish" items="${sessionScope.dishes_list}">
-                        <div class="menu-item">
-                            <img src="${pageContext.request.contextPath}${dish.getPictureName()}" alt="${dish.getName()}">
-                            <div class="menu-item-content">
-                                <h3 class="menu-item-title">${dish.getName()}</h3>
-                                <p class = "menu-item-description">something</p>
-                            </div>
-                            <div class="menu-item-bottom">
-                                <div class="menu-item-price">
-                                    <span class="menu-item-price-value">${dish.getPrice()}</span>
-                                </div>
-                                <c:choose>
-                                    <c:when test="${sessionScope.user.getRole() eq 'USER'}">
-                                        <div id="add-item-form">
-                                            <input type="hidden" name="command" value="add_to_guest_cart"/>
-                                            <input type="hidden" name="dish_id" value="${dish.getDishId()}"/>
-                                            <button class="menu-item-button" type="button">${add_to_cart}</button>
-                                        </div>
-                                    </c:when>
-                                    <c:when test="${sessionScope.user.getRole() == null}">
-                                        <div id="add-item-form">
-                                            <input type="hidden" name="command" value="add_to_guest_cart"/>
-                                            <input type="hidden" name="dish_id" value="${dish.getDishId()}"/>
-                                            <button class="menu-item-button" type="button">${add_to_cart}</button>
-                                        </div>
-                                    </c:when>
-                                </c:choose>
-                            </div>
-                        </div>
-                    </c:forEach>
+                    <c:if test="${dishes_list == null}">
+                       <div class="empty-dishes-list">
+                           <p class="empty-dishes-list-label">
+                               ${dishes_not_found}
+                           </p>
+                       </div>
                     </c:if>
                 </div>
             </div>

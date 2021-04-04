@@ -1,5 +1,6 @@
 package com.yuliana.cafe.service;
 
+import com.yuliana.cafe.entity.Address;
 import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.exception.ServiceException;
 
@@ -14,4 +15,5 @@ public interface UserService {
     List<User> findUsersSortedByName() throws ServiceException;
     List<User> findUsersByEmail(String email) throws ServiceException;
     void blockUser(int userId) throws ServiceException;
+    Optional<Address> findUserAddress(int userId) throws ServiceException;
 }

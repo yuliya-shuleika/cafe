@@ -25,10 +25,9 @@ public class CheckoutValidator extends BaseValidator{
 
     public static boolean isAddressFormValid(Map<String, String> addressForm){
         boolean isValidForm = true;
-        boolean isValidField;
+        boolean isValidField = false;
         String value = "";
         for(String field : addressForm.keySet()){
-            isValidField = false;
             value = addressForm.get(field);
             switch (field){
                 case FIELD_CITY:

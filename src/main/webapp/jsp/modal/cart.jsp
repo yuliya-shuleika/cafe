@@ -47,17 +47,17 @@
                                 </div>
                                 <div class="cart-item-count">
                                     <div class="cart-item-count-update">
-                                        <input type="hidden" name ="command" value="add_to_guest_cart">
+                                        <input type="hidden" name ="command" value="add_to_cart">
                                         <span class="plus-minus-button">+</span>
                                     </div>
                                     <p class="cart-item-count-label">${item.getValue()}</p>
                                     <div class="cart-item-count-update">
-                                        <input type="hidden" name ="command" value="delete_from_guest_cart">
+                                        <input type="hidden" name ="command" value="delete_from_cart">
                                         <span class="plus-minus-button">-</span>
                                     </div>
                                 </div>
                                 <div class="cart-item-delete">
-                                    <input type="hidden" name ="command" value="delete_from_guest_cart">
+                                    <input type="hidden" name ="command" value="delete_from_cart">
                                     <div class="cart-item-delete-button">
                                         <i class="fa fa-trash" id="delete-item"></i>
                                     </div>

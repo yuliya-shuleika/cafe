@@ -141,6 +141,36 @@ form{
     margin-bottom: 60px;
     flex-direction: column;
     width: 300px;
+    position: relative;
+}
+
+.menu-favorite{
+    color: white;
+    z-index: 10000;
+    transition: 0.2s;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    opacity: 0.7;
+}
+
+.menu-favorite:hover{
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.menu-favorite-added{
+    color: #4CAF50;
+    z-index: 1000;
+    transition: 0.2s;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.menu-favorite-added:hover{
+    font-size: 24px;
+    cursor: pointer;
 }
 
 .menu-item-title{

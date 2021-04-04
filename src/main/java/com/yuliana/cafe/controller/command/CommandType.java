@@ -58,9 +58,14 @@ public enum CommandType {
             this.command = new ToAccountCommand();
         }
     },
-    ADD_TO_GUEST_CART {
+    TO_ACCOUNT_EDIT{
         {
-            this.command = new AddToGuestCartCommand();
+            this.command = new ToAccountEditCommand();
+        }
+    },
+    ADD_TO_CART {
+        {
+            this.command = new AddToCartCommand();
         }
     },
     CHOOSE_CATEGORY {
@@ -93,9 +98,9 @@ public enum CommandType {
             this.command = new SearchDishByNameCommand();
         }
     },
-    DELETE_FROM_GUEST_CART {
+    DELETE_FROM_CART {
         {
-            this.command = new DeleteFromGuestCartCommand();
+            this.command = new DeleteFromCartCommand();
         }
     },
     SORT_BY_PRICE {
@@ -201,6 +206,16 @@ public enum CommandType {
     ADD_PROMO_CODE {
         {
             this.command = new AddPromoCodeCommand();
+        }
+    },
+    ADD_DISH_TO_FAVORITES{
+        {
+            this.command = new AddDishToFavoritesCommand();
+        }
+    },
+    DELETE_FROM_FAVORITES{
+        {
+            this.command = new DeleteFromFavoritesCommand();
         }
     };
     ActionCommand command;

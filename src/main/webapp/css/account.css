@@ -1,0 +1,355 @@
+form{
+    padding: 0;
+    margin: 0;
+}
+
+button:active, button:focus {
+    outline: none;
+}
+
+/*container*/
+
+.account-container {
+    display: flex;
+    flex-direction: row;
+    margin: 90px 10% 50px;
+
+}
+
+/*profile-info*/
+
+.profile{
+    display: flex;
+    flex-direction: row;
+    width: 40%;
+    margin-top: 10%;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-right: inherit;
+}
+
+.profile-image{
+
+}
+
+.profile-info{
+    margin: 20px 0;
+}
+
+.profile-label{
+    font-family: 'Rubik', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #545454;
+    margin-bottom: 10px;
+}
+
+.profile-edit{
+    background-color: #4CAF50;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    padding: 0.5em 1.0em;
+    border-width: 0;
+    transition: 0.2s;
+    font-size: 16px;
+    display: block;
+}
+
+.profile-edit:hover{
+    background-color: #3d8a40;
+    cursor: pointer;
+}
+
+/*tabs*/
+
+.account-manage{
+    flex-direction: column;
+    margin-top: 7%;
+    width: 60%;
+}
+
+.account-tabs{
+    overflow: hidden;
+    border-bottom: 1px solid #d1d1d1;
+}
+
+.account-tab{
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: normal;
+    font-size: 20px;
+    color: #545454;
+    background-color: white;
+    padding: 10px 20px;
+    transition: 0.2s;
+    width: 32%;
+}
+
+.account-tab:hover{
+    cursor: pointer;
+    border-bottom: 4px solid #dddddd;
+    background: #dddddd;
+}
+
+.account-tab.is-active{
+    border-bottom: 4px solid #4CAF50;
+
+}
+/*orders*/
+
+.account-empty{
+    margin-top: 50px;
+}
+
+.account-empty-label{
+    font-family: 'Rubik', sans-serif;
+    font-weight: normal;
+    font-size: 18px;
+    color: #545454;
+    text-align: center;
+}
+
+.account-orders{
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+}
+
+.order-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: #f2f2f2;
+    border-radius: 15px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #545454;
+}
+
+.order-start{
+    flex-direction: column;
+}
+
+.order-date{
+    display: block;
+    padding: 15px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
+
+.order-dishes{
+    padding: 15px;
+}
+
+.order-end{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.order-price-container{
+    display: flex;
+    flex-direction: row;
+    margin: 15px;
+    align-items: center;
+    justify-content: flex-end;;
+}
+
+.order-price{
+    padding-right: 5px;
+}
+
+.account-action-button{
+    background-color: #4CAF50;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    padding: 0.4em 0.8em;
+    border-width: 0;
+    transition: 0.2s;
+    font-size: 15px;
+    display: block;
+    margin: 10px;
+}
+
+.account-action-button:hover{
+    background: #3d8a40;
+    cursor: pointer;
+}
+
+/*favourite dishes*/
+
+.account-favorites{
+    display: none;
+    flex-direction: column;
+}
+
+.favorite-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 15px;
+    background: #f2f2f2;
+    margin-top: 5px;
+}
+
+.favorite-info-start{
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+}
+
+.favorite-image{
+    width: 80px;
+    height: 80px;
+    display: block;
+}
+
+.favorite-header{
+    display: flex;
+    flex-direction: column;
+    margin-left: 5px;
+}
+
+.favorite-title{
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #545454;
+}
+
+.favorite-info-end{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.favorite-price{
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 10px 10px 0;
+    font-size: 17px;
+    font-family: 'Rubik', sans-serif;
+    color: #545454;
+}
+
+.favorite-price-value-discount{
+    margin-left: 5px;
+
+}
+
+/*extra info*/
+
+
+
+/*edit account*/
+
+.account-edit-container{
+    display: flex;
+    margin: 90px 15% 50px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    flex-direction: column;
+    font-size: 18px;
+    color: #545454;
+}
+
+.account-edit{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/*edit general*/
+
+.account-general-title{
+    font-size: 26px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.account-edit-general{
+    display: flex;
+    flex-direction: column;
+}
+
+.account-general-fields{
+    display: flex;
+    flex-direction: row;
+}
+
+.account-field{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+.account-general-label{
+    padding-right: 5px;
+    align-self: center;
+}
+
+.account-general-input{
+    color: #545454;
+    font-size: 18px;
+    width: 250px;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    background: #f2f2f2;
+}
+
+.account-header-label{
+    font-size: 14px;
+    text-align: center;
+}
+
+.account-file-input{
+    opacity:0;
+    overflow:hidden;
+    position:absolute;
+    z-index:-1;
+}
+
+.account-edit-image{
+    width: 100%;
+}
+
+.general-fields{
+    margin-left: 20px;
+}
+
+/*account-edit-footer*/
+
+.account-edit-footer{
+    display: flex;
+    justify-content: end;
+}
+
+.account-edit-submit{
+    background-color: #4CAF50;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    padding: 0.5em 1.0em;
+    border-width: 0;
+    transition: 0.2s;
+    display: block;
+    font-size: 20px;
+}
+
+.account-edit-submit:hover{
+    background: #3d8a40;
+    cursor: pointer;
+}
+
+

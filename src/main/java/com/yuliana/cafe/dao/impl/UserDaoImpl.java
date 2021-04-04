@@ -1,6 +1,7 @@
 package com.yuliana.cafe.dao.impl;
 
 import com.yuliana.cafe.connection.ConnectionPool;
+import com.yuliana.cafe.entity.Address;
 import com.yuliana.cafe.entity.UserStatus;
 import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.dao.UserDao;
@@ -28,6 +29,11 @@ public class UserDaoImpl implements UserDao {
             "WHERE user_id = ?";
     private static final String SELECT_USERS_BY_ID = "SELECT user_id, name, email, role, status " +
             "FROM users WHERE user_id = ?";
+    private static final String SELECT_USER_ADDRESS = "SELECT addresses.address_id, " +
+            "addresses.city, addresses.street, addresses.house, " +
+            "addresses.entrance, addresses.floor, addresses.flat " +
+            "FROM users JOIN addresses ON addresses.address_id = users.address_id " +
+            "WHERE users.user_id = ?";
 
     @Override
     public void register(User user, String password) throws DaoException {
@@ -78,7 +84,6 @@ public class UserDaoImpl implements UserDao {
         } finally {
             pool.releaseConnection(connection);
         }
-
     }
 
     @Override
@@ -154,6 +159,25 @@ public class UserDaoImpl implements UserDao {
         return userOptional;
     }
 
+    @Override
+    public Optional<Address> findUserAddress(int userId) throws DaoException {
+        Connection connection = pool.getConnection();
+        Optional<Address> addressOptional = Optional.empty();
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_USER_ADDRESS)){
+            statement.setInt(1, userId);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                Address address = createAddress(result);
+                addressOptional = Optional.of(address);
+            }
+        }catch (SQLException e){
+            throw new DaoException(e);
+        }finally {
+            pool.releaseConnection(connection);
+        }
+        return addressOptional;
+    }
+
     private User createUser(ResultSet userData) throws SQLException{
         User user;
         int userId = userData.getInt(1);
@@ -165,5 +189,17 @@ public class UserDaoImpl implements UserDao {
         UserStatus userStatus = UserStatus.valueOf(status);
         user = new User(userId, name, email, userRole, userStatus);
         return user;
+    }
+
+    private Address createAddress(ResultSet result) throws SQLException{
+        int addressId = result.getInt(1);
+        String city = result.getString(2);
+        String street = result.getString(3);
+        short house = result.getShort(4);
+        short entrance = result.getShort(5);
+        short floor = result.getShort(6);
+        short flat = result.getShort(7);
+        Address address = new Address(city, street, house, entrance, floor, flat);
+        return address;
     }
 }
