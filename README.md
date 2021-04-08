@@ -1,6 +1,6 @@
-#JAPANESE RESTAURANT
-*Project Description
-*Project Features
+# JAPANESE RESTAURANT
+* Project Description
+* Project Features
 *Roles
 *Guest's scope
 *User's scope
