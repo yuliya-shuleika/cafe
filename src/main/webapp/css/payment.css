@@ -6,6 +6,9 @@ h3, h4, ul, form, span, button, p, input{
 ul{
     list-style: none;
 }
+body{
+    background: #5d5d5d;
+}
 
 button:active, button:focus,
 input:active, input:focus,
@@ -91,7 +94,7 @@ input[type="checkbox"]:checked + label:after{
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
     font-size: 24px;
-    color: #545454;
+    color: #fff;
     display: block;
     padding-bottom: 15px;
 }
@@ -112,7 +115,7 @@ input[type="checkbox"]:checked + label:after{
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 48px;
-    color: #545454;
+    color: #fff;
 }
 
 .payment-body{
@@ -123,7 +126,7 @@ input[type="checkbox"]:checked + label:after{
 .payment-cart{
     display: flex;
     flex-direction: column;
-    background-color: #f2f2f2;
+    background-color: #a2a2a2;
     border-radius: 12px;
     padding: 20px;
 }
@@ -160,7 +163,7 @@ input[type="checkbox"]:checked + label:after{
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
     font-size: 20px;
-    color: #545454;
+    color: #fff;
 }
 
 /*delivery info*/
@@ -169,7 +172,7 @@ input[type="checkbox"]:checked + label:after{
     display: flex;
     flex-direction: row;
     border-radius: 12px;
-    background: #f2f2f2;
+    background: #a2a2a2;
     overflow: hidden;
     margin: 20px 0;
 }
@@ -184,7 +187,7 @@ input[type="checkbox"]:checked + label:after{
     padding: 10px 0;
     height: 100%;
     font-size: 22px;
-    color: #545454;
+    color: #fff;
     transition: .2s
 }
 
@@ -214,7 +217,7 @@ input[type="checkbox"]:checked + label:after{
     margin: 10px 25px 10px  0;
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
-    color: #545454;
+    color: #fff;
 }
 
 .delivery-address-label{
@@ -228,7 +231,7 @@ input[type="checkbox"]:checked + label:after{
     height: 30px;
     border: none;
     border-radius: 10px;
-    background: #f2f2f2;
+    background: #a2a2a2;
     margin-bottom: 15px;
     padding-left: 3px;
 }
@@ -239,7 +242,7 @@ input[type="checkbox"]:checked + label:after{
     height: 30px;
     border: none;
     border-radius: 10px;
-    background: #f2f2f2;
+    background: #a2a2a2;
     margin-bottom: 15px;
     text-align: center;
 }
@@ -279,7 +282,7 @@ input[type="checkbox"]:checked + label:after{
     flex-direction: row;
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
-    color: #545454;
+    color: #fff;
     padding-top: 20px;
 }
 
@@ -294,7 +297,7 @@ input[type="checkbox"]:checked + label:after{
     height: 35px;
     border: none;
     border-radius: 10px;
-    background: #f2f2f2;
+    background: #a2a2a2;
     margin-bottom: 18px;
     padding-left: 5px;
 }
@@ -321,7 +324,7 @@ input[type="checkbox"]:checked + label:after{
     font-family: 'Rubik', sans-serif;
     font-weight: normal;
     flex-direction: column;
-    color: #545454;
+    color: #fff;
 }
 
 .card-field{
@@ -340,7 +343,7 @@ input[type="checkbox"]:checked + label:after{
     height: 30px;
     border: none;
     border-radius: 10px;
-    background: #f2f2f2;
+    background: #a2a2a2;
     padding-left: 3px;
 }
 
@@ -350,7 +353,7 @@ input[type="checkbox"]:checked + label:after{
     height: 30px;
     border: none;
     border-radius: 10px;
-    background: #f2f2f2;
+    background: #a2a2a2;
     padding-left: 3px;
 
 }
@@ -365,12 +368,12 @@ input[type="checkbox"]:checked + label:after{
 .comment-order-input{
     width: 100%;
     resize: none;
-    background: #f2f2f2;
+    background: #a2a2a2;
     border: none;
     border-radius: 15px;
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
-    color: #545454;
+    color: #fff;
     font-size: 18px;
     padding: 10px 20px;
     outline: none;
@@ -391,7 +394,7 @@ input[type="checkbox"]:checked + label:after{
     border-radius: 10px;
     color: #fff;
     font-family: 'Roboto', sans-serif;
-    font-weight: 400;
+    font-weight: 500;
     padding: 0.75em 1.25em;
     border-width: 0;
     transition: 0.2s;
@@ -430,7 +433,7 @@ input[type="checkbox"]:checked + label:after{
 .confirm-info{
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
-    color: #545454;
+    color: #fff;
     font-size: 18px;
     text-align: center;
 }

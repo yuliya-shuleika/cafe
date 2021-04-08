@@ -27,6 +27,8 @@
 <fmt:message bundle="${loc}" key="lang.label.odd_money" var="odd_money"/>
 <fmt:message bundle="${loc}" key="lang.label.dont_forget_give_feedback" var="dont_forget_give_feedback"/>
 <fmt:message bundle="${loc}" key="lang.label.submit" var="submit"/>
+<fmt:message bundle="${loc}" key="lang.label.answer_fast" var="answer_fast"/>
+<fmt:message bundle="${loc}" key="lang.label.answer_time" var="answer_time"/>
 <body>
     <c:choose>
         <c:when test="${sessionScope.user.getRole() eq 'USER'}">
@@ -55,11 +57,7 @@
                         <h3 class="about-section-title">${our_cafes}</h3>
                     </div>
                     <div class="about-section-body">
-                        <c:forEach var="dish" items="${cafes_list}">
-                            <div class="about-cafe">
 
-                            </div>
-                        </c:forEach>
                     </div>
                 </section>
                 <section class="about-section">
@@ -95,21 +93,27 @@
                             <form>
                                 <div>
                                     <label class="about-label" for="about-email">${your_email}</label>
-                                    <input class="about-email" type="email" id = "about-email">
+                                    <input class="about-email" type="email" id = "about-email" placeholder="${your_email}"
+                                    required >
                                 </div>
                                 <div class="about-field-container">
                                     <label class="about-label" for="about-email">${your_question}</label>
-                                    <textarea class="about-textarea"></textarea>
+                                    <textarea class="about-textarea" placeholder="${your_question}..." required maxlength="500"></textarea>
                                 </div>
-                                <button class="about-submit">${submit}</button>
+                                <div class="about-submit-container">
+                                    <button class="about-submit">${submit}</button>
+                                </div>
                             </form>
+                        </div>
+                        <div class="ask-question-extra">
+                            <p class="ask-question-extra-label">* ${answer_fast}</p>
+                            <p class="ask-question-extra-label">** ${answer_time}</p>
                         </div>
                     </div>
                 </section>
 
             </div>
         </div>
-        <div></div>
     </div>
     <%@ include file="/jsp/footer/footer.jsp"%>
 </body>

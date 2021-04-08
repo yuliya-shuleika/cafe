@@ -30,7 +30,7 @@ public class ToReviewsCommand implements ActionCommand {
             logger.log(Level.ERROR, e);
         }
         request.setAttribute(AttributeName.REVIEWS_LIST, reviews);
-        String page = PagePath.REVIEWS_PAGE;
+        String page = PagePath.ERROR_404_PAGE;
         return page;
     }
 }

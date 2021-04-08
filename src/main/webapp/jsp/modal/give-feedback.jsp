@@ -43,7 +43,7 @@
                         </div>
                         <div class="edit-text-container">
                             <span class="edit-label">${your_feedback}</span>
-                            <textarea class="edit-text" name="review_text"></textarea>
+                            <textarea class="edit-text" name="review_text" maxlength="500"></textarea>
                         </div>
                     </div>
                     <div class="edit-footer">

@@ -3,6 +3,7 @@ package com.yuliana.cafe.controller;
 public class PagePath {
 
     private PagePath(){}
+
     public static final String HOME_PAGE = "/jsp/home.jsp";
     public static final String MENU_PAGE = "/jsp/menu.jsp";
     public static final String REVIEWS_PAGE = "/jsp/reviews.jsp";
@@ -18,4 +19,6 @@ public class PagePath {
     public static final String ORDER_CONFIRM_PAGE = "/jsp/checkout-confirm.jsp";
     public static final String ACCOUNT_EDIT_PAGE = "/jsp/account-edit.jsp";
     public static final String ABOUT_PAGE = "/jsp/about.jsp";
+    public static final String ERROR_404_PAGE = "/jsp/error/error404.jsp";
+    public static final String ERROR_500_PAGE = "/jsp/error/error500.jsp";
 }

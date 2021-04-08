@@ -2,6 +2,12 @@ textarea:active, textarea:focus, input:active, input:focus{
     outline: none;
 }
 
+p{
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+}
+
 body{
     background-color: #5d5d5d;
     color: #fff;
@@ -46,9 +52,6 @@ body{
 }
 
 .about-info-text{
-    font-family: 'Rubik', sans-serif;
-    font-weight: 400;
-    font-size: 18px;
     text-align: justify;
 }
 
@@ -97,14 +100,14 @@ body{
 .about-ask-question{
     display: flex;
     flex-direction: column;
-    width: 500px;
+    width: 650px;
     margin: 30px 0;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
 }
 
 .about-label{
-    font-family: 'Rubik', sans-serif;
     font-size: 16px;
-    font-weight: 400;
     padding: 5px 0;
     display: block;
 }
@@ -117,7 +120,8 @@ body{
     border: none;
     border-radius: 10px;
     background: #a2a2a2;
-    color: #545454;
+    color: #fff;
+    padding-left: 10px;
 }
 
 .about-textarea{
@@ -129,4 +133,44 @@ body{
     background: #a2a2a2;
     min-height: 250px;
     resize: none;
+    color: #fff;
+    padding: 10px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+}
+
+.about-submit-container{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.about-submit{
+    display: block;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    background-color: #4CAF50;
+    border-radius: 10px;
+    color: #fff;
+    padding: 0.75em 1.25em;
+    border-width: 0;
+    transition: 0.2s;
+}
+
+.about-submit:hover{
+    background: #439648;
+    cursor: pointer;
+}
+
+.ask-question-extra {
+    margin: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ask-question-extra-label{
+    display: block;
+    padding-bottom: 15px;
 }
