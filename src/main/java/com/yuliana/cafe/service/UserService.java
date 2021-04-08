@@ -5,6 +5,7 @@ import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.exception.ServiceException;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface UserService {
@@ -16,4 +17,6 @@ public interface UserService {
     List<User> findUsersByEmail(String email) throws ServiceException;
     void blockUser(int userId) throws ServiceException;
     Optional<Address> findUserAddress(int userId) throws ServiceException;
+    void editUser(Map<String, String> userForm) throws ServiceException;
+    void editUserAddress(Map<String, String> addressForm, int userId) throws ServiceException;
 }

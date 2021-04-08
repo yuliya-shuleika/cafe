@@ -1,11 +1,11 @@
 package com.yuliana.cafe.dao.creator;
 
+import com.yuliana.cafe.entity.Address;
 import com.yuliana.cafe.entity.Dish;
 import com.yuliana.cafe.entity.DishCategory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.Date;
 
 public class EntityCreator {
@@ -18,12 +18,23 @@ public class EntityCreator {
         String pictureName = dishData.getString(4);
         double price = dishData.getDouble(5);
         short discount = dishData.getShort(6);
-        Timestamp timestamp = dishData.getTimestamp(7);
-        Date addedDate = new Date(timestamp.getTime());
+        Date addedDate = dishData.getDate(7);
         String description = dishData.getString(8);
         short weight = dishData.getShort(9);
         Dish dish = new Dish(dishId, name, category, pictureName, price, discount, addedDate, description, weight);
         return dish;
+    }
+
+    public static Address createAddress(ResultSet result) throws SQLException{
+        int addressId = result.getInt(1);
+        String city = result.getString(2);
+        String street = result.getString(3);
+        short house = result.getShort(4);
+        short entrance = result.getShort(5);
+        short floor = result.getShort(6);
+        short flat = result.getShort(7);
+        Address address = new Address(city, street, house, entrance, floor, flat);
+        return address;
     }
 
     private EntityCreator(){}

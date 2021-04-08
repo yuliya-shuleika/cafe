@@ -25,16 +25,16 @@
             <nav class="header-nav">
                 <ul class="header-ul">
                     <li class="header-li">
-                        <a class="header-link" href="controller?command=to_home">${home}</a>
+                        <a class="header-link" href="home.do?command=to_home">${home}</a>
                     </li>
                     <li class="header-li">
-                        <a class="header-link" href="controller?command=to_menu">${menu}</a>
+                        <a class="header-link" href="menu.do?command=to_menu">${menu}</a>
                     </li>
                     <li class="header-li">
-                        <a class="header-link" href="controller?command=to_reviews">${reviews}</a>
+                        <a class="header-link" href="reviews.do?command=to_reviews">${reviews}</a>
                     </li>
                     <li class="header-li">
-                        <a class="header-link" href="#">${about}</a>
+                        <a class="header-link" href="about.do?command=to_about">${about}</a>
                     </li>
                     <li class="header-li">
                         <a class="header-link" href="controller?command=change_locale">${translate}</a>

@@ -4,6 +4,7 @@ import com.yuliana.cafe.entity.DishCategory;
 import com.yuliana.cafe.entity.Dish;
 import com.yuliana.cafe.exception.DaoException;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,4 +22,5 @@ public interface DishDao extends BaseDao{
     int addDish(Dish dish) throws DaoException;
     List<Dish> findAllDishesSortedByName() throws DaoException;
     void editDish(Dish dish) throws DaoException;
+    List<Dish> findNewDishes(Date date) throws DaoException;
 }

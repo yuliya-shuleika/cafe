@@ -7,6 +7,10 @@ input:active, input:focus{
     outline: none;
 }
 
+body{
+    background-color: #5d5d5d;
+}
+
 .review-stars-count{
     display: none;
 }
@@ -19,7 +23,7 @@ input:active, input:focus{
 
 .reviews-header{
     display: flex;
-    flex-direction: row;
+    position: relative;
 }
 
 .reviews-title{
@@ -28,20 +32,43 @@ input:active, input:focus{
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 48px;
-    color: #545454;
+    color: #fff;
     text-align: center;
 }
 
 .give-feedback-button{
     display: inline-block;
     background-color: #4CAF50;
-    border-radius: 7px;
+    border-radius: 15px;
     color: #fff;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
-    padding: 0.75em 1.25em;
+    padding: 0.65em 1.25em;
     border-width: 0;
     transition: 0.2s;
+    position: absolute;
+    font-size: 18px;
+    right: 20px;
+    top: 90px;
+}
+
+.give-feedback-button:hover{
+    background-color: #439648;
+    padding: 0.75em 1.40em;
+}
+
+.reviews-empty{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 200px 0;
+}
+
+.reviews-empty-label{
+    color: #fff;
+    font-size: 20px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
 }
 
 .give_feedback:hover{

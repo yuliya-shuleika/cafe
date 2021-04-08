@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.yuliana.cafe.dao.creator.EntityCreator.createAddress;
+
 public class UserDaoImpl implements UserDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
@@ -34,6 +36,12 @@ public class UserDaoImpl implements UserDao {
             "addresses.entrance, addresses.floor, addresses.flat " +
             "FROM users JOIN addresses ON addresses.address_id = users.address_id " +
             "WHERE users.user_id = ?";
+    private static final String UPDATE_USER = "UPDATE users SET name = ?, email = ? " +
+            "WHERE user_id = ?";
+    private static final String SELECT_USER_ID_BY_EMAIL = "SELECT user_id " +
+            "FROM users WHERE email = ?";
+    private static final String UPDATE_USER_ADDRESS = "UPDATE users SET address_id = ? " +
+            "WHERE user_id = ?";
 
     @Override
     public void register(User user, String password) throws DaoException {
@@ -178,6 +186,52 @@ public class UserDaoImpl implements UserDao {
         return addressOptional;
     }
 
+    @Override
+    public void updateUser(User user) throws DaoException {
+        Connection connection = pool.getConnection();
+        try(PreparedStatement statement = connection.prepareStatement(UPDATE_USER)){
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getEmail());
+            statement.setInt(3, user.getUserId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
+    }
+
+    @Override
+    public boolean emailExists(String email) throws DaoException {
+        Connection connection = pool.getConnection();
+        boolean exists = false;
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_USER_ID_BY_EMAIL)){
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                exists = true;
+            }
+        }catch (SQLException e){
+            throw new DaoException(e);
+        }finally {
+            pool.releaseConnection(connection);
+        }
+        return exists;
+    }
+
+    @Override
+    public void updateUserAddress(int addressId, int userId) throws DaoException {
+        Connection connection = pool.getConnection();
+        try(PreparedStatement statement = connection.prepareStatement(UPDATE_USER_ADDRESS)){
+            statement.setInt(1, addressId);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
+    }
+
     private User createUser(ResultSet userData) throws SQLException{
         User user;
         int userId = userData.getInt(1);
@@ -191,15 +245,4 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
-    private Address createAddress(ResultSet result) throws SQLException{
-        int addressId = result.getInt(1);
-        String city = result.getString(2);
-        String street = result.getString(3);
-        short house = result.getShort(4);
-        short entrance = result.getShort(5);
-        short floor = result.getShort(6);
-        short flat = result.getShort(7);
-        Address address = new Address(city, street, house, entrance, floor, flat);
-        return address;
-    }
 }

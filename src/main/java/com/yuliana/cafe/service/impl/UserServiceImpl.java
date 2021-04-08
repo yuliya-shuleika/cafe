@@ -14,6 +14,7 @@ import com.yuliana.cafe.util.PasswordEncryptor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
@@ -112,5 +113,15 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(e);
         }
         return addressOptional;
+    }
+
+    @Override
+    public void editUser(Map<String, String> userForm) throws ServiceException {
+
+    }
+
+    @Override
+    public void editUserAddress(Map<String, String> addressForm, int userId) throws ServiceException {
+
     }
 }

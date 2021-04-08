@@ -7,8 +7,10 @@ import com.yuliana.cafe.entity.Dish;
 import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.entity.UserRole;
 import com.yuliana.cafe.exception.ServiceException;
+import com.yuliana.cafe.service.CartService;
 import com.yuliana.cafe.service.FavoritesService;
 import com.yuliana.cafe.service.UserService;
+import com.yuliana.cafe.service.impl.CartServiceImpl;
 import com.yuliana.cafe.service.impl.FavoritesServiceImpl;
 import com.yuliana.cafe.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
@@ -18,9 +20,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class LoginCommand implements ActionCommand {
 
@@ -51,14 +51,23 @@ public class LoginCommand implements ActionCommand {
             switch (role){
                 case USER:
                     page = PagePath.MENU_PAGE;
+                    int userId = user.getUserId();;
                     FavoritesService favoritesService = FavoritesServiceImpl.getInstance();
-                    List<Dish> dishes = new ArrayList<>();
+                    List<Dish> favorites = new ArrayList<>();
                     try {
-                        dishes = favoritesService.findUserFavorites(user.getUserId());
+                        favorites = favoritesService.findUserFavorites(userId);
                     } catch (ServiceException e) {
                         logger.log(Level.ERROR, e);
                     }
-                    session.setAttribute(AttributeName.USER_FAVORITES, dishes);
+                    CartService cartService = CartServiceImpl.getInstance();
+                    Map<Dish, Integer> cartItems = new HashMap<>();
+                    try {
+                        cartItems = cartService.findUserItems(userId);
+                    } catch (ServiceException e) {
+                        logger.log(Level.ERROR, e);
+                    }
+                    session.setAttribute(AttributeName.CART_ITEMS, cartItems);
+                    session.setAttribute(AttributeName.USER_FAVORITES, favorites);
                     break;
                 case ADMIN:
                     try {

@@ -9,7 +9,7 @@ $(document).ready(function (){
         let dish_title = menu_item.getElementsByClassName('menu-item-title')[0].innerHTML
         let dish_picture = menu_item.getElementsByClassName('menu-item-picture')[0].getAttribute("src")
         let dish_description = menu_item.getElementsByClassName('menu-item-description')[0].innerHTML
-        let dish_price = menu_item.getElementsByClassName('menu-item-price-value')[0].innerHTML
+        let dish_price = menu_item.getElementsByClassName('menu-price-value')[0].innerHTML
         let command = paramsList[0].value
         let dish_id = paramsList[1].value
         let data = {command:command, dish_id:dish_id}

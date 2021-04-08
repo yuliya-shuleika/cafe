@@ -1,6 +1,6 @@
 body{
     margin: 0;
-    background-color: #fff;
+    background-color: #5d5d5d;
 }
 
 h2 {
@@ -21,6 +21,7 @@ form{
     padding: 0;
 }
 
+
 .menu-container{
     display: flex;
     flex-direction: column;
@@ -35,8 +36,8 @@ form{
     display: block;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
-    font-size: 48px;
-    color: #4CAF50;
+    font-size: 50px;
+    color: #fff;
 }
 @media (max-width: 576px) {
     .menu-title{
@@ -66,17 +67,17 @@ form{
     border-radius: 8px;
     border: 0;
     font-family: 'Rubik', sans-serif;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 24px;
     width: 100%;
-    background: #e0e0e0;
-    color: #545454;
-    padding: 4px 0 4px;
+    background: #eee;
+    color: #5d5d5d;
+    padding: 8px 0 8px;
     transition: 0.2s;
 }
 
 .menu-categories-button:hover{
-    background: #d1d1d1;
+    background: #d6d6d6;
 }
 
 .menu-categories-button:active{
@@ -103,7 +104,7 @@ form{
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 20px;
-    color: #545454;
+    color: #fff;
     display: block;
 }
 
@@ -179,12 +180,12 @@ form{
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 24px;
-    color: rgb(51, 51, 51);
+    color: #fff;
 }
 
 .menu-item-description{
     display: block;
-    color: #5e5e5e;
+    color: #4CAF50;
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
     font-size: 18px;
@@ -197,12 +198,42 @@ form{
     justify-content: space-between;
 }
 
+.menu-price{
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 10px 10px 0;
+}
+
+.menu-item-price{
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    font-size: 17px;
+    font-family: 'Rubik', sans-serif;
+    color: #fff;
+    font-weight: 500;
+}
+
+.menu-price-value-discount{
+    margin-left: 5px;
+}
+
 .menu-item-button{
     background-color: #4CAF50;
-    border-radius: 0.25em;
+    border-radius: 25px;
     color: #fff;
     font-family: 'Roboto', sans-serif;
-    font-weight: 400;
+    font-weight: 600;
     padding: 0.75em 1.25em;
-    border-width: 0;
+    border: none;
+    letter-spacing: 0.04em;
+    transition: 0.2s;
+}
+
+.menu-item-button:hover{
+    cursor: pointer;
+    background: #439648;
+    padding: 0.75em 1.35em;
 }

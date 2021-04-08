@@ -110,7 +110,22 @@
                         </div>
                         <div class="menu-item-bottom">
                             <div class="menu-item-price">
-                                <span class="menu-item-price-value">${dish.getPrice()}</span>
+                                <c:if test="${dish.getDiscountPercents() == 0}">
+                                    <p class="menu-price-value">
+                                        <fmt:formatNumber maxFractionDigits="2" value="${dish.getPrice()}"/>
+                                    </p>
+                                </c:if>
+                                <c:if test="${dish.getDiscountPercents() > 0}">
+                                    <strike class="menu-price-value">
+                                        <fmt:formatNumber maxFractionDigits="2" value="${dish.getPrice()}"/>
+                                    </strike>
+                                </c:if>
+                                <p class="menu-price-value-discount">
+                                    <c:if test="${dish.getDiscountPercents() > 0}">
+                                        <fmt:formatNumber maxFractionDigits="2" value="${dish.getPrice() - dish.getPrice() * dish.getDiscountPercents() / 100}"/>
+                                    </c:if>
+                                </p>
+                                <span class="cart-item-price-currency">$</span>
                             </div>
                             <div id="add-item-form">
                                 <input type="hidden" name="command" value="add_to_cart"/>
@@ -132,5 +147,6 @@
             </div>
         </div>
     </div>
+    <%@ include file="/jsp/footer/footer.jsp"%>
 </body>
 </html>

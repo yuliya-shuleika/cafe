@@ -63,6 +63,11 @@ public enum CommandType {
             this.command = new ToAccountEditCommand();
         }
     },
+    TO_ABOUT {
+        {
+            this.command = new ToAboutCommand();
+        }
+    },
     ADD_TO_CART {
         {
             this.command = new AddToCartCommand();
@@ -216,6 +221,11 @@ public enum CommandType {
     DELETE_FROM_FAVORITES{
         {
             this.command = new DeleteFromFavoritesCommand();
+        }
+    },
+    SHOW_NEW_DISHES{
+        {
+            this.command = new ShowNewDishesCommand();
         }
     };
     ActionCommand command;

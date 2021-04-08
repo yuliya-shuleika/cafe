@@ -19,6 +19,7 @@
 <fmt:message bundle="${loc}" key="lang.label.feedback_header" var="feedback_header"/>
 <fmt:message bundle="${loc}" key="lang.label.your_mark" var="your_mark"/>
 <fmt:message bundle="${loc}" key="lang.label.submit" var="submit"/>
+<fmt:message bundle="${loc}" key="lang.label.no_reviews" var="no_reviews"/>
 <body>
     <c:choose>
         <c:when test="${sessionScope.user.getRole() eq 'USER'}">
@@ -35,7 +36,15 @@
             <button class="give-feedback-button">${give_feedback}</button>
         </div>
         <ul class="reviews-list">
-            <c:forEach var="review" items="${sessionScope.reviews_list}">
+            <c:if test="${reviews_list.isEmpty()}">
+                <div class="reviews-empty">
+                    <p class="reviews-empty-label">
+                        ${no_reviews}
+                    </p>
+                </div>
+            </c:if>
+            <c:if test="${!reviews_list.isEmpty()}">
+            <c:forEach var="review" items="${reviews_list}">
                 <li class="reviews-list-item">
                     <div class="review-author">
                         <p class="review-author-name">name</p>
@@ -59,7 +68,9 @@
                     </div>
                 </li>
             </c:forEach>
+            </c:if>
         </ul>
     </div>
+    <%@ include file="/jsp/footer/footer.jsp"%>
 </body>
 </html>

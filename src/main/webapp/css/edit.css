@@ -151,7 +151,6 @@ textarea:active, textarea:focus, input:active, input:focus{
     display: block;
     width: 100%;
     font-size: 18px;
-    height: 50px;
     border: none;
     border-radius: 10px;
     background: #ededed;

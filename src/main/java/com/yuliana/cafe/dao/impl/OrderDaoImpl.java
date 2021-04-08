@@ -10,6 +10,8 @@ import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
+import static com.yuliana.cafe.dao.creator.EntityCreator.createAddress;
+
 public class OrderDaoImpl implements OrderDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
@@ -32,6 +34,11 @@ public class OrderDaoImpl implements OrderDao {
             "ordered_dishes.count, ordered_dishes.order_id " +
             "FROM ordered_dishes JOIN dishes " +
             "ON dishes.dish_id = ordered_dishes.dish_id WHERE ordered_dishes.order_id = ?";
+    private static final String SELECT_ORDER_ADDRESS = "SELECT addresses.address_id, " +
+            "addresses.city, addresses.street, addresses.house, " +
+            "addresses.entrance, addresses.floor, addresses.flat " +
+            "FROM orders JOIN addresses ON addresses.address_id = orders.address_id " +
+            "WHERE orders.order_id = ?";
 
     @Override
     public int addOrder(Order order, int userId, int addressId) throws DaoException {
@@ -81,15 +88,26 @@ public class OrderDaoImpl implements OrderDao {
         List<Order> orders = new ArrayList<>();
         Connection connection = pool.getConnection();
         PreparedStatement dishesStatement = null;
-        try (Statement statement = connection.createStatement()){
-            ResultSet result = statement.executeQuery(SELECT_ALL_ORDERS);
-            while (result.next()){
-                //Order order = createOrder(result, );
-                //orders.add(order);
+        try (Statement orderStatement = connection.createStatement()){
+            ResultSet orderResult = orderStatement.executeQuery(SELECT_ALL_ORDERS);
+            while (orderResult.next()){
+                int orderId = orderResult.getInt(1);
+                Map<Dish, Integer> dishes = new HashMap<>();
+                dishesStatement = connection.prepareStatement(SELECT_ORDERED_DISHES_BY_ORDER_ID);
+                dishesStatement.setInt(1, orderId);
+                ResultSet dishesResult = dishesStatement.executeQuery();
+                while (dishesResult.next()){
+                    int count = dishesResult.getInt(7);
+                    Dish dish = EntityCreator.createDish(dishesResult);
+                    dishes.put(dish, count);
+                }
+                Order order = createOrder(orderResult, dishes);
+                orders.add(order);
             }
         } catch (SQLException e){
             throw new DaoException(e);
         } finally {
+            close(dishesStatement);
             pool.releaseConnection(connection);
         }
         return orders;

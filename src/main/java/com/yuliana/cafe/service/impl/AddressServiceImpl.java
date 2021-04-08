@@ -33,13 +33,7 @@ public class AddressServiceImpl implements AddressService {
         int addressId = 0;
         boolean isValid = CheckoutValidator.isAddressFormValid(addressForm);
         if(isValid){
-            String city = addressForm.get(CITY);
-            String street = addressForm.get(STREET);
-            short house = Short.parseShort(addressForm.get(HOUSE));
-            short entrance = Short.parseShort(addressForm.get(ENTRANCE));
-            short floor = Short.parseShort(addressForm.get(FLOOR));
-            short flat = Short.parseShort(addressForm.get(FLAT));
-            Address address = new Address(city, street, house, entrance, floor, flat);
+            Address address = createAddress(addressForm);
             try {
                 addressId = addressDao.addAddress(address);
             } catch (DaoException e) {
@@ -47,6 +41,41 @@ public class AddressServiceImpl implements AddressService {
             }
         }
         return addressId;
+    }
+
+    @Override
+    public Optional<Address> findAddressById(int addressId) throws ServiceException {
+        Optional<Address> addressOptional;
+        try {
+            addressOptional = addressDao.findAddressById(addressId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return addressOptional;
+    }
+
+    @Override
+    public void updateAddress(Map<String, String> addressForm) throws ServiceException {
+        boolean isValid = CheckoutValidator.isAddressFormValid(addressForm);
+        if(isValid){
+            Address address = createAddress(addressForm);
+            try {
+                addressDao.updateAddress(address);
+            } catch (DaoException e) {
+                throw new ServiceException(e);
+            }
+        }
+    }
+
+    private Address createAddress(Map<String, String> addressForm){
+        String city = addressForm.get(CITY);
+        String street = addressForm.get(STREET);
+        short house = Short.parseShort(addressForm.get(HOUSE));
+        short entrance = Short.parseShort(addressForm.get(ENTRANCE));
+        short floor = Short.parseShort(addressForm.get(FLOOR));
+        short flat = Short.parseShort(addressForm.get(FLAT));
+        Address address = new Address(city, street, house, entrance, floor, flat);
+        return address;
     }
 
 }

@@ -27,35 +27,33 @@ public class CartDaoImpl implements CartDao {
             "dishes.date, dishes.description, dishes.weight, cart_items.count " +
             "FROM cart_items JOIN dishes ON cart_items.dish_id = dishes.dish_id " +
             "WHERE cart_items.user_id = ?";
-    private static final String ADD_ITEM = "INSERT INTO cart_items (user_id, dish_id, count) VALUES (?, ?, ?)";
+    private static final String ADD_ITEM = "INSERT INTO cart_items (count, user_id, dish_id) VALUES (?, ?, ?)";
     private static final String DELETE_ITEM = "DELETE FROM cart_items WHERE dish_id = ? AND user_id = ?";
     private static final String DELETE_ALL_ITEMS = "DELETE FROM cart_items";
 
     @Override
     public void addItem(int userId, int dishId) throws DaoException{
         Connection connection = pool.getConnection();
-        PreparedStatement statement = null;
-        try {
-            statement = connection.prepareStatement(SELECT_ITEM_COUNT);
-            statement.setInt(1, userId);
-            statement.setInt(2, dishId);
-            ResultSet resultSet = statement.executeQuery();
-            statement.executeQuery();
-            if(resultSet.next()){
-                int itemCount = resultSet.getInt(1);
-                statement = connection.prepareStatement(UPDATE_ITEM_COUNT);
-                statement.setInt(3, ++itemCount);
+        PreparedStatement updateStatement = null;
+        try (PreparedStatement selectStatement = connection.prepareStatement(SELECT_ITEM_COUNT)){
+            selectStatement.setInt(1, dishId);
+            selectStatement.setInt(2, userId);
+            ResultSet result = selectStatement.executeQuery();
+            if(result.next()){
+                int itemCount = result.getInt(1);
+                updateStatement = connection.prepareStatement(UPDATE_ITEM_COUNT);
+                updateStatement.setInt(1, ++itemCount);
             } else {
-                statement = connection.prepareStatement(ADD_ITEM);
-                statement.setInt(3, 1);
+                updateStatement = connection.prepareStatement(ADD_ITEM);
+                updateStatement.setInt(1, 1);
             }
-            statement.setInt(1,userId);
-            statement.setInt(2, dishId);
-            statement.executeUpdate();
+            updateStatement.setInt(2, userId);
+            updateStatement.setInt(3, dishId);
+            updateStatement.executeUpdate();
         } catch (SQLException e){
             throw new DaoException(e);
         } finally {
-            close(statement);
+            close(updateStatement);
             pool.releaseConnection(connection);
         }
     }
@@ -63,26 +61,28 @@ public class CartDaoImpl implements CartDao {
     @Override
     public void deleteItem(int userId, int dishId, int count) throws DaoException{
         Connection connection = pool.getConnection();
-        PreparedStatement statement = null;
-        try {
-            statement = connection.prepareStatement(SELECT_ITEM_COUNT);
-            statement.setInt(1, userId);
-            statement.setInt(2, dishId);
-            ResultSet resultSet = statement.executeQuery();
-            statement.executeQuery();
+        PreparedStatement updateStatement = null;
+        try (PreparedStatement selectStatement = connection.prepareStatement(SELECT_ITEM_COUNT)){
+            selectStatement.setInt(1, dishId);
+            selectStatement.setInt(2, userId);
+            ResultSet resultSet = selectStatement.executeQuery();
+            selectStatement.executeQuery();
             if(resultSet.next()){
                 int itemCount = resultSet.getInt(1);
-                statement = connection.prepareStatement(UPDATE_ITEM_COUNT);
-                statement.setInt(3, itemCount - count);
+                updateStatement = connection.prepareStatement(UPDATE_ITEM_COUNT);
+                updateStatement.setInt(1, itemCount - count);
+                updateStatement.setInt(2,userId);
+                updateStatement.setInt(3, dishId);
             } else {
-                statement = connection.prepareStatement(DELETE_ITEM);
+                updateStatement = connection.prepareStatement(DELETE_ITEM);
+                updateStatement.setInt(1,userId);
+                updateStatement.setInt(2, dishId);
             }
-            statement.setInt(1,userId);
-            statement.setInt(2, dishId);
-            statement.executeUpdate();
+            updateStatement.executeUpdate();
         } catch (SQLException e){
             throw new DaoException(e);
         } finally {
+            close(updateStatement);
             pool.releaseConnection(connection);
         }
     }

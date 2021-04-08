@@ -6,18 +6,17 @@
     <title>Home</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style><%@include file="/css/home.css"%></style>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&family=Rubik:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <fmt:setLocale value='<%=request.getSession().getAttribute("lang")%>'/>
 <fmt:setBundle basename="lang" var="loc"/>
-<fmt:message bundle="${loc}" key="lang.label.management" var="management"/>
-<fmt:message bundle="${loc}" key="lang.label.logout" var="logout"/>
-<fmt:message bundle="${loc}" key="lang.label.translate" var="translate"/>
-<fmt:message bundle="${loc}" key="lang.label.add_to_cart" var="add_to_cart"/>
-<fmt:message bundle="${loc}" key="lang.label.sushi" var="sushi"/>
-<fmt:message bundle="${loc}" key="lang.label.sushi_set" var="sushi_set"/>
-<fmt:message bundle="${loc}" key="lang.label.soup" var="soup"/>
-<fmt:message bundle="${loc}" key="lang.label.noodles" var="noodles"/>
-<fmt:message bundle="${loc}" key="lang.label.choose" var="choose"/>
+<fmt:message bundle="${loc}" key="lang.label.delicious_sushi" var="delicious_sushi"/>
+<fmt:message bundle="${loc}" key="lang.label.japanese_restaurant" var="japanese_restaurant"/>
+<fmt:message bundle="${loc}" key="lang.label.menu" var="menu"/>
 <body>
     <c:choose>
         <c:when test="${sessionScope.user.getRole() eq 'USER'}">
@@ -27,39 +26,17 @@
             <%@ include file="/jsp/header/header.jsp"%>
         </c:when>
     </c:choose>
-    <main>
-        <div class="team" id="team">
-        <div class="container">
-            <div class="default-heading">
-                <h2>Menu</h2>
+    <section class="section-preview" style="background-image:url(<c:url value='/images/preview.jpg'/>)">
+        <div class="section-preview-container">
+            <div class="section-preview-info">${japanese_restaurant}</div>
+            <h1 class="section-preview-title">${delicious_sushi}</h1>
+            <div class="section-preview-btn-container">
+                <button class="section-preview-btn">
+                    ${menu}
+                </button>
             </div>
-            <div class="filters">
-                <form method="post" action="controller">
-                    <input type="hidden" name="command" value="choose_category" />
-                    <select name="categories">
-                        <option value="choose a category">${choose}</option>
-                        <option value="sushi">${sushi}</option>
-                        <option value="sushi_set">${sushi_set}</option>
-                        <option value="soup">${soup}</option>
-                        <option value="noodles">${noodles}</option>
-                    </select>
-                    <div class="filters_button">
-                        <input type="submit" value="confirm">
-                    </div>
-                </form>
-            </div>
-            <c:forEach var="dish" items="${dishes_list}">
-                <div class="col-md-3 col-sm-3">
-                    <div class="member">
-                        <img class="img-responsive" src="${pageContext.request.contextPath}${dish.getPictureName()}" alt="Team Member" />
-                        <h3>${dish.getName()}</h3>
-                        <span class="dig">${dish.getPrice()}</span>
-                        <a href="cart/id25125">${add_to_cart}</a>
-                    </div>
-                </div>
-            </c:forEach>
         </div>
-        </div>
-    </main>
+    </section>
+    <%@ include file="/jsp/footer/footer.jsp"%>
 </body>
 </html>

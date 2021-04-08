@@ -8,6 +8,7 @@ import com.yuliana.cafe.entity.Dish;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +51,9 @@ public class DishDaoImpl implements DishDao {
     private static final String UPDATE_DISH = "UPDATE dishes " +
             "SET name = ?, category = ?, picture_name = ?, price = ?, discount_percents = ? " +
             "WHERE dish_id = ?";
+    private static final String SELECT_NEW_DISHES = "SELECT dish_id, name, category, picture_name, price, " +
+            "discount_percents, date, description, weight " +
+            "FROM dishes WHERE date > ? ORDER BY date DESC";
 
     @Override
     public List<Dish> findAllDishes() throws DaoException{
@@ -265,6 +269,25 @@ public class DishDaoImpl implements DishDao {
         } finally {
             pool.releaseConnection(connection);
         }
+    }
+
+    @Override
+    public List<Dish> findNewDishes(Date date) throws DaoException {
+        Connection connection = pool.getConnection();
+        List<Dish> dishes = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_NEW_DISHES)){
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            statement.setDate(1, sqlDate);
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                dishes.add(createDish(result));
+            }
+        }catch (SQLException e){
+            throw new DaoException(e);
+        }finally {
+            pool.releaseConnection(connection);
+        }
+        return dishes;
     }
 
 

@@ -7,7 +7,9 @@ import com.yuliana.cafe.entity.Dish;
 import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.entity.UserRole;
 import com.yuliana.cafe.exception.ServiceException;
+import com.yuliana.cafe.service.DishService;
 import com.yuliana.cafe.service.FavoritesService;
+import com.yuliana.cafe.service.impl.DishServiceImpl;
 import com.yuliana.cafe.service.impl.FavoritesServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -26,22 +28,14 @@ public class ToMenuCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession();
-        Optional<Object> userOptional = Optional.ofNullable(session.getAttribute(AttributeName.USER));
-        if (userOptional.isPresent()) {
-            User user = (User) userOptional.get();
-            UserRole role = user.getRole();
-            if (role.equals(UserRole.USER)) {
-                FavoritesService favoritesService = FavoritesServiceImpl.getInstance();
-                List<Dish> dishes = new ArrayList<>();
-                try {
-                    dishes = favoritesService.findUserFavorites(user.getUserId());
-                } catch (ServiceException e) {
-                    logger.log(Level.ERROR, e);
-                }
-                request.setAttribute(AttributeName.USER_FAVORITES, dishes);
-            }
+        DishService dishService = DishServiceImpl.getInstance();
+        List<Dish> dishes = new ArrayList<>();
+        try {
+            dishes = dishService.findAllDishes();
+        } catch (ServiceException e) {
+            logger.log(Level.ERROR, e);
         }
+        request.setAttribute(AttributeName.DISHES_LIST, dishes);
         String page = PagePath.MENU_PAGE;
         return page;
     }

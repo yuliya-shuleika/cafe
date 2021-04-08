@@ -6,7 +6,6 @@ public class AttributeName {
     public static final String DISHES_LIST = "dishes_list";
     public static final String REVIEWS_LIST = "reviews_list";
     public static final String PROMO_CODES_LIST = "promo_codes_list";
-    public static final String CART_ITEMS_COUNT = "cart_items_count";
     public static final String LANGUAGE = "lang";
     public static final String USER = "user";
     public static final String ADDRESS_FIELDS = "address_fields";
@@ -19,6 +18,7 @@ public class AttributeName {
     public static final String USER_ORDERS = "user_orders";
     public static final String USER_ADDRESS = "user_address";
     public static final String USER_FAVORITES = "user_favorites";
+    public static final String ORDER_ADDRESS = "order_address";
     public static final String CURRENT_PAGE = "current_page";
 
     private AttributeName(){}

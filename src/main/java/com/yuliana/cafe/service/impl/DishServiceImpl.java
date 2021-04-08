@@ -9,6 +9,8 @@ import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.DishService;
 import com.yuliana.cafe.service.validator.DishValidator;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -139,6 +141,20 @@ public class DishServiceImpl implements DishService {
                 throw new ServiceException(e);
             }
         }
+    }
+
+    @Override
+    public List<Dish> findNewDishes() throws ServiceException {
+        List<Dish> dishes;
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        LocalDate localDate = LocalDate.now().minusDays(30);
+        Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
+        try {
+            dishes = dishDao.findNewDishes(date);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return dishes;
     }
 
     private Dish createDish(Map<String,String> dishFields, String picture){
