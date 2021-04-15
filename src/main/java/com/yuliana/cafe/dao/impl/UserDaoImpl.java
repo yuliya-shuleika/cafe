@@ -18,25 +18,25 @@ import static com.yuliana.cafe.dao.creator.EntityCreator.createAddress;
 public class UserDaoImpl implements UserDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
-    private static final String SELECT_USER_BY_EMAIL_AND_PASSWORD = "SELECT user_id, name, email, role, status " +
+    private static final String SELECT_USER_BY_EMAIL_AND_PASSWORD = "SELECT user_id, name, email, role, status, avatar " +
             "FROM users WHERE email = ? AND password = ?";
     private static final String INSERT_USER = "INSERT INTO users ( name , email , password , role, status) " +
             "VALUES ( ?, ?, ?, ?, ? )";
-    private static final String SELECT_ALL_USERS = "SELECT user_id, name, email, role, status FROM users";
-    private static final String SELECT_USER_SORTED_BY_EMAIL = "SELECT user_id, name, email, role, status " +
+    private static final String SELECT_ALL_USERS = "SELECT user_id, name, email, role, status, avatar FROM users";
+    private static final String SELECT_USER_SORTED_BY_EMAIL = "SELECT user_id, name, email, role, status, avatar " +
             "FROM users ORDER BY email";
-    private static final String SELECT_USERS_BY_EMAIL = "SELECT user_id, name, email, role, status " +
+    private static final String SELECT_USERS_BY_EMAIL = "SELECT user_id, name, email, role, status, avatar " +
             "FROM users WHERE email COLLATE UTF8_GENERAL_CI LIKE ?";
     private static final String UPDATE_USER_STATUS = "UPDATE users SET status = ? " +
             "WHERE user_id = ?";
-    private static final String SELECT_USERS_BY_ID = "SELECT user_id, name, email, role, status " +
+    private static final String SELECT_USERS_BY_ID = "SELECT user_id, name, email, role, status, avatar " +
             "FROM users WHERE user_id = ?";
     private static final String SELECT_USER_ADDRESS = "SELECT addresses.address_id, " +
             "addresses.city, addresses.street, addresses.house, " +
             "addresses.entrance, addresses.floor, addresses.flat " +
             "FROM users JOIN addresses ON addresses.address_id = users.address_id " +
             "WHERE users.user_id = ?";
-    private static final String UPDATE_USER = "UPDATE users SET name = ?, email = ? " +
+    private static final String UPDATE_USER = "UPDATE users SET name = ?, email = ?, avatar = ? " +
             "WHERE user_id = ?";
     private static final String SELECT_USER_ID_BY_EMAIL = "SELECT user_id " +
             "FROM users WHERE email = ?";
@@ -192,7 +192,8 @@ public class UserDaoImpl implements UserDao {
         try(PreparedStatement statement = connection.prepareStatement(UPDATE_USER)){
             statement.setString(1, user.getName());
             statement.setString(2, user.getEmail());
-            statement.setInt(3, user.getUserId());
+            statement.setString(3, user.getAvatar());
+            statement.setInt(4, user.getUserId());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -202,10 +203,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean emailExists(String email) throws DaoException {
+    public boolean findEmail(String email) throws DaoException {
         Connection connection = pool.getConnection();
         boolean exists = false;
         try (PreparedStatement statement = connection.prepareStatement(SELECT_USER_ID_BY_EMAIL)){
+            statement.setString(1, email);
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 exists = true;
@@ -219,7 +221,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void updateUserAddress(int addressId, int userId) throws DaoException {
+    public void addUserAddress(int addressId, int userId) throws DaoException {
         Connection connection = pool.getConnection();
         try(PreparedStatement statement = connection.prepareStatement(UPDATE_USER_ADDRESS)){
             statement.setInt(1, addressId);
@@ -241,7 +243,8 @@ public class UserDaoImpl implements UserDao {
         String status = userData.getString(5);
         UserRole userRole = UserRole.valueOf(role);
         UserStatus userStatus = UserStatus.valueOf(status);
-        user = new User(userId, name, email, userRole, userStatus);
+        String avatar = userData.getString(6);
+        user = new User(userId, name, email, userRole, userStatus, avatar);
         return user;
     }
 

@@ -2,6 +2,10 @@ textarea:active, textarea:focus, input:active, input:focus{
     outline: none;
 }
 
+h3{
+    margin: 0;
+}
+
 .edit{
     position: fixed;
     width: 100%;
@@ -48,7 +52,7 @@ textarea:active, textarea:focus, input:active, input:focus{
     font-size: 36px;
     color: #545454;
     text-align: center;
-    padding: 20px;
+    padding: 30px;
 }
 .edit-close{
     text-decoration: none;
@@ -71,11 +75,12 @@ textarea:active, textarea:focus, input:active, input:focus{
 
 .edit-general{
     display: inline-flex;
-    margin: 10px 0;
+    margin: 7px 0;
     align-items: center;
 }
 
 .edit-label{
+    white-space: nowrap;
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
     font-size: 18px;
@@ -88,7 +93,7 @@ textarea:active, textarea:focus, input:active, input:focus{
     display: block;
     width: 100%;
     font-size: 18px;
-    height: 50px;
+    height: 40px;
     border: none;
     border-radius: 10px;
     background: #ededed;
@@ -106,6 +111,7 @@ textarea:active, textarea:focus, input:active, input:focus{
     color: #545454;
     font-family: 'Rubik', sans-serif;
     border: none;
+    width: 100%;
 }
 
 .edit-file-input{
@@ -155,6 +161,18 @@ textarea:active, textarea:focus, input:active, input:focus{
     border-radius: 10px;
     background: #ededed;
     min-height: 250px;
+    margin-left: 10px;
+    resize: none;
+}
+
+.edit-text-short{
+    display: block;
+    width: 100%;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    background: #ededed;
+    min-height: 90px;
     margin-left: 10px;
     resize: none;
 }

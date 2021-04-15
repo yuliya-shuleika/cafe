@@ -34,7 +34,7 @@ public class DishDaoImpl implements DishDao {
             "FROM dishes ORDER BY price";
     private static final String SELECT_ALL_DISHES_SORTED_BY_NAME = "SELECT dish_id, name, category, " +
             "picture_name, price, discount_percents, date, description, weight " +
-            "FROM dishes ORDER BY name";
+            "FROM dishes ORDER BY name COLLATE cp1251_general_ci";
     private static final String SELECT_DISHES_WITH_DISCOUNT = "SELECT dish_id, name, category, picture_name, " +
             "price, discount_percents, date, description, weight " +
             "FROM dishes WHERE discount_price > 0.0";
@@ -44,12 +44,12 @@ public class DishDaoImpl implements DishDao {
     private static final String SELECT_DISH_BY_ID= "SELECT dish_id, name, category, picture_name, price, " +
             "discount_percents, date, description, weight " +
             "FROM dishes WHERE dish_id = ?";
-    private static final String DELETE_DISH_BY_ID= "DELETE FROM dishes WHERE dish_id = ?";
+    private static final String DELETE_DISH_BY_ID = "DELETE FROM dishes WHERE dish_id = ?";
     private static final String INSERT_DISH = "INSERT INTO dishes (name, category, picture_name, price, " +
             "discount_percents, date, description, weight) " +
             " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_DISH = "UPDATE dishes " +
-            "SET name = ?, category = ?, picture_name = ?, price = ?, discount_percents = ? " +
+            "SET name = ?, category = ?, picture_name = ?, price = ?, discount_percents = ?, description = ?, weight = ? " +
             "WHERE dish_id = ?";
     private static final String SELECT_NEW_DISHES = "SELECT dish_id, name, category, picture_name, price, " +
             "discount_percents, date, description, weight " +
@@ -226,6 +226,11 @@ public class DishDaoImpl implements DishDao {
             statement.setString(3, dish.getPictureName());
             statement.setDouble(4, dish.getPrice());
             statement.setInt(5, dish.getDiscountPercents());
+            Date addingDate = dish.getAddedDate();
+            Timestamp timestamp = new Timestamp(addingDate.getTime());
+            statement.setTimestamp(6, timestamp);
+            statement.setString(7, dish.getDescription());
+            statement.setShort(8, dish.getWeight());
             dishId = statement.executeUpdate();
         } catch (SQLException e){
             throw new DaoException(e);
@@ -262,7 +267,9 @@ public class DishDaoImpl implements DishDao {
             statement.setString(3, dish.getPictureName());
             statement.setDouble(4, dish.getPrice());
             statement.setInt(5, dish.getDiscountPercents());
-            statement.setInt(6, dish.getDishId());
+            statement.setString(6, dish.getDescription());
+            statement.setShort(7, dish.getWeight());
+            statement.setInt(8, dish.getDishId());
             statement.executeUpdate();
         } catch (SQLException e){
             throw new DaoException(e);

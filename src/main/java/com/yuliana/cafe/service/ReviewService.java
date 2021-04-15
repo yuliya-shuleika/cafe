@@ -1,6 +1,7 @@
 package com.yuliana.cafe.service;
 
 import com.yuliana.cafe.entity.Review;
+import com.yuliana.cafe.entity.ReviewStatus;
 import com.yuliana.cafe.exception.ServiceException;
 
 import java.util.List;
@@ -17,8 +18,9 @@ public interface ReviewService {
     void editReview(int reviewId, Map<String, String> reviewFields,
                     int rating, String reviewStatus) throws ServiceException;
     List<Review> findAllReviewsSortedByHeader() throws ServiceException;
-    List<Review> findReviewsByStatus(String reviewStatus) throws ServiceException;
+    List<Review> findReviewsByStatus(ReviewStatus status) throws ServiceException;
     Optional<Review> findReviewById(int reviewId) throws ServiceException;
     List<Review> findAllUserReviews(int userId) throws ServiceException;
+    void updateStatus(String status, int reviewId) throws ServiceException;
 
 }

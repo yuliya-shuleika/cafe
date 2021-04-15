@@ -41,8 +41,8 @@ button:active,button:focus{
 }
 
 .login-content{
-    background-color: white;
-    color: black;
+    background-color: #5d5d5d;
+    color: #fff;
     width: 40%;
     display: flex;
     flex-direction: column;
@@ -60,20 +60,20 @@ button:active,button:focus{
     width: 100%;
     display: block;
     font-size: 36px;
-    color: #545454;
+    color: #fff;
     text-align: center;
     padding: 20px;
 }
 
 .login-close{
     text-decoration: none;
-    color: #545454;
+    color: #fff;
     font-size: 24px;
     padding-right: 10px;
     transition: 0.2s;
 }
 .login-close:hover{
-    color: #4CAF50;
+    color: #439648;
     cursor: pointer;
 }
 
@@ -101,8 +101,14 @@ button:active,button:focus{
     height: 50px;
     border: none;
     border-radius: 10px;
-    background: #ededed;
+    background: #a2a2a2;
     margin-bottom: 15px;
+}
+
+.login-error-label{
+    color: #fff;
+    font-size: 16px;
+    font-family: 'Rubik', sans-serif;
 }
 
 .login-form-submit{
@@ -119,7 +125,7 @@ button:active,button:focus{
 }
 
 .login-form-submit:hover{
-    background-color: #3d8a40;
+    background: #439648;
     cursor: pointer;
     border: none;
 }
@@ -133,7 +139,7 @@ button:active,button:focus{
 }
 
 .login-footer-text{
-    color: #545454;
+    color: #fff;
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
 }
@@ -141,6 +147,7 @@ button:active,button:focus{
 .register-password-mismatch{
     display: none;
 }
+
 
 
 

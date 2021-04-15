@@ -5,7 +5,9 @@ $(document).ready(function (){
     });
     $('.edit-close').click(function (){
         let addDish = document.getElementById('add-dish')
+        let editDish = document.getElementById('edit-dish')
         addDish.style.display = 'none';
+        editDish.style.display = 'none';
     });
     $('.admin-delete').on('click', function (){
         let paramsList = this.parentElement.getElementsByTagName('input')

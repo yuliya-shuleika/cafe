@@ -24,22 +24,23 @@
 <fmt:message bundle="${loc}" key="lang.label.sushi_set" var="sushi_set"/>
 <fmt:message bundle="${loc}" key="lang.label.soup" var="soup"/>
 <fmt:message bundle="${loc}" key="lang.label.noodles" var="noodles"/>
+<fmt:message bundle="${loc}" key="lang.label.weight" var="weight"/>
+<fmt:message bundle="${loc}" key="lang.label.description" var="description"/>
 <body>
 <div class="edit" id="add-dish">
     <div class="edit-body">
         <div class="edit-content">
             <div class="add-promo">
-                <form action="controller" method="post" enctype="multipart/form-data">
+                <form action="controller?command=add_dish_to_menu" method="post" enctype="multipart/form-data">
                     <div class="edit-header">
                         <h3 class="edit-title">${dish}</h3>
                         <a class="edit-close" id="edit-close">x</a>
                     </div>
                     <div class="edit-form">
-                        <input type="hidden" name="command" value="add_dish_to_menu">
                         <div class="edit-general">
                             <span class="edit-label">${name}</span>
                             <input class="edit-general-input" type="text" placeholder="${name}" name="dish_name"
-                                   required pattern="[A-Za-zА-Яа-яёЁ0-9_]{5,45}">
+                                   required pattern="[A-Za-zА-Яа-яёЁ\s]{5,45}">
                         </div>
                         <div class="edit-general">
                             <span class="edit-label">${category}</span>
@@ -58,7 +59,16 @@
                         <div class="edit-general">
                             <span class="edit-label">${discount_percents}</span>
                             <input class="edit-general-input" type="text" placeholder="${discount}"
-                                   required pattern="[1-9][0-9]?" name="dish_discount">
+                                   required pattern="[0-9]{1,2}" name="dish_discount">
+                        </div>
+                        <div class="edit-general">
+                            <span class="edit-label">${description}</span>
+                            <textarea class="edit-text-short" name="dish_description" maxlength="300"></textarea>
+                        </div>
+                        <div class="edit-general">
+                            <span class="edit-label">${weight}</span>
+                            <input class="edit-general-input" type="text" placeholder="${weight}"
+                                   required pattern="[1-9][0-9]{0,5}" name="dish_weight">
                         </div>
                         <div class="edit-general">
                             <span class="edit-label">${photo}</span>

@@ -174,6 +174,25 @@ public class OrderDaoImpl implements OrderDao {
         return orderOptional;
     }
 
+    @Override
+    public Optional<Address> findAddressByOrderId(int orderId) throws DaoException {
+        Connection connection = pool.getConnection();
+        Optional<Address> addressOptional = Optional.empty();
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_ORDER_ADDRESS)){
+            statement.setInt(1, orderId);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                Address address = createAddress(result);
+                addressOptional = Optional.of(address);
+            }
+        }catch (SQLException e){
+            throw new DaoException(e);
+        }finally {
+            pool.releaseConnection(connection);
+        }
+        return addressOptional;
+    }
+
     private Order createOrder(ResultSet orderData, Map<Dish, Integer> orderedDishes) throws SQLException {
         Order order;
         int orderId = orderData.getInt(1);

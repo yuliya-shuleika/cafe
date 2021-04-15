@@ -2,6 +2,9 @@ form{
     padding: 0;
     margin: 0;
 }
+body{
+    background: #5d5d5d;
+}
 
 button:active, button:focus {
     outline: none;
@@ -20,16 +23,16 @@ button:active, button:focus {
 
 .profile{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: 40%;
     margin-top: 10%;
-    align-items: center;
     justify-content: space-evenly;
     margin-right: inherit;
 }
 
 .profile-image{
-
+    width: 300px;
+    height: 300px;
 }
 
 .profile-info{
@@ -40,25 +43,49 @@ button:active, button:focus {
     font-family: 'Rubik', sans-serif;
     font-size: 16px;
     font-weight: 400;
-    color: #545454;
+    color: #fff;
     margin-bottom: 10px;
+}
+
+.profile-buttons-container{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
 }
 
 .profile-edit{
     background-color: #4CAF50;
     border-radius: 10px;
-    color: #fff;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
     padding: 0.5em 1.0em;
     border-width: 0;
     transition: 0.2s;
-    font-size: 16px;
     display: block;
+    width: 300px;
+    margin-bottom: 10px;
+}
+
+.profile-logout{
+    background-color: #a2a2a2;
+    border-radius: 10px;
+    padding: 0.5em 1.0em;
+    border-width: 0;
+    transition: 0.2s;
+    display: block;
+    width: 300px;
+    margin-bottom: 10px;
 }
 
 .profile-edit:hover{
-    background-color: #3d8a40;
+    background-color: #439648;
+    cursor: pointer;
+}
+
+.profile-edit:hover{
+    background-color: #9d9d9d;
     cursor: pointer;
 }
 
@@ -72,7 +99,7 @@ button:active, button:focus {
 
 .account-tabs{
     overflow: hidden;
-    border-bottom: 1px solid #d1d1d1;
+    border-bottom: 1px solid #4d4d4d;
 }
 
 .account-tab{
@@ -80,8 +107,8 @@ button:active, button:focus {
     font-family: 'Roboto', sans-serif;
     font-weight: normal;
     font-size: 20px;
-    color: #545454;
-    background-color: white;
+    color: #fff;
+    background-color: #5d5d5d;
     padding: 10px 20px;
     transition: 0.2s;
     width: 32%;
@@ -89,8 +116,8 @@ button:active, button:focus {
 
 .account-tab:hover{
     cursor: pointer;
-    border-bottom: 4px solid #dddddd;
-    background: #dddddd;
+    border-bottom: 4px solid #ddd;
+    background: #ddd;
 }
 
 .account-tab.is-active{
@@ -101,14 +128,26 @@ button:active, button:focus {
 
 .account-empty{
     margin-top: 50px;
+    display: flex;
+    flex-direction: row;
 }
 
 .account-empty-label{
     font-family: 'Rubik', sans-serif;
     font-weight: normal;
     font-size: 18px;
-    color: #545454;
+    color: #fff;
     text-align: center;
+    width: 100%;
+}
+
+.account-empty-link{
+    font-family: 'Rubik', sans-serif;
+    font-weight: normal;
+    font-size: 18px;
+    color: #439648;
+    text-align: center;
+    text-decoration: none;
 }
 
 .account-orders{
@@ -121,12 +160,12 @@ button:active, button:focus {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background: #f2f2f2;
+    background: #a2a2a2;
     border-radius: 15px;
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
     font-size: 16px;
-    color: #545454;
+    color: #fff;
 }
 
 .order-start{
@@ -177,7 +216,7 @@ button:active, button:focus {
 }
 
 .account-action-button:hover{
-    background: #3d8a40;
+    background: #439648;
     cursor: pointer;
 }
 
@@ -193,7 +232,7 @@ button:active, button:focus {
     flex-direction: row;
     justify-content: space-between;
     border-radius: 15px;
-    background: #f2f2f2;
+    background: #a2a2a2;
     margin-top: 5px;
 }
 
@@ -219,7 +258,7 @@ button:active, button:focus {
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
     font-size: 20px;
-    color: #545454;
+    color: #fff;
 }
 
 .favorite-info-end{
@@ -236,7 +275,7 @@ button:active, button:focus {
     margin: 10px 10px 0;
     font-size: 17px;
     font-family: 'Rubik', sans-serif;
-    color: #545454;
+    color: #fff;
 }
 
 .favorite-price-value-discount{
@@ -245,110 +284,21 @@ button:active, button:focus {
 
 /*extra info*/
 
+.account-extra{
+    width: 100%;
+    display: none;
+    flex-direction: column;
+}
 
+.extra-container{
+    margin-top: 20px;
+}
 
-/*edit account*/
-
-.account-edit-container{
-    display: flex;
-    margin: 90px 15% 50px;
+.extra-info {
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
-    flex-direction: column;
     font-size: 18px;
-    color: #545454;
-}
-
-.account-edit{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-/*edit general*/
-
-.account-general-title{
-    font-size: 26px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    text-align: center;
-    margin: 20px 0;
-}
-
-.account-edit-general{
-    display: flex;
-    flex-direction: column;
-}
-
-.account-general-fields{
-    display: flex;
-    flex-direction: row;
-}
-
-.account-field{
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 10px;
-}
-
-.account-general-label{
-    padding-right: 5px;
-    align-self: center;
-}
-
-.account-general-input{
-    color: #545454;
-    font-size: 18px;
-    width: 250px;
-    height: 30px;
-    border: none;
-    border-radius: 10px;
-    background: #f2f2f2;
-}
-
-.account-header-label{
-    font-size: 14px;
-    text-align: center;
-}
-
-.account-file-input{
-    opacity:0;
-    overflow:hidden;
-    position:absolute;
-    z-index:-1;
-}
-
-.account-edit-image{
-    width: 100%;
-}
-
-.general-fields{
-    margin-left: 20px;
-}
-
-/*account-edit-footer*/
-
-.account-edit-footer{
-    display: flex;
-    justify-content: end;
-}
-
-.account-edit-submit{
-    background-color: #4CAF50;
-    border-radius: 10px;
     color: #fff;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    padding: 0.5em 1.0em;
-    border-width: 0;
-    transition: 0.2s;
-    display: block;
-    font-size: 20px;
-}
-
-.account-edit-submit:hover{
-    background: #3d8a40;
-    cursor: pointer;
 }
 
 

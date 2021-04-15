@@ -65,7 +65,12 @@ public class DeleteFromCartCommand implements ActionCommand {
                 int countUpdate = count - itemsToDelete;
                 cartItems.replace(dish, countUpdate);
             }
+            int cartItemsCount = 0;
+            for (int itemCount : cartItems.values()){
+                cartItemsCount += itemCount;
+            }
             session.setAttribute(AttributeName.CART_ITEMS, cartItems);
+            session.setAttribute(AttributeName.CART_ITEMS_COUNT, cartItemsCount);
         } else {
             logger.log(Level.DEBUG, "Dish wasn't found.");
         }

@@ -1,6 +1,8 @@
 package com.yuliana.cafe.controller.command.impl;
 
+import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.PagePath;
+import com.yuliana.cafe.controller.RequestParameter;
 import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.entity.Address;
 import com.yuliana.cafe.entity.GettingType;
@@ -14,22 +16,16 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 public class RepeatOrderCommand implements ActionCommand {
 
     private static Logger logger = LogManager.getLogger();
-    private static final String CITY_PARAM = "city";
-    private static final String STREET_PARAM = "street";
-    private static final String HOUSE_PARAM = "house";
-    private static final String ENTRANCE_PARAM = "entrance";
-    private static final String FLOOR_PARAM = "floor";
-    private static final String FLAT_PARAM = "flat";
-    private static final String ORDER_ID_PARAM = "order_id";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String orderIdParam = request.getParameter(ORDER_ID_PARAM);
+        String orderIdParam = request.getParameter(RequestParameter.ORDER_ID);
         int orderId = Integer.parseInt(orderIdParam);
         OrderService orderService = OrderServiceImpl.getInstance();
         Optional<Order> orderOptional = Optional.empty();
@@ -40,8 +36,18 @@ public class RepeatOrderCommand implements ActionCommand {
         }
         if (orderOptional.isPresent()){
             Order order = orderOptional.get();
+            request.setAttribute(AttributeName.REPEATED_ORDER, order);
             if(order.getGettingType().equals(GettingType.DELIVERY)){
-                //Optional<Address> addressOptional = orderService.
+                Optional<Address> addressOptional = Optional.empty();
+                try {
+                    addressOptional = orderService.findAddressByOrderId(orderId);
+                } catch (ServiceException e) {
+                    logger.log(Level.ERROR, e);
+                }
+                if(addressOptional.isPresent()){
+                    Address address = addressOptional.get();
+                    request.setAttribute(AttributeName.ORDER_ADDRESS, address);
+                }
             }
         }
         String page = PagePath.PAYMENT_PAGE;

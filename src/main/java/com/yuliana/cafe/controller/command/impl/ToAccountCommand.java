@@ -63,6 +63,7 @@ public class ToAccountCommand implements ActionCommand {
         request.setAttribute(AttributeName.USER_ORDERS, orders);
         request.setAttribute(AttributeName.USER_ADDRESS, address);
         String page = PagePath.ACCOUNT_PAGE;
+        session.setAttribute(AttributeName.CURRENT_PAGE, page);
         return page;
     }
 }

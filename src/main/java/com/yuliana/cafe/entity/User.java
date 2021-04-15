@@ -7,6 +7,15 @@ public class User {
     private String email;
     private UserRole role;
     private UserStatus status;
+    private String avatar;
+
+    public User(String name, String email, UserRole role, UserStatus status, String avatar) {
+        this.name = name;
+        this.email = email;
+        this.role = role;
+        this.status = status;
+        this.avatar = avatar;
+    }
 
     public User(String name, String email, UserRole role, UserStatus status) {
         this.name = name;
@@ -15,12 +24,13 @@ public class User {
         this.status = status;
     }
 
-    public User(int userId, String name, String email, UserRole role, UserStatus status) {
+    public User(int userId, String name, String email, UserRole role, UserStatus status, String avatar) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.role = role;
         this.status = status;
+        this.avatar = avatar;
     }
 
     public User(){}
@@ -66,26 +76,35 @@ public class User {
         this.status = status;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId == user.userId &&
-                name.equals(user.name) &&
-                email.equals(user.email) &&
-                role == user.role &&
-                status == user.status;
+        if (userId != user.userId) return false;
+        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
+        if (role != user.role) return false;
+        if (status != user.status) return false;
+        return avatar.equals(user.avatar);
     }
 
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result * userId;
-        result = 31 * result * name.hashCode();
-        result = 31 * result * email.hashCode();
-        result = 31 * result * role.ordinal();
-        result = 31 * result * status.ordinal();
+        int result = userId;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + avatar.hashCode();
         return result;
     }
 
@@ -97,6 +116,7 @@ public class User {
         sb.append(", email='").append(email).append('\'');
         sb.append(", role=").append(role);
         sb.append(", status=").append(status);
+        sb.append(", avatar='").append(avatar).append('\'');
         sb.append('}');
         return sb.toString();
     }

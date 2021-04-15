@@ -2,6 +2,7 @@ package com.yuliana.cafe.controller.command.impl;
 
 import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.PagePath;
+import com.yuliana.cafe.controller.RequestParameter;
 import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.entity.PromoCode;
 import com.yuliana.cafe.exception.ServiceException;
@@ -30,9 +31,11 @@ public class EditPromoCodeCommand implements ActionCommand {
         promoCodeFields.put(PROMO_CODE_NAME_PARAM, request.getParameter(PROMO_CODE_NAME_PARAM));
         promoCodeFields.put(PROMO_CODE_DISCOUNT_PERCENTS_PARAM,
                 request.getParameter(PROMO_CODE_DISCOUNT_PERCENTS_PARAM));
+        String promoCodeIdParam = request.getParameter(RequestParameter.PROMO_CODE_ID);
+        int promoCodeId = Integer.parseInt(promoCodeIdParam);
         PromoCodeService promoCodeService = PromoCodeServiceImpl.getInstance();
         try {
-            promoCodeService.editPromoCode(promoCodeFields);
+            promoCodeService.editPromoCode(promoCodeFields, promoCodeId);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }

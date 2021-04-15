@@ -17,7 +17,7 @@ public class PromoCodeDaoImpl implements PromoCodeDao {
             "FROM promo_codes WHERE name = ?";
     private static final String SELECT_PROMO_CODES_BY_NAME_PART = "SELECT promo_code_id, name, discount_percents " +
             "FROM promo_codes WHERE name COLLATE UTF8_GENERAL_CI LIKE ?";
-    private static final String SELECT_PROMO_CODE_BY_ID = "SELECT promo_code_id, name, discount_percents " +
+    private static final String SELECT_PROMO_CODE_BY_ID = "SELECT name, discount_percents " +
             "FROM promo_codes WHERE promo_code_id = ?";
     private static final String DELETE_PROMO_CODE = "DELETE FROM promo_codes WHERE promo_code_id = ?";
     private static final String INSERT_PROMO_CODE = "INSERT INTO promo_codes (name, discount_percents) " +

@@ -46,6 +46,10 @@ public class Dish implements Serializable {
         return dishId;
     }
 
+    public void setDishId(int dishId) {
+        this.dishId = dishId;
+    }
+
     public String getName() {
         return name;
     }
@@ -76,10 +80,6 @@ public class Dish implements Serializable {
 
     public void setPictureName(String pictureName) {
         this.pictureName = pictureName;
-    }
-
-    public void setDishId(int dishId) {
-        this.dishId = dishId;
     }
 
     public short getDiscountPercents() {

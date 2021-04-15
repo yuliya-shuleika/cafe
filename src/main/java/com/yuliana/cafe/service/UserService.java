@@ -2,6 +2,7 @@ package com.yuliana.cafe.service;
 
 import com.yuliana.cafe.entity.Address;
 import com.yuliana.cafe.entity.User;
+import com.yuliana.cafe.entity.UserStatus;
 import com.yuliana.cafe.exception.ServiceException;
 
 import java.util.List;
@@ -13,10 +14,12 @@ public interface UserService {
     Optional<User> loginUser(String email, String password) throws ServiceException;
     void registerUser(String name, String email, String password) throws ServiceException;
     List<User> findAllUsers() throws ServiceException;
-    List<User> findUsersSortedByName() throws ServiceException;
+    List<User> findUsersSortedByEmail() throws ServiceException;
     List<User> findUsersByEmail(String email) throws ServiceException;
     void blockUser(int userId) throws ServiceException;
     Optional<Address> findUserAddress(int userId) throws ServiceException;
-    void editUser(Map<String, String> userForm) throws ServiceException;
-    void editUserAddress(Map<String, String> addressForm, int userId) throws ServiceException;
+    void editUser(Map<String, String> userForm, String avatar, User user) throws ServiceException;
+    void addUserAddress(int addressId, int userId) throws ServiceException;
+    void updateStatus(int userId, UserStatus status) throws ServiceException;
+    boolean findEmail(String email) throws ServiceException;
 }

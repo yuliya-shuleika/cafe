@@ -1,11 +1,13 @@
 $(document).ready(function (){
     $('.admin-add').click(function (){
-        let feedback = document.getElementById('add-promo')
-        feedback.style.display = 'block';
+        let addPromo = document.getElementById('add-promo')
+        addPromo.style.display = 'block';
     });
     $('.edit-close').click(function (){
-        let feedback = document.getElementById('add-promo')
-        feedback.style.display = 'none';
+        let addPromo = document.getElementById('add-promo')
+        addPromo.style.display = 'none';
+        let editPromo = document.getElementById('edit-promo')
+        editPromo.style.display = 'none';
     });
     $('.admin-delete').on('click', function (){
         let paramsList = this.parentElement.getElementsByTagName('input')

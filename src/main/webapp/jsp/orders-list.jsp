@@ -51,7 +51,7 @@
                 <th colspan="2">${action}</th>
                 </thead>
                 <tbody>
-                <c:forEach var="user" items="${orders_list}">
+                <c:forEach var="order" items="${orders_list}">
                     <tr>
                         <td>1</td>
                         <td>${user.getDate()}</td>

@@ -6,6 +6,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/header.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/menu.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/modal/add-promo-code.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/modal" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/modal/edit-user-address.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/modal" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/payment.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
       </map>
     </option>

@@ -96,10 +96,11 @@ public class PromoCodeServiceImpl implements PromoCodeService {
     }
 
     @Override
-    public void editPromoCode(Map<String,String> promoCodeFields) throws ServiceException {
+    public void editPromoCode(Map<String,String> promoCodeFields, int promoCodeId) throws ServiceException {
         boolean isValid = PromoCodeValidator.isValidPromoCodeForm(promoCodeFields);
         if(isValid) {
             PromoCode promoCode = createPromoCode(promoCodeFields);
+            promoCode.setPromoCodeId(promoCodeId);
             try {
                 promoCodeDao.editPromoCode(promoCode);
             } catch (DaoException e) {

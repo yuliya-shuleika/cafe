@@ -21,6 +21,10 @@ public class PromoCode {
         return promoCodeId;
     }
 
+    public void setPromoCodeId(int promoCodeId) {
+        this.promoCodeId = promoCodeId;
+    }
+
     public String getName() {
         return name;
     }

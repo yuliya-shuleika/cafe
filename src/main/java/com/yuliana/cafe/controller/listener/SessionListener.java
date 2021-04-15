@@ -1,7 +1,9 @@
 package com.yuliana.cafe.controller.listener;
 
 import com.yuliana.cafe.controller.AttributeName;
+import com.yuliana.cafe.controller.PagePath;
 import com.yuliana.cafe.entity.Dish;
+import com.yuliana.cafe.entity.User;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +28,13 @@ public class SessionListener implements HttpSessionListener {
         Map<Dish, Integer> cartItems = new HashMap<>();
         session.setAttribute(AttributeName.LANGUAGE, LANG_RU);
         session.setAttribute(AttributeName.CART_ITEMS, cartItems);
+        Object userAttribute = session.getAttribute(AttributeName.USER);
+        Optional<Object> userOptional = Optional.ofNullable(userAttribute);
+        if(userOptional.isPresent()){
+            User user = (User) userOptional.get();
+        } else {
+            session.setAttribute(AttributeName.CURRENT_PAGE, PagePath.HOME_PAGE);
+        }
     }
 
     @Override

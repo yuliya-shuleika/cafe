@@ -55,10 +55,11 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void updateAddress(Map<String, String> addressForm) throws ServiceException {
+    public void updateAddress(Map<String, String> addressForm, int addressId) throws ServiceException {
         boolean isValid = CheckoutValidator.isAddressFormValid(addressForm);
         if(isValid){
             Address address = createAddress(addressForm);
+            address.setAddressId(addressId);
             try {
                 addressDao.updateAddress(address);
             } catch (DaoException e) {

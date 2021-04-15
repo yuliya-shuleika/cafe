@@ -20,20 +20,21 @@ public class ReviewDaoImpl implements ReviewDao {
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
     private static final String INSERT_REVIEW = "INSERT INTO reviews (user_id, header, text, rating, status) " +
             "VALUES (?, ?, ?, ?, ?)";
-    private static final String SELECT_ALL_REVIEWS = "SELECT review_id, user_id, header, text, rating, status " +
+    private static final String SELECT_ALL_REVIEWS = "SELECT review_id, header, text, rating, status " +
             "FROM reviews";
-    private static final String SELECT_REVIEWS_BY_HEADER = "SELECT review_id, user_id, header, text, rating, status " +
+    private static final String SELECT_REVIEWS_BY_HEADER = "SELECT review_id, header, text, rating, status " +
             "FROM reviews WHERE email COLLATE UTF8_GENERAL_CI LIKE ?";
     private static final String DELETE_REVIEW = "DELETE FROM reviews WHERE review_id = ?";
     private static final String UPDATE_REVIEW = "UPDATE reviews " +
             "SET header = ?, text = ?, rating = ?, status = ? WHERE reviewId = ?";
-    private static final String SELECT_ALL_DISHES_SORTED_BY_HEADER = "SELECT review_id, user_id, header, text, rating " +
+    private static final String UPDATE_STATUS = "UPDATE reviews SET status = ? WHERE review_id = ?";
+    private static final String SELECT_ALL_DISHES_SORTED_BY_HEADER = "SELECT review_id, header, text, rating " +
             "FROM reviews ORDER BY header";
-    private static final String SELECT_REVIEWS_BY_STATUS = "SELECT review_id, user_id, header, text, rating, status " +
+    private static final String SELECT_REVIEWS_BY_STATUS = "SELECT review_id, header, text, rating, status " +
             "FROM reviews WHERE status = ?";
-    private static final String SELECT_USER_REVIEWS = "SELECT review_id, user_id, header, text, rating, status " +
+    private static final String SELECT_USER_REVIEWS = "SELECT review_id, header, text, rating, status " +
             "FROM reviews WHERE user_id = ?";
-    private static final String SELECT_REVIEWS_BY_ID = "SELECT review_id, user_id, header, text, rating, status " +
+    private static final String SELECT_REVIEWS_BY_ID = "SELECT review_id, header, text, rating, status " +
             "FROM reviews WHERE review_id = ?";
 
     @Override
@@ -118,6 +119,21 @@ public class ReviewDaoImpl implements ReviewDao {
             ReviewStatus reviewStatus = review.getStatus();
             String status = reviewStatus.name().toLowerCase();
             statement.setString(5, status);
+            statement.executeUpdate();
+        } catch (SQLException e){
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
+    }
+
+    @Override
+    public void updateStatus(ReviewStatus status, int reviewId) throws DaoException {
+        Connection connection = pool.getConnection();
+        try(PreparedStatement statement = connection.prepareStatement(UPDATE_STATUS)){
+            String reviewStatus = status.name().toLowerCase();
+            statement.setString(1, reviewStatus);
+            statement.setInt(2, reviewId);
             statement.executeUpdate();
         } catch (SQLException e){
             throw new DaoException(e);

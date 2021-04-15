@@ -19,7 +19,7 @@ public interface DishService {
     List<Dish> findDishesSortedByName() throws ServiceException;
     void deleteDishById(int dishId) throws ServiceException;
     int addDishToMenu(Map<String, String> dishFields, String pictureName) throws ServiceException;
-    void editDish(Map<String, String> dishFields, String pictureName) throws ServiceException;
+    void editDish(Map<String, String> dishFields, String pictureName, int dishId) throws ServiceException;
     List<Dish> findNewDishes() throws ServiceException;
 
 }

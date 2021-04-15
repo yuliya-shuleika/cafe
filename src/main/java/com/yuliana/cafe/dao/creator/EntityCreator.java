@@ -33,7 +33,7 @@ public class EntityCreator {
         short entrance = result.getShort(5);
         short floor = result.getShort(6);
         short flat = result.getShort(7);
-        Address address = new Address(city, street, house, entrance, floor, flat);
+        Address address = new Address(addressId, city, street, house, entrance, floor, flat);
         return address;
     }
 

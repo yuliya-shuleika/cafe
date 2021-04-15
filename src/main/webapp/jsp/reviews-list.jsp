@@ -5,6 +5,9 @@
 <head>
     <title>Users</title>
     <style><%@include file="/css/admin.css"%></style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+            type="text/javascript"></script>
+    <script><%@include file="/js/reviews-list.js"%></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&family=Rubik:wght@400;500&display=swap" rel="stylesheet">
@@ -18,8 +21,13 @@
 <fmt:message bundle="${loc}" key="lang.label.edit" var="edit"/>
 <fmt:message bundle="${loc}" key="lang.label.delete" var="delete"/>
 <fmt:message bundle="${loc}" key="lang.label.sort" var="sort"/>
-<fmt:message bundle="${loc}" key="lang.label.sort" var="sort"/>
+<fmt:message bundle="${loc}" key="lang.label.status" var="status"/>
 <fmt:message bundle="${loc}" key="lang.label.by_header" var="by_header"/>
+<fmt:message bundle="${loc}" key="lang.label.new_review" var="new_review"/>
+<fmt:message bundle="${loc}" key="lang.label.approved" var="approved"/>
+<fmt:message bundle="${loc}" key="lang.label.rejected" var="rejected"/>
+<fmt:message bundle="${loc}" key="lang.label.watch" var="watch"/>
+<fmt:message bundle="${loc}" key="lang.label.new_reviews" var="new_reviews"/>
 <body>
 <%@ include file="/jsp/header/header-admin.jsp"%>
 <div class = "admin-container">
@@ -31,8 +39,12 @@
             <div class="admin-manage-start">
                 <p class="admin-sort-label">${sort}</p>
                 <form action="controller" method="post" class="admin-sorting-form">
-                    <input type="hidden" name="command" value="sort_by_email">
+                    <input type="hidden" name="command" value="sort_by_header">
                     <button class="admin-sort-criteria" type="submit">${by_header}</button>
+                </form>
+                <form action="controller" method="post" class="admin-sorting-form">
+                    <input type="hidden" name="command" value="show_new_reviews">
+                    <button class="admin-sort-criteria" type="submit">${new_reviews}</button>
                 </form>
             </div>
             <div class="admin-manage-end">
@@ -49,14 +61,31 @@
                 <thead>
                 <th>${number}</th>
                 <th>${review}</th>
+                <th>${status}</th>
                 <th colspan="2">${action}</th>
                 </thead>
                 <tbody>
-                <c:forEach var="user" items="${reviews_list}">
+                <c:forEach var="review" items="${reviews_list}">
                     <tr>
+                        <input type="hidden" name="review_id" value="${review.getReviewId()}">
                         <td>1</td>
-                        <td>${user.getHeader()}</td>
-                        <td><a href="#" class="admin-edit">${edit}</a></td>
+                        <td>${review.getHeader()}</td>
+                        <td>
+                            <select id="review-status-select" name="review_status" class="review-status-select">
+                                <option class="review-status-option" value="new">${new_review}</option>
+                                <option class="review-status-option" value="approved">${approved}</option>
+                                <option class="review-status-option" value="rejected">${rejected}</option>
+                                <script>
+                                    const select = document.querySelector('#review-status-select').getElementsByTagName('option');
+                                    for (let i = 0; i < select.length; i++) {
+                                        if (select[i].value.toUpperCase() === '${review.getStatus().name()}') {
+                                            select[i].selected = true;
+                                        }
+                                    }
+                                </script>
+                            </select>
+                        </td>
+                        <td><a href="#" class="admin-edit">${watch}</a></td>
                         <td><a href="#" class="admin-delete">${delete}</a></td>
                     </tr>
                 </c:forEach>

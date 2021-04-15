@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="ctg" uri="custom_tag" %>
 <html>
 <head>
     <title>Menu</title>
@@ -122,7 +123,7 @@
                                 </c:if>
                                 <p class="menu-price-value-discount">
                                     <c:if test="${dish.getDiscountPercents() > 0}">
-                                        <fmt:formatNumber maxFractionDigits="2" value="${dish.getPrice() - dish.getPrice() * dish.getDiscountPercents() / 100}"/>
+                                        <ctg:countPrice price="${dish.getPrice()}" discount="${dish.getDiscountPercents()}"/>
                                     </c:if>
                                 </p>
                                 <span class="cart-item-price-currency">$</span>

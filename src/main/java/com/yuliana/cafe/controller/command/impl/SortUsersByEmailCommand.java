@@ -25,7 +25,7 @@ public class SortUsersByEmailCommand implements ActionCommand {
         UserService userService = UserServiceImpl.getInstance();
         List<User> users = new ArrayList<>();
         try {
-            userService.findUsersSortedByName();
+            users = userService.findUsersSortedByEmail();
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }

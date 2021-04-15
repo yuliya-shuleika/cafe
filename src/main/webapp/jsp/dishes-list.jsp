@@ -25,7 +25,14 @@
 <fmt:message bundle="${loc}" key="lang.label.dish_add" var="dish_add"/>
 <body>
 <%@ include file="/jsp/header/header-admin.jsp"%>
-<jsp:include page="/jsp/modal/add-dish.jsp"/>
+<%@ include file="/jsp/modal/add-dish.jsp"%>
+<%@ include file="/jsp/modal/edit-dish.jsp"%>
+<c:if test="${selected_dish != null}">
+    <script>
+        let edit = document.getElementById('edit-dish')
+        edit.style.display = 'block'
+    </script>
+</c:if>
 <div class = "admin-container">
     <div class = "admin-header">
         <div class="admin-add-container">
@@ -63,7 +70,10 @@
                     <tr>
                         <td>1</td>
                         <td>${dish.getName()}</td>
-                        <td><a href="#" class="admin-edit">${edit}</a></td>
+                        <td>
+                            <a href="dishes-list.do?command=show_dish_edit&dish_id=${dish.getDishId()}"
+                               class="admin-edit">${edit}</a>
+                        </td>
                         <td>
                             <input type="hidden" name="command" value="delete_dish_from_menu">
                             <input type="hidden" name="dish_id" value="${dish.getDishId()}">

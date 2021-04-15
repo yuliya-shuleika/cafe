@@ -5,41 +5,75 @@ import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.DishService;
 import com.yuliana.cafe.service.impl.DishServiceImpl;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class AddDishToMenuCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
-    //private static final String PICTURE_EXTENSION = ".jpg";
-    private static final String IMAGE_PATH = "/images/dishes/";
-    private static final String DISH_NAME_PARAM = "dish_name";
-    private static final String DISH_CATEGORY_PARAM = "dish_category";
-    private static final String DISH_PICTURE_NAME_PARAM= "dish_picture_name";
-    private static final String DISH_PRICE_PARAM = "dish_price";
-    private static final String DISH_DISCOUNT_PARAM = "dish_discount";
-    private static final String DISH_DESCRIPTION_PARAM = "dish_description";
-    private static final String DISH_WEIGHT_PARAM = "dish_weight";
+    private static final String UPLOAD_PATH = "C:\\Users\\Yulia\\IdeaProjects\\Cafe\\src\\main\\webapp\\images\\dishes\\";
+    private static final String IMAGE_FOLDER = "/images/dishes/";
+    private static final String ENCODING = "UTF-8";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Map<String, String> addDishFields = new HashMap<>();
-        String pictureName = "fijfio";
-        addDishFields.put(DISH_NAME_PARAM, request.getParameter(DISH_NAME_PARAM));
-        addDishFields.put(DISH_CATEGORY_PARAM, request.getParameter(DISH_CATEGORY_PARAM));
-        addDishFields.put(DISH_PRICE_PARAM, request.getParameter(DISH_PRICE_PARAM));
-        addDishFields.put(DISH_DISCOUNT_PARAM, request.getParameter(DISH_DISCOUNT_PARAM));
-        addDishFields.put(DISH_DESCRIPTION_PARAM, request.getParameter(DISH_DESCRIPTION_PARAM));
-        addDishFields.put(DISH_WEIGHT_PARAM, request.getParameter(DISH_WEIGHT_PARAM));
+        Map<String, String> dishFields = new HashMap<>();
+        List<FileItem> items = new ArrayList<>();
+        try {
+            DiskFileItemFactory factory = new DiskFileItemFactory();
+            ServletContext servletContext = request.getServletContext();
+            File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
+            factory.setRepository(repository);
+            ServletFileUpload upload = new ServletFileUpload(factory);
+            upload.setHeaderEncoding(ENCODING);
+            items = upload.parseRequest(request);
+        } catch (FileUploadException e) {
+            logger.log(Level.ERROR, "Error uploading photo.");
+        }
+        Iterator<FileItem> iter = items.iterator();
+        String pictureName = "";
+        while (iter.hasNext()) {
+            FileItem item = iter.next();
+            if (item.isFormField()) {
+                String name = item.getFieldName();
+                String value = null;
+                try {
+                    value = item.getString(ENCODING);
+                } catch (UnsupportedEncodingException e) {
+                    logger.log(Level.ERROR, e);
+                }
+                dishFields.put(name, value);
+            } else {
+                String filename = item.getName();
+                if(!filename.equals("")) {
+                    Path path = Paths.get(filename);
+                    File uploadFile = new File(UPLOAD_PATH + path.getFileName());
+                    try {
+                        item.write(uploadFile);
+                        pictureName = IMAGE_FOLDER + path.getFileName();
+                    } catch (Exception e) {
+                        logger.log(Level.ERROR, "Error saving photo.");
+                    }
+                }
+            }
+        }
         DishService dishService = DishServiceImpl.getInstance();
         try {
-            dishService.addDishToMenu(addDishFields, pictureName);
+            dishService.addDishToMenu(dishFields, pictureName);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }

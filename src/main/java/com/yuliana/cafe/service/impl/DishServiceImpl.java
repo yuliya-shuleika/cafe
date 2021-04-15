@@ -117,10 +117,12 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public int addDishToMenu(Map<String, String> dishFields, String pictureName) throws ServiceException {
+        String category = dishFields.remove(FIELD_DISH_CATEGORY);
+        DishCategory dishCategory = DishCategory.valueOf(category.toUpperCase());
         boolean isValid = DishValidator.isValidDishForm(dishFields);
         int dishId = 0;
         if(isValid){
-            Dish dish = createDish(dishFields, pictureName);
+            Dish dish = createDish(dishFields, pictureName, dishCategory);
             try {
                 dishId = dishDao.addDish(dish);
             } catch (DaoException e) {
@@ -131,10 +133,13 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public void editDish(Map<String, String> dishFields, String pictureName) throws ServiceException {
+    public void editDish(Map<String, String> dishFields, String pictureName, int dishId) throws ServiceException {
+        String category = dishFields.remove(FIELD_DISH_CATEGORY);
+        DishCategory dishCategory = DishCategory.valueOf(category.toUpperCase());
         boolean isValid = DishValidator.isValidDishForm(dishFields);
         if(isValid){
-            Dish dish = createDish(dishFields, pictureName);
+            Dish dish = createDish(dishFields, pictureName, dishCategory);
+            dish.setDishId(dishId);
             try {
                 dishDao.editDish(dish);
             } catch (DaoException e) {
@@ -157,10 +162,8 @@ public class DishServiceImpl implements DishService {
         return dishes;
     }
 
-    private Dish createDish(Map<String,String> dishFields, String picture){
+    private Dish createDish(Map<String,String> dishFields, String picture, DishCategory category){
         String name = dishFields.get(FIELD_DISH_NAME);
-        String dishCategory = dishFields.get(FIELD_DISH_CATEGORY);
-        DishCategory category = DishCategory.valueOf(dishCategory.toUpperCase());
         String dishPrice = dishFields.get(FIELD_DISH_PRICE);
         Double price = Double.parseDouble(dishPrice);
         String dishDiscount = dishFields.get(FIELD_DISH_DISCOUNT);

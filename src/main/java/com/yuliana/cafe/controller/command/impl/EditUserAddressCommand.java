@@ -3,9 +3,12 @@ package com.yuliana.cafe.controller.command.impl;
 import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.PagePath;
 import com.yuliana.cafe.controller.command.ActionCommand;
+import com.yuliana.cafe.entity.Address;
 import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.exception.ServiceException;
+import com.yuliana.cafe.service.AddressService;
 import com.yuliana.cafe.service.UserService;
+import com.yuliana.cafe.service.impl.AddressServiceImpl;
 import com.yuliana.cafe.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -42,11 +45,28 @@ public class EditUserAddressCommand implements ActionCommand {
         User user = (User) session.getAttribute(AttributeName.USER);
         int userId = user.getUserId();
         try {
-            userService.editUserAddress(addressFields, userId);
+            Optional<Address> addressOptional = userService.findUserAddress(userId);
+            AddressService addressService = AddressServiceImpl.getInstance();
+            int addressId;
+            if(addressOptional.isPresent()) {
+                Address address = addressOptional.get();
+                addressId = address.getAddressId();
+                addressService.updateAddress(addressFields, addressId);
+                request.setAttribute(AttributeName.USER_ADDRESS, address);
+            } else {
+                addressId = addressService.addAddress(addressFields);
+                userService.addUserAddress(addressId, userId);
+                addressOptional = addressService.findAddressById(addressId);
+                if(addressOptional.isPresent()) {
+                    Address address = addressOptional.get();
+                    request.setAttribute(AttributeName.USER_ADDRESS, address);
+                }
+            }
+            addressOptional =addressService.findAddressById(addressId);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
         String page = PagePath.ACCOUNT_PAGE;
-        return null;
+        return page;
     }
 }

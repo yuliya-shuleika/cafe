@@ -20,7 +20,6 @@ public interface UserDao extends BaseDao{
     Optional<User> findUserById(int userId) throws DaoException;
     Optional<Address> findUserAddress(int userId) throws DaoException;
     void updateUser(User user) throws DaoException;
-    boolean emailExists(String email) throws DaoException;
-    void updateUserAddress(int addressId, int userId) throws DaoException;
-
+    boolean findEmail(String email) throws DaoException;
+    void addUserAddress(int addressId, int userId) throws DaoException;
 }

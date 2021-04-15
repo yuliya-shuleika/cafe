@@ -25,7 +25,14 @@
 <fmt:message bundle="${loc}" key="lang.label.promo_add" var="promo_add"/>
 <body>
 <%@include file="/jsp/header/header-admin.jsp"%>
-<jsp:include page="/jsp/modal/add-promo-code.jsp"/>
+<%@include file="/jsp/modal/add-promo-code.jsp"%>
+<%@include file="/jsp/modal/edit-promo-code.jsp"%>
+<c:if test="${selected_promo_code != null}">
+    <script>
+        let edit = document.getElementById('edit-promo')
+        edit.style.display = 'block'
+    </script>
+</c:if>
 <div class = "admin-container">
     <div class = "admin-header">
         <div class="admin-add-container">
@@ -63,7 +70,10 @@
                     <tr>
                         <td>1</td>
                         <td>${promoCode.getName()}</td>
-                        <td><a href="#" class="admin-edit">${edit}</a></td>
+                        <td>
+                            <a href="promo-codes-list.do?command=show_promo_code_edit&promo_code_id=${promoCode.getPromoCodeId()}"
+                               class="admin-edit">${edit}</a>
+                        </td>
                         <td>
                             <input type="hidden" name="command" value="delete_promo_code">
                             <input type="hidden" name="promo_code_id" value="${promoCode.getPromoCodeId()}">

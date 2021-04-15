@@ -58,11 +58,11 @@
                                 <a class="header-icon-link" href="#cart">${cart}(<span class="header-items-count">0</span>)</a>
                             </c:if>
                             <c:if test="${sessionScope.cart_items != null && sessionScope.cart_items.size() > 0}">
-                                <a class="header-icon-link" href="#cart">${cart}(<span class="header-items-count">${sessionScope.cart_items.size()}</span>)</a>
+                                <a class="header-icon-link" href="#cart">${cart}(<span class="header-items-count">${sessionScope.cart_items_count}</span>)</a>
                             </c:if>
                         </li>
                         <li class="header-li">
-                            <a class="header-link" href="#login">${login}</a>
+                            <a class="header-link" id="open_login" href="#">${login}</a>
                         </li>
                     </ul>
                 </div>
@@ -72,5 +72,36 @@
     <%@ include file="/jsp/modal/cart.jsp"%>
     <%@ include file="/jsp/modal/login.jsp"%>
     <%@ include file="/jsp/modal/register.jsp"%>
+    <c:if test="${register_error_message != null}">
+        <script>
+            let login = document.getElementById('register')
+            login.style.display = 'block'
+        </script>
+    </c:if>
+    <c:if test="${login_error_message != null}">
+        <script>
+            let login = document.getElementById('login')
+            login.style.display = 'block'
+        </script>
+    </c:if>
+    <script>
+        let login = document.getElementById('login')
+        let register = document.getElementById('register')
+        $('.login-close').click(function () {
+            login.style.display = 'none';
+            register.style.display = 'none';
+        });
+        $('#to_login').click(function () {
+            login.style.display = 'block';
+            register.style.display = 'none';
+        });
+        $('#to_register').click(function () {
+            register.style.display = 'block';
+            login.style.display = 'none';
+        });
+        $('#open_login').click(function () {
+            login.style.display = 'block';
+        });
+    </script>
 </body>
 </html>

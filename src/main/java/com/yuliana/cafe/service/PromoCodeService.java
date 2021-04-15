@@ -15,7 +15,7 @@ public interface PromoCodeService {
     Optional<PromoCode> findPromoCodeById(int promoCodeId) throws ServiceException;
     int addPromoCode(Map<String, String> promoCodeFields) throws ServiceException;
     List<PromoCode> findAllPromoCodes() throws ServiceException;
-    void editPromoCode(Map<String, String> promoCodeFields) throws ServiceException;
+    void editPromoCode(Map<String, String> promoCodeFields, int promoCodeId) throws ServiceException;
     List<PromoCode> findAllPromoCodesSortedByName() throws ServiceException;
 
 }

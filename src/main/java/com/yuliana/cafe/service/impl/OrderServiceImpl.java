@@ -75,4 +75,15 @@ public class OrderServiceImpl implements OrderService {
         }
         return orderOptional;
     }
+
+    @Override
+    public Optional<Address> findAddressByOrderId(int orderId) throws ServiceException {
+        Optional<Address> addressOptional;
+        try {
+            addressOptional = orderDao.findAddressByOrderId(orderId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return addressOptional;
+    }
 }

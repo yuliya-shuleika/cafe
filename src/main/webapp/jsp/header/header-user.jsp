@@ -59,7 +59,7 @@
                             <a class="header-icon-link" href="#cart">${cart}(<span class="header-items-count">0</span>)</a>
                         </c:if>
                         <c:if test="${sessionScope.cart_items != null && sessionScope.cart_items.size() > 0}">
-                            <a class="header-icon-link" href="#cart">${cart}(<span class="header-items-count">${sessionScope.cart_items.size()}</span>)</a>
+                            <a class="header-icon-link" href="#cart">${cart}(<span class="header-items-count">${sessionScope.cart_items_count}</span>)</a>
                         </c:if>
                     </li>
                     <li class="header-icon">

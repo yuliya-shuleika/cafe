@@ -1,4 +1,4 @@
-button:active, button:focus, input:active, input:focus{
+button:active, button:focus, input:active, input:focus, select:focus, select:active{
     outline: none;
 }
 
@@ -170,4 +170,14 @@ a{
 
 .admin-delete:hover{
     color: #bf3b5c;
+}
+
+.review-status-select{
+    display: block;
+    font-size: 18px;
+    height: 30px;
+    border-radius: 10px;
+    color: #545454;
+    font-family: 'Rubik', sans-serif;
+    border: none;
 }

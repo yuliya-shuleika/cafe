@@ -37,6 +37,8 @@ public class ToMenuCommand implements ActionCommand {
         }
         request.setAttribute(AttributeName.DISHES_LIST, dishes);
         String page = PagePath.MENU_PAGE;
+        HttpSession session = request.getSession();
+        session.setAttribute(AttributeName.CURRENT_PAGE, page);
         return page;
     }
 }

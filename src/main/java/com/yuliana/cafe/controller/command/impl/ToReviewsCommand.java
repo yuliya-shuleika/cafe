@@ -4,6 +4,7 @@ import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.controller.PagePath;
 import com.yuliana.cafe.entity.Review;
+import com.yuliana.cafe.entity.ReviewStatus;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.ReviewService;
 import com.yuliana.cafe.service.impl.ReviewServiceImpl;
@@ -13,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,12 +27,14 @@ public class ToReviewsCommand implements ActionCommand {
         ReviewService reviewService = ReviewServiceImpl.getInstance();
         List<Review> reviews = new ArrayList<>();
         try {
-            reviews = reviewService.findAllReviews();
+            reviews = reviewService.findReviewsByStatus(ReviewStatus.APPROVED);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
         request.setAttribute(AttributeName.REVIEWS_LIST, reviews);
-        String page = PagePath.ERROR_404_PAGE;
+        String page = PagePath.REVIEWS_PAGE;
+        HttpSession session = request.getSession();
+        session.setAttribute(AttributeName.CURRENT_PAGE, page);
         return page;
     }
 }

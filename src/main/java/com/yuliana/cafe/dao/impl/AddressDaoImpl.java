@@ -18,7 +18,7 @@ public class AddressDaoImpl implements AddressDao {
     private static final String SELECT_ADDRESS_BY_ID = "SELECT address_id, city, street, house, entrance, floor, flat " +
             "FROM addresses WHERE address_id = ?";
     private static final String UPDATE_ADDRESS = "UPDATE addresses " +
-            "city = ?, street = ?, house = ?, entrance = ?, floor = ?, flat = ? " +
+            "SET city = ?, street = ?, house = ?, entrance = ?, floor = ?, flat = ? " +
             "WHERE address_id = ?";
 
     @Override
@@ -67,7 +67,7 @@ public class AddressDaoImpl implements AddressDao {
     @Override
     public void updateAddress(Address address) throws DaoException {
         Connection connection = pool.getConnection();
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_ADDRESS)){
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_ADDRESS)){
             statement.setString(1, address.getCity());
             statement.setString(2,address.getStreet());
             statement.setShort(3, address.getHouse());

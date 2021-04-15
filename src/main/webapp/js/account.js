@@ -38,4 +38,20 @@ $(document).ready(function () {
             favorites.classList.remove('is-active')
         }
     });
+    $('.profile-edit').on('click', function () {
+        let editProfile = document.getElementById('edit-profile')
+        editProfile.style.display = 'block';
+
+    });
+    $('.account-empty-link').on('click', function () {
+        let editProfile = document.getElementById('edit-user-address')
+        editProfile.style.display = 'block';
+
+    });
+    $('.edit-close').click(function (){
+        let editProfile = document.getElementById('edit-profile')
+        editProfile.style.display = 'none';
+        let editAddress = document.getElementById('edit-user-address')
+        editAddress.style.display = 'none';
+    });
 });

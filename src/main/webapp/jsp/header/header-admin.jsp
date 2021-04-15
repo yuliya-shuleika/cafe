@@ -46,7 +46,7 @@
             <div class = "header-user">
                 <ul class="header-ul">
                     <li class="header-icon">
-                        <a class="header-icon-link" href="controller?command=to_register">${logout}</a>
+                        <a class="header-icon-link" href="controller?command=logout">${logout}</a>
                     </li>
                 </ul>
             </div>

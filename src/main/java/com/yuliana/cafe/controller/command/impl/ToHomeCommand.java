@@ -1,5 +1,6 @@
 package com.yuliana.cafe.controller.command.impl;
 
+import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.controller.PagePath;
 import com.yuliana.cafe.entity.Dish;
@@ -12,24 +13,18 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class ToHomeCommand implements ActionCommand {
 
     private final static Logger logger = LogManager.getLogger();
-    private static final String ATTRIBUTE_DISHES_LIST = "dishes_list";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        DishService dishService = DishServiceImpl.getInstance();
-        List<Dish> menuItems = null;
-        try {
-            menuItems = dishService.findAllDishes();
-        } catch (ServiceException e) {
-            logger.log(Level.ERROR, e);
-        }
-        request.setAttribute(ATTRIBUTE_DISHES_LIST, menuItems);
         String page = PagePath.HOME_PAGE;
+        HttpSession session = request.getSession();
+        session.setAttribute(AttributeName.CURRENT_PAGE, page);
         return page;
     }
 }

@@ -15,6 +15,7 @@ public interface ReviewDao extends BaseDao{
     List<Review> findReviewByHeader(String header) throws DaoException;
     void deleteReview(int reviewId) throws DaoException;
     void editReview(Review review) throws DaoException;
+    void updateStatus(ReviewStatus status, int reviewId) throws DaoException;
     List<Review> findAllReviewsSortedByHeader() throws DaoException;
     List<Review> findReviewsByStatus(ReviewStatus status) throws DaoException;
     Optional<Review> findReviewById(int reviewId) throws DaoException;

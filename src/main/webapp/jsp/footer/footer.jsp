@@ -40,9 +40,9 @@
                 <div class="footer-col">
                     <h4 class="footer-title">${about}</h4>
                     <ul>
-                        <li class="footer-item"><a class="footer-link" href="home.do">${home}</a></li>
-                        <li class="footer-item"><a class="footer-link" href="about.do">${information}</a></li>
-                        <li class="footer-item"><a class="footer-link" href="reviews.do">${reviews}</a></li>
+                        <li class="footer-item"><a class="footer-link" href="home.do?command=to_home">${home}</a></li>
+                        <li class="footer-item"><a class="footer-link" href="about.do?command=to_about">${information}</a></li>
+                        <li class="footer-item"><a class="footer-link" href="reviews.do?command=to_reviews">${reviews}</a></li>
                     </ul>
                 </div>
                 <div class="footer-social-links">

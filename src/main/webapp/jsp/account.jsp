@@ -1,12 +1,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="custom_tag" %>
 <html>
 <head>
     <title>Account</title>
     <style><%@include file="/css/account.css"%></style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script><%@include file="/js/account.js"%></script>
+    <script><%@include file="/js/menu.js"%></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&family=Rubik:wght@400;500&display=swap" rel="stylesheet">
@@ -31,20 +33,62 @@
 <fmt:message bundle="${loc}" key="lang.label.no_orders" var="no_orders"/>
 <fmt:message bundle="${loc}" key="lang.label.no_favorites" var="no_favotites"/>
 <fmt:message bundle="${loc}" key="lang.label.no_extra" var="no_extra"/>
+<fmt:message bundle="${loc}" key="lang.label.edit" var="edit"/>
+<fmt:message bundle="${loc}" key="lang.label.add" var="add"/>
+<fmt:message bundle="${loc}" key="lang.label.avatar" var="avatar"/>
+<fmt:message bundle="${loc}" key="lang.label.logout" var="logout"/>
+
 <body>
     <%@ include file="/jsp/header/header-user.jsp"%>
+    <%@ include file="/jsp/modal/edit-profile.jsp"%>
+    <%@ include file="/jsp/modal/edit-user-address.jsp"%>
+    <c:if test="${address_edit != null}">
+        <script>
+            let edit = document.getElementById('edit-user-address')
+            edit.style.display = 'block'
+        </script>
+    </c:if>
+    <c:if test="${add_dish_to_cart != null}">
+        <script>
+            $(document).ready(function () {
+                let myOrders = document.getElementById('my-orders')
+                let favorites = document.getElementById('favorites')
+                let extra = document.getElementById('extra')
+                let accountExtra = document.getElementById('account-extra')
+                let accountFavorites = document.getElementById('account-favorites')
+                let accountOrders = document.getElementById('account-orders')
+                accountExtra.style.display = 'none'
+                accountOrders.style.display = 'none'
+                accountFavorites.style.display = 'flex'
+                favorites.classList.add('is-active')
+                if (myOrders.classList.contains('is-active')) {
+                    myOrders.classList.remove('is-active')
+                } else {
+                    extra.classList.remove('is-active')
+                }
+            });
+        </script>
+    </c:if>
     <div class="account-container">
         <div class="profile">
             <div class="profile-image">
-                <img src="${pageContext.request.contextPath}/images/guest.jpg" alt="user">
+                <c:if test="${sessionScope.user.avatar == null}">
+                    <img width="300px" height="300px" src="${pageContext.request.contextPath}/images/guest.jpg" alt="${avatar}">
+                </c:if>
+                <c:if test="${sessionScope.user.avatar != null}">
+                    <img width="300px" height="300px" src="${pageContext.request.contextPath}${sessionScope.user.getAvatar()}" alt="${avatar}">
+                </c:if>
             </div>
             <div class="profile-info">
                 <p class="profile-label">${username}: ${sessionScope.user.getName()}</p>
                 <p class="profile-label">${email}: ${sessionScope.user.getEmail()}</p>
-                <form action="profile-edit.do" method="post">
-                    <input type="hidden" name="command" value="to_account_edit">
+                <div class="profile-buttons-container">
                     <button class="profile-edit">${edit}</button>
-                </form>
+                    <form method="post" action="home.do">
+                        <input type="hidden" name="command" value="logout">
+                        <button class="profile-logout">${logout}</button>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="account-manage">
@@ -117,12 +161,16 @@
                                 </c:if>
                                 <p class="favorite-price-value-discount">
                                     <c:if test="${dish.getDiscountPercents() > 0}">
-                                        <fmt:formatNumber maxFractionDigits="2" value="${dish.getPrice() * dish.getDiscountPercents() / 100}"/>
+                                        <ctg:countPrice price="${dish.getPrice()}" discount="${dish.getDiscountPercents()}"/>
                                     </c:if>
                                 </p>
                                 <span class="cart-item-price-currency">$</span>
                             </div>
-                            <button class="account-action-button" type="button">${add_to_cart}</button>
+                            <form action="account.do" method="post">
+                            <input type="hidden" name="command" value="add_to_cart"/>
+                            <input type="hidden" name="dish_id" value="${dish.getDishId()}"/>
+                            <button class="account-action-button menu-item-button">${add_to_cart}</button>
+                            </form>
                         </div>
                     </div>
                 </c:forEach>
@@ -131,7 +179,8 @@
             <div class="account-extra" id="account-extra">
                 <c:if test="${user_address == null}">
                     <div class="account-empty">
-                        <p class="account-empty-label">${no_extra}</p>
+                        <p class="account-empty-label">${no_extra}. </p>
+                        <a class="account-empty-link" href="#">${add}</a>
                     </div>
                 </c:if>
                 <c:if test="${user_address != null}">
@@ -142,6 +191,7 @@
                         <p class="extra-info">${entrance}: <span class="extra-info-span">${user_address.getEntrance()}</span></p>
                         <p class="extra-info">${floor}: <span class="extra-info-span">${user_address.getFloor()}</span></p>
                         <p class="extra-info">${flat}: <span class="extra-info-span">${user_address.getFlat()}</span></p>
+                        <a class="account-empty-link" href="#">${edit}</a>
                     </div>
                 </c:if>
             </div>

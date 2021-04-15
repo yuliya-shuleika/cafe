@@ -35,7 +35,7 @@
                 <div class="admin-manage-start">
                     <p class="admin-sort-label">${sort}</p>
                     <form action="controller" method="post" class="admin-sorting-form">
-                        <input type="hidden" name="command" value="sort_by_email">
+                        <input type="hidden" name="command" value="sort_users_by_email">
                         <button class="admin-sort-criteria" type="submit">${by_email}</button>
                     </form>
                 </div>

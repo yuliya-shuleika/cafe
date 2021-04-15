@@ -103,9 +103,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<Review> findReviewsByStatus(String reviewStatus) throws ServiceException {
+    public List<Review> findReviewsByStatus(ReviewStatus status) throws ServiceException {
         List<Review> reviews;
-        ReviewStatus status = ReviewStatus.valueOf(reviewStatus.toUpperCase());
         try {
             reviews = reviewDao.findReviewsByStatus(status);
         } catch (DaoException e) {
@@ -134,6 +133,16 @@ public class ReviewServiceImpl implements ReviewService {
             throw new ServiceException(e);
         }
         return reviews;
+    }
+
+    @Override
+    public void updateStatus(String status, int reviewId) throws ServiceException {
+        ReviewStatus reviewStatus = ReviewStatus.valueOf(status.toUpperCase());
+        try {
+            reviewDao.updateStatus(reviewStatus, reviewId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 
 }

@@ -18,11 +18,6 @@ public enum CommandType {
             this.command = new ToMenuCommand();
         }
     },
-    TO_MANAGEMENT {
-        {
-            this.command = new ToManagementCommand();
-        }
-    },
     TO_USERS_LIST {
         {
             this.command = new ToUsersListCommand();
@@ -58,7 +53,7 @@ public enum CommandType {
             this.command = new ToAccountCommand();
         }
     },
-    TO_ACCOUNT_EDIT{
+    TO_ACCOUNT_EDIT {
         {
             this.command = new ToAccountEditCommand();
         }
@@ -213,22 +208,68 @@ public enum CommandType {
             this.command = new AddPromoCodeCommand();
         }
     },
-    ADD_DISH_TO_FAVORITES{
+    ADD_DISH_TO_FAVORITES {
         {
             this.command = new AddDishToFavoritesCommand();
         }
     },
-    DELETE_FROM_FAVORITES{
+    DELETE_FROM_FAVORITES {
         {
             this.command = new DeleteFromFavoritesCommand();
         }
     },
-    SHOW_NEW_DISHES{
+    SHOW_NEW_DISHES {
         {
             this.command = new ShowNewDishesCommand();
         }
+    },
+    SHOW_DISH_EDIT {
+        {
+            this.command = new ShowDishEditCommand();
+        }
+    },
+    SHOW_PROMO_CODE_EDIT{
+        {
+            this.command = new ShowPromoCodeEditCommand();
+        }
+    },
+    SHOW_REVIEW_EDIT {
+        {
+            this.command = new ShowReviewEditCommand();
+        }
+    },
+    UPDATE_REVIEW_STATUS {
+        {
+            this.command = new UpdateReviewStatusCommand();
+        }
+    },
+    SHOW_NEW_REVIEWS{
+        {
+            this.command = new ShowNewReviewsCommand();
+        }
+    },
+    EDIT_ACCOUNT{
+        {
+            this.command = new EditAccountCommand();
+        }
+    },
+    EDIT_USER_ADDRESS{
+        {
+            this.command = new EditUserAddressCommand();
+        }
+    },
+    SHOW_USER_ADDRESS_EDIT{
+        {
+            this.command = new ShowUserAddressEditCommand();
+        }
+    },
+    REPEAT_ORDER_ADDRESS {
+        {
+            this.command = new RepeatOrderCommand();
+        }
     };
     ActionCommand command;
+
     public ActionCommand getCurrentCommand() {
         return command;
     }

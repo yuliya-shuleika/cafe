@@ -126,7 +126,7 @@ input[type="checkbox"]:checked + label:after{
 .payment-cart{
     display: flex;
     flex-direction: column;
-    background-color: #a2a2a2;
+    background-color: #545454;
     border-radius: 12px;
     padding: 20px;
 }

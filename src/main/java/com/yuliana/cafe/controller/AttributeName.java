@@ -3,11 +3,15 @@ package com.yuliana.cafe.controller;
 public class AttributeName {
 
     public static final String CART_ITEMS = "cart_items";
+    public static final String CART_ITEMS_COUNT = "cart_items_count";
     public static final String DISHES_LIST = "dishes_list";
     public static final String REVIEWS_LIST = "reviews_list";
     public static final String PROMO_CODES_LIST = "promo_codes_list";
     public static final String LANGUAGE = "lang";
     public static final String USER = "user";
+    public static final String SELECTED_DISH = "selected_dish";
+    public static final String SELECTED_PROMO_CODE = "selected_promo_code";
+    public static final String SELECTED_REVIEW = "selected_review";
     public static final String ADDRESS_FIELDS = "address_fields";
     public static final String CHECKOUT_ERROR_MESSAGE = "checkout_error_message";
     public static final String PROMO_CODE = "promo_code";
@@ -20,6 +24,11 @@ public class AttributeName {
     public static final String USER_FAVORITES = "user_favorites";
     public static final String ORDER_ADDRESS = "order_address";
     public static final String CURRENT_PAGE = "current_page";
+    public static final String EDIT_ADDRESS = "edit_address";
+    public static final String LOGIN_ERROR_MESSAGE = "login_error_message";
+    public static final String REGISTER_ERROR_MESSAGE = "register_error_message";
+    public static final String ADD_DISH_TO_CART = "add_dish_to_cart";
+    public static final String REPEATED_ORDER = "repeated_order";
 
     private AttributeName(){}
 }

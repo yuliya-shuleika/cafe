@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,8 @@ public class ToPromoCodesListCommand implements ActionCommand {
         }
         request.setAttribute(AttributeName.PROMO_CODES_LIST, promoCodes);
         String page = PagePath.PROMO_CODES_LIST_PAGE;
+        HttpSession session = request.getSession();
+        session.setAttribute(AttributeName.CURRENT_PAGE, page);
         return page;
     }
 

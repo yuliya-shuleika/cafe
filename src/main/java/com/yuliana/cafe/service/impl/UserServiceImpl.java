@@ -1,14 +1,12 @@
 package com.yuliana.cafe.service.impl;
 
-import com.yuliana.cafe.entity.Address;
-import com.yuliana.cafe.entity.UserStatus;
+import com.yuliana.cafe.entity.*;
 import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.dao.UserDao;
 import com.yuliana.cafe.dao.impl.UserDaoImpl;
-import com.yuliana.cafe.entity.User;
-import com.yuliana.cafe.entity.UserRole;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.UserService;
+import com.yuliana.cafe.service.validator.DishValidator;
 import com.yuliana.cafe.service.validator.UserValidator;
 import com.yuliana.cafe.util.PasswordEncryptor;
 
@@ -19,6 +17,8 @@ import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
 
+    private static final String FIELD_USER_NAME = "user_name";
+    private static final String FIELD_USER_EMAIL = "user_email";
     private static final UserServiceImpl INSTANCE = new UserServiceImpl();
     private static final UserDao userDao = new UserDaoImpl();
 
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findUsersSortedByName() throws ServiceException {
+    public List<User> findUsersSortedByEmail() throws ServiceException {
         List<User> users;
         try {
             users = userDao.findUsersSortedByEmail();
@@ -116,12 +116,47 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void editUser(Map<String, String> userForm) throws ServiceException {
-
+    public void editUser(Map<String, String> userForm, String avatar, User user) throws ServiceException {
+        boolean isValid = UserValidator.isValidAccountEditForm(userForm);
+        if(isValid){
+            user.setName(userForm.get(FIELD_USER_NAME));
+            user.setEmail(userForm.get(FIELD_USER_EMAIL));
+            user.setAvatar(avatar);
+            try {
+                userDao.updateUser(user);
+            } catch (DaoException e) {
+                throw new ServiceException(e);
+            }
+        }
     }
 
     @Override
-    public void editUserAddress(Map<String, String> addressForm, int userId) throws ServiceException {
+    public void addUserAddress(int addressId, int userId) throws ServiceException {
+        try {
+            userDao.addUserAddress(addressId, userId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
 
+    @Override
+    public void updateStatus(int userId, UserStatus status) throws ServiceException {
+        try {
+            userDao.updateStatus(userId, status);
+        } catch (DaoException e) {
+            throw new ServiceException();
+        }
+    }
+
+    @Override
+    public boolean findEmail(String email) throws ServiceException {
+        //validation
+        boolean exists;
+        try {
+            exists = userDao.findEmail(email);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return exists;
     }
 }

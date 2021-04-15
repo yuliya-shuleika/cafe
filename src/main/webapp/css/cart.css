@@ -35,8 +35,8 @@ button:active, button:focus, input:active, input:focus{
 }
 
 .cart-content{
-    background-color: white;
-    color: black;
+    background-color: #5d5d5d;
+    color: #fff;
     width: 70%;
     display: flex;
     flex-direction: column;
@@ -58,14 +58,14 @@ button:active, button:focus, input:active, input:focus{
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 36px;
-    color: #545454;
+    color: #fff;
     text-align: center;
     padding: 20px;
 }
 
 .cart-close{
     text-decoration: none;
-    color: #545454;
+    color: #fff;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 24px;
@@ -107,7 +107,7 @@ button:active, button:focus, input:active, input:focus{
     font-weight: 500;
     font-size: 18px;
     padding-bottom: 10px;
-    color: rgb(51, 51, 51);
+    color: #fff;
 }
 
 .cart-item-description{
@@ -144,7 +144,7 @@ button:active, button:focus, input:active, input:focus{
     font-weight: 500;
     font-family: 'Roboto', sans-serif;
     font-size: 24px;
-    color: #545454;
+    color: #fff;
 }
 
 .cart-item-price-currency{
@@ -165,13 +165,13 @@ button:active, button:focus, input:active, input:focus{
     font-weight: 500;
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
-    color: #545454;
+    color: #fff;
     padding: 0 15px;
 }
 
 .cart-item-count-update{
-    background: #f2f2f2;
-    color: #545454;
+    background: #a2a2a2;
+    color: #fff;
     width: 35px;
     height: 58px;
     border-radius: 12px;
@@ -205,7 +205,7 @@ button:active, button:focus, input:active, input:focus{
 }
 
 .cart-item-delete-button{
-    color: #545454;
+    color: #fff;
     font-size: 24px;
     transition: all .2s;
 }
@@ -215,8 +215,8 @@ button:active, button:focus, input:active, input:focus{
 }
 
 .cart-items-delimiter{
-    background-color: #545454;
-    color: #545454;
+    background-color: #fff;
+    color: #fff;
     size: 5px;
     display: block;
     padding: 0 40px 0;
@@ -243,7 +243,7 @@ button:active, button:focus, input:active, input:focus{
     font-weight: 500;
     font-family: 'Roboto', sans-serif;
     font-size: 24px;
-    color: #545454;
+    color: #fff;
     padding-right: 10px;
 }
 
@@ -253,7 +253,7 @@ button:active, button:focus, input:active, input:focus{
     font-weight: 500;
     font-family: 'Roboto', sans-serif;
     font-size: 28px;
-    color: #545454;
+    color: #fff;
 
 }
 
@@ -282,7 +282,7 @@ button:active, button:focus, input:active, input:focus{
 }
 
 .checkout:hover{
-    background-color: #3d8a40;
+    background: #439648;
     cursor: pointer;
     border: none;
 }
@@ -290,7 +290,7 @@ button:active, button:focus, input:active, input:focus{
 .clean-cart{
     background: none;
     border: none;
-    color: #545454;
+    color: #fff;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 18px;
@@ -318,7 +318,7 @@ button:active, button:focus, input:active, input:focus{
 
 .cart-empty-label{
     display: block;
-    color: #545454;
+    color: #fff;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 20px;
@@ -336,7 +336,7 @@ button:active, button:focus, input:active, input:focus{
 }
 
 .cart-empty-link:hover{
-    color: #3d8a40;
+    background: #439648;
 }
 
 
