@@ -34,4 +34,4 @@ This is a website of the popular japanese restaurant. Here you can look at the d
 * Manage users (block, change role)
 * Manage reviews(approve or reject, edit, delete)
 * Manage promo codes(add, edit or delete)
-* Manage dishrs(add, edit, delete)
+* Manage dishes(add, edit, delete)
