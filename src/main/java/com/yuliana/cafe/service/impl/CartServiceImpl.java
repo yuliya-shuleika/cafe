@@ -14,9 +14,10 @@ public class CartServiceImpl implements CartService {
     private static final CartServiceImpl INSTANCE = new CartServiceImpl();
     private CartDao cartDao = new CartDaoImpl();
 
-    private CartServiceImpl(){}
+    private CartServiceImpl() {
+    }
 
-    public static CartServiceImpl getInstance(){
+    public static CartServiceImpl getInstance() {
         return INSTANCE;
     }
 
@@ -30,7 +31,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void deleteItem(int userId, int dishId, int count) throws ServiceException{
+    public void deleteItem(int userId, int dishId, int count) throws ServiceException {
         try {
             cartDao.deleteItem(userId, dishId, count);
         } catch (DaoException e) {
@@ -39,7 +40,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void deleteAllItems(int userId) throws ServiceException{
+    public void deleteAllItems(int userId) throws ServiceException {
         try {
             cartDao.deleteAllItems(userId);
         } catch (DaoException e) {

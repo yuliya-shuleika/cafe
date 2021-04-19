@@ -31,9 +31,12 @@
             <div class="section-preview-info">${japanese_restaurant}</div>
             <h1 class="section-preview-title">${delicious_sushi}</h1>
             <div class="section-preview-btn-container">
-                <button class="section-preview-btn">
-                    ${menu}
-                </button>
+                <form action="menu.do" method="post">
+                    <input type="hidden" name="command" value="to_menu">
+                    <button class="section-preview-btn">
+                        ${menu}
+                    </button>
+                </form>
             </div>
         </div>
     </section>

@@ -17,40 +17,67 @@
 <fmt:message bundle="${loc}" key="lang.label.photo" var="photo"/>
 <fmt:message bundle="${loc}" key="lang.label.load_file" var="load_file"/>
 <fmt:message bundle="${loc}" key="lang.label.submit" var="submit"/>
+<fmt:message bundle="${loc}" key="lang.label.fill_fields_correct" var="fill_fields_correct"/>
 <body>
 <div class="edit" id="edit-profile">
     <div class="edit-body">
-        <div class="edit-content">
+        <div class="edit-content edit-content-dark">
             <div class="add-promo">
                 <form action="controller?command=edit_account&user_id=${sessionScope.user.userId}&user_avatar=${sessionScope.user.avatar}"
                       method="post" enctype="multipart/form-data">
                     <div class="edit-header">
-                        <h3 class="edit-title">${account}</h3>
-                        <a class="edit-close" id="edit-close">x</a>
+                        <h3 class="edit-title edit-title-dark">${account}</h3>
+                        <a class="edit-close edit-close-dark" id="edit-close">x</a>
                     </div>
                     <div class="edit-form">
                         <div class="edit-general">
-                            <span class="edit-label">${username}</span>
-                            <input class="edit-general-input" type="text" placeholder="${username}" name="user_name"
-                                   required pattern="[A-Za-zА-Яа-яёЁ]{3,25}" value="${sessionScope.user.name}">
+                            <span class="edit-label edit-label-dark">${username}</span>
+                            <c:choose>
+                                <c:when test="${user_address != null}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${username}" name="user_name" value="${sessionScope.user.name}">
+                                </c:when>
+                                <c:when test="${user_fields != null && user_fields.containsKey('user_name')}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${username}" name="user_name" value="${user_fields.get('user_name')}">
+                                </c:when>
+                                <c:when test="${user_fields == null || !user_fields.containsKey('user_name')}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${username}" name="user_name">
+                                </c:when>
+                            </c:choose>
+                            <!--required pattern="[A-Za-zА-Яа-яёЁ]{3,25}"-->
                         </div>
                         <div class="edit-general">
-                            <span class="edit-label">${email}</span>
-                            <input class="edit-general-input" type="email" placeholder="${email}"
-                                   required name="user_email"
-                                   value="${sessionScope.user.email}">
+                            <span class="edit-label edit-label-dark">${email}</span>
+                            <c:choose>
+                                <c:when test="${user_address != null}">
+                                    <input class="edit-general-input edit-general-input-dark" type="email" placeholder="${email}"
+                                           name="user_email"
+                                           value="${sessionScope.user.email}">
+                                </c:when>
+                                <c:when test="${user_fields != null && user_fields.containsKey('user_email')}">
+                                    <input class="edit-general-input edit-general-input-dark" type="email" placeholder="${email}"
+                                           name="user_email"
+                                           value="${user_fields.get('user_email')}">
+                                </c:when>
+                                <c:when test="${user_fields == null || !user_fields.containsKey('user_email')}">
+                                    <input class="edit-general-input edit-general-input-dark" type="email" placeholder="${email}"
+                                           name="user_email">
+                                </c:when>
+                            </c:choose>
                         </div>
                         <div class="edit-general">
-                            <span class="edit-label">${photo}</span>
+                            <span class="edit-label edit-label-dark">${photo}</span>
                             <input class="edit-file-input" type="file"
                                    name="user_avatar" id="add-dish-photo">
-                            <label for="add-dish-photo" class="load-file-input">
+                            <label for="add-dish-photo" class="load-file-input load-file-input-dark">
                                 <span class="load-file">${load_file}</span>
                                 <i class="icon fa fa-upload"></i>
                             </label>
                         </div>
                     </div>
                     <div class="edit-footer">
+                        <c:if test="${edit_error_message != null}">
+                            <p class="edit-error-message edit-error-message-dark">${fill_fields_correct}</p>
+                        </c:if>
                         <button class="edit-submit" type="submit">${submit}</button>
                     </div>
                 </form>

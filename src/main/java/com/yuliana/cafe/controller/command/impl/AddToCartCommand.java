@@ -38,8 +38,9 @@ public class AddToCartCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        if(dishOptional.isPresent()) {
-            Optional<Object> userOptional = Optional.ofNullable(session.getAttribute(AttributeName.USER));
+        if (dishOptional.isPresent()) {
+            Object userAttribute = session.getAttribute(AttributeName.USER);
+            Optional<Object> userOptional = Optional.ofNullable(userAttribute);
             if (userOptional.isPresent()) {
                 User user = (User) userOptional.get();
                 UserRole role = user.getRole();
@@ -62,7 +63,7 @@ public class AddToCartCommand implements ActionCommand {
                 cartItems.put(dish, 1);
             }
             int cartItemsCount = 0;
-            for (int count : cartItems.values()){
+            for (int count : cartItems.values()) {
                 cartItemsCount += count;
             }
             session.setAttribute(AttributeName.CART_ITEMS, cartItems);

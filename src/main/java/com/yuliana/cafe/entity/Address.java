@@ -42,7 +42,8 @@ public class Address {
         this.flat = flat;
     }
 
-    public Address(){}
+    public Address() {
+    }
 
     public int getAddressId() {
         return addressId;

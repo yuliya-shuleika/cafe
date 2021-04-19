@@ -2,6 +2,7 @@ package com.yuliana.cafe.controller.command.impl;
 
 import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.PagePath;
+import com.yuliana.cafe.controller.RequestParameter;
 import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.entity.Review;
 import com.yuliana.cafe.exception.ServiceException;
@@ -19,11 +20,10 @@ import java.util.List;
 public class SearchReviewByHeaderCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String HEADER_PARAM = "header";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String header = request.getParameter(HEADER_PARAM);
+        String header = request.getParameter(RequestParameter.REVIEW_HEADER);
         ReviewService reviewService = ReviewServiceImpl.getInstance();
         List<Review> reviews = new ArrayList<>();
         try {

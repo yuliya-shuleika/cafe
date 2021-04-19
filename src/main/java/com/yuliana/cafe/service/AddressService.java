@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface AddressService {
     int addAddress(Map<String, String> addressForm) throws ServiceException;
+
     Optional<Address> findAddressById(int addressId) throws ServiceException;
+
     void updateAddress(Map<String, String> addressForm, int addressId) throws ServiceException;
 }

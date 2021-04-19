@@ -10,13 +10,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
-import javax.servlet.annotation.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "RoleFilter", urlPatterns = { "/controller", "*.do" })
+@WebFilter(filterName = "RoleFilter", urlPatterns = {"/controller", "*.do"})
 public class RoleFilter implements Filter {
 
     private static final Logger logger = LogManager.getLogger();
@@ -35,30 +35,30 @@ public class RoleFilter implements Filter {
         HttpSession session = httpRequest.getSession();
         UserRole role;
         User user = (User) session.getAttribute(AttributeName.USER);
-        if(user != null) {
+        if (user != null) {
             role = user.getRole();
         } else {
             role = UserRole.GUEST;
         }
         String command = httpRequest.getParameter(COMMAND_PARAM);
         CommandType commandType;
-        if(command != null){
+        if (command != null) {
             commandType = CommandType.valueOf(command.toUpperCase());
         } else {
             commandType = CommandType.TO_MENU;
         }
-        switch (commandType){
+        switch (commandType) {
             case CHECKOUT:
-                if(!role.equals(UserRole.USER)) {
-                    httpResponse.sendRedirect(httpRequest.getContextPath() + PagePath.ERROR_PAGE);
+                if (!role.equals(UserRole.USER)) {
+                    httpResponse.sendRedirect(httpRequest.getContextPath() + PagePath.ERROR_404_PAGE);
                     logger.log(Level.DEBUG, "This command for user only");
                 } else {
                     chain.doFilter(request, response);
                 }
                 break;
             case EDIT_DISH:
-                if(!role.equals(UserRole.ADMIN)) {
-                    httpResponse.sendRedirect(httpRequest.getContextPath() + PagePath.ERROR_PAGE);
+                if (!role.equals(UserRole.ADMIN)) {
+                    httpResponse.sendRedirect(httpRequest.getContextPath() + PagePath.ERROR_500_PAGE);
                     logger.log(Level.DEBUG, "This command for admin only");
                 } else {
                     chain.doFilter(request, response);

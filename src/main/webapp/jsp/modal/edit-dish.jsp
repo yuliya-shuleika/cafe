@@ -25,13 +25,24 @@
 <fmt:message bundle="${loc}" key="lang.label.noodles" var="noodles"/>
 <fmt:message bundle="${loc}" key="lang.label.weight" var="weight"/>
 <fmt:message bundle="${loc}" key="lang.label.description" var="description"/>
+<fmt:message bundle="${loc}" key="lang.label.fill_fields_correct" var="fill_fields_correct"/>
 <body>
 <div class="edit" id="edit-dish">
     <div class="edit-body">
         <div class="edit-content">
             <div class="add-promo">
-                <form action="controller?command=edit_dish&dish_id=${selected_dish.getDishId()}&dish_picture=${selected_dish.getPictureName()}"
+                <form action="controller?command=edit_dish"
                       method="post" enctype="multipart/form-data">
+                    <c:choose>
+                        <c:when test="${selected_dish != null}">
+                            <input type="hidden" name="dish_id" value="${selected_dish.getDishId()}">
+                            <input type="hidden" name="dish_picture" value="${selected_dish.getPictureName()}">
+                        </c:when>
+                        <c:when test="${dish_fields != null}">
+                            <input type="hidden" name="dish_id" value="${dish_id}">
+                            <input type="hidden" name="dish_picture" value="${dish_picture}">
+                        </c:when>
+                    </c:choose>
                     <div class="edit-header">
                         <h3 class="edit-title">${dish}</h3>
                         <a class="edit-close" id="edit-close">x</a>
@@ -39,8 +50,19 @@
                     <div class="edit-form">
                         <div class="edit-general">
                             <span class="edit-label">${name}</span>
-                            <input class="edit-general-input" type="text" placeholder="${name}" name="dish_name"
-                                   required pattern="[A-Za-zА-Яа-яёЁ\s]{5,45}" value="${selected_dish.getName()}">
+                            <c:choose>
+                                <c:when test="${selected_dish != null}">
+                                    <input class="edit-general-input" type="text" placeholder="${name}" name="dish_name"
+                                           value="${selected_dish.getName()}">
+                                </c:when>
+                                <c:when test="${dish_fields != null && dish_fields.containsKey('dish_name')}">
+                                    <input class="edit-general-input" type="text" placeholder="${name}" name="dish_name"
+                                           value="${dish_fields.get('dish_name')}">
+                                </c:when>
+                                <c:when test="${dish_fields == null || !dish_fields.containsKey('dish_name')}">
+                                    <input class="edit-general-input" type="text" placeholder="${name}" name="dish_name">
+                                </c:when>
+                            </c:choose>
                         </div>
                         <div class="edit-general">
                             <span class="edit-label">${category}</span>
@@ -53,26 +75,71 @@
                         </div>
                         <div class="edit-general">
                             <span class="edit-label">${price}</span>
-                            <input class="edit-general-input" type="text" placeholder="${price}"
-                                   required pattern="[1-9][0-9]{0,4}\.[0-9]?[1-9]" name="dish_price"
-                                   value="${selected_dish.getPrice()}">
+                            <c:choose>
+                                <c:when test="${selected_dish != null}">
+                                    <input class="edit-general-input" type="text" placeholder="${price}" name="dish_price"
+                                           value="${selected_dish.getPrice()}">
+                                </c:when>
+                                <c:when test="${dish_fields != null && dish_fields.containsKey('dish_price')}">
+                                    <input class="edit-general-input" type="text" placeholder="${price}" name="dish_price"
+                                           value="${dish_fields.get('dish_price')}">
+                                </c:when>
+                                <c:when test="${dish_fields == null || !dish_fields.containsKey('dish_price')}">
+                                    <input class="edit-general-input" type="text" placeholder="${price}" name="dish_price">
+                                </c:when>
+                            </c:choose>
                         </div>
                         <div class="edit-general">
                             <span class="edit-label">${discount_percents}</span>
-                            <input class="edit-general-input" type="text"
-                                   placeholder="${discount_percents}"
-                                   required pattern="[0-9]{1,2}" name="dish_discount"
-                                   value="${selected_dish.getDiscountPercents()}">
+                            <c:choose>
+                                <c:when test="${selected_dish != null}">
+                                    <input class="edit-general-input" type="text"
+                                           placeholder="${discount_percents}" name="dish_discount"
+                                           value="${selected_dish.getDiscountPercents()}">
+                                </c:when>
+                                <c:when test="${dish_fields != null && dish_fields.containsKey('dish_discount')}">
+                                <input class="edit-general-input" type="text"
+                                       placeholder="${discount_percents}" name="dish_discount"
+                                       value="${dish_fields.get('dish_discount')}">
+                                </c:when>
+                                <c:when test="${dish_fields == null || !dish_fields.containsKey('dish_discount')}">
+                                    <input class="edit-general-input" type="text"
+                                           placeholder="${discount_percents}" name="dish_discount">
+                                </c:when>
+                            </c:choose>
                         </div>
                         <div class="edit-general">
                             <span class="edit-label">${description}</span>
-                            <textarea class="edit-text-short" name="dish_description" maxlength="300">${selected_dish.getDescription()}</textarea>
+                            <c:choose>
+                                <c:when test="${selected_dish != null}">
+                                    <textarea class="edit-text-short" name="dish_description">${selected_dish.getDescription()}</textarea>
+                                </c:when>
+                                <c:when test="${dish_fields != null && dish_fields.containsKey('dish_description')}">
+                                    <textarea class="edit-text-short" name="dish_description">${dish_fields.get('dish_description')}</textarea>
+                                </c:when>
+                                <c:when test="${dish_fields == null || !dish_fields.containsKey('dish_description')}">
+                                    <textarea class="edit-text-short" name="dish_description">${selected_dish.getDescription()}</textarea>
+                                </c:when>
+                            </c:choose>
                         </div>
                         <div class="edit-general">
                             <span class="edit-label">${weight}</span>
-                            <input class="edit-general-input" type="text" placeholder="${weight}"
-                                   required pattern="[1-9][0-9]{0,5}" name="dish_weight"
-                                   value="${selected_dish.getWeight()}">
+                            <c:choose>
+                                <c:when test="${selected_dish != null}">
+                                    <input class="edit-general-input" type="text" placeholder="${weight}"
+                                           name="dish_weight"
+                                           value="${selected_dish.getWeight()}">
+                                </c:when>
+                                <c:when test="${dish_fields != null && dish_fields.containsKey('dish_weight')}">
+                                    <input class="edit-general-input" type="text" placeholder="${weight}"
+                                           name="dish_weight"
+                                           value="${dish_fields.get('dish_weight')}">
+                                </c:when>
+                                <c:when test="${dish_fields == null || !dish_fields.containsKey('dish_weight')}">
+                                    <<input class="edit-general-input" type="text" placeholder="${weight}"
+                                    name="dish_weight">
+                                </c:when>
+                            </c:choose>
                         </div>
                         <div class="edit-general">
                             <span class="edit-label">${photo}</span>
@@ -85,6 +152,9 @@
                         </div>
                     </div>
                     <div class="edit-footer">
+                        <c:if test="${edit_error_message != null}">
+                            <p class="edit-error-message">${fill_fields_correct}</p>
+                        </c:if>
                         <button class="edit-submit" type="submit">${submit}</button>
                     </div>
                 </form>

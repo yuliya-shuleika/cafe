@@ -12,7 +12,7 @@ import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
-public enum  ConnectionPool {
+public enum ConnectionPool {
     INSTANCE;
 
     private static final Logger logger = LogManager.getLogger();
@@ -20,19 +20,19 @@ public enum  ConnectionPool {
     private Queue<ProxyConnection> givenAwayConnections;
     private static final int POOL_CAPACITY = 10;
 
-    ConnectionPool(){
+    ConnectionPool() {
         freeConnections = new LinkedBlockingDeque<>(POOL_CAPACITY);
         givenAwayConnections = new ArrayDeque<>();
-        for(int i = 0; i < POOL_CAPACITY; i++){
+        for (int i = 0; i < POOL_CAPACITY; i++) {
             Connection connection = ConnectionCreator.createConnection();
             ProxyConnection proxyConnection = new ProxyConnection(connection);
             freeConnections.add(proxyConnection);
         }
     }
 
-    public ProxyConnection getConnection(){
+    public ProxyConnection getConnection() {
         ProxyConnection connection = null;
-        try{
+        try {
             connection = freeConnections.take();
             givenAwayConnections.offer(connection);
         } catch (InterruptedException e) {
@@ -41,7 +41,7 @@ public enum  ConnectionPool {
         return connection;
     }
 
-    public void releaseConnection(Connection connection){
+    public void releaseConnection(Connection connection) {
         if (connection.getClass() == ProxyConnection.class) {
             ProxyConnection proxyConnection = (ProxyConnection) connection;
             givenAwayConnections.remove(proxyConnection);
@@ -49,8 +49,8 @@ public enum  ConnectionPool {
         }
     }
 
-    public void destroyPool(){
-        for(int i = 0; i < POOL_CAPACITY; i++){
+    public void destroyPool() {
+        for (int i = 0; i < POOL_CAPACITY; i++) {
             try {
                 freeConnections.take().reallyClose();
             } catch (SQLException throwables) {
@@ -62,7 +62,7 @@ public enum  ConnectionPool {
         deregisterDrivers();
     }
 
-    private void deregisterDrivers(){
+    private void deregisterDrivers() {
         DriverManager.getDrivers().asIterator().forEachRemaining(driver -> {
             try {
                 DriverManager.deregisterDriver(driver);

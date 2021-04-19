@@ -4,8 +4,8 @@ import com.yuliana.cafe.controller.PagePath;
 import com.yuliana.cafe.controller.RequestParameter;
 import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.exception.ServiceException;
-import com.yuliana.cafe.service.PromoCodeService;
-import com.yuliana.cafe.service.impl.PromoCodeServiceImpl;
+import com.yuliana.cafe.service.UserService;
+import com.yuliana.cafe.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,21 +13,22 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class DeletePromoCodeCommand implements ActionCommand {
+public class ChangeUserRoleCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String promoCodeIdParam = request.getParameter(RequestParameter.PROMO_CODE_ID);
-        int promoCodeId = Integer.parseInt(promoCodeIdParam);
-        PromoCodeService promoCodeService = PromoCodeServiceImpl.getInstance();
+        String role = request.getParameter(RequestParameter.USER_ROLE);
+        String userIdParam = request.getParameter(RequestParameter.USER_ID);
+        int userId = Integer.parseInt(userIdParam);
+        UserService userService = UserServiceImpl.getInstance();
         try {
-            promoCodeService.deletePromoCode(promoCodeId);
+            userService.updateRole(userId, role);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.PROMO_CODES_LIST_PAGE;
+        String page = PagePath.USERS_LIST_PAGE;
         return page;
     }
 }

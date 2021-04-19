@@ -21,7 +21,6 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,20 +30,20 @@ public class ToAccountCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        List<Order> orders = new ArrayList<>();
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(AttributeName.USER);
         int userId = user.getUserId();
         OrderService orderService = OrderServiceImpl.getInstance();
         try {
-            orders = orderService.findOrdersByUserId(userId);
+            List<Order> orders = orderService.findOrdersByUserId(userId);
+            request.setAttribute(AttributeName.USER_ORDERS, orders);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        List<Dish> dishes = new ArrayList<>();
         FavoritesService favoritesService = FavoritesServiceImpl.getInstance();
         try {
-            dishes = favoritesService.findUserFavorites(userId);
+            List<Dish> dishes = favoritesService.findUserFavorites(userId);
+            request.setAttribute(AttributeName.USER_FAVORITES, dishes);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
@@ -55,13 +54,10 @@ public class ToAccountCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        Address address = null;
-        if(addressOptional.isPresent()){
-            address = addressOptional.get();
+        if (addressOptional.isPresent()) {
+            Address address = addressOptional.get();
+            request.setAttribute(AttributeName.USER_ADDRESS, address);
         }
-        request.setAttribute(AttributeName.USER_FAVORITES, dishes);
-        request.setAttribute(AttributeName.USER_ORDERS, orders);
-        request.setAttribute(AttributeName.USER_ADDRESS, address);
         String page = PagePath.ACCOUNT_PAGE;
         session.setAttribute(AttributeName.CURRENT_PAGE, page);
         return page;

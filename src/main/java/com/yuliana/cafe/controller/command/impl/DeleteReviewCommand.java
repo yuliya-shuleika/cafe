@@ -1,6 +1,7 @@
 package com.yuliana.cafe.controller.command.impl;
 
 import com.yuliana.cafe.controller.PagePath;
+import com.yuliana.cafe.controller.RequestParameter;
 import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.ReviewService;
@@ -15,11 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 public class DeleteReviewCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String REVIEW_ID_PARAM = "review_id";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String reviewIdParam = request.getParameter(REVIEW_ID_PARAM);
+        String reviewIdParam = request.getParameter(RequestParameter.REVIEW_ID);
         int reviewId = Integer.parseInt(reviewIdParam);
         ReviewService reviewService = ReviewServiceImpl.getInstance();
         try {

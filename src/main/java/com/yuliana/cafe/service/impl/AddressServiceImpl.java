@@ -6,7 +6,7 @@ import com.yuliana.cafe.entity.Address;
 import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.AddressService;
-import com.yuliana.cafe.service.validator.CheckoutValidator;
+import com.yuliana.cafe.service.validator.AddressValidator;
 
 import java.util.Map;
 import java.util.Optional;
@@ -23,16 +23,17 @@ public class AddressServiceImpl implements AddressService {
     private static final String FLOOR = "floor";
     private static final String FLAT = "flat";
 
-    private AddressServiceImpl(){}
+    private AddressServiceImpl() {
+    }
 
-    public static AddressServiceImpl getInstance(){
+    public static AddressServiceImpl getInstance() {
         return INSTANCE;
     }
 
     public int addAddress(Map<String, String> addressForm) throws ServiceException {
         int addressId = 0;
-        boolean isValid = CheckoutValidator.isAddressFormValid(addressForm);
-        if(isValid){
+        boolean isValid = AddressValidator.isAddressFormValid(addressForm);
+        if (isValid) {
             Address address = createAddress(addressForm);
             try {
                 addressId = addressDao.addAddress(address);
@@ -56,8 +57,8 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void updateAddress(Map<String, String> addressForm, int addressId) throws ServiceException {
-        boolean isValid = CheckoutValidator.isAddressFormValid(addressForm);
-        if(isValid){
+        boolean isValid = AddressValidator.isAddressFormValid(addressForm);
+        if (isValid) {
             Address address = createAddress(addressForm);
             address.setAddressId(addressId);
             try {
@@ -68,7 +69,7 @@ public class AddressServiceImpl implements AddressService {
         }
     }
 
-    private Address createAddress(Map<String, String> addressForm){
+    private Address createAddress(Map<String, String> addressForm) {
         String city = addressForm.get(CITY);
         String street = addressForm.get(STREET);
         short house = Short.parseShort(addressForm.get(HOUSE));

@@ -2,6 +2,7 @@ package com.yuliana.cafe.controller.command.impl;
 
 import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.PagePath;
+import com.yuliana.cafe.controller.RequestParameter;
 import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.exception.ServiceException;
@@ -18,14 +19,13 @@ import javax.servlet.http.HttpSession;
 public class AddDishToFavoritesCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String DISH_ID_PARAM = "dish_id";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        User user = (User)session.getAttribute(AttributeName.USER);
+        User user = (User) session.getAttribute(AttributeName.USER);
         int userId = user.getUserId();
-        String dishIdParam = request.getParameter(DISH_ID_PARAM);
+        String dishIdParam = request.getParameter(RequestParameter.DISH_ID);
         int dishId = Integer.parseInt(dishIdParam);
         FavoritesService favoritesService = FavoritesServiceImpl.getInstance();
         try {

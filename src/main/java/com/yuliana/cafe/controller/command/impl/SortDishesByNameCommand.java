@@ -19,6 +19,7 @@ import java.util.List;
 public class SortDishesByNameCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         List<Dish> dishes = new ArrayList<>();

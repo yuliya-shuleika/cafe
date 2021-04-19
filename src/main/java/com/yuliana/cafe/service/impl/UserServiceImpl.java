@@ -1,12 +1,14 @@
 package com.yuliana.cafe.service.impl;
 
-import com.yuliana.cafe.entity.*;
-import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.dao.UserDao;
 import com.yuliana.cafe.dao.impl.UserDaoImpl;
+import com.yuliana.cafe.entity.Address;
+import com.yuliana.cafe.entity.User;
+import com.yuliana.cafe.entity.UserRole;
+import com.yuliana.cafe.entity.UserStatus;
+import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.UserService;
-import com.yuliana.cafe.service.validator.DishValidator;
 import com.yuliana.cafe.service.validator.UserValidator;
 import com.yuliana.cafe.util.PasswordEncryptor;
 
@@ -19,27 +21,26 @@ public class UserServiceImpl implements UserService {
 
     private static final String FIELD_USER_NAME = "user_name";
     private static final String FIELD_USER_EMAIL = "user_email";
+    private static final String FIELD_USER_PASSWORD = "user_password";
     private static final UserServiceImpl INSTANCE = new UserServiceImpl();
     private static final UserDao userDao = new UserDaoImpl();
 
-    public static UserServiceImpl getInstance(){
+    public static UserServiceImpl getInstance() {
         return INSTANCE;
     }
 
-    private UserServiceImpl(){}
+    private UserServiceImpl() {
+    }
 
-    public Optional<User> loginUser(String email, String password) throws ServiceException {
-        Optional<User> userOptional;
-        String passwordHash = PasswordEncryptor.encrypt(password);
-        try {
-            userOptional = userDao.login(email, passwordHash);
-        }catch (DaoException e){
-            throw new ServiceException(e);
-        }
-        if(userOptional.isPresent()){
-            User user = userOptional.get();
+    public Optional<User> loginUser(Map<String, String> loginFields) throws ServiceException {
+        Optional<User> userOptional = Optional.empty();
+        boolean isValid = UserValidator.isValidLoginForm(loginFields);
+        if (isValid) {
+            String email = loginFields.get(FIELD_USER_EMAIL);
+            String password = loginFields.get(FIELD_USER_PASSWORD);
+            String passwordHash = PasswordEncryptor.encrypt(password);
             try {
-                userDao.updateStatus(user.getUserId(), UserStatus.ONLINE);
+                userOptional = userDao.login(email, passwordHash);
             } catch (DaoException e) {
                 throw new ServiceException(e);
             }
@@ -48,11 +49,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public void registerUser(String name, String email, String password) throws ServiceException {
-        User user = new User(name, email,  UserRole.USER, UserStatus.OFFLINE);
+        User user = new User(name, email, UserRole.USER, UserStatus.OFFLINE);
         String passwordHash = PasswordEncryptor.encrypt(password);
         try {
             userDao.register(user, passwordHash);
-        }catch (DaoException e){
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserService {
         try {
             users = userDao.findUsersSortedByEmail();
         } catch (DaoException e) {
-            throw  new ServiceException(e);
+            throw new ServiceException(e);
         }
         return users;
     }
@@ -83,7 +84,7 @@ public class UserServiceImpl implements UserService {
     public List<User> findUsersByEmail(String email) throws ServiceException {
         List<User> users;
         boolean isValid = UserValidator.isValidEmailSearch(email);
-        if(isValid) {
+        if (isValid) {
             try {
                 users = userDao.findUsersByEmail(email);
             } catch (DaoException e) {
@@ -96,19 +97,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void blockUser(int userId) throws ServiceException {
-        try {
-            userDao.updateStatus(userId, UserStatus.BLOCKED);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-    }
-
-    @Override
     public Optional<Address> findUserAddress(int userId) throws ServiceException {
         Optional<Address> addressOptional;
         try {
-           addressOptional = userDao.findUserAddress(userId);
+            addressOptional = userDao.findUserAddress(userId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -118,7 +110,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void editUser(Map<String, String> userForm, String avatar, User user) throws ServiceException {
         boolean isValid = UserValidator.isValidAccountEditForm(userForm);
-        if(isValid){
+        if (isValid) {
             user.setName(userForm.get(FIELD_USER_NAME));
             user.setEmail(userForm.get(FIELD_USER_EMAIL));
             user.setAvatar(avatar);
@@ -149,13 +141,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean findEmail(String email) throws ServiceException {
-        //validation
-        boolean exists;
+    public void updateRole(int userId, String role) throws ServiceException {
+        UserRole userRole = UserRole.valueOf(role);
         try {
-            exists = userDao.findEmail(email);
+            userDao.updateRole(userId, userRole);
         } catch (DaoException e) {
             throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public boolean findEmail(String email) throws ServiceException {
+        boolean isValid = UserValidator.isValidEmail(email);
+        boolean exists = false;
+        if (isValid) {
+            try {
+                exists = userDao.findEmail(email);
+            } catch (DaoException e) {
+                throw new ServiceException(e);
+            }
         }
         return exists;
     }

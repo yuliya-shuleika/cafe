@@ -31,15 +31,34 @@
                 <form class="login-form" action="controller" method="post">
                     <input type="hidden" name="command" value="register">
                     <div class="login-form-field">
-                        <input class="login-field-input" type="text" name="name" placeholder="${username}"
-                               required pattern="[A-Za-zА-Яа-яёЁ]{3,25}">
+                        <c:if test="${register_fields != null && register_fields.containsKey('user_name')}">
+                            <input class="login-field-input" type="text" name="user_name" placeholder="${username}"
+                                   required pattern="[A-Za-zА-Яа-яёЁ]{3,25}" value="${register_fields.getValue('user_name')}">
+                        </c:if>
+                        <c:if test="${register_fields == null || !register_fields.containsKey('user_name')}">
+                            <input class="login-field-input" type="text" name="user_name" placeholder="${username}"
+                                   required pattern="[A-Za-zА-Яа-яёЁ]{3,25}">
+                        </c:if>
                     </div>
                     <div class="login-form-field">
-                        <input class="login-field-input" type="email" name="email" placeholder="${email}" required>
+                        <c:if test="${register_fields != null && register_fields.containsKey('user_email')}">
+                            <input class="login-field-input" type="email" name = "user_email"
+                                   placeholder="${email}" required value="${register_fields.getValue('user_email')}">
+                        </c:if>
+                        <c:if test="${register_fields == null || !register_fields.containsKey('user_email')}">
+                            <input class="login-field-input" type="email" name = "user_email"
+                                   placeholder="${email}" required>
+                        </c:if>
                     </div>
                     <div class="login-form-field">
-                        <input class="login-field-input" type="password" name="password" placeholder="${password}"
-                               id="password" required pattern="[A-Za-z0-9_]{5,20}">
+                        <c:if test="${register_fields != null && register_fields.containsKey('user_email')}">
+                            <input class="login-field-input" type="password" name = "user_password" placeholder="${password}"
+                                   required pattern="[A-Za-z0-9_]{5,20}" value="${register_fields.getValue('user_password')}">
+                        </c:if>
+                        <c:if test="${register_fields == null || !register_fields.containsKey('user_password')}">
+                            <input class="login-field-input" type="password" name = "user_password" placeholder="${password}"
+                                   required pattern="[A-Za-z0-9_]{5,20}">
+                        </c:if>
                     </div>
                     <div class="login-form-field">
                         <input class="login-field-input" type="password" id="repeat_password" placeholder="${repeat_password}"

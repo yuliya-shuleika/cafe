@@ -33,6 +33,22 @@
         edit.style.display = 'block'
     </script>
 </c:if>
+<c:if test="${edit_error_message != null}">
+    <c:choose>
+        <c:when test="${edit_error_message == 'add_error'}">
+            <script>
+                let add = document.getElementById('add-dish')
+                add.style.display = 'block'
+            </script>
+        </c:when>
+        <c:when test="${edit_error_message == 'edit_error'}">
+            <script>
+                let edit = document.getElementById('edit-dish')
+                edit.style.display = 'block'
+            </script>
+        </c:when>
+    </c:choose>
+</c:if>
 <div class = "admin-container">
     <div class = "admin-header">
         <div class="admin-add-container">
@@ -54,7 +70,7 @@
                     <input type="hidden" name="command" value="search_user">
                     <input class="admin-search" type="search" id="search_user" name="dish_name"
                            placeholder="Search..." required
-                           minlength="1" maxlength="20">
+                           minlength="1" maxlength="30">
                 </form>
             </div>
         </div>

@@ -29,11 +29,11 @@ public class ShowUserAddressEditCommand implements ActionCommand {
         int userId = user.getUserId();
         try {
             Optional<Address> addressOptional = userService.findUserAddress(userId);
-            if(addressOptional.isPresent()){
+            if (addressOptional.isPresent()) {
                 Address address = addressOptional.get();
                 request.setAttribute(AttributeName.USER_ADDRESS, address);
             }
-        } catch (ServiceException e){
+        } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
         request.setAttribute(AttributeName.EDIT_ADDRESS, true);

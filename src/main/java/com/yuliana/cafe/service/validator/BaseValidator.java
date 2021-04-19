@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public abstract class BaseValidator {
 
-    protected static boolean isValidField(String regex, String statement){
+    protected static boolean isValidField(String regex, String statement) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(statement);
         return matcher.matches();

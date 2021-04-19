@@ -7,8 +7,8 @@ import com.yuliana.cafe.entity.*;
 import com.yuliana.cafe.exception.DaoException;
 
 import java.sql.*;
-import java.util.*;
 import java.util.Date;
+import java.util.*;
 
 import static com.yuliana.cafe.dao.creator.EntityCreator.createAddress;
 
@@ -46,11 +46,11 @@ public class OrderDaoImpl implements OrderDao {
         PreparedStatement dishesStatement = null;
         Connection connection = pool.getConnection();
         setAutoCommit(connection, false);
-        try (PreparedStatement orderStatement = connection.prepareStatement(INSERT_ORDER, Statement.RETURN_GENERATED_KEYS)){
+        try (PreparedStatement orderStatement = connection.prepareStatement(INSERT_ORDER, Statement.RETURN_GENERATED_KEYS)) {
             Date datetime = order.getDate();
-            Timestamp  timestamp = new Timestamp(datetime.getTime());
+            Timestamp timestamp = new Timestamp(datetime.getTime());
             orderStatement.setTimestamp(1, timestamp);
-            orderStatement.setDouble(2,order.getTotal());
+            orderStatement.setDouble(2, order.getTotal());
             orderStatement.setInt(3, userId);
             orderStatement.setInt(4, addressId);
             orderStatement.setString(5, order.getComment());
@@ -61,18 +61,18 @@ public class OrderDaoImpl implements OrderDao {
             orderId = orderStatement.executeUpdate();
             Map<Dish, Integer> orderedDishes = order.getOrderedDishes();
             ResultSet generatedKeys = orderStatement.getGeneratedKeys();
-            if(generatedKeys.next()){
+            if (generatedKeys.next()) {
                 orderId = generatedKeys.getInt(1);
             }
             dishesStatement = connection.prepareStatement(INSERT_ORDERED_DISH);
-            for (Dish dish : orderedDishes.keySet()){
+            for (Dish dish : orderedDishes.keySet()) {
                 dishesStatement.setInt(1, orderedDishes.get(dish));
                 dishesStatement.setInt(2, orderId);
                 dishesStatement.setInt(3, dish.getDishId());
                 dishesStatement.executeUpdate();
             }
             commit(connection);
-        } catch (SQLException e){
+        } catch (SQLException e) {
             rollback(connection);
             throw new DaoException(e);
         } finally {
@@ -88,23 +88,23 @@ public class OrderDaoImpl implements OrderDao {
         List<Order> orders = new ArrayList<>();
         Connection connection = pool.getConnection();
         PreparedStatement dishesStatement = null;
-        try (Statement orderStatement = connection.createStatement()){
+        try (Statement orderStatement = connection.createStatement()) {
             ResultSet orderResult = orderStatement.executeQuery(SELECT_ALL_ORDERS);
-            while (orderResult.next()){
+            while (orderResult.next()) {
                 int orderId = orderResult.getInt(1);
                 Map<Dish, Integer> dishes = new HashMap<>();
                 dishesStatement = connection.prepareStatement(SELECT_ORDERED_DISHES_BY_ORDER_ID);
                 dishesStatement.setInt(1, orderId);
                 ResultSet dishesResult = dishesStatement.executeQuery();
-                while (dishesResult.next()){
-                    int count = dishesResult.getInt(7);
+                while (dishesResult.next()) {
+                    int count = dishesResult.getInt(10);
                     Dish dish = EntityCreator.createDish(dishesResult);
                     dishes.put(dish, count);
                 }
                 Order order = createOrder(orderResult, dishes);
                 orders.add(order);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             close(dishesStatement);
@@ -118,24 +118,24 @@ public class OrderDaoImpl implements OrderDao {
         List<Order> orders = new ArrayList<>();
         Connection connection = pool.getConnection();
         PreparedStatement dishesStatement = null;
-        try (PreparedStatement orderStatement = connection.prepareStatement(SELECT_ORDER_BY_USER_ID)){
+        try (PreparedStatement orderStatement = connection.prepareStatement(SELECT_ORDER_BY_USER_ID)) {
             orderStatement.setInt(1, userId);
             ResultSet orderResult = orderStatement.executeQuery();
-            while (orderResult.next()){
+            while (orderResult.next()) {
                 int orderId = orderResult.getInt(1);
                 Map<Dish, Integer> dishes = new HashMap<>();
                 dishesStatement = connection.prepareStatement(SELECT_ORDERED_DISHES_BY_ORDER_ID);
                 dishesStatement.setInt(1, orderId);
                 ResultSet dishesResult = dishesStatement.executeQuery();
-                while (dishesResult.next()){
-                    int count = dishesResult.getInt(7);
+                while (dishesResult.next()) {
+                    int count = dishesResult.getInt(10);
                     Dish dish = EntityCreator.createDish(dishesResult);
                     dishes.put(dish, count);
                 }
                 Order order = createOrder(orderResult, dishes);
                 orders.add(order);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             pool.releaseConnection(connection);
@@ -149,24 +149,24 @@ public class OrderDaoImpl implements OrderDao {
         Optional<Order> orderOptional = Optional.empty();
         Connection connection = pool.getConnection();
         PreparedStatement dishesStatement = null;
-        try (PreparedStatement orderStatement = connection.prepareStatement(SELECT_ORDER_BY_ID)){
+        try (PreparedStatement orderStatement = connection.prepareStatement(SELECT_ORDER_BY_ID)) {
             orderStatement.setInt(1, orderId);
             ResultSet orderResult = orderStatement.executeQuery();
-            if (orderResult.next()){
+            if (orderResult.next()) {
                 Map<Dish, Integer> orderedDishes = new HashMap<>();
                 dishesStatement = connection.prepareStatement(SELECT_ORDERED_DISHES_BY_ORDER_ID);
                 dishesStatement.setInt(1, orderId);
                 ResultSet dishesResult = dishesStatement.executeQuery();
-                while (dishesResult.next()){
+                while (dishesResult.next()) {
                     Dish dish = EntityCreator.createDish(dishesResult);
-                    int count = dishesResult.getInt(7);
+                    int count = dishesResult.getInt(10);
                     orderedDishes.put(dish, count);
                 }
                 Order order = createOrder(orderResult, orderedDishes);
                 orderOptional = Optional.of(order);
             }
         } catch (SQLException e) {
-            throw  new DaoException(e);
+            throw new DaoException(e);
         } finally {
             pool.releaseConnection(connection);
             close(dishesStatement);
@@ -178,16 +178,16 @@ public class OrderDaoImpl implements OrderDao {
     public Optional<Address> findAddressByOrderId(int orderId) throws DaoException {
         Connection connection = pool.getConnection();
         Optional<Address> addressOptional = Optional.empty();
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_ORDER_ADDRESS)){
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_ORDER_ADDRESS)) {
             statement.setInt(1, orderId);
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 Address address = createAddress(result);
                 addressOptional = Optional.of(address);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } finally {
             pool.releaseConnection(connection);
         }
         return addressOptional;
@@ -204,7 +204,7 @@ public class OrderDaoImpl implements OrderDao {
         GettingType getting = GettingType.valueOf(gettingType);
         String paymentType = orderData.getString(6).toUpperCase();
         PaymentType payment = PaymentType.valueOf(paymentType);
-        order = new Order(orderId, datetime,total, comment, orderedDishes, payment, getting);
+        order = new Order(orderId, datetime, total, comment, orderedDishes, payment, getting);
         return order;
     }
 

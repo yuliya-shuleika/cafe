@@ -30,7 +30,9 @@ public class EditDishCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static final String UPLOAD_PATH = "C:\\Users\\Yulia\\IdeaProjects\\Cafe\\src\\main\\webapp\\images\\dishes\\";
     private static final String IMAGE_FOLDER = "/images/dishes/";
-    private static final String ENCODING = "UTF-8";
+    private static final String ENCODING_UTF8 = "UTF-8";
+    private static final String ERROR_MESSAGE = "edit_error";
+    private static final int DISH_FORM_SIZE = 5;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -42,31 +44,45 @@ public class EditDishCommand implements ActionCommand {
             File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
             factory.setRepository(repository);
             ServletFileUpload upload = new ServletFileUpload(factory);
-            upload.setHeaderEncoding(ENCODING);
+            upload.setHeaderEncoding(ENCODING_UTF8);
             items = upload.parseRequest(request);
         } catch (FileUploadException e) {
             logger.log(Level.ERROR, "Error uploading photo.");
         }
         Iterator<FileItem> iter = items.iterator();
         String pictureName = null;
+        String dishPicture = null;
+        int dishId = 0;
         while (iter.hasNext()) {
             FileItem item = iter.next();
             if (item.isFormField()) {
                 String name = item.getFieldName();
                 String value = null;
                 try {
-                    value = item.getString(ENCODING);
+                    value = item.getString(ENCODING_UTF8);
                 } catch (UnsupportedEncodingException e) {
                     logger.log(Level.ERROR, e);
                 }
-                dishFields.put(name, value);
+                switch (name) {
+                    case RequestParameter.DISH_ID:
+                        String dishIdParam = value;
+                        dishId = Integer.parseInt(dishIdParam);
+                        break;
+                    case RequestParameter.DISH_PICTURE:
+                        dishPicture = value;
+                        break;
+                    default:
+                        dishFields.put(name, value);
+                }
             } else {
                 String filename = item.getName();
-                if(!filename.equals("")) {
+                if (!filename.equals("")) {
                     Path path = Paths.get(filename);
                     File uploadFile = new File(UPLOAD_PATH + path.getFileName());
                     try {
-                        item.write(uploadFile);
+                        if (!uploadFile.exists()) {
+                            item.write(uploadFile);
+                        }
                         pictureName = IMAGE_FOLDER + path.getFileName();
                     } catch (Exception e) {
                         logger.log(Level.ERROR, "Error saving photo.");
@@ -74,16 +90,26 @@ public class EditDishCommand implements ActionCommand {
                 }
             }
         }
-        if(pictureName == null){
-            pictureName = request.getParameter(RequestParameter.DISH_PICTURE);
+        if (pictureName == null) {
+            pictureName = dishPicture;
         }
-        String dishIdParam = request.getParameter(RequestParameter.DISH_ID);
-        int dishId = Integer.parseInt(dishIdParam);
         DishService dishService = DishServiceImpl.getInstance();
         try {
             dishService.editDish(dishFields, pictureName, dishId);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
+        }
+        try {
+            List<Dish> dishes = dishService.findAllDishes();
+            request.setAttribute(AttributeName.DISHES_LIST, dishes);
+        } catch (ServiceException e) {
+            logger.log(Level.ERROR, e);
+        }
+        if (dishFields.size() < DISH_FORM_SIZE) {
+            request.setAttribute(AttributeName.EDIT_ERROR_MESSAGE, ERROR_MESSAGE);
+            request.setAttribute(AttributeName.DISH_FIELDS, dishFields);
+            request.setAttribute(AttributeName.DISH_ID, dishId);
+            request.setAttribute(AttributeName.DISH_PICTURE, pictureName);
         }
         try {
             List<Dish> dishes = dishService.findAllDishes();

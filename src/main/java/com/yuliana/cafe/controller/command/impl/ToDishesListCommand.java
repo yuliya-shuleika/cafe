@@ -24,14 +24,12 @@ public class ToDishesListCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         DishService dishService = DishServiceImpl.getInstance();
-        List<Dish> dishes;
         try {
-            dishes = dishService.findAllDishes();
+            List<Dish> dishes = dishService.findAllDishes();
+            request.setAttribute(AttributeName.DISHES_LIST, dishes);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
-            return PagePath.ERROR_PAGE;
         }
-        request.setAttribute(AttributeName.DISHES_LIST, dishes);
         String page = PagePath.DISHES_LIST_PAGE;
         HttpSession session = request.getSession();
         session.setAttribute(AttributeName.CURRENT_PAGE, page);

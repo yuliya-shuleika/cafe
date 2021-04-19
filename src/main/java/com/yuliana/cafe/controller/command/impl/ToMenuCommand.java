@@ -1,16 +1,12 @@
 package com.yuliana.cafe.controller.command.impl;
 
 import com.yuliana.cafe.controller.AttributeName;
-import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.controller.PagePath;
+import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.entity.Dish;
-import com.yuliana.cafe.entity.User;
-import com.yuliana.cafe.entity.UserRole;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.DishService;
-import com.yuliana.cafe.service.FavoritesService;
 import com.yuliana.cafe.service.impl.DishServiceImpl;
-import com.yuliana.cafe.service.impl.FavoritesServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class ToMenuCommand implements ActionCommand {
 

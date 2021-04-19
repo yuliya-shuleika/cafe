@@ -26,11 +26,11 @@ public class OrderServiceImpl implements OrderService {
                         GettingType gettingType, PaymentType paymentType, String comment) throws ServiceException {
         Date date = new Date();
         double price = 0.0;
-        for (Dish dish : dishes.keySet()){
+        for (Dish dish : dishes.keySet()) {
             int count = dishes.get(dish);
             price += dish.getPrice() * count;
         }
-        if(discount > 0) {
+        if (discount > 0) {
             price = price * discount / 100;
         }
         int orderId;

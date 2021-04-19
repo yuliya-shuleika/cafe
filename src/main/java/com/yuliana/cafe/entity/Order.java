@@ -43,7 +43,8 @@ public class Order {
         this.gettingType = gettingType;
     }
 
-    public Order(){}
+    public Order() {
+    }
 
     public int getOrderId() {
         return orderId;

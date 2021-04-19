@@ -2,7 +2,8 @@ package com.yuliana.cafe.controller;
 
 public class UrlPath {
 
-    private UrlPath() {}
+    private UrlPath() {
+    }
 
     public static final String CONTROLLER = "*.do";
     public static final String ADMIN = "/admin.do";

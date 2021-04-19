@@ -5,6 +5,7 @@
 <head>
     <title>Edit account</title>
     <style><%@include file="/css/account.css"%></style>
+    <style><%@include file="/css/edit.css"%></style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script><%@include file="/js/account-edit.js"%></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -25,12 +26,13 @@
 <fmt:message bundle="${loc}" key="lang.label.floor" var="floor"/>
 <fmt:message bundle="${loc}" key="lang.label.flat" var="flat"/>
 <fmt:message bundle="${loc}" key="lang.label.general" var="general"/>
+<fmt:message bundle="${loc}" key="lang.label.fill_fields_correct" var="fill_fields_correct"/>
 <body>
 <%@ include file="/jsp/header/header-user.jsp"%>
     <div class="account-edit-container">
         <div class="account-edit">
         <div class="account-edit-general">
-            <h3 class="account-general-title">${general}</h3>
+            <h3 class="account-general-title account-general-title-dark">${general}</h3>
             <div class = "account-general-fields">
                 <div class="avatar-edit">
                     <input type="file" class="account-file-input">
@@ -57,8 +59,8 @@
             </div>
             <div>
                 <div class="account-field">
-                    <label class="account-general-label" for="city-edit">${city}</label>
-                    <input class="account-general-input" type="text" name="city" id="city-edit">
+                    <label class="account-general-label account-general-label-dark" for="city-edit">${city}</label>
+                    <input class="account-general-input account-general-label-dark" type="text" name="city" id="city-edit">
                 </div>
                 <div class="account-field">
                     <label class="account-general-label" for="street-edit">${street}</label>
@@ -101,6 +103,9 @@
             </c:if>
         </div>
         <div class="account-edit-footer">
+            <c:if test="${edit_error_message != null}">
+                <p class="edit-error-message">${fill_fields_correct}</p>
+            </c:if>
             <button class="account-edit-submit">${submit}</button>
         </div>
     </div>

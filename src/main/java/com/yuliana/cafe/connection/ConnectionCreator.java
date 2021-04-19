@@ -34,7 +34,7 @@ class ConnectionCreator {
     private ConnectionCreator() {
     }
 
-    static Connection createConnection(){
+    static Connection createConnection() {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(PROPERTIES.getProperty(URL_PROPERTY), PROPERTIES);

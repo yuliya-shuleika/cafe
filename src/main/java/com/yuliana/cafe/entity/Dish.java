@@ -40,7 +40,8 @@ public class Dish implements Serializable {
         this.weight = weight;
     }
 
-    public Dish(){}
+    public Dish() {
+    }
 
     public int getDishId() {
         return dishId;

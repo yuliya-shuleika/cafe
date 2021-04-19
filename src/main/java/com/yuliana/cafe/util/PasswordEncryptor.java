@@ -13,13 +13,13 @@ public class PasswordEncryptor {
     private static final Logger logger = LogManager.getLogger();
     private static final String HASH_FUNCTION = "SHA-256";
 
-    public static String encrypt(String password){
+    public static String encrypt(String password) {
         String result = "";
         try {
             MessageDigest messageDigest = MessageDigest.getInstance(HASH_FUNCTION);
             byte[] passwordBytes = password.getBytes(StandardCharsets.UTF_8);
             byte[] resultBytes = messageDigest.digest(passwordBytes);
-            for (byte resultByte : resultBytes){
+            for (byte resultByte : resultBytes) {
                 result += resultByte;
             }
         } catch (NoSuchAlgorithmException e) {

@@ -14,12 +14,12 @@ public class CafeServiceImpl implements CafeService {
     private static final CafeServiceImpl INSTANCE = new CafeServiceImpl();
     private CafeDao cafeDao = new CafeDaoImpl();
 
-    public static CafeServiceImpl getInstance(){
+    public static CafeServiceImpl getInstance() {
         return INSTANCE;
     }
 
     @Override
-    public List<Address> findAllCafeAddresses() throws ServiceException{
+    public List<Address> findAllCafeAddresses() throws ServiceException {
         List<Address> addresses;
         try {
             addresses = cafeDao.findAllCafeAddresses();

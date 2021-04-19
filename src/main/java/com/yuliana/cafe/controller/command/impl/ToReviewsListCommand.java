@@ -4,7 +4,6 @@ import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.PagePath;
 import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.entity.Review;
-import com.yuliana.cafe.entity.ReviewStatus;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.ReviewService;
 import com.yuliana.cafe.service.impl.ReviewServiceImpl;
@@ -24,14 +23,12 @@ public class ToReviewsListCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         ReviewService reviewService = ReviewServiceImpl.getInstance();
-        List<Review> reviews;
         try {
-            reviews = reviewService.findAllReviews();
+            List<Review> reviews = reviewService.findAllReviews();
+            request.setAttribute(AttributeName.REVIEWS_LIST, reviews);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
-            return PagePath.ERROR_500_PAGE;
         }
-        request.setAttribute(AttributeName.REVIEWS_LIST, reviews);
         String page = PagePath.REVIEWS_LIST_PAGE;
         HttpSession session = request.getSession();
         session.setAttribute(AttributeName.CURRENT_PAGE, page);

@@ -25,7 +25,7 @@ public class EntityCreator {
         return dish;
     }
 
-    public static Address createAddress(ResultSet result) throws SQLException{
+    public static Address createAddress(ResultSet result) throws SQLException {
         int addressId = result.getInt(1);
         String city = result.getString(2);
         String street = result.getString(3);
@@ -37,5 +37,6 @@ public class EntityCreator {
         return address;
     }
 
-    private EntityCreator(){}
+    private EntityCreator() {
+    }
 }

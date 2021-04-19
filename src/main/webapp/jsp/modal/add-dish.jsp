@@ -26,6 +26,7 @@
 <fmt:message bundle="${loc}" key="lang.label.noodles" var="noodles"/>
 <fmt:message bundle="${loc}" key="lang.label.weight" var="weight"/>
 <fmt:message bundle="${loc}" key="lang.label.description" var="description"/>
+<fmt:message bundle="${loc}" key="lang.label.fill_fields_correct" var="fill_fields_correct"/>
 <body>
 <div class="edit" id="add-dish">
     <div class="edit-body">
@@ -39,8 +40,14 @@
                     <div class="edit-form">
                         <div class="edit-general">
                             <span class="edit-label">${name}</span>
-                            <input class="edit-general-input" type="text" placeholder="${name}" name="dish_name"
-                                   required pattern="[A-Za-zА-Яа-яёЁ\s]{5,45}">
+                            <c:if test="${dish_fields != null && dish_fields.containsKey('dish_name')}">
+                                <input class="edit-general-input" type="text" placeholder="${name}" name="dish_name"
+                                       value="${dish_fields.get('dish_name')}">
+                            </c:if>
+                            <c:if test="${dish_fields == null || !dish_fields.containsKey('dish_name')}">
+                                <input class="edit-general-input" type="text" placeholder="${name}" name="dish_name">
+                            </c:if>
+                            <!--required pattern="[A-Za-zА-Яа-яёЁ\s]{5,45}-->
                         </div>
                         <div class="edit-general">
                             <span class="edit-label">${category}</span>
@@ -53,22 +60,52 @@
                         </div>
                         <div class="edit-general">
                             <span class="edit-label">${price}</span>
-                            <input class="edit-general-input" type="text" placeholder="${price}"
-                                   required pattern="[1-9][0-9]{0,4}\.[0-9]?[1-9]" name="dish_price">
+                            <c:if test="${dish_fields != null && dish_fields.containsKey('dish_price')}">
+                                <input class="edit-general-input" type="text" placeholder="${price}"
+                                       name="dish_price"
+                                       value="${dish_fields.get('dish_price')}">
+                            </c:if>
+                            <c:if test="${dish_fields == null || !dish_fields.containsKey('dish_price')}">
+                                <input class="edit-general-input" type="text" placeholder="${price}"
+                                        name="dish_price">
+                            </c:if>
+                            <!--required pattern="[1-9][0-9]{0,4}\.[0-9]?[1-9]"-->
                         </div>
                         <div class="edit-general">
                             <span class="edit-label">${discount_percents}</span>
-                            <input class="edit-general-input" type="text" placeholder="${discount}"
-                                   required pattern="[0-9]{1,2}" name="dish_discount">
+                            <c:if test="${dish_fields != null && dish_fields.containsKey('dish_discount')}">
+                                <input class="edit-general-input" type="text" placeholder="${discount}"
+                                       name="dish_discount"
+                                       value="${dish_fields.get('dish_discount')}">
+                            </c:if>
+                            <c:if test="${dish_fields == null || !dish_fields.containsKey('dish_discount')}">
+                                <input class="edit-general-input" type="text" placeholder="${discount}"
+                                       name="dish_discount">
+                            </c:if>
+                            <!--required pattern="[0-9]{1,2}-->
                         </div>
                         <div class="edit-general">
                             <span class="edit-label">${description}</span>
-                            <textarea class="edit-text-short" name="dish_description" maxlength="300"></textarea>
+                            <c:if test="${dish_fields != null && dish_fields.containsKey('dish_description')}">
+                                <textarea class="edit-text-short" name="dish_description">${dish_fields.get('dish_description')}</textarea>
+                            </c:if>
+                            <c:if test="${dish_fields == null || !dish_fields.containsKey('dish_description')}">
+                                <textarea class="edit-text-short" name="dish_description"></textarea>
+                            </c:if>
+                            <!--maxlength="300"-->
                         </div>
                         <div class="edit-general">
                             <span class="edit-label">${weight}</span>
-                            <input class="edit-general-input" type="text" placeholder="${weight}"
-                                   required pattern="[1-9][0-9]{0,5}" name="dish_weight">
+                            <c:if test="${dish_fields != null && dish_fields.containsKey('dish_weight')}">
+                                <input class="edit-general-input" type="text" placeholder="${weight}"
+                                       name="dish_weight"
+                                       value="${dish_fields.get('dish_weight')}">
+                            </c:if>
+                            <c:if test="${dish_fields == null || !dish_fields.containsKey('dish_weight')}">
+                                <input class="edit-general-input" type="text" placeholder="${weight}"
+                                       name="dish_weight">
+                            </c:if>
+                            <!--required pattern="[1-9][0-9]{0,5}"-->
                         </div>
                         <div class="edit-general">
                             <span class="edit-label">${photo}</span>
@@ -81,6 +118,9 @@
                         </div>
                     </div>
                     <div class="edit-footer">
+                        <c:if test="${edit_error_message != null}">
+                            <p class="edit-error-message">${fill_fields_correct}</p>
+                        </c:if>
                         <button class="edit-submit" type="submit">${submit}</button>
                     </div>
                 </form>

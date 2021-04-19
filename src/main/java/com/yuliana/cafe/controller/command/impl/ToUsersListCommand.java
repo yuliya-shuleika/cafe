@@ -1,8 +1,8 @@
 package com.yuliana.cafe.controller.command.impl;
 
 import com.yuliana.cafe.controller.AttributeName;
-import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.controller.PagePath;
+import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.UserService;
@@ -23,14 +23,12 @@ public class ToUsersListCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         UserService userService = UserServiceImpl.getInstance();
-        List<User> users;
         try {
-            users = userService.findAllUsers();
+            List<User> users = userService.findAllUsers();
+            request.setAttribute(AttributeName.USERS_LIST, users);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
-            return PagePath.ERROR_PAGE;
         }
-        request.setAttribute(AttributeName.USERS_LIST, users);
         String page = PagePath.USERS_LIST_PAGE;
         HttpSession session = request.getSession();
         session.setAttribute(AttributeName.CURRENT_PAGE, page);

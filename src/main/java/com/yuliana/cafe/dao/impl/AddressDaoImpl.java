@@ -25,9 +25,9 @@ public class AddressDaoImpl implements AddressDao {
     public int addAddress(Address address) throws DaoException {
         int addressId = 0;
         Connection connection = pool.getConnection();
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_ADDRESS, Statement.RETURN_GENERATED_KEYS)){
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_ADDRESS, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, address.getCity());
-            statement.setString(2,address.getStreet());
+            statement.setString(2, address.getStreet());
             statement.setShort(3, address.getHouse());
             statement.setShort(4, address.getEntrance());
             statement.setShort(5, address.getFloor());
@@ -37,7 +37,7 @@ public class AddressDaoImpl implements AddressDao {
             if (generatedKeys.next()) {
                 addressId = generatedKeys.getInt(1);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             pool.releaseConnection(connection);
@@ -49,16 +49,16 @@ public class AddressDaoImpl implements AddressDao {
     public Optional<Address> findAddressById(int addressId) throws DaoException {
         Connection connection = pool.getConnection();
         Optional<Address> addressOptional = Optional.empty();
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_ADDRESS_BY_ID)){
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_ADDRESS_BY_ID)) {
             statement.setInt(1, addressId);
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 Address address = createAddress(result);
                 addressOptional = Optional.ofNullable(address);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } finally {
             pool.releaseConnection(connection);
         }
         return addressOptional;
@@ -67,16 +67,16 @@ public class AddressDaoImpl implements AddressDao {
     @Override
     public void updateAddress(Address address) throws DaoException {
         Connection connection = pool.getConnection();
-        try (PreparedStatement statement = connection.prepareStatement(UPDATE_ADDRESS)){
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_ADDRESS)) {
             statement.setString(1, address.getCity());
-            statement.setString(2,address.getStreet());
+            statement.setString(2, address.getStreet());
             statement.setShort(3, address.getHouse());
             statement.setShort(4, address.getEntrance());
             statement.setShort(5, address.getFloor());
             statement.setShort(6, address.getFlat());
             statement.setInt(7, address.getAddressId());
             statement.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             pool.releaseConnection(connection);

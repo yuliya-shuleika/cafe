@@ -12,7 +12,7 @@ public interface BaseDao {
 
     default void commit(Connection connection) {
         final Logger logger = LogManager.getLogger();
-        if(connection != null){
+        if (connection != null) {
             try {
                 connection.commit();
             } catch (SQLException e) {

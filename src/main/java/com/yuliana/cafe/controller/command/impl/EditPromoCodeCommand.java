@@ -14,23 +14,24 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class EditPromoCodeCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String PROMO_CODE_NAME_PARAM = "promo_code_name";
-    private static final String PROMO_CODE_DISCOUNT_PERCENTS_PARAM = "promo_code_discount_percents";
-    private static final String ERROR_MESSAGE = "Please, fill all the fields right.";
+    private static final String ERROR_MESSAGE = "edit_error";
     private static final int PROMO_CODE_FORM_SIZE = 2;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Map<String, String> promoCodeFields = new HashMap<>();
-        promoCodeFields.put(PROMO_CODE_NAME_PARAM, request.getParameter(PROMO_CODE_NAME_PARAM));
-        promoCodeFields.put(PROMO_CODE_DISCOUNT_PERCENTS_PARAM,
-                request.getParameter(PROMO_CODE_DISCOUNT_PERCENTS_PARAM));
+        String name = request.getParameter(RequestParameter.PROMO_CODE_NAME);
+        promoCodeFields.put(RequestParameter.PROMO_CODE_NAME, name);
+        String discountPercents = request.getParameter(RequestParameter.PROMO_CODE_DISCOUNT_PERCENTS);
+        promoCodeFields.put(RequestParameter.PROMO_CODE_DISCOUNT_PERCENTS, discountPercents);
         String promoCodeIdParam = request.getParameter(RequestParameter.PROMO_CODE_ID);
         int promoCodeId = Integer.parseInt(promoCodeIdParam);
         PromoCodeService promoCodeService = PromoCodeServiceImpl.getInstance();
@@ -39,16 +40,16 @@ public class EditPromoCodeCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        if(promoCodeFields.size() == PROMO_CODE_FORM_SIZE){
-            List<PromoCode> promoCodes;
-            try {
-                promoCodes = promoCodeService.findAllPromoCodes();
-                request.setAttribute(AttributeName.PROMO_CODES_LIST, promoCodes);
-            } catch (ServiceException e) {
-                logger.log(Level.ERROR, e);
-            }
-        } else {
-            request.setAttribute(AttributeName.ADD_ITEM_ERROR_MESSAGE, ERROR_MESSAGE);
+        if (promoCodeFields.size() < PROMO_CODE_FORM_SIZE) {
+            request.setAttribute(AttributeName.EDIT_ERROR_MESSAGE, ERROR_MESSAGE);
+            request.setAttribute(AttributeName.PROMO_CODE_FIELDS, promoCodeFields);
+            request.setAttribute(AttributeName.PROMO_CODE_ID, promoCodeId);
+        }
+        try {
+            List<PromoCode> promoCodes = promoCodeService.findAllPromoCodes();
+            request.setAttribute(AttributeName.PROMO_CODES_LIST, promoCodes);
+        } catch (ServiceException e) {
+            logger.log(Level.ERROR, e);
         }
         String page = PagePath.PROMO_CODES_LIST_PAGE;
         return page;

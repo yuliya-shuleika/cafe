@@ -31,7 +31,7 @@ public class ShowReviewEditCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        if(reviewOptional.isPresent()){
+        if (reviewOptional.isPresent()) {
             Review review = reviewOptional.get();
             request.setAttribute(AttributeName.SELECTED_REVIEW, review);
         }

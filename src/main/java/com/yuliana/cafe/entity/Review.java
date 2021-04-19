@@ -8,7 +8,8 @@ public class Review {
     private int rating;
     private ReviewStatus status;
 
-    public Review(){}
+    public Review() {
+    }
 
     public Review(int reviewId, String header, String text, int rating, ReviewStatus status) {
         this.reviewId = reviewId;

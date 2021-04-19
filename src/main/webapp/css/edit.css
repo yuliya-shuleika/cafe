@@ -30,7 +30,7 @@ h3{
 }
 
 .edit-content{
-    background-color: white;
+    background: #fff;
     color: #545454;
     width: 40%;
     display: flex;
@@ -38,6 +38,11 @@ h3{
     border-radius: 10px;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
+}
+
+.edit-content-dark{
+    background: #5d5d5d;
+    color: #fff;
 }
 
 .edit-header{
@@ -54,6 +59,11 @@ h3{
     text-align: center;
     padding: 30px;
 }
+
+.edit-title-dark{
+    color: #fff;
+}
+
 .edit-close{
     text-decoration: none;
     color: #545454;
@@ -61,6 +71,11 @@ h3{
     padding-right: 10px;
     transition: 0.2s;
 }
+
+.edit-close-dark{
+    color: #fff;
+}
+
 .edit-close:hover{
     color: #4CAF50;
     cursor: pointer;
@@ -86,6 +101,18 @@ h3{
     font-size: 18px;
     display: block;
     text-align: end;
+    color: #484848;
+}
+
+.edit-label-dark{
+    color: #fff;
+}
+
+.edit-label{
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    display: block;
     color: #545454;
 }
 
@@ -101,6 +128,11 @@ h3{
     color: #545454;
 }
 
+.edit-general-input-dark{
+    color: #fff;
+    background: #929292;
+}
+
 .edit-select-input{
     display: block;
     font-size: 18px;
@@ -114,6 +146,12 @@ h3{
     width: 100%;
 }
 
+.edit-select-input-dark{
+    background: #929292;
+    color: #fff;
+}
+
+
 .edit-file-input{
     opacity:0;
     overflow:hidden;
@@ -125,6 +163,10 @@ h3{
     margin-left: 15px;
     color: #545454;
     font-family: 'Rubik', sans-serif;
+}
+
+.load-file-input-dark{
+    color: #fff;
 }
 
 .load-file-input:hover{
@@ -142,8 +184,12 @@ h3{
     display: block;
     cursor: pointer;
     transition: 0.2s;
-    color: #545454;
+    color: #ededed;
     margin-left: 10px;
+}
+
+.edit-rating-dark{
+    color: #fff;
 }
 
 .edit-text-container{
@@ -177,13 +223,17 @@ h3{
     resize: none;
 }
 
+.edit-text-short-dark, .edit-text-dark{
+    background: #929292;
+}
+
 .edit-footer{
     display: flex;
     margin: 10px 40px 30px;
     justify-content: flex-end;
 }
 
-.edit-submit{
+.edit-submit {
     display: block;
     font-size: 18px;
     font-family: 'Rubik', sans-serif;
@@ -196,7 +246,23 @@ h3{
     transition: 0.2s;
 }
 
+.edit-error-message{
+    white-space: nowrap;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    display: block;
+    text-align: end;
+    color: #545454;
+    padding-right: 20px;
+    align-self: center;
+}
+
+.edit-error-message-dark{
+    color: #fff;
+}
+
 .edit-submit:hover{
-    color: #3d8a40;
+    background: #439648;
     cursor: pointer;
 }

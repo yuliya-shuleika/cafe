@@ -32,7 +32,7 @@ public class ShowDishEditCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        if(dishOptional.isPresent()) {
+        if (dishOptional.isPresent()) {
             Dish dish = dishOptional.get();
             request.setAttribute(AttributeName.SELECTED_DISH, dish);
         }

@@ -1,8 +1,9 @@
 package com.yuliana.cafe.controller.command.impl;
 
 import com.yuliana.cafe.controller.AttributeName;
-import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.controller.PagePath;
+import com.yuliana.cafe.controller.RequestParameter;
+import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.entity.Dish;
 import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.entity.UserRole;
@@ -24,13 +25,12 @@ import java.util.Optional;
 public class DeleteFromCartCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String DISH_ID_PARAM = "dish_id";
     private static final String ITEMS_TO_DELETE_PARAM = "items_count";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         DishService dishService = DishServiceImpl.getInstance();
-        String dishIdParam = request.getParameter(DISH_ID_PARAM);
+        String dishIdParam = request.getParameter(RequestParameter.DISH_ID);
         int dishId = Integer.parseInt(dishIdParam);
         Optional<Dish> dishOptional = Optional.empty();
         try {
@@ -38,7 +38,7 @@ public class DeleteFromCartCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        if(dishOptional.isPresent()) {
+        if (dishOptional.isPresent()) {
             HttpSession session = request.getSession();
             String itemsToDeleteParam = request.getParameter(ITEMS_TO_DELETE_PARAM);
             int itemsToDelete = Integer.parseInt(itemsToDeleteParam);
@@ -59,14 +59,14 @@ public class DeleteFromCartCommand implements ActionCommand {
             Map<Dish, Integer> cartItems = (Map<Dish, Integer>) cartItemsAttribute;
             Dish dish = dishOptional.get();
             int count = cartItems.get(dish);
-            if(count == itemsToDelete){
+            if (count == itemsToDelete) {
                 cartItems.remove(dish);
-            } else{
+            } else {
                 int countUpdate = count - itemsToDelete;
                 cartItems.replace(dish, countUpdate);
             }
             int cartItemsCount = 0;
-            for (int itemCount : cartItems.values()){
+            for (int itemCount : cartItems.values()) {
                 cartItemsCount += itemCount;
             }
             session.setAttribute(AttributeName.CART_ITEMS, cartItems);

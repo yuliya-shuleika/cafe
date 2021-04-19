@@ -42,11 +42,21 @@
     <%@ include file="/jsp/header/header-user.jsp"%>
     <%@ include file="/jsp/modal/edit-profile.jsp"%>
     <%@ include file="/jsp/modal/edit-user-address.jsp"%>
-    <c:if test="${address_edit != null}">
-        <script>
-            let edit = document.getElementById('edit-user-address')
-            edit.style.display = 'block'
-        </script>
+    <c:if test="${address_edit != null || edit_error_message != null}">
+        <c:choose>
+            <c:when test="${edit_error_message == 'edit_profile_error'}">
+                <script>
+                    let editProfile = document.getElementById('edit-profile')
+                    editProfile.style.display = 'block'
+                </script>
+            </c:when>
+            <c:when test="${edit_error_message == 'edit_address_error'}">
+                <script>
+                    let editAddress = document.getElementById('edit-user-address')
+                    editAddress.style.display = 'block'
+                </script>
+            </c:when>
+        </c:choose>
     </c:if>
     <c:if test="${add_dish_to_cart != null}">
         <script>
@@ -121,7 +131,11 @@
                                     <span class="total-currency">$</span>
                                 </div>
                                 <div class="order-repeat">
-                                    <button class="account-action-button">${repeat}</button>
+                                    <form action="payment.do" method="post">
+                                        <input type="hidden" name="command" value="repeat_order">
+                                        <input type="hidden" name="order_id" value="${order.getOrderId()}">
+                                        <button class="account-action-button">${repeat}</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

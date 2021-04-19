@@ -1,8 +1,10 @@
 package com.yuliana.cafe.controller.command.impl;
 
 import com.yuliana.cafe.controller.AttributeName;
-import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.controller.PagePath;
+import com.yuliana.cafe.controller.RequestParameter;
+import com.yuliana.cafe.controller.command.ActionCommand;
+import com.yuliana.cafe.entity.Review;
 import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.ReviewService;
@@ -20,22 +22,33 @@ import java.util.Map;
 public class GiveFeedbackCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String REVIEW_HEADER_PARAM = "review_header";
-    private static final String REVIEW_RATING_PARAM = "review_rating";
-    private static final String REVIEW_TEXT_PARAM = "review_text";
+    private static final int REVIEW_FORM_SIZE = 2;
+    private static final String ERROR_MESSAGE = "error";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page;
         ReviewService service = ReviewServiceImpl.getInstance();
         Map<String, String> reviewFields = new HashMap<>();
-        reviewFields.put(REVIEW_HEADER_PARAM, request.getParameter(REVIEW_HEADER_PARAM));
-        reviewFields.put(REVIEW_TEXT_PARAM, request.getParameter(REVIEW_TEXT_PARAM));
-        String rating = request.getParameter(REVIEW_RATING_PARAM);
+        String header = request.getParameter(RequestParameter.REVIEW_HEADER);
+        reviewFields.put(RequestParameter.REVIEW_HEADER, header);
+        String text = request.getParameter(RequestParameter.REVIEW_TEXT);
+        reviewFields.put(RequestParameter.REVIEW_TEXT, text);
+        String rating = request.getParameter(RequestParameter.REVIEW_RATING);
         HttpSession session = request.getSession();
-        User user = (User)session.getAttribute(AttributeName.USER);
+        User user = (User) session.getAttribute(AttributeName.USER);
         try {
             service.addReview(user.getUserId(), reviewFields, rating);
+        } catch (ServiceException e) {
+            logger.log(Level.ERROR, e);
+        }
+        if (reviewFields.size() < REVIEW_FORM_SIZE) {
+            request.setAttribute(AttributeName.EDIT_ERROR_MESSAGE, ERROR_MESSAGE);
+            request.setAttribute(AttributeName.REVIEW_FIELDS, reviewFields);
+        }
+        try {
+            Map<Review, User> reviewsWithAuthors = service.findApprovedReviewsWithAuthors();
+            request.setAttribute(AttributeName.REVIEWS_MAP, reviewsWithAuthors);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }

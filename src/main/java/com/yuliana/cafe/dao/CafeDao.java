@@ -5,7 +5,7 @@ import com.yuliana.cafe.exception.DaoException;
 
 import java.util.List;
 
-public interface CafeDao extends BaseDao{
+public interface CafeDao extends BaseDao {
 
     List<Address> findAllCafeAddresses() throws DaoException;
 }

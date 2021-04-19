@@ -1,7 +1,9 @@
 package com.yuliana.cafe.controller.command.impl;
 
+import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.PagePath;
 import com.yuliana.cafe.controller.command.ActionCommand;
+import com.yuliana.cafe.entity.Dish;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.DishService;
 import com.yuliana.cafe.service.impl.DishServiceImpl;
@@ -27,7 +29,9 @@ public class AddDishToMenuCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static final String UPLOAD_PATH = "C:\\Users\\Yulia\\IdeaProjects\\Cafe\\src\\main\\webapp\\images\\dishes\\";
     private static final String IMAGE_FOLDER = "/images/dishes/";
-    private static final String ENCODING = "UTF-8";
+    private static final String ENCODING_UTF8 = "UTF-8";
+    private static final String ERROR_MESSAGE = "add_error";
+    private static final int DISH_FORM_SIZE = 5;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -39,7 +43,7 @@ public class AddDishToMenuCommand implements ActionCommand {
             File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
             factory.setRepository(repository);
             ServletFileUpload upload = new ServletFileUpload(factory);
-            upload.setHeaderEncoding(ENCODING);
+            upload.setHeaderEncoding(ENCODING_UTF8);
             items = upload.parseRequest(request);
         } catch (FileUploadException e) {
             logger.log(Level.ERROR, "Error uploading photo.");
@@ -52,18 +56,20 @@ public class AddDishToMenuCommand implements ActionCommand {
                 String name = item.getFieldName();
                 String value = null;
                 try {
-                    value = item.getString(ENCODING);
+                    value = item.getString(ENCODING_UTF8);
                 } catch (UnsupportedEncodingException e) {
                     logger.log(Level.ERROR, e);
                 }
                 dishFields.put(name, value);
             } else {
                 String filename = item.getName();
-                if(!filename.equals("")) {
+                if (!filename.equals("")) {
                     Path path = Paths.get(filename);
                     File uploadFile = new File(UPLOAD_PATH + path.getFileName());
                     try {
-                        item.write(uploadFile);
+                        if (!uploadFile.exists()) {
+                            item.write(uploadFile);
+                        }
                         pictureName = IMAGE_FOLDER + path.getFileName();
                     } catch (Exception e) {
                         logger.log(Level.ERROR, "Error saving photo.");
@@ -74,6 +80,16 @@ public class AddDishToMenuCommand implements ActionCommand {
         DishService dishService = DishServiceImpl.getInstance();
         try {
             dishService.addDishToMenu(dishFields, pictureName);
+        } catch (ServiceException e) {
+            logger.log(Level.ERROR, e);
+        }
+        if (dishFields.size() < DISH_FORM_SIZE) {
+            request.setAttribute(AttributeName.EDIT_ERROR_MESSAGE, ERROR_MESSAGE);
+            request.setAttribute(AttributeName.DISH_FIELDS, dishFields);
+        }
+        try {
+            List<Dish> dishes = dishService.findAllDishes();
+            request.setAttribute(AttributeName.DISHES_LIST, dishes);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }

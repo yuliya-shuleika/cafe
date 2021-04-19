@@ -31,10 +31,10 @@
                 <div class="footer-col">
                     <h4 class="footer-title">${menu}</h4>
                     <ul>
-                        <li class="footer-item"><a class="footer-link" href="menu.do">${all}</a></li>
-                        <li class="footer-item"><a class="footer-link" href="menu.do">${discounts}</a></li>
+                        <li class="footer-item"><a class="footer-link" href="menu.do?command=to_menu">${all}</a></li>
+                        <li class="footer-item"><a class="footer-link" href="menu.do?command=show_discounts">${discounts}</a></li>
                         <li class="footer-item"><a class="footer-link" href="menu.do?command=show_new_dishes">${new_dishes}</a></li>
-                        <li class="footer-item"><a class="footer-link" href="menu.do">${sushi_sets}</a></li>
+                        <li class="footer-item"><a class="footer-link" href="menu.do?command=choose_category&dish_category=sushi_set">${sushi_sets}</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">

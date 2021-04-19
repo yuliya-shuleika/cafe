@@ -2,8 +2,7 @@ package com.yuliana.cafe.dao.impl;
 
 import com.yuliana.cafe.connection.ConnectionPool;
 import com.yuliana.cafe.dao.ReviewDao;
-import com.yuliana.cafe.entity.Review;
-import com.yuliana.cafe.entity.ReviewStatus;
+import com.yuliana.cafe.entity.*;
 import com.yuliana.cafe.exception.DaoException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -36,11 +35,15 @@ public class ReviewDaoImpl implements ReviewDao {
             "FROM reviews WHERE user_id = ?";
     private static final String SELECT_REVIEWS_BY_ID = "SELECT review_id, header, text, rating, status " +
             "FROM reviews WHERE review_id = ?";
+    private static final String SELECT_USER_BY_REVIEWS_ID = "SELECT users.user_id, users.name, " +
+            "users.email, users.role, users.status, users.avatar FROM reviews " +
+            "JOIN users ON users.user_id = reviews.user_id " +
+            "WHERE reviews.review_id = ?";
 
     @Override
-    public void addReview(Review review, int userId) throws DaoException{
+    public void addReview(Review review, int userId) throws DaoException {
         Connection connection = pool.getConnection();
-        try(PreparedStatement statement = connection.prepareStatement(INSERT_REVIEW)){
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_REVIEW)) {
             statement.setInt(1, userId);
             statement.setString(2, review.getHeader());
             statement.setString(3, review.getText());
@@ -61,15 +64,15 @@ public class ReviewDaoImpl implements ReviewDao {
     public List<Review> findAllReviews() throws DaoException {
         Connection connection = pool.getConnection();
         List<Review> reviews = new ArrayList<>();
-        try (Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             ResultSet result = statement.executeQuery(SELECT_ALL_REVIEWS);
             while (result.next()) {
                 Review review = createReview(result);
                 reviews.add(review);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } finally {
             pool.releaseConnection(connection);
         }
         return reviews;
@@ -79,7 +82,7 @@ public class ReviewDaoImpl implements ReviewDao {
     public List<Review> findReviewByHeader(String header) throws DaoException {
         Connection connection = pool.getConnection();
         List<Review> reviews = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_REVIEWS_BY_HEADER)){
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_REVIEWS_BY_HEADER)) {
             String searchPattern = '%' + header + '%';
             statement.setString(1, searchPattern);
             ResultSet result = statement.executeQuery();
@@ -87,9 +90,9 @@ public class ReviewDaoImpl implements ReviewDao {
                 Review review = createReview(result);
                 reviews.add(review);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } finally {
             pool.releaseConnection(connection);
         }
         return reviews;
@@ -98,7 +101,7 @@ public class ReviewDaoImpl implements ReviewDao {
     @Override
     public void deleteReview(int reviewId) throws DaoException {
         Connection connection = pool.getConnection();
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_REVIEW)){
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_REVIEW)) {
             statement.setInt(1, reviewId);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -111,7 +114,7 @@ public class ReviewDaoImpl implements ReviewDao {
     @Override
     public void editReview(Review review) throws DaoException {
         Connection connection = pool.getConnection();
-        try(PreparedStatement statement = connection.prepareStatement(UPDATE_REVIEW)){
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_REVIEW)) {
             statement.setString(1, review.getHeader());
             statement.setString(2, review.getText());
             statement.setInt(3, review.getRating());
@@ -120,7 +123,7 @@ public class ReviewDaoImpl implements ReviewDao {
             String status = reviewStatus.name().toLowerCase();
             statement.setString(5, status);
             statement.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             pool.releaseConnection(connection);
@@ -130,12 +133,12 @@ public class ReviewDaoImpl implements ReviewDao {
     @Override
     public void updateStatus(ReviewStatus status, int reviewId) throws DaoException {
         Connection connection = pool.getConnection();
-        try(PreparedStatement statement = connection.prepareStatement(UPDATE_STATUS)){
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_STATUS)) {
             String reviewStatus = status.name().toLowerCase();
             statement.setString(1, reviewStatus);
             statement.setInt(2, reviewId);
             statement.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             pool.releaseConnection(connection);
@@ -146,15 +149,15 @@ public class ReviewDaoImpl implements ReviewDao {
     public List<Review> findAllReviewsSortedByHeader() throws DaoException {
         Connection connection = pool.getConnection();
         List<Review> reviews = new ArrayList<>();
-        try (Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             ResultSet result = statement.executeQuery(SELECT_ALL_DISHES_SORTED_BY_HEADER);
             while (result.next()) {
                 Review review = createReview(result);
                 reviews.add(review);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } finally {
             pool.releaseConnection(connection);
         }
         return reviews;
@@ -164,11 +167,11 @@ public class ReviewDaoImpl implements ReviewDao {
     public List<Review> findReviewsByStatus(ReviewStatus status) throws DaoException {
         Connection connection = pool.getConnection();
         List<Review> reviews = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_REVIEWS_BY_STATUS)){
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_REVIEWS_BY_STATUS)) {
             String reviewStatus = status.name().toLowerCase();
             statement.setString(1, reviewStatus);
             ResultSet result = statement.executeQuery();
-            while (result.next()){
+            while (result.next()) {
                 Review review = createReview(result);
                 reviews.add(review);
             }
@@ -184,10 +187,10 @@ public class ReviewDaoImpl implements ReviewDao {
     public Optional<Review> findReviewById(int reviewId) throws DaoException {
         Connection connection = pool.getConnection();
         Optional<Review> reviewOptional = Optional.empty();
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_REVIEWS_BY_ID)){
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_REVIEWS_BY_ID)) {
             statement.setInt(1, reviewId);
             ResultSet result = statement.executeQuery();
-            if (result.next()){
+            if (result.next()) {
                 Review review = createReview(result);
                 reviewOptional = Optional.of(review);
             }
@@ -203,10 +206,10 @@ public class ReviewDaoImpl implements ReviewDao {
     public List<Review> findAllUserReviews(int userId) throws DaoException {
         Connection connection = pool.getConnection();
         List<Review> reviews = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_USER_REVIEWS)){
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_USER_REVIEWS)) {
             statement.setInt(1, userId);
             ResultSet result = statement.executeQuery();
-            while (result.next()){
+            while (result.next()) {
                 Review review = createReview(result);
                 reviews.add(review);
             }
@@ -218,7 +221,34 @@ public class ReviewDaoImpl implements ReviewDao {
         return reviews;
     }
 
-    private Review createReview(ResultSet userData) throws SQLException{
+    @Override
+    public Optional<User> findUserByReviewId(int reviewId) throws DaoException {
+        Connection connection = pool.getConnection();
+        Optional<User> userOptional = Optional.empty();
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_USER_BY_REVIEWS_ID)) {
+            statement.setInt(1, reviewId);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                int userId = result.getInt(1);
+                String name = result.getString(2);
+                String email = result.getString(3);
+                String userRole = result.getString(4);
+                UserRole role = UserRole.valueOf(userRole.toUpperCase());
+                String userStatus = result.getString(5);
+                UserStatus status = UserStatus.valueOf(userStatus.toUpperCase());
+                String avatar = result.getString(6);
+                User user = new User(userId, name, email, role, status, avatar);
+                userOptional = Optional.of(user);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
+        return userOptional;
+    }
+
+    private Review createReview(ResultSet userData) throws SQLException {
         int reviewId = userData.getInt(1);
         String header = userData.getString(2);
         String text = userData.getString(3);

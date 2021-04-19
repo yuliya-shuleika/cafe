@@ -53,11 +53,6 @@ public enum CommandType {
             this.command = new ToAccountCommand();
         }
     },
-    TO_ACCOUNT_EDIT {
-        {
-            this.command = new ToAccountEditCommand();
-        }
-    },
     TO_ABOUT {
         {
             this.command = new ToAboutCommand();
@@ -163,11 +158,6 @@ public enum CommandType {
             this.command = new BlockUserCommand();
         }
     },
-    EDIT_REVIEW {
-        {
-            this.command = new EditReviewCommand();
-        }
-    },
     EDIT_PROMO_CODE {
         {
             this.command = new EditPromoCodeCommand();
@@ -228,7 +218,7 @@ public enum CommandType {
             this.command = new ShowDishEditCommand();
         }
     },
-    SHOW_PROMO_CODE_EDIT{
+    SHOW_PROMO_CODE_EDIT {
         {
             this.command = new ShowPromoCodeEditCommand();
         }
@@ -243,29 +233,39 @@ public enum CommandType {
             this.command = new UpdateReviewStatusCommand();
         }
     },
-    SHOW_NEW_REVIEWS{
+    SHOW_NEW_REVIEWS {
         {
             this.command = new ShowNewReviewsCommand();
         }
     },
-    EDIT_ACCOUNT{
+    EDIT_ACCOUNT {
         {
             this.command = new EditAccountCommand();
         }
     },
-    EDIT_USER_ADDRESS{
+    EDIT_USER_ADDRESS {
         {
             this.command = new EditUserAddressCommand();
         }
     },
-    SHOW_USER_ADDRESS_EDIT{
+    SHOW_USER_ADDRESS_EDIT {
         {
             this.command = new ShowUserAddressEditCommand();
         }
     },
-    REPEAT_ORDER_ADDRESS {
+    REPEAT_ORDER {
         {
             this.command = new RepeatOrderCommand();
+        }
+    },
+    UNBLOCK_USER {
+        {
+            this.command = new UnblockUserCommand();
+        }
+    },
+    CHANGE_USER_ROLE {
+        {
+            this.command = new ChangeUserRoleCommand();
         }
     };
     ActionCommand command;

@@ -4,14 +4,12 @@ import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.PagePath;
 import com.yuliana.cafe.controller.RequestParameter;
 import com.yuliana.cafe.controller.command.ActionCommand;
-import com.yuliana.cafe.entity.Dish;
+import com.yuliana.cafe.entity.Order;
 import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.exception.ServiceException;
-import com.yuliana.cafe.service.AddressService;
-import com.yuliana.cafe.service.DishService;
+import com.yuliana.cafe.service.OrderService;
 import com.yuliana.cafe.service.UserService;
-import com.yuliana.cafe.service.impl.AddressServiceImpl;
-import com.yuliana.cafe.service.impl.DishServiceImpl;
+import com.yuliana.cafe.service.impl.OrderServiceImpl;
 import com.yuliana.cafe.service.impl.UserServiceImpl;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -37,7 +35,9 @@ public class EditAccountCommand implements ActionCommand {
     private static final String UPLOAD_PATH = "C:\\Users\\Yulia\\IdeaProjects\\Cafe\\src\\main\\webapp\\images\\avatars\\";
     private static final String IMAGE_FOLDER = "/images/avatars/";
     private static final String JPG_FORMAT = ".jpg";
-    private static final String ENCODING = "UTF-8";
+    private static final String ENCODING_UTF8 = "UTF-8";
+    private static final String ERROR_MESSAGE = "edit_profile_error";
+    private static final int USER_FORM_SIZE = 2;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -49,7 +49,7 @@ public class EditAccountCommand implements ActionCommand {
             File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
             factory.setRepository(repository);
             ServletFileUpload upload = new ServletFileUpload(factory);
-            upload.setHeaderEncoding(ENCODING);
+            upload.setHeaderEncoding(ENCODING_UTF8);
             items = upload.parseRequest(request);
         } catch (FileUploadException e) {
             logger.log(Level.ERROR, "Error uploading photo.");
@@ -62,7 +62,7 @@ public class EditAccountCommand implements ActionCommand {
                 String name = item.getFieldName();
                 String value = null;
                 try {
-                    value = item.getString(ENCODING);
+                    value = item.getString(ENCODING_UTF8);
                 } catch (UnsupportedEncodingException e) {
                     logger.log(Level.ERROR, e);
                 }
@@ -70,11 +70,13 @@ public class EditAccountCommand implements ActionCommand {
             } else {
                 UUID uuid = UUID.randomUUID();
                 String filename = uuid.toString() + JPG_FORMAT;
-                if(!filename.equals("")) {
+                if (!filename.equals("")) {
                     Path path = Paths.get(filename);
                     File uploadFile = new File(UPLOAD_PATH + path.getFileName());
                     try {
-                        item.write(uploadFile);
+                        if (!uploadFile.exists()) {
+                            item.write(uploadFile);
+                        }
                         avatar = IMAGE_FOLDER + path.getFileName();
                     } catch (Exception e) {
                         logger.log(Level.ERROR, "Error saving photo.");
@@ -82,7 +84,7 @@ public class EditAccountCommand implements ActionCommand {
                 }
             }
         }
-        if(avatar == null){
+        if (avatar == null) {
             avatar = request.getParameter(RequestParameter.USER_AVATAR);
         }
         HttpSession session = request.getSession();
@@ -90,10 +92,23 @@ public class EditAccountCommand implements ActionCommand {
         UserService userService = UserServiceImpl.getInstance();
         try {
             userService.editUser(userFields, avatar, user);
+        } catch (ServiceException e) {
+            logger.log(Level.ERROR, e);
+        }
+        if (userFields.size() < USER_FORM_SIZE) {
+            request.setAttribute(AttributeName.EDIT_ERROR_MESSAGE, ERROR_MESSAGE);
+            request.setAttribute(AttributeName.USER_FIELDS, userFields);
+        } else {
             user.setName(userFields.get(RequestParameter.USER_NAME));
             user.setEmail(userFields.get(RequestParameter.USER_EMAIL));
             user.setAvatar(userFields.get(avatar));
             session.setAttribute(AttributeName.USER, user);
+        }
+        OrderService orderService = OrderServiceImpl.getInstance();
+        try {
+            int userId = user.getUserId();
+            List<Order> orders = orderService.findOrdersByUserId(userId);
+            request.setAttribute(AttributeName.USER_ORDERS, orders);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }

@@ -6,8 +6,9 @@ import com.yuliana.cafe.entity.Dish;
 import com.yuliana.cafe.exception.DaoException;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static com.yuliana.cafe.dao.creator.EntityCreator.createDish;
 
@@ -27,7 +28,7 @@ public class FavoritesDaoImpl implements FavoritesDao {
     @Override
     public void deleteFromFavorites(int dishId, int userId) throws DaoException {
         Connection connection = pool.getConnection();
-        try(PreparedStatement statement = connection.prepareStatement(DELETE_FROM_FAVORITES)){
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_FROM_FAVORITES)) {
             statement.setInt(1, dishId);
             statement.setInt(2, userId);
             statement.executeUpdate();
@@ -41,7 +42,7 @@ public class FavoritesDaoImpl implements FavoritesDao {
     @Override
     public void addToFavorites(int dishId, int userId, Date date) throws DaoException {
         Connection connection = pool.getConnection();
-        try(PreparedStatement statement = connection.prepareStatement(INSERT_TO_FAVORITES)){
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_TO_FAVORITES)) {
             Timestamp timestamp = new Timestamp(date.getTime());
             statement.setTimestamp(1, timestamp);
             statement.setInt(2, dishId);
@@ -58,14 +59,14 @@ public class FavoritesDaoImpl implements FavoritesDao {
     public List<Dish> findUserFavorites(int userId) throws DaoException {
         Connection connection = pool.getConnection();
         List<Dish> dishes = new ArrayList<>();
-        try(PreparedStatement statement = connection.prepareStatement(SELECT_ALL_USER_FAVORITES)){
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL_USER_FAVORITES)) {
             statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Dish dish = createDish(resultSet);
                 dishes.add(dish);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             pool.releaseConnection(connection);

@@ -2,6 +2,7 @@ package com.yuliana.cafe.controller.command.impl;
 
 import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.PagePath;
+import com.yuliana.cafe.controller.RequestParameter;
 import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.entity.PromoCode;
 import com.yuliana.cafe.exception.ServiceException;
@@ -19,11 +20,10 @@ import java.util.List;
 public class SearchPromoCodeByNamePartCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String PROMO_CODE_NAME_PART_PARAM = "promo_code_name_part";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String promoCodeNamePart = request.getParameter(PROMO_CODE_NAME_PART_PARAM);
+        String promoCodeNamePart = request.getParameter(RequestParameter.PROMO_CODE_NAME_PART_PARAM);
         PromoCodeService promoCodeService = PromoCodeServiceImpl.getInstance();
         List<PromoCode> promoCodes = new ArrayList<>();
         try {

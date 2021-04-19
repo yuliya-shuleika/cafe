@@ -13,7 +13,7 @@ public class ProxyConnection implements Connection {
     private static final Logger logger = LogManager.getLogger();
     private Connection connection;
 
-    ProxyConnection(Connection connection){
+    ProxyConnection(Connection connection) {
         this.connection = connection;
     }
 
@@ -58,11 +58,11 @@ public class ProxyConnection implements Connection {
     }
 
     @Override
-    public void close() throws SQLException{
+    public void close() throws SQLException {
         ConnectionPool.INSTANCE.releaseConnection(this);
     }
 
-    void reallyClose() throws SQLException{
+    void reallyClose() throws SQLException {
         connection.close();
     }
 
@@ -202,6 +202,7 @@ public class ProxyConnection implements Connection {
     public PreparedStatement prepareStatement(String sql, String[] columnNames) throws SQLException {
         return connection.prepareStatement(sql, columnNames);
     }
+
     @Override
     public Clob createClob() throws SQLException {
         return connection.createClob();

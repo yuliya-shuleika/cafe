@@ -22,83 +22,122 @@
 <body>
 <div class="edit" id="edit-user-address">
     <div class="edit-body">
-        <div class="edit-content">
+        <div class="edit-content edit-content-dark">
             <div class="add-promo">
                 <form action="controller?command=edit_user_address" method="post">
                     <div class="edit-header">
-                        <h3 class="edit-title">${address}</h3>
-                        <a class="edit-close" id="edit-close">x</a>
+                        <h3 class="edit-title edit-title-dark">${address}</h3>
+                        <a class="edit-close edit-close-dark" id="edit-close">x</a>
                     </div>
                     <div class="edit-form">
-                        <c:if test="${user_address != null}">
                         <div class="edit-general">
-                            <span class="edit-label">${city}</span>
-                            <input class="edit-general-input" type="text" placeholder="${city}" name="city"
-                                   required pattern="[A-Za-zА-Яа-я][a-zа-я]{1,30}" value="${user_address.getCity()}">
+                            <span class="edit-label edit-label-dark">${city}</span>
+                            <c:choose>
+                                <c:when test="${user_address != null && address_fields == null}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${city}" name="city"
+                                           value="${user_address.getCity()}">
+                                </c:when>
+                                <c:when test="${address_fields != null && address_fields.containsKey('city')}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${city}" name="city"
+                                           value="${address_fields.get('city')}">
+                                </c:when>
+                                <c:when test="${user_address == null || address_fields == null || !address_fields.containsKey('city')}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${city}" name="city">
+                                </c:when>
+                            </c:choose>
+                            <!--required pattern="[A-Za-zА-Яа-яёЁ\s]{5,45}"-->
                         </div>
                         <div class="edit-general">
-                            <span class="edit-label">${street}</span>
-                            <input class="edit-general-input" type="text" placeholder="${street}"
-                                   required pattern="[A-Za-zА-Яа-я][a-zа-я]{1,30}" name="street"
-                                   value="${user_address.getStreet()}">
+                            <span class="edit-label edit-label-dark">${street}</span>
+                            <c:choose>
+                                <c:when test="${user_address != null && address_fields == null}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${street}"
+                                           name="street"
+                                           value="${user_address.getStreet()}">
+                                </c:when>
+                                <c:when test="${address_fields != null && address_fields.containsKey('street')}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${street}"
+                                           name="street"
+                                           value="${address_fields.get('street')}">
+                                </c:when>
+                                <c:when test="${user_address == null || address_fields == null || !address_fields.containsKey('street')}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${street}"
+                                           name="street">
+                                </c:when>
+                            </c:choose>
+                            <!--required pattern="[A-Za-zА-Яа-я][a-zа-я]{1,30}"-->
                         </div>
                         <div class="edit-general">
-                            <span class="edit-label">${house}</span>
-                            <input class="edit-general-input" type="text" placeholder="${house}" name="house"
-                                   required pattern="[1-9][0-9]{0,3}" value="${user_address.getHouse()}">
+                            <span class="edit-label edit-label-dark">${house}</span>
+                            <c:choose>
+                                <c:when test="${user_address != null && address_fields == null}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${house}" name="house"
+                                           value="${user_address.getHouse()}">
+                                </c:when>
+                                <c:when test="${address_fields != null && address_fields.containsKey('house')}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${house}" name="house"
+                                           value="${address_fields.get('house')}">
+                                </c:when>
+                                <c:when test="${user_address == null || address_fields == null || !address_fields.containsKey('house')}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${house}" name="house">
+                                </c:when>
+                            </c:choose>
+                            <!--required pattern="[1-9][0-9]{0,3}"-->
                         </div>
                         <div class="edit-general">
-                            <span class="edit-label">${entrance}</span>
-                            <input class="edit-general-input" type="text" placeholder="${entrance}"
-                                   required pattern="[1-9][0-9]{0,2}" name="entrance"
-                                   value="${user_address.getEntrance()}">
+                            <span class="edit-label edit-label-dark">${entrance}</span>
+                            <c:choose>
+                                <c:when test="${user_address != null && address_fields == null}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${entrance}" name="entrance"
+                                           value="${user_address.getEntrance()}">
+                                </c:when>
+                                <c:when test="${address_fields != null && address_fields.containsKey('entrance')}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${entrance}" name="entrance"
+                                           value="${address_fields.get('entrance')}">
+                                </c:when>
+                                <c:when test="${user_address == null || address_fields == null || !address_fields.containsKey('entrance')}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${entrance}" name="entrance">
+                                </c:when>
+                            </c:choose>
+                            <!--required pattern="[1-9][0-9]{0,2}"-->
                         </div>
                         <div class="edit-general">
-                            <span class="edit-label">${floor}</span>
-                            <input class="edit-general-input" type="text" placeholder="${floor}" name="floor"
-                                   required pattern="(-|[1-9])[0-9]{0,3}" value="${user_address.getFloor()}">
+                            <span class="edit-label edit-label-dark">${floor}</span>
+                            <c:choose>
+                                <c:when test="${user_address != null && address_fields == null}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${floor}" name="floor" value="${user_address.getFloor()}">
+                                </c:when>
+                                <c:when test="${address_fields != null && address_fields.containsKey('floor')}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${floor}" name="floor" value="${address_fields.get('floor')}">
+                                </c:when>
+                                <c:when test="${user_address == null || address_fields == null || !address_fields.containsKey('floor')}">
+                                    <input class="edit-general-input" type="text" placeholder="${floor}" name="floor">
+                                </c:when>
+                            </c:choose>
+                            <!--required pattern="(-|[1-9])[0-9]{0,3}"-->
                         </div>
                         <div class="edit-general">
-                            <span class="edit-label">${flat}</span>
-                            <input class="edit-general-input" type="text" placeholder="${flat}"
-                                   required pattern="[1-9][0-9]{0,5}" name="flat"
-                                   value="${user_address.getFlat()}">
+                            <span class="edit-label edit-label-dark">${flat}</span>
+                            <c:choose>
+                                <c:when test="${user_address != null && address_fields == null}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${flat}" name="flat"
+                                           value="${user_address.getFlat()}">
+                                </c:when>
+                                <c:when test="${address_fields != null && address_fields.containsKey('flat')}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${flat}" name="flat"
+                                           value="${address_fields.get('flat')}">
+                                </c:when>
+                                <c:when test="${user_address == null || address_fields == null || !address_fields.containsKey('flat')}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${flat}" name="flat">
+                                </c:when>
+                            </c:choose>
+                            <!--required pattern="[1-9][0-9]{0,5}"-->
                         </div>
-                        </c:if>
-                        <c:if test="${user_address == null}">
-                            <div class="edit-general">
-                                <span class="edit-label">${city}</span>
-                                <input class="edit-general-input" type="text" placeholder="${city}" name="city"
-                                       required pattern="[A-Za-zА-Яа-я][a-zа-я]{1,30}">
-                            </div>
-                            <div class="edit-general">
-                                <span class="edit-label">${street}</span>
-                                <input class="edit-general-input" type="text" placeholder="${street}"
-                                       required pattern="[A-Za-zА-Яа-я][a-zа-я]{1,30}" name="street">
-                            </div>
-                            <div class="edit-general">
-                                <span class="edit-label">${house}</span>
-                                <input class="edit-general-input" type="text" placeholder="${house}" name="house"
-                                       required pattern="[1-9][0-9]{0,3}">
-                            </div>
-                            <div class="edit-general">
-                                <span class="edit-label">${entrance}</span>
-                                <input class="edit-general-input" type="text" placeholder="${entrance}"
-                                       required pattern="[1-9][0-9]{0,2}" name="entrance">
-                            </div>
-                            <div class="edit-general">
-                                <span class="edit-label">${floor}</span>
-                                <input class="edit-general-input" type="text" placeholder="${floor}" name="floor"
-                                       required pattern="(-|[1-9])[0-9]{0,3}">
-                            </div>
-                            <div class="edit-general">
-                                <span class="edit-label">${flat}</span>
-                                <input class="edit-general-input" type="text" placeholder="${flat}"
-                                       required pattern="[1-9][0-9]{0,5}" name="flat">
-                            </div>
-                        </c:if>
                     </div>
                     <div class="edit-footer">
+                        <c:if test="${edit_error_message != null}">
+                            <p class="edit-error-message edit-error-message-dark">${fill_fields_correct}</p>
+                        </c:if>
                         <button class="edit-submit" type="submit">${submit}</button>
                     </div>
                 </form>

@@ -8,9 +8,13 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
-import java.util.*;
+import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @WebListener
 public class SessionListener implements HttpSessionListener {
@@ -30,7 +34,7 @@ public class SessionListener implements HttpSessionListener {
         session.setAttribute(AttributeName.CART_ITEMS, cartItems);
         Object userAttribute = session.getAttribute(AttributeName.USER);
         Optional<Object> userOptional = Optional.ofNullable(userAttribute);
-        if(userOptional.isPresent()){
+        if (userOptional.isPresent()) {
             User user = (User) userOptional.get();
         } else {
             session.setAttribute(AttributeName.CURRENT_PAGE, PagePath.HOME_PAGE);

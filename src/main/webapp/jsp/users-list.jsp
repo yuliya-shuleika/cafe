@@ -24,6 +24,9 @@
 <fmt:message bundle="${loc}" key="lang.label.sort" var="sort"/>
 <fmt:message bundle="${loc}" key="lang.label.by_email" var="by_email"/>
 <fmt:message bundle="${loc}" key="lang.label.status" var="status"/>
+<fmt:message bundle="${loc}" key="lang.label.role" var="role"/>
+<fmt:message bundle="${loc}" key="lang.label.admin" var="admin"/>
+<fmt:message bundle="${loc}" key="lang.label.role_user" var="role_user"/>
 <body>
     <%@ include file="/jsp/header/header-admin.jsp"%>
     <div class = "admin-container">
@@ -42,9 +45,9 @@
                 <div class="admin-manage-end">
                     <form action="controller" method="post" class="admin-searching-form">
                         <input type="hidden" name="command" value="search_user_by_email">
-                        <input class="admin-search" type="search" id="search_user" name="email"
+                        <input class="admin-search" type="search" id="search_user" name="user_email"
                                placeholder="Search..."
-                               minlength="1" maxlength="20">
+                               minlength="1" maxlength="30">
                     </form>
                 </div>
             </div>
@@ -53,8 +56,9 @@
                     <thead>
                         <th>${number}</th>
                         <th>${user}</th>
+                        <th>${role}</th>
                         <th class="user-status">${status}</th>
-                        <th colspan="2">${action}</th>
+                        <th>${action}</th>
                     </thead>
                     <tbody>
                         <c:forEach var="user" items="${users_list}">
@@ -62,14 +66,19 @@
                                 <td>1</td>
                                 <td>${user.getEmail()}</td>
                                 <td class = "user-status">${user.getStatus()}</td>
-                                <td><a href="#" class="admin-edit">${edit}</a></td>
                                 <td>
-                                    <input type="hidden" name="command" value="block_user">
+                                    <input type="hidden" name="status" value="${user.getRole()}">
+                                    <select name="user_role" class="admin-select">
+                                        <option class="admin-option" value="new">${role_user}</option>
+                                        <option class="admin-option" value="approved">${admin}</option>
+                                    </select>
+                                </td>
+                                <td>
                                     <input type="hidden" name="user_id" value="${user.getUserId()}">
-                                    <c:if test="${sessionScope.user.status != 'BLOCKED'}">
+                                    <c:if test="${user.status != 'BLOCKED'}">
                                         <a href="#" class="admin-delete">${block}</a>
                                     </c:if>
-                                    <c:if test="${sessionScope.user.status == 'BLOCKED'}">
+                                    <c:if test="${user.status == 'BLOCKED'}">
                                         <a href="#" class="admin-delete">${unblock}</a>
                                     </c:if>
                                 </td>

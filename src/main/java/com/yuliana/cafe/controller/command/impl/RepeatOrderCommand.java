@@ -16,12 +16,11 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 public class RepeatOrderCommand implements ActionCommand {
 
-    private static Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -34,17 +33,17 @@ public class RepeatOrderCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        if (orderOptional.isPresent()){
+        if (orderOptional.isPresent()) {
             Order order = orderOptional.get();
             request.setAttribute(AttributeName.REPEATED_ORDER, order);
-            if(order.getGettingType().equals(GettingType.DELIVERY)){
+            if (order.getGettingType().equals(GettingType.DELIVERY)) {
                 Optional<Address> addressOptional = Optional.empty();
                 try {
                     addressOptional = orderService.findAddressByOrderId(orderId);
                 } catch (ServiceException e) {
                     logger.log(Level.ERROR, e);
                 }
-                if(addressOptional.isPresent()){
+                if (addressOptional.isPresent()) {
                     Address address = addressOptional.get();
                     request.setAttribute(AttributeName.ORDER_ADDRESS, address);
                 }

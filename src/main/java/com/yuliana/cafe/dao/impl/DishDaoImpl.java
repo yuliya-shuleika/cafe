@@ -1,10 +1,10 @@
 package com.yuliana.cafe.dao.impl;
 
 import com.yuliana.cafe.connection.ConnectionPool;
-import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.dao.DishDao;
-import com.yuliana.cafe.entity.DishCategory;
 import com.yuliana.cafe.entity.Dish;
+import com.yuliana.cafe.entity.DishCategory;
+import com.yuliana.cafe.exception.DaoException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class DishDaoImpl implements DishDao {
     private static final String SELECT_DISHES_WITHOUT_DISCOUNT = "SELECT dish_id, name, category, " +
             "picture_name, price, discount_percents, date, description, weight " +
             "FROM dishes WHERE discount_price = 0.0";
-    private static final String SELECT_DISH_BY_ID= "SELECT dish_id, name, category, picture_name, price, " +
+    private static final String SELECT_DISH_BY_ID = "SELECT dish_id, name, category, picture_name, price, " +
             "discount_percents, date, description, weight " +
             "FROM dishes WHERE dish_id = ?";
     private static final String DELETE_DISH_BY_ID = "DELETE FROM dishes WHERE dish_id = ?";
@@ -56,73 +56,73 @@ public class DishDaoImpl implements DishDao {
             "FROM dishes WHERE date > ? ORDER BY date DESC";
 
     @Override
-    public List<Dish> findAllDishes() throws DaoException{
+    public List<Dish> findAllDishes() throws DaoException {
         Connection connection = pool.getConnection();
         List<Dish> dishes = new ArrayList<>();
-        try (Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             ResultSet result = statement.executeQuery(SELECT_ALL_DISHES);
             while (result.next()) {
                 dishes.add(createDish(result));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } finally {
             pool.releaseConnection(connection);
         }
         return dishes;
     }
 
     @Override
-    public List<Dish> findDishesByPrice(double min, double max) throws DaoException{
+    public List<Dish> findDishesByPrice(double min, double max) throws DaoException {
         Connection connection = pool.getConnection();
         List<Dish> dishes = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_DISHES_BY_PRICE)){
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_DISHES_BY_PRICE)) {
             statement.setDouble(1, min);
             statement.setDouble(2, max);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 dishes.add(createDish(result));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } finally {
             pool.releaseConnection(connection);
         }
         return dishes;
     }
 
     @Override
-    public List<Dish> findDishesByCategory(DishCategory category) throws DaoException{
+    public List<Dish> findDishesByCategory(DishCategory category) throws DaoException {
         Connection connection = pool.getConnection();
         List<Dish> dishes = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_DISHES_BY_CATEGORY)){
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_DISHES_BY_CATEGORY)) {
             statement.setString(1, category.name().toLowerCase());
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 dishes.add(createDish(result));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } finally {
             pool.releaseConnection(connection);
         }
         return dishes;
     }
 
     @Override
-    public List<Dish> findDishesByName(String name) throws DaoException{
+    public List<Dish> findDishesByName(String name) throws DaoException {
         Connection connection = pool.getConnection();
         List<Dish> dishes = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_DISHES_BY_NAME)){
-            String namePattern = '%' + name +'%';
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_DISHES_BY_NAME)) {
+            String namePattern = '%' + name + '%';
             statement.setString(1, namePattern);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 dishes.add(createDish(result));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } finally {
             pool.releaseConnection(connection);
         }
         return dishes;
@@ -132,14 +132,14 @@ public class DishDaoImpl implements DishDao {
     public List<Dish> findDishesSortedByPrice() throws DaoException {
         Connection connection = pool.getConnection();
         List<Dish> dishes = new ArrayList<>();
-        try (Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             ResultSet result = statement.executeQuery(SELECT_DISHES_SORTED_BY_PRICE);
             while (result.next()) {
                 dishes.add(createDish(result));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } finally {
             pool.releaseConnection(connection);
         }
         return dishes;
@@ -149,7 +149,7 @@ public class DishDaoImpl implements DishDao {
     public List<Dish> findDishesSortedByDiscount() throws DaoException {
         Connection connection = pool.getConnection();
         List<Dish> dishes = new ArrayList<>();
-        try (Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             ResultSet result = statement.executeQuery(SELECT_DISHES_WITH_DISCOUNT);
             while (result.next()) {
                 dishes.add(createDish(result));
@@ -158,9 +158,9 @@ public class DishDaoImpl implements DishDao {
             while (result.next()) {
                 dishes.add(createDish(result));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } finally {
             pool.releaseConnection(connection);
         }
         return dishes;
@@ -170,16 +170,16 @@ public class DishDaoImpl implements DishDao {
     public Optional<Dish> findDishById(int dishId) throws DaoException {
         Connection connection = pool.getConnection();
         Optional dishOptional = Optional.empty();
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_DISH_BY_ID)){
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_DISH_BY_ID)) {
             statement.setInt(1, dishId);
             ResultSet result = statement.executeQuery();
-            if(result.next()){
+            if (result.next()) {
                 Dish dish = createDish(result);
                 dishOptional = Optional.ofNullable(dish);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } finally {
             pool.releaseConnection(connection);
         }
         return dishOptional;
@@ -189,14 +189,14 @@ public class DishDaoImpl implements DishDao {
     public List<Dish> findDishesSortedByName() throws DaoException {
         Connection connection = pool.getConnection();
         List<Dish> dishes = new ArrayList<>();
-        try (Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             ResultSet result = statement.executeQuery(SELECT_DISHES_SORTED_BY_PRICE);
             while (result.next()) {
                 dishes.add(createDish(result));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } finally {
             pool.releaseConnection(connection);
         }
         return dishes;
@@ -205,10 +205,10 @@ public class DishDaoImpl implements DishDao {
     @Override
     public void deleteDishById(int dishId) throws DaoException {
         Connection connection = pool.getConnection();
-        try(PreparedStatement statement = connection.prepareStatement(DELETE_DISH_BY_ID)){
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_DISH_BY_ID)) {
             statement.setInt(1, dishId);
             statement.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             pool.releaseConnection(connection);
@@ -219,7 +219,7 @@ public class DishDaoImpl implements DishDao {
     public int addDish(Dish dish) throws DaoException {
         Connection connection = pool.getConnection();
         int dishId;
-        try(PreparedStatement statement = connection.prepareStatement(INSERT_DISH)){
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_DISH)) {
             statement.setString(1, dish.getName());
             DishCategory category = dish.getCategory();
             statement.setString(2, category.name().toLowerCase());
@@ -232,7 +232,7 @@ public class DishDaoImpl implements DishDao {
             statement.setString(7, dish.getDescription());
             statement.setShort(8, dish.getWeight());
             dishId = statement.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             pool.releaseConnection(connection);
@@ -244,14 +244,14 @@ public class DishDaoImpl implements DishDao {
     public List<Dish> findAllDishesSortedByName() throws DaoException {
         Connection connection = pool.getConnection();
         List<Dish> dishes = new ArrayList<>();
-        try (Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             ResultSet result = statement.executeQuery(SELECT_ALL_DISHES_SORTED_BY_NAME);
             while (result.next()) {
                 dishes.add(createDish(result));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } finally {
             pool.releaseConnection(connection);
         }
         return dishes;
@@ -260,7 +260,7 @@ public class DishDaoImpl implements DishDao {
     @Override
     public void editDish(Dish dish) throws DaoException {
         Connection connection = pool.getConnection();
-        try(PreparedStatement statement = connection.prepareStatement(UPDATE_DISH)){
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_DISH)) {
             statement.setString(1, dish.getName());
             DishCategory category = dish.getCategory();
             statement.setString(2, category.name().toLowerCase());
@@ -271,7 +271,7 @@ public class DishDaoImpl implements DishDao {
             statement.setShort(7, dish.getWeight());
             statement.setInt(8, dish.getDishId());
             statement.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             pool.releaseConnection(connection);
@@ -282,16 +282,16 @@ public class DishDaoImpl implements DishDao {
     public List<Dish> findNewDishes(Date date) throws DaoException {
         Connection connection = pool.getConnection();
         List<Dish> dishes = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_NEW_DISHES)){
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_NEW_DISHES)) {
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
             statement.setDate(1, sqlDate);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 dishes.add(createDish(result));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } finally {
             pool.releaseConnection(connection);
         }
         return dishes;

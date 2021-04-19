@@ -67,7 +67,7 @@
                                      alt="${item.getKey().getName()}" class="cart-item-image">
                                 <div class="cart-item-title">
                                     <h4 class="cart-item-name">${item.getKey().getName()}</h4>
-                                    <p class="cart-item-description">something</p>
+                                    <p class="cart-item-description">${item.getKey().getDescription()}</p>
                                 </div>
                             </div>
                             <div class="cart-item-manage">
@@ -157,7 +157,7 @@
                 </ul>
             </div>
             <div class="payment-delivery">
-                <input type="hidden" name="getting_type" value="delivery">
+                <input type="hidden" name="order_getting_type" value="delivery">
                 <c:if test="${repeated_order == null}">
                     <div class="choose">
                         <div id="delivery" class="choose-item is-active">${delivery}</div>
@@ -179,7 +179,7 @@
                     </div>
                 </c:if>
                 <c:choose>
-                    <c:when test="${user_address == null && (repeated_order == null || repeated_order().getGettingType eq 'PICKUP')}"><
+                    <c:when test="${user_address == null && (repeated_order == null || repeated_order.getGettingType() eq 'PICKUP')}"><
                     <div class="delivery-address">
                         <div class="delivery-address-house">
                             <div class="delivery-address-field">
@@ -295,7 +295,7 @@
                     </c:when>
                 </c:choose>
                 <div class="pickup-info">
-                    <input type="hidden" name="getting_type" value="pickup">
+                    <input type="hidden" name="order_getting_type" value="pickup">
                     <p class="pickup-label">${choose_cafe}</p>
                     <select class="payment-select">
                         <c:forEach var="address" items="${cafe_addresses}">
@@ -311,7 +311,7 @@
                     <div class="promo-code-field">
                         <label class="promo-code-label" for="promo-code">${enter_promo_code}</label>
                         <input class="promo-code-input" id="promo-code" type="text" placeholder="Promo code"
-                        pattern="[A-Za-zА-Яа-яёЁ0-9_]{5,45}">
+                        pattern="[A-Za-zА-Яа-яёЁ0-9_]{5,45}" name="promo_code_name">
                     </div>
                 </div>
                 <div class="payment-method">
@@ -319,11 +319,11 @@
                     <div class="choose">
                         <div class="choose-item is-active" id="cash">
                             ${cash}
-                            <input type="hidden" name="payment_type" value="cash">
+                            <input type="hidden" name="order_payment_type" value="cash">
                         </div>
                         <div class="choose-item" id="bank-card">
                             ${bank_card}
-                            <input type="hidden" name="payment_type" value="bank_card">
+                            <input type="hidden" name="order_payment_type" value="bank_card">
                         </div>
                         <!--<div class="choose-item" id="bank-card-online">
                             ${payment_by_card_online}
@@ -358,7 +358,7 @@
             <c:if test="${repeated_order == null}">
                 <div class="comment-order">
                     <h4 class="payment-section-header">${your_comment}</h4>
-                    <textarea class="comment-order-input" placeholder="Your comment..." name="comment"></textarea>
+                    <textarea class="comment-order-input" placeholder="Your comment..." name="order_comment"></textarea>
                 </div>
             </c:if>
             <c:if test="${repeated_order != null}">

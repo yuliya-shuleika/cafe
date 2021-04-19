@@ -51,10 +51,6 @@ button:active, button:focus {
     display: flex;
     width: 100%;
     flex-direction: column;
-    color: #fff;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    font-size: 16px;
 }
 
 .profile-edit{
@@ -66,6 +62,10 @@ button:active, button:focus {
     display: block;
     width: 300px;
     margin-bottom: 10px;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
 }
 
 .profile-logout{
@@ -77,6 +77,10 @@ button:active, button:focus {
     display: block;
     width: 300px;
     margin-bottom: 10px;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
 }
 
 .profile-edit:hover{
@@ -84,7 +88,7 @@ button:active, button:focus {
     cursor: pointer;
 }
 
-.profile-edit:hover{
+.profile-logout:hover{
     background-color: #9d9d9d;
     cursor: pointer;
 }
@@ -166,6 +170,7 @@ button:active, button:focus {
     font-weight: 400;
     font-size: 16px;
     color: #fff;
+    margin-bottom: 5px;
 }
 
 .order-start{
@@ -187,6 +192,7 @@ button:active, button:focus {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100%;
 }
 
 .order-price-container{

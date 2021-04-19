@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface AddressDao extends BaseDao {
 
     int addAddress(Address address) throws DaoException;
+
     Optional<Address> findAddressById(int addressId) throws DaoException;
+
     void updateAddress(Address address) throws DaoException;
 }

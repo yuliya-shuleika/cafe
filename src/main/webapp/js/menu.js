@@ -1,7 +1,7 @@
 var cart_item_ids = [];
-$(document).ready(function (){
+$(document).ready(function () {
     changeCart();
-    $('.menu-item-button').on('click', function (){
+    $('.menu-item-button').on('click', function () {
         let items_count_header = $('.header-items-count')[0]
         let cart_items_list = $('.cart-items-list')[0]
         let paramsList = this.parentElement.getElementsByTagName('input')
@@ -12,40 +12,40 @@ $(document).ready(function (){
         let dish_price = menu_item.getElementsByClassName('menu-price-value')[0].innerHTML
         let command = paramsList[0].value
         let dish_id = paramsList[1].value
-        let data = {command:command, dish_id:dish_id}
+        let data = {command: command, dish_id: dish_id}
         $.ajax({
-            url:'controller',
+            url: 'controller',
             type: 'POST',
             data: data,
-            success: function() {
+            success: function () {
                 changeCart();
                 let hasItem = false;
-                for(let i = 0; i < cart_item_ids.length; i++){
-                    if(cart_item_ids[i] == dish_id){
+                for (let i = 0; i < cart_item_ids.length; i++) {
+                    if (cart_item_ids[i] == dish_id) {
                         hasItem = true;
                         let cart_item_count = findCurrentItemCount(dish_id)
                         cart_item_count.innerHTML = Number.parseInt(cart_item_count.innerHTML) + 1
                     }
                 }
-                if(!hasItem){
+                if (!hasItem) {
                     cart_item_ids.push(dish_id)
-                    if(cart_items_list !== undefined){
+                    if (cart_items_list !== undefined) {
                         createCartItem(cart_items_list, dish_id, dish_picture, dish_title, dish_description, dish_price)
                     }
                 }
                 let items_count = items_count_header.innerHTML
-                items_count_header.innerHTML= ++items_count
+                items_count_header.innerHTML = ++items_count
             }
         });
     });
-    $('.menu-favorite').on('click', function (){
+    $('.menu-favorite').on('click', function () {
         let paramsList = this.parentElement.getElementsByTagName('input')
         let like = this
         let command = paramsList[0].value
         let dish_id = paramsList[1].value
-        let data = {command:command, dish_id:dish_id}
+        let data = {command: command, dish_id: dish_id}
         $.ajax({
-            url:'controller',
+            url: 'controller',
             type: 'POST',
             data: data,
             success: function () {
@@ -54,14 +54,14 @@ $(document).ready(function (){
             }
         });
     });
-    $('.menu-favorite-added').on('click', function (){
+    $('.menu-favorite-added').on('click', function () {
         let paramsList = this.parentElement.getElementsByTagName('input')
         let unlike = this
         let command = paramsList[0].value
         let dish_id = paramsList[1].value
-        let data = {command:command, dish_id:dish_id}
+        let data = {command: command, dish_id: dish_id}
         $.ajax({
-            url:'controller',
+            url: 'controller',
             type: 'POST',
             data: data,
             success: function () {
@@ -72,26 +72,26 @@ $(document).ready(function (){
     });
 });
 
-function changeCart(){
+function changeCart() {
     let items_count_header = $('.header-items-count')[0]
     let cart_items_container = $('.cart-items-container')[0]
     let cart_empty = $('.cart-empty')[0]
-    if(items_count_header.innerHTML == '0'){
+    if (items_count_header.innerHTML == '0') {
         cart_items_container.style.display = 'none'
         cart_empty.style.display = 'flex'
-    }else{
+    } else {
         cart_items_container.style.display = 'flex'
         cart_items_container.style.flexDirection = 'column'
         cart_empty.style.display = 'none'
     }
 }
 
-function findCurrentItemCount(dish_id){
+function findCurrentItemCount(dish_id) {
     let items = document.getElementsByName('cart_item_id')
     console.log(items)
     let cart_item
-    for (let i = 0; i < items.length; i++){
-        if(dish_id == items[i].getAttribute('value')){
+    for (let i = 0; i < items.length; i++) {
+        if (dish_id == items[i].getAttribute('value')) {
             cart_item = items[i].closest('li')
         }
     }
@@ -99,7 +99,7 @@ function findCurrentItemCount(dish_id){
     return item_count;
 }
 
-function createCartItem(cart_items_list, dish_id, dish_picture, dish_title, dish_description, dish_price){
+function createCartItem(cart_items_list, dish_id, dish_picture, dish_title, dish_description, dish_price) {
     let cart_item = document.createElement('li')
     cart_item.classList.add('cart-item')
     cart_items_list.appendChild(cart_item)

@@ -107,7 +107,7 @@
                              class="menu-item-picture">
                         <div class="menu-item-content">
                             <h3 class="menu-item-title">${dish.getName()}</h3>
-                            <p class = "menu-item-description">something</p>
+                            <p class = "menu-item-description">${dish.getDescription()}</p>
                         </div>
                         <div class="menu-item-bottom">
                             <div class="menu-item-price">

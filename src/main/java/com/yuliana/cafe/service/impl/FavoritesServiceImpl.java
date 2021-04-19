@@ -15,9 +15,10 @@ public class FavoritesServiceImpl implements FavoritesService {
     private static final FavoritesServiceImpl INSTANCE = new FavoritesServiceImpl();
     private FavoritesDao favoritesDao = new FavoritesDaoImpl();
 
-    private FavoritesServiceImpl(){}
+    private FavoritesServiceImpl() {
+    }
 
-    public static FavoritesServiceImpl getInstance(){
+    public static FavoritesServiceImpl getInstance() {
         return INSTANCE;
     }
 
@@ -45,7 +46,7 @@ public class FavoritesServiceImpl implements FavoritesService {
         List<Dish> dishes;
         try {
             dishes = favoritesDao.findUserFavorites(userId);
-        } catch (DaoException e){
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return dishes;

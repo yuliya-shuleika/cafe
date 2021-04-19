@@ -10,7 +10,6 @@
 </head>
 <fmt:message bundle="${loc}" key="lang.label.users" var="users"/>
 <fmt:message bundle="${loc}" key="lang.label.dishes" var="dishes"/>
-<fmt:message bundle="${loc}" key="lang.label.orders" var="orders"/>
 <fmt:message bundle="${loc}" key="lang.label.reviews" var="reviews"/>
 <fmt:message bundle="${loc}" key="lang.label.promo_codes" var="promo_codes"/>
 <fmt:message bundle="${loc}" key="lang.label.logout" var="logout"/>
@@ -26,9 +25,6 @@
                     </li>
                     <li class="header-li">
                         <a class="header-link" href="dishes.do?command=to_dishes_list">${dishes}</a>
-                    </li>
-                    <li class="header-li">
-                        <a class="header-link" href="orders.do?command=to_orders_list">${orders}</a>
                     </li>
                     <li class="header-li">
                         <a class="header-link" href="reviews.do?command=to_reviews_list">${reviews}</a>

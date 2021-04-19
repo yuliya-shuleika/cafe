@@ -33,6 +33,22 @@
         edit.style.display = 'block'
     </script>
 </c:if>
+<c:if test="${edit_error_message != null}">
+    <c:choose>
+        <c:when test="${edit_error_message == 'add_error'}">
+            <script>
+                let add = document.getElementById('add-promo')
+                add.style.display = 'block'
+            </script>
+        </c:when>
+        <c:when test="${edit_error_message == 'edit_error'}">
+            <script>
+                let edit = document.getElementById('edit-promo')
+                edit.style.display = 'block'
+            </script>
+        </c:when>
+    </c:choose>
+</c:if>
 <div class = "admin-container">
     <div class = "admin-header">
         <div class="admin-add-container">

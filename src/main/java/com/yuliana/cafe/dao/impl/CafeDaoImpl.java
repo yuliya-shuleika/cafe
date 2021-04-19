@@ -5,7 +5,10 @@ import com.yuliana.cafe.dao.CafeDao;
 import com.yuliana.cafe.entity.Address;
 import com.yuliana.cafe.exception.DaoException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,16 +24,16 @@ public class CafeDaoImpl implements CafeDao {
     public List<Address> findAllCafeAddresses() throws DaoException {
         List<Address> addresses = new ArrayList<>();
         Connection connection = pool.getConnection();
-        try(Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             ResultSet result = statement.executeQuery(SELECT_ALL_CAFE_ADDRESSES);
-            while (result.next()){
+            while (result.next()) {
                 String city = result.getString(1);
                 String street = result.getString(2);
                 short house = result.getShort(3);
                 Address address = new Address(city, street, house);
                 addresses.add(address);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
             pool.releaseConnection(connection);

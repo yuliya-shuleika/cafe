@@ -30,6 +30,7 @@
 <fmt:message bundle="${loc}" key="lang.label.new_reviews" var="new_reviews"/>
 <body>
 <%@ include file="/jsp/header/header-admin.jsp"%>
+<%@ include file="/jsp/modal/review-info.jsp"%>
 <div class = "admin-container">
     <div class = "admin-header">
         <h2 class="admin-title">${reviews}</h2>
@@ -39,7 +40,7 @@
             <div class="admin-manage-start">
                 <p class="admin-sort-label">${sort}</p>
                 <form action="controller" method="post" class="admin-sorting-form">
-                    <input type="hidden" name="command" value="sort_by_header">
+                    <input type="hidden" name="command" value="sort_reviews_by_header">
                     <button class="admin-sort-criteria" type="submit">${by_header}</button>
                 </form>
                 <form action="controller" method="post" class="admin-sorting-form">
@@ -49,8 +50,8 @@
             </div>
             <div class="admin-manage-end">
                 <form action="controller" method="post" class="admin-searching-form">
-                    <input type="hidden" name="command" value="search_user">
-                    <input class="admin-search" type="search" id="search_user" name="dish_name"
+                    <input type="hidden" name="command" value="search_review_by_header">
+                    <input class="admin-search" type="search" id="search_review" name="review_header"
                            placeholder="Search..." required
                            minlength="1" maxlength="20">
                 </form>
@@ -71,18 +72,11 @@
                         <td>1</td>
                         <td>${review.getHeader()}</td>
                         <td>
-                            <select id="review-status-select" name="review_status" class="review-status-select">
-                                <option class="review-status-option" value="new">${new_review}</option>
-                                <option class="review-status-option" value="approved">${approved}</option>
-                                <option class="review-status-option" value="rejected">${rejected}</option>
-                                <script>
-                                    const select = document.querySelector('#review-status-select').getElementsByTagName('option');
-                                    for (let i = 0; i < select.length; i++) {
-                                        if (select[i].value.toUpperCase() === '${review.getStatus().name()}') {
-                                            select[i].selected = true;
-                                        }
-                                    }
-                                </script>
+                            <input type="hidden" name="status" value="${review.getStatus()}">
+                            <select name="review_status" class="admin-select">
+                                <option class="admin-option" value="new">${new_review}</option>
+                                <option class="admin-status-option" value="approved">${approved}</option>
+                                <option class="admin-option" value="rejected">${rejected}</option>
                             </select>
                         </td>
                         <td><a href="#" class="admin-edit">${watch}</a></td>

@@ -4,14 +4,13 @@ import com.yuliana.cafe.dao.ReviewDao;
 import com.yuliana.cafe.dao.impl.ReviewDaoImpl;
 import com.yuliana.cafe.entity.Review;
 import com.yuliana.cafe.entity.ReviewStatus;
+import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.exception.DaoException;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.ReviewService;
 import com.yuliana.cafe.service.validator.ReviewValidator;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class ReviewServiceImpl implements ReviewService {
 
@@ -20,16 +19,17 @@ public class ReviewServiceImpl implements ReviewService {
     private static final String FIELD_REVIEW_HEADER = "review_header";
     private static final String FIELD_REVIEW_TEXT = "review_text";
 
-    private ReviewServiceImpl(){}
+    private ReviewServiceImpl() {
+    }
 
-    public static ReviewServiceImpl getInstance(){
+    public static ReviewServiceImpl getInstance() {
         return INSTANCE;
     }
 
     @Override
     public void addReview(int userId, Map<String, String> reviewFields, String rating) throws ServiceException {
         boolean isValid = ReviewValidator.isValidReviewForm(reviewFields);
-        if(isValid) {
+        if (isValid) {
             int reviewRating = Integer.parseInt(rating);
             ReviewStatus status = ReviewStatus.NEW;
             String header = reviewFields.get(FIELD_REVIEW_HEADER);
@@ -44,7 +44,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<Review> findAllReviews() throws ServiceException{
+    public List<Review> findAllReviews() throws ServiceException {
         List<Review> reviews;
         try {
             reviews = reviewDao.findAllReviews();
@@ -56,11 +56,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<Review> findReviewByHeader(String header) throws ServiceException {
-        List<Review> reviews;
-        try {
-            reviews = reviewDao.findReviewByHeader(header);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
+        List<Review> reviews = new ArrayList<>();
+        boolean isValid = ReviewValidator.isValidHeader(header);
+        if (isValid) {
+            try {
+                reviews = reviewDao.findReviewByHeader(header);
+            } catch (DaoException e) {
+                throw new ServiceException(e);
+            }
         }
         return reviews;
     }
@@ -78,7 +81,7 @@ public class ReviewServiceImpl implements ReviewService {
     public void editReview(int reviewId, Map<String, String> reviewFields,
                            int rating, String reviewStatus) throws ServiceException {
         boolean isValid = ReviewValidator.isValidReviewForm(reviewFields);
-        if(isValid) {
+        if (isValid) {
             ReviewStatus status = ReviewStatus.valueOf(reviewStatus.toUpperCase());
             String header = reviewFields.get(FIELD_REVIEW_HEADER);
             String text = reviewFields.get(FIELD_REVIEW_TEXT);
@@ -143,6 +146,30 @@ public class ReviewServiceImpl implements ReviewService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+    }
+
+    @Override
+    public Map<Review, User> findApprovedReviewsWithAuthors() throws ServiceException {
+        List<Review> reviews;
+        try {
+            reviews = reviewDao.findReviewsByStatus(ReviewStatus.APPROVED);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        Map<Review, User> reviewsWithAuthors = new HashMap<>();
+        for (Review review : reviews) {
+            int reviewId = review.getReviewId();
+            try {
+                Optional<User> userOptional = reviewDao.findUserByReviewId(reviewId);
+                if (userOptional.isPresent()) {
+                    User user = userOptional.get();
+                    reviewsWithAuthors.put(review, user);
+                }
+            } catch (DaoException e) {
+                throw new ServiceException(e);
+            }
+        }
+        return reviewsWithAuthors;
     }
 
 }

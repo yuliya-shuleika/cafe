@@ -1,15 +1,16 @@
 package com.yuliana.cafe.service.validator;
 
 import org.apache.logging.log4j.Level;
-
-import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class CheckoutValidator extends BaseValidator{
+import java.util.Iterator;
+import java.util.Map;
+
+public class AddressValidator extends BaseValidator {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String FIELD_CITY= "city";
+    private static final String FIELD_CITY = "city";
     private static final String FIELD_STREET = "street";
     private static final String FIELD_HOUSE = "house";
     private static final String FIELD_ENTRANCE = "entrance";
@@ -23,13 +24,16 @@ public class CheckoutValidator extends BaseValidator{
     private static final String FLAT_REGEX = "[1-9][0-9]{0,5}";
     private static final String PROMO_CODE_REGEX = "[1-9][0-9]{0,5}";
 
-    public static boolean isAddressFormValid(Map<String, String> addressForm){
+    public static boolean isAddressFormValid(Map<String, String> addressForm) {
         boolean isValidForm = true;
-        boolean isValidField = false;
-        String value = "";
-        for(String field : addressForm.keySet()){
+        String value;
+        Iterator<Map.Entry<String, String>> iterator = addressForm.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, String> entry = iterator.next();
+            String field = entry.getKey();
+            boolean isValidField = false;
             value = addressForm.get(field);
-            switch (field){
+            switch (field) {
                 case FIELD_CITY:
                     isValidField = isValidField(CITY_REGEX, value);
                     break;
@@ -51,15 +55,15 @@ public class CheckoutValidator extends BaseValidator{
                 default:
                     logger.log(Level.WARN, "Unknown field in the address form.");
             }
-            if(!isValidField){
-                addressForm.replace(field, "");
+            if (!isValidField) {
+                iterator.remove();
                 isValidForm = false;
             }
         }
         return isValidForm;
     }
 
-    public static boolean isValidPromoCode(String promoCode){
+    public static boolean isValidPromoCode(String promoCode) {
         boolean isValid = isValidField(PROMO_CODE_REGEX, promoCode);
         return isValid;
     }

@@ -16,21 +16,28 @@
 <body>
 <div class="edit" id="feedback">
     <div class="edit-body">
-        <div class="edit-content">
+        <div class="edit-content edit-content-dark">
             <div class="edit-container">
                 <form action="controller" method="post">
                     <div class="edit-header">
-                        <h3 class="edit-title">${review}</h3>
-                        <a class="edit-close" id="edit-close">x</a>
+                        <h3 class="edit-title edit-title-dark">${review}</h3>
+                        <a class="edit-close edit-close-dark" id="edit-close">x</a>
                     </div>
                     <div class="edit-form">
                         <input type="hidden" name="command" value="give_feedback">
                         <div class="edit-general">
-                            <span class="edit-label">${feedback_header}</span>
-                            <input class="edit-general-input" type="text" placeholder="Header" name="review_header">
+                            <span class="edit-label edit-label-dark">${feedback_header}</span>
+                            <c:if test="${review_fields != null && review_fields.containsKey('review_header')}">
+                            <input class="edit-general-input edit-general-input-dark" type="text"
+                                   placeholder="Header" value="${review_fields.get('review_header')}" name="review_header">
+                            </c:if>
+                            <c:if test="${review_fields == null|| !review_fields.containsKey('review_header')}">
+                                <input class="edit-general-input edit-general-input-dark" type="text"
+                                       placeholder="Header" name="review_header">
+                            </c:if>
                         </div>
                         <div class="edit-mark">
-                            <span class="edit-label">${your_mark}</span>
+                            <span class="edit-label edit-label-dark">${your_mark}</span>
                             <div class="edit-rating">
                                 <input type="hidden" name="review_rating" value="5">
                                 <span class="fa fa-star edit-star" id="star_one"></span>
@@ -41,12 +48,19 @@
                             </div>
                         </div>
                         <div class="edit-text-container">
-                            <span class="edit-label">${your_feedback}</span>
-                            <textarea class="edit-text" name="review_text" maxlength="500"></textarea>
+                            <span class="edit-label edit-label-dark">${your_feedback}</span>
+                            <c:if test="${review_fields != null && review_fields.containsKey('review_text')}">
+                                <textarea class="edit-text edit-text-dark" name="review_text" minlength="1" maxlength="500">${review_fields.get('review_text')}</textarea>
+                            </c:if>
+                            <c:if test="${review_fields == null || !review_fields.containsKey('review_text')}">
+                                <textarea class="edit-text edit-text-dark" name="review_text" minlength="1" maxlength="500"></textarea>
+                            </c:if>
                         </div>
                     </div>
                     <div class="edit-footer">
-                        <input class="edit-file" type="file">
+                        <c:if test="${edit_error_message != null}">
+                            <p class="edit-error-message edit-error-message-dark">${fill_fields_correct}</p>
+                        </c:if>
                         <button class="edit-submit" type="submit">${submit}</button>
                     </div>
                 </form>

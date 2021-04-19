@@ -1,11 +1,12 @@
 package com.yuliana.cafe.controller.command.impl;
 
 import com.yuliana.cafe.controller.AttributeName;
-import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.controller.PagePath;
+import com.yuliana.cafe.controller.RequestParameter;
+import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.entity.Dish;
 import com.yuliana.cafe.entity.Review;
-import com.yuliana.cafe.entity.ReviewStatus;
+import com.yuliana.cafe.entity.User;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.service.DishService;
 import com.yuliana.cafe.service.ReviewService;
@@ -21,14 +22,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 public class RegisterCommand implements ActionCommand {
 
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String PARAM_NAME = "name";
-    private static final String PARAM_EMAIL = "email";
-    private static final String PARAM_PASSWORD = "password";
     private static final String ACCOUNT_EXISTS = "account_exists";
 
     @Override
@@ -36,18 +35,18 @@ public class RegisterCommand implements ActionCommand {
         HttpSession session = request.getSession();
         String page = (String) session.getAttribute(AttributeName.CURRENT_PAGE);
         UserService userService = UserServiceImpl.getInstance();
-        String email = request.getParameter(PARAM_EMAIL);
+        String email = request.getParameter(RequestParameter.USER_EMAIL);
         boolean emailExists = true;
         try {
             emailExists = userService.findEmail(email);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        if(!emailExists) {
-            String name = request.getParameter(PARAM_NAME);
-            String pass = request.getParameter(PARAM_PASSWORD);
+        if (!emailExists) {
+            String name = request.getParameter(RequestParameter.USER_NAME);
+            String password = request.getParameter(RequestParameter.USER_PASSWORD);
             try {
-                userService.registerUser(name, email, pass);
+                userService.registerUser(name, email, password);
             } catch (ServiceException e) {
                 logger.log(Level.ERROR, e);
             }
@@ -68,8 +67,8 @@ public class RegisterCommand implements ActionCommand {
             case PagePath.REVIEWS_PAGE:
                 ReviewService reviewService = ReviewServiceImpl.getInstance();
                 try {
-                    List<Review> reviews = reviewService.findReviewsByStatus(ReviewStatus.APPROVED);
-                    request.setAttribute(AttributeName.REVIEWS_LIST, reviews);
+                    Map<Review, User> reviewsWithAuthors = reviewService.findApprovedReviewsWithAuthors();
+                    request.setAttribute(AttributeName.REVIEWS_MAP, reviewsWithAuthors);
                 } catch (ServiceException e) {
                     logger.log(Level.ERROR, e);
                 }
