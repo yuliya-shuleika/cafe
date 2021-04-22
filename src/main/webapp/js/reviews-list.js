@@ -15,9 +15,6 @@ $(document).ready(function (){
         let review_id = tableRow.getElementsByTagName('input')[0].value
         let status = getStatus(select.selectedIndex)
         let data = {command:command, review_status:status, review_id:review_id}
-        console.log(command)
-        console.log(status)
-        console.log(review_id)
         $.ajax({
             url:'controller',
             type: 'POST',
@@ -27,17 +24,21 @@ $(document).ready(function (){
             }
         });
     });
-    $('.admin-edit').on('click', function () {
-        let header = document.getElementById('review-info-header')
-        header.innerHTML = '${review.getHeader()}'
-        let rating = document.getElementById('review-info-rating')
-        rating.innerHTML = '${review.getRating()}'
-        let text = document.getElementById('review-info-rating')
-        text.innerHTML = '${review.getText()}'
-        let info = document.getElementById('review-info')
-        info.style.display = 'block'
+    $('.admin-delete').on('click', function () {
+        let row = this.parentElement.parentElement
+        let command = 'delete_review'
+        let review_id = row.getElementsByTagName('input')[0].value
+        let data = {command:command, review_id:review_id}
+        $.ajax({
+            url:'controller',
+            type: 'POST',
+            data: data,
+            success: function () {
+                row.remove()
+            }
+        });
     });
-    $('.edit_close').on('click', function () {
+    $('.edit-close').on('click', function () {
         let info = document.getElementById('review-info')
         info.style.display = 'none'
     });

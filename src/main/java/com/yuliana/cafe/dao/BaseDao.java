@@ -8,8 +8,18 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Base dao interface with default methods
+ *
+ * @author Yulia Shuleiko
+ */
 public interface BaseDao {
 
+    /**
+     * Commit the transaction.
+     *
+     * @param connection database connection
+     */
     default void commit(Connection connection) {
         final Logger logger = LogManager.getLogger();
         if (connection != null) {
@@ -21,6 +31,11 @@ public interface BaseDao {
         }
     }
 
+    /**
+     * Rollback the transaction.
+     *
+     * @param connection database connection
+     */
     default void rollback(Connection connection) {
         final Logger logger = LogManager.getLogger();
         if (connection != null) {
@@ -32,6 +47,12 @@ public interface BaseDao {
         }
     }
 
+    /**
+     * Set auto commit to the one of two values: true or false.
+     *
+     * @param connection database connection
+     * @param autoCommit <code>true</code> if auto commit must be set otherwise <code>false</code>
+     */
     default void setAutoCommit(Connection connection, boolean autoCommit) {
         final Logger logger = LogManager.getLogger();
         if (connection != null) {
@@ -43,6 +64,11 @@ public interface BaseDao {
         }
     }
 
+    /**
+     * Close database statement.
+     *
+     * @param statement database connection
+     */
     default void close(Statement statement) {
         final Logger logger = LogManager.getLogger();
         if (statement != null) {

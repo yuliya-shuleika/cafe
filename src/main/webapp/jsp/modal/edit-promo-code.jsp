@@ -54,7 +54,7 @@
                             <span class="edit-label">${discount_percents}</span>
                             <c:if test="${selected_promo_code != null}">
                                 <input class="edit-general-input" type="text" placeholder="${discount}"
-                                       name="promo_code_discount_percents" required pattern="[1-9][0-9]?
+                                       name="promo_code_discount_percents" required pattern="[1-9][0-9]?"
                                        value="${selected_promo_code.getDiscountPercents()}">
                             </c:if>
                             <c:if test="${promo_code_fields != null && promo_code_fields.containsKey('promo_code_discount_percents')}">

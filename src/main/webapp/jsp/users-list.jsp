@@ -27,6 +27,7 @@
 <fmt:message bundle="${loc}" key="lang.label.role" var="role"/>
 <fmt:message bundle="${loc}" key="lang.label.admin" var="admin"/>
 <fmt:message bundle="${loc}" key="lang.label.role_user" var="role_user"/>
+<fmt:message bundle="${loc}" key="lang.label.no_data_found" var="no_data_found"/>
 <body>
     <%@ include file="/jsp/header/header-admin.jsp"%>
     <div class = "admin-container">
@@ -61,31 +62,36 @@
                         <th>${action}</th>
                     </thead>
                     <tbody>
-                        <c:forEach var="user" items="${users_list}">
-                            <tr>
-                                <td>1</td>
-                                <td>${user.getEmail()}</td>
-                                <td class = "user-status">${user.getStatus()}</td>
-                                <td>
-                                    <input type="hidden" name="status" value="${user.getRole()}">
-                                    <select name="user_role" class="admin-select">
-                                        <option class="admin-option" value="new">${role_user}</option>
-                                        <option class="admin-option" value="approved">${admin}</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <input type="hidden" name="user_id" value="${user.getUserId()}">
-                                    <c:if test="${user.status != 'BLOCKED'}">
-                                        <a href="#" class="admin-delete">${block}</a>
-                                    </c:if>
-                                    <c:if test="${user.status == 'BLOCKED'}">
-                                        <a href="#" class="admin-delete">${unblock}</a>
-                                    </c:if>
-                                </td>
-                            </tr>
-                        </c:forEach>
+                        <c:if test="${users_list != null && !users_list.isEmpty()}">
+                            <c:forEach var="user" items="${users_list}" varStatus="loop">
+                                <tr>
+                                    <td>${loop.index + 1}</td>
+                                    <td>${user.getEmail()}</td>
+                                    <td class = "user-status">${user.getStatus()}</td>
+                                    <td>
+                                        <input type="hidden" name="status" value="${user.getRole()}">
+                                        <select name="user_role" class="admin-select">
+                                            <option class="admin-option" value="new">${role_user}</option>
+                                            <option class="admin-option" value="approved">${admin}</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="user_id" value="${user.getUserId()}">
+                                        <c:if test="${user.status != 'BLOCKED'}">
+                                            <a href="#" class="admin-delete">${block}</a>
+                                        </c:if>
+                                        <c:if test="${user.status == 'BLOCKED'}">
+                                            <a href="#" class="admin-delete">${unblock}</a>
+                                        </c:if>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </c:if>
                     </tbody>
                 </table>
+                <c:if test="${users_list.isEmpty() || users_list == null}">
+                    <p class="admin-not-found-label">${no_data_found}</p>
+                </c:if>
             </div>
         </div>
     </div>

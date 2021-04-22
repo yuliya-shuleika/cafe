@@ -29,18 +29,17 @@ import java.util.Map;
 public class ChangeLocaleCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String LANG_ATTRIBUTE = "lang";
     private static final String LANG_EN = "en";
     private static final String LANG_RU = "ru";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        String lang = (String) session.getAttribute(LANG_ATTRIBUTE);
+        String lang = (String) session.getAttribute(AttributeName.LANGUAGE);
         if (lang.equals(LANG_EN)) {
-            session.setAttribute(LANG_ATTRIBUTE, LANG_RU);
+            session.setAttribute(AttributeName.LANGUAGE, LANG_RU);
         } else {
-            session.setAttribute(LANG_ATTRIBUTE, LANG_EN);
+            session.setAttribute(AttributeName.LANGUAGE, LANG_EN);
         }
         String page = (String) session.getAttribute(AttributeName.CURRENT_PAGE);
         ReviewService reviewService = ReviewServiceImpl.getInstance();

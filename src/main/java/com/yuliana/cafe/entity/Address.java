@@ -1,5 +1,11 @@
 package com.yuliana.cafe.entity;
 
+
+/**
+ * Address entity.
+ *
+ * @author Yulia Shuleiko
+ */
 public class Address {
 
     private int addressId;
@@ -10,6 +16,12 @@ public class Address {
     private short floor;
     private short flat;
 
+    /**
+     * @param addressId id of the address
+     * @param city name of the city
+     * @param street name of the street
+     * @param house number of the house
+     */
     public Address(int addressId, String city, String street, short house) {
         this.addressId = addressId;
         this.city = city;
@@ -17,6 +29,16 @@ public class Address {
         this.house = house;
     }
 
+    /**
+     *
+     * @param addressId id of the address
+     * @param city name of the city
+     * @param street name of the street
+     * @param house number of the house
+     * @param entrance number of entrance in the house
+     * @param floor number of thr floor
+     * @param flat number of the flat
+     */
     public Address(int addressId, String city, String street, short house, short entrance, short floor, short flat) {
         this.addressId = addressId;
         this.city = city;

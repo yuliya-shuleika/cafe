@@ -157,7 +157,6 @@
                             <div class="favorite-header">
                                 <div class="favorite-header">
                                     <h4 class="favorite-title">${dish.getName()}</h4>
-                                    <p class="favorite-description">${dish.getDescription()}</p>
                                 </div>
                             </div>
                         </div>

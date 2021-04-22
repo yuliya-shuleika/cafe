@@ -23,6 +23,7 @@
 <fmt:message bundle="${loc}" key="lang.label.by_name" var="by_name"/>
 <fmt:message bundle="${loc}" key="lang.label.sort" var="sort"/>
 <fmt:message bundle="${loc}" key="lang.label.promo_add" var="promo_add"/>
+<fmt:message bundle="${loc}" key="lang.label.no_data_found" var="no_data_found"/>
 <body>
 <%@include file="/jsp/header/header-admin.jsp"%>
 <%@include file="/jsp/modal/add-promo-code.jsp"%>
@@ -82,23 +83,28 @@
                 <th colspan="2">${action}</th>
                 </thead>
                 <tbody>
-                <c:forEach var="promoCode" items="${promo_codes_list}">
-                    <tr>
-                        <td>1</td>
-                        <td>${promoCode.getName()}</td>
-                        <td>
-                            <a href="promo-codes-list.do?command=show_promo_code_edit&promo_code_id=${promoCode.getPromoCodeId()}"
-                               class="admin-edit">${edit}</a>
-                        </td>
-                        <td>
-                            <input type="hidden" name="command" value="delete_promo_code">
-                            <input type="hidden" name="promo_code_id" value="${promoCode.getPromoCodeId()}">
-                            <a href="#" class="admin-delete">${delete}</a>
-                        </td>
-                    </tr>
-                </c:forEach>
+                    <c:if test="${promo_codes_list != null && !promo_codes_list.isEmpty()}">
+                        <c:forEach var="promoCode" items="${promo_codes_list}" varStatus="loop">
+                            <tr>
+                                <td>${loop.index + 1}</td>
+                                <td>${promoCode.getName()}</td>
+                                <td>
+                                    <a href="promo-codes-list.do?command=show_promo_code_edit&promo_code_id=${promoCode.getPromoCodeId()}"
+                                        class="admin-edit">${edit}</a>
+                                </td>
+                                <td>
+                                    <input type="hidden" name="command" value="delete_promo_code">
+                                    <input type="hidden" name="promo_code_id" value="${promoCode.getPromoCodeId()}">
+                                    <a href="#" class="admin-delete">${delete}</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:if>
                 </tbody>
             </table>
+            <c:if test="${promo_codes_list.isEmpty() || promo_codes_list == null}">
+                <p class="admin-not-found-label">${no_data_found}</p>
+            </c:if>
         </div>
     </div>
 </div>

@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    changeCart()
     //count price
     $('#total-price').html(countTotalPrice())
     //delete item from cart

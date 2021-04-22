@@ -10,6 +10,27 @@ button:active, button:focus {
     outline: none;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: none;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #545454;
+    border-radius: 5px;
+    padding-left: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 /*container*/
 
 .account-container {
@@ -158,6 +179,8 @@ button:active, button:focus {
     display: flex;
     flex-direction: column;
     margin-top: 5px;
+    overflow: auto;
+    max-height: 500px;
 }
 
 .order-info{
@@ -231,6 +254,8 @@ button:active, button:focus {
 .account-favorites{
     display: none;
     flex-direction: column;
+    overflow: auto;
+    max-height: 500px;
 }
 
 .favorite-info{

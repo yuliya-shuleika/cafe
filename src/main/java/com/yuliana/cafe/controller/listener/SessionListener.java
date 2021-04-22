@@ -4,6 +4,10 @@ import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.PagePath;
 import com.yuliana.cafe.entity.Dish;
 import com.yuliana.cafe.entity.User;
+import com.yuliana.cafe.entity.UserStatus;
+import com.yuliana.cafe.exception.ServiceException;
+import com.yuliana.cafe.service.UserService;
+import com.yuliana.cafe.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,6 +48,19 @@ public class SessionListener implements HttpSessionListener {
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
         logger.log(Level.INFO, "Session destroyed.");
+        HttpSession session = se.getSession();
+        Object userAttribute = session.getAttribute(AttributeName.USER);
+        Optional<Object> userOptional = Optional.ofNullable(userAttribute);
+        if (userOptional.isPresent()) {
+            User user = (User) userOptional.get();
+            int userId = user.getUserId();
+            UserService service = UserServiceImpl.getInstance();
+            try {
+                service.updateStatus(userId, UserStatus.OFFLINE);
+            } catch (ServiceException e) {
+                logger.log(Level.ERROR, e);
+            }
+        }
     }
 
 }

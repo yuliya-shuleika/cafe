@@ -2,8 +2,9 @@ textarea:active, textarea:focus, input:active, input:focus{
     outline: none;
 }
 
-h3{
+h3, p{
     margin: 0;
+    padding: 0;
 }
 
 .edit{
@@ -221,6 +222,8 @@ h3{
     min-height: 90px;
     margin-left: 10px;
     resize: none;
+    color: #545454;
+    padding-left: 5px;
 }
 
 .edit-text-short-dark, .edit-text-dark{
@@ -265,4 +268,15 @@ h3{
 .edit-submit:hover{
     background: #439648;
     cursor: pointer;
+}
+
+.edit-info{
+    word-break: break-word;
+    padding: 10px 0 10px 15px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+}
+
+.edit-info-footer{
+    margin: 20px;
 }

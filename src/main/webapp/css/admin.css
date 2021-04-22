@@ -181,3 +181,13 @@ a{
     font-family: 'Rubik', sans-serif;
     border: none;
 }
+
+.admin-not-found-label{
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #545454;
+    text-align: center;
+    width: 100%;
+    padding-top: 100px;
+}

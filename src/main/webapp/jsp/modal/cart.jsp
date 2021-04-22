@@ -7,6 +7,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
             type="text/javascript"></script>
     <script><%@include file="/js/cart.js"%></script>
+    <script><%@include file="/js/menu.js"%></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
@@ -29,7 +30,7 @@
             <div class="cart-items-container">
             <div class="cart-items">
                 <ul class="cart-items-list">
-                    <c:forEach var="item" items="${cart_items}">
+                    <c:forEach var="item" items="${sessionScope.cart_items}">
                         <li class="cart-item">
                             <input type="hidden" name="cart_item_id" value="${item.getKey().getDishId()}">
                             <div class="cart-item-information">

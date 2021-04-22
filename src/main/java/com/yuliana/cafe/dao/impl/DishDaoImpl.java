@@ -37,10 +37,10 @@ public class DishDaoImpl implements DishDao {
             "FROM dishes ORDER BY name COLLATE cp1251_general_ci";
     private static final String SELECT_DISHES_WITH_DISCOUNT = "SELECT dish_id, name, category, picture_name, " +
             "price, discount_percents, date, description, weight " +
-            "FROM dishes WHERE discount_price > 0.0";
+            "FROM dishes WHERE discount_percents > 0";
     private static final String SELECT_DISHES_WITHOUT_DISCOUNT = "SELECT dish_id, name, category, " +
             "picture_name, price, discount_percents, date, description, weight " +
-            "FROM dishes WHERE discount_price = 0.0";
+            "FROM dishes WHERE discount_percents = 0";
     private static final String SELECT_DISH_BY_ID = "SELECT dish_id, name, category, picture_name, price, " +
             "discount_percents, date, description, weight " +
             "FROM dishes WHERE dish_id = ?";

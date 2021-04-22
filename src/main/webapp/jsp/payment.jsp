@@ -46,6 +46,8 @@
 <fmt:message bundle="${loc}" key="lang.label.card_number" var="card_number"/>
 <fmt:message bundle="${loc}" key="lang.label.expiration_date" var="expiration_date"/>
 <fmt:message bundle="${loc}" key="lang.label.security_code" var="security_code"/>
+<fmt:message bundle="${loc}" key="lang.label.address_error" var="address_error"/>
+<fmt:message bundle="${loc}" key="lang.label.promo_code_error" var="promo_code_error"/>
 <body>
     <%@ include file="/jsp/header/header-user.jsp"%>
     <div class="payment-container">
@@ -178,122 +180,108 @@
                         </c:choose>
                     </div>
                 </c:if>
-                <c:choose>
-                    <c:when test="${user_address == null && (repeated_order == null || repeated_order.getGettingType() eq 'PICKUP')}"><
                     <div class="delivery-address">
                         <div class="delivery-address-house">
                             <div class="delivery-address-field">
                                 <label class="delivery-address-label" for="city">${city}</label>
-                                <input class="delivery-address-input-long" id="city" type="text"
-                                       name="city" placeholder="Город" required pattern="[A-Za-zА-Яа-я][a-zа-я]{1,30}">
+                                <c:if test="${address_fields == null || !address_fields.containsKey('city')}">
+                                    <input class="delivery-address-input-long" id="city" type="text"
+                                           name="city" placeholder="Город">
+                                </c:if>
+                                <c:if test="${address_fields != null && address_fields.containsKey('city')}">
+                                <input class="delivery-address-input-long" type="text" value="${address_fields.get('city')}"
+                                       name="city" placeholder="Город">
+                                </c:if>
+                                <!--required pattern="[A-Za-zА-Яа-я][a-zа-я]{1,30}"-->
                             </div>
                             <div class="delivery-address-field">
                                 <label class="delivery-address-label" for="street">${street}</label>
-                                <input class="delivery-address-input-long" id="street" type="text"
-                                       name="street" placeholder="Улица" required pattern="[A-Za-zА-Яа-я][a-zа-я]{1,30}">
+                                <c:if test="${address_fields == null || !address_fields.containsKey('street')}">
+                                    <input class="delivery-address-input-long" id="street" type="text"
+                                           name="street" placeholder="Улица">
+                                </c:if>
+                                <c:if test="${address_fields != null && address_fields.containsKey('street')}">
+                                    <input class="delivery-address-input-long" type="text" value="${address_fields.get('street')}"
+                                           name="street" placeholder="Улица">
+                                </c:if>
+                                <!--required pattern="[A-Za-zА-Яа-я][a-zа-я]{1,30}"-->
                             </div>
                         </div>
                         <div class="delivery-address-house">
                             <div class="delivery-address-field">
                                 <label class="delivery-address-label" for="house">${house}</label>
-                                <input class="delivery-address-input-short" id="house" type="text"
-                                       name="house" placeholder="Дом" required pattern="[1-9][0-9]{0,3}">
+                                <c:if test="${address_fields == null || !address_fields.containsKey('house')}">
+                                    <input class="delivery-address-input-short" id="house" type="text"
+                                           name="house" placeholder="Дом">
+                                </c:if>
+                                <c:if test="${address_fields != null && address_fields.containsKey('house')}">
+                                    <input class="delivery-address-input-short" type="text" value="${address_fields.get('house')}"
+                                           name="house" placeholder="Дом">
+                                </c:if>
+                                <!-- required pattern="[1-9][0-9]{0,3}"-->
                             </div>
                             <div class="delivery-address-field">
                                 <label class="delivery-address-label" for="entrance">${entrance}</label>
-                                <input class="delivery-address-input-short" id="entrance" type="text"
-                                       name="entrance" placeholder="Подъезд" pattern="[1-9][0-9]{0,2}">
+                                <c:if test="${address_fields == null || !address_fields.containsKey('entrance')}">
+                                    <input class="delivery-address-input-short" id="entrance" type="text"
+                                           name="entrance" placeholder="Подъезд">
+                                </c:if>
+                                <c:if test="${address_fields != null && address_fields.containsKey('entrance')}">
+                                    <input class="delivery-address-input-short" type="text" value="${address_fields.get('entrance')}"
+                                           name="entrance" placeholder="Подъезд">
+                                </c:if>
+                                <!-- pattern="[1-9][0-9]{0,2}"-->
                             </div>
                             <div class="delivery-address-field">
                                 <label class="delivery-address-label" for="floor">${floor}</label>
-                                <input class="delivery-address-input-short" id="floor" type="text"
-                                       name="floor" placeholder="Этаж" pattern="(-|[1-9])[0-9]{0,3}">
+                                <c:if test="${address_fields == null || !address_fields.containsKey('floor')}">
+                                    <input class="delivery-address-input-short" id="floor" type="text"
+                                           name="floor" placeholder="Этаж">
+                                </c:if>
+                                <c:if test="${address_fields != null && address_fields.containsKey('floor')}">
+                                    <input class="delivery-address-input-short" type="text" value="${address_fields.get('floor')}"
+                                           name="floor" placeholder="Этаж">
+                                </c:if>
+                                <!-- pattern="(-|[1-9])[0-9]{0,3}"-->
                             </div>
                             <div class="delivery-address-field">
                                 <label class="delivery-address-label" for="flat">${flat}</label>
-                                <input class="delivery-address-input-short" id="flat" type="text"
-                                       name="flat" placeholder="Квартира" pattern="[1-9][0-9]{0,5}">
+                                <c:if test="${address_fields == null || !address_fields.containsKey('flat')}">
+                                    <input class="delivery-address-input-short" id="flat" type="text"
+                                           name="flat" placeholder="Квартира">
+                                </c:if>
+                                <c:if test="${address_fields != null && address_fields.containsKey('flat')}">
+                                    <input class="delivery-address-input-short" type="text" value="${address_fields.get('flat')}"
+                                           name="flat" placeholder="Квартира">
+                                </c:if>
+                                <!--pattern="[1-9][0-9]{0,5}"-->
                             </div>
                         </div>
                     </div>
-                    </c:when>
-                    <c:when test="${user_address != null && (repeated_order == null || repeated_order.getGettingType() eq 'PICKUP')}">
-                        <div class="delivery-address">
-                            <div class="delivery-address-house">
-                                <div class="delivery-address-field">
-                                    <label class="delivery-address-label" for="city">${city}</label>
-                                    <input class="delivery-address-input-long" id="city-user" type="text" value="${user_address.getCity()}"
-                                           name="city" placeholder="Город" required pattern="[A-Za-zА-Яа-я][a-zа-я]{1,30}">
-                                </div>
-                                <div class="delivery-address-field">
-                                    <label class="delivery-address-label" for="street">${street}</label>
-                                    <input class="delivery-address-input-long" id="street-user" type="text" value="${user_address.getStreet()}"
-                                           name="street" placeholder="Улица" required pattern="[A-Za-zА-Яа-я][a-zа-я]{1,30}">
-                                </div>
-                            </div>
-                            <div class="delivery-address-house">
-                                <div class="delivery-address-field">
-                                    <label class="delivery-address-label" for="house">${house}</label>
-                                    <input class="delivery-address-input-short" id="house-user" type="text" value="${user_address.getHouse()}"
-                                           name="house" placeholder="Дом" required pattern="[1-9][0-9]{0,3}">
-                                </div>
-                                <div class="delivery-address-field">
-                                    <label class="delivery-address-label" for="entrance">${entrance}</label>
-                                    <input class="delivery-address-input-short" id="entrance-user" type="text" value="${user_address.getEntrance()}"
-                                           name="entrance" placeholder="Подъезд" pattern="[1-9][0-9]{0,2}">
-                                </div>
-                                <div class="delivery-address-field">
-                                    <label class="delivery-address-label" for="floor">${floor}</label>
-                                    <input class="delivery-address-input-short" id="floor-user" type="text" value="${user_address.getFloor()}"
-                                           name="floor" placeholder="Этаж" pattern="(-|[1-9])[0-9]{0,3}">
-                                </div>
-                                <div class="delivery-address-field">
-                                    <label class="delivery-address-label" for="flat">${flat}</label>
-                                    <input class="delivery-address-input-short" id="flat-user" type="text" value="${user_address.getFlat()}"
-                                           name="flat" placeholder="Квартира" pattern="[1-9][0-9]{0,5}">
-                                </div>
-                            </div>
-                        </div>
-                    </c:when>
-                    <c:when test="${repeated_order != null && repeated_order.getGettingType() eq 'DELIVERY'}">
-                        <div class="delivery-address">
-                            <div class="delivery-address-house">
-                                <div class="delivery-address-field">
-                                    <label class="delivery-address-label" for="city">${city}</label>
-                                    <input class="delivery-address-input-long" id="city-repeat" type="text" value="${order_address.getCity()}"
-                                           name="city" placeholder="Город" required pattern="[A-Za-zА-Яа-я][a-zа-я]{1,30}">
-                                </div>
-                                <div class="delivery-address-field">
-                                    <label class="delivery-address-label" for="street">${street}</label>
-                                    <input class="delivery-address-input-long" id="street-repeat" type="text" value="${order_address.getStreet()}"
-                                           name="street" placeholder="Улица" required pattern="[A-Za-zА-Яа-я][a-zа-я]{1,30}">
-                                </div>
-                            </div>
-                            <div class="delivery-address-house">
-                                <div class="delivery-address-field">
-                                    <label class="delivery-address-label" for="house">${house}</label>
-                                    <input class="delivery-address-input-short" id="house-repeat" type="text" value="${order_address.getHouse()}"
-                                           name="house" placeholder="Дом" required pattern="[1-9][0-9]{0,3}">
-                                </div>
-                                <div class="delivery-address-field">
-                                    <label class="delivery-address-label" for="entrance">${entrance}</label>
-                                    <input class="delivery-address-input-short" id="entrance-repeat" type="text" value="${order_address.getEntrance()}"
-                                           name="entrance" placeholder="Подъезд" pattern="[1-9][0-9]{0,2}">
-                                </div>
-                                <div class="delivery-address-field">
-                                    <label class="delivery-address-label" for="floor">${floor}</label>
-                                    <input class="delivery-address-input-short" id="floor-repeat" type="text" value="${order_address.getFloor()}"
-                                           name="floor" placeholder="Этаж" pattern="(-|[1-9])[0-9]{0,3}">
-                                </div>
-                                <div class="delivery-address-field">
-                                    <label class="delivery-address-label" for="flat">${flat}</label>
-                                    <input class="delivery-address-input-short" id="flat-repeat" type="text" value="${order_address.getFlat()}"
-                                           name="flat" placeholder="Квартира" pattern="[1-9][0-9]{0,5}">
-                                </div>
-                            </div>
-                        </div>
-                    </c:when>
-                </c:choose>
+                    <script>
+                        let city = document.getElementById('city')
+                        let street = document.getElementById('street')
+                        let house = document.getElementById('house')
+                        let entrance = document.getElementById('entrance')
+                        let floor = document.getElementById('floor')
+                        let flat = document.getElementById('flat')
+                        if (${user_address!= null && repeated_order == null && address_fields == null}){
+                            city.value = '${user_address.getCity()}'
+                            street.value = '${user_address.getStreet()}'
+                            entrance.value = '${user_address.getEntrance()}'
+                            house.value = '${user_address.getHouse()}'
+                            floor.value = '${user_address.getFloor()}'
+                            flat.value = '${user_address.getFlat()}'
+                        }
+                        if (${repeated_order!= null && repeated_order.getGettingType() eq 'DELIVERY'}){
+                            city.value = '${order_address.getCity()}'
+                            street.value = '${order_address.getStreet()}'
+                            entrance.value = '${order_address.getEntrance()}'
+                            house.value = '${order_address.getHouse()}'
+                            floor.value = '${order_address.getFloor()}'
+                            flat.value = '${order_address.getFlat()}'
+                        }
+                    </script>
                 <div class="pickup-info">
                     <input type="hidden" name="order_getting_type" value="pickup">
                     <p class="pickup-label">${choose_cafe}</p>
@@ -325,32 +313,7 @@
                             ${bank_card}
                             <input type="hidden" name="order_payment_type" value="bank_card">
                         </div>
-                        <!--<div class="choose-item" id="bank-card-online">
-                            ${payment_by_card_online}
-                            <input type="hidden" name="payment_type" value="bank_card_online">
-                        </div>-->
                     </div>
-                    <!--<div class="credit-card-form" id="credit-card-form">
-                        <div class="card-field">
-                            <label class="card-label" for="security-code">${card_owner_name}</label>
-                            <input id="name" maxlength="30" type="text" class="card-input-long">
-                        </div>
-                        <div class="card-field">
-                            <label class="card-label" for="security-code">${card_number}</label>
-                            <input id="card-number" type="text" pattern="[0-9]*" inputmode="numeric"
-                                   class="card-input-long">
-                        </div>
-                        <div class="card-field">
-                            <label class="card-label" for="expiration-date">${expiration_date}</label>
-                            <input id="expiration-date" type="text" pattern="[0-9]*" inputmode="numeric"
-                                   class="card-input-short">
-                        </div>
-                        <div class="card-field">
-                            <label class="card-label" for="security-code">${security_code}</label>
-                            <input id="security-code" type="text" pattern="[0-9]*" inputmode="numeric"
-                                   class="card-input-short">
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -370,6 +333,16 @@
                 </div>
             </c:if>
             <div class="payment-confirm">
+                <p class="payment-error-label">
+                    <c:choose>
+                        <c:when test="${checkout_error_message eq 'address_error'}">
+                            ${address_error}
+                        </c:when>
+                        <c:when test="${checkout_error_message eq 'promo_code_error'}">
+                            ${promo_code_error}
+                        </c:when>
+                    </c:choose>
+                </p>
                 <button class="payment-confirm-button" type="submit">${checkout}</button>
             </div>
         </div>

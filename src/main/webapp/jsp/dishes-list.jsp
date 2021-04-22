@@ -23,6 +23,7 @@
 <fmt:message bundle="${loc}" key="lang.label.by_name" var="by_name"/>
 <fmt:message bundle="${loc}" key="lang.label.sort" var="sort"/>
 <fmt:message bundle="${loc}" key="lang.label.dish_add" var="dish_add"/>
+<fmt:message bundle="${loc}" key="lang.label.no_data_found" var="no_data_found"/>
 <body>
 <%@ include file="/jsp/header/header-admin.jsp"%>
 <%@ include file="/jsp/modal/add-dish.jsp"%>
@@ -67,8 +68,8 @@
             </div>
             <div class="admin-manage-end">
                 <form action="controller" method="post" class="admin-searching-form">
-                    <input type="hidden" name="command" value="search_user">
-                    <input class="admin-search" type="search" id="search_user" name="dish_name"
+                    <input type="hidden" name="command" value="search_dish_by_name">
+                    <input class="admin-search" type="search" name="dish_name"
                            placeholder="Search..." required
                            minlength="1" maxlength="30">
                 </form>
@@ -82,23 +83,28 @@
                 <th colspan="2">${action}</th>
                 </thead>
                 <tbody>
-                <c:forEach var="dish" items="${dishes_list}">
-                    <tr>
-                        <td>1</td>
-                        <td>${dish.getName()}</td>
-                        <td>
-                            <a href="dishes-list.do?command=show_dish_edit&dish_id=${dish.getDishId()}"
-                               class="admin-edit">${edit}</a>
-                        </td>
-                        <td>
-                            <input type="hidden" name="command" value="delete_dish_from_menu">
-                            <input type="hidden" name="dish_id" value="${dish.getDishId()}">
-                            <a href="#" class="admin-delete">${delete}</a>
-                        </td>
-                    </tr>
-                </c:forEach>
+                    <c:if test="${dishes_list != null && !dishes_list.isEmpty()}">
+                        <c:forEach var="dish" items="${dishes_list}" varStatus="loop">
+                            <tr>
+                                <td>${loop.index + 1}</td>
+                                <td>${dish.getName()}</td>
+                                <td>
+                                    <a href="dishes-list.do?command=show_dish_edit&dish_id=${dish.getDishId()}"
+                                            class="admin-edit">${edit}</a>
+                                </td>
+                                <td>
+                                    <input type="hidden" name="command" value="delete_dish_from_menu">
+                                    <input type="hidden" name="dish_id" value="${dish.getDishId()}">
+                                    <a href="#" class="admin-delete">${delete}</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:if>
                 </tbody>
             </table>
+            <c:if test="${dishes_list.isEmpty() || dishes_list == null}">
+                <p class="admin-not-found-label">${no_data_found}</p>
+            </c:if>
         </div>
     </div>
 </div>

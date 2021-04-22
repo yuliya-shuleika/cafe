@@ -28,9 +28,22 @@
 <fmt:message bundle="${loc}" key="lang.label.rejected" var="rejected"/>
 <fmt:message bundle="${loc}" key="lang.label.watch" var="watch"/>
 <fmt:message bundle="${loc}" key="lang.label.new_reviews" var="new_reviews"/>
+<fmt:message bundle="${loc}" key="lang.label.no_data_found" var="no_data_found"/>
 <body>
 <%@ include file="/jsp/header/header-admin.jsp"%>
 <%@ include file="/jsp/modal/review-info.jsp"%>
+<script>
+    function watchReview(headerVal, textVal, ratingVal){
+        let header = document.getElementById('review-info-header')
+        let text = document.getElementById('review-info-text')
+        let rating = document.getElementById('review-info-rating')
+        header.innerHTML = headerVal
+        text.innerHTML = textVal
+        rating.innerHTML = ratingVal
+        let reviewInfo = document.getElementById('review-info')
+        reviewInfo.style.display = 'block'
+    }
+</script>
 <div class = "admin-container">
     <div class = "admin-header">
         <h2 class="admin-title">${reviews}</h2>
@@ -66,25 +79,33 @@
                 <th colspan="2">${action}</th>
                 </thead>
                 <tbody>
-                <c:forEach var="review" items="${reviews_list}">
-                    <tr>
-                        <input type="hidden" name="review_id" value="${review.getReviewId()}">
-                        <td>1</td>
-                        <td>${review.getHeader()}</td>
-                        <td>
-                            <input type="hidden" name="status" value="${review.getStatus()}">
-                            <select name="review_status" class="admin-select">
-                                <option class="admin-option" value="new">${new_review}</option>
-                                <option class="admin-status-option" value="approved">${approved}</option>
-                                <option class="admin-option" value="rejected">${rejected}</option>
-                            </select>
-                        </td>
-                        <td><a href="#" class="admin-edit">${watch}</a></td>
-                        <td><a href="#" class="admin-delete">${delete}</a></td>
-                    </tr>
-                </c:forEach>
+                <c:if test="${reviews_list != null && !reviews_list.isEmpty()}">
+                    <c:forEach var="review" items="${reviews_list}" varStatus="loop">
+                        <tr>
+                            <input type="hidden" name="review_id" value="${review.getReviewId()}">
+                            <td>${loop.index + 1}</td>
+                            <td>${review.getHeader()}</td>
+                            <td>
+                                <input type="hidden" name="status" value="${review.getStatus()}">
+                                <select name="review_status" class="admin-select">
+                                    <option class="admin-option" value="new">${new_review}</option>
+                                    <option class="admin-status-option" value="approved">${approved}</option>
+                                    <option class="admin-option" value="rejected">${rejected}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <a onclick="watchReview('${review.getHeader()}', '${review.getText()}', '${review.getRating()}')"
+                                        class="admin-edit" href="#">${watch}</a>
+                            </td>
+                            <td><a href="#" class="admin-delete">${delete}</a></td>
+                        </tr>
+                    </c:forEach>
+                </c:if>
                 </tbody>
             </table>
+            <c:if test="${reviews_list.isEmpty() || reviews_list == null}">
+                <p class="admin-not-found-label">${no_data_found}</p>
+            </c:if>
         </div>
     </div>
 </div>

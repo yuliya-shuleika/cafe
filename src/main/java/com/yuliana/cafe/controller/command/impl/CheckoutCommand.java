@@ -27,15 +27,14 @@ public class CheckoutCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
     private static final String ADDRESS_ERROR_MESSAGE = "address_error";
-    private static final String PROMO_CODE_ERROR_MESSAGE = "address_error";
-    private static final String COMMENT_ERROR_MESSAGE = "address_error";
+    private static final String PROMO_CODE_ERROR_MESSAGE = "promo_code_error";
     private static final String DELIVERY = "delivery";
     private static final String PICKUP = "pickup";
     private static final int ADDRESS_FORM_SIZE = 6;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String page;
+        String page = PagePath.ORDER_CONFIRM_PAGE;
         String gettingType = request.getParameter(RequestParameter.ORDER_GETTING_TYPE);
         GettingType getting = GettingType.valueOf(gettingType.toUpperCase());
         int addressId = 0;
@@ -90,6 +89,7 @@ public class CheckoutCommand implements ActionCommand {
                     request.setAttribute(AttributeName.PROMO_CODE, promoCodeName);
                 } else {
                     request.setAttribute(AttributeName.CHECKOUT_ERROR_MESSAGE, PROMO_CODE_ERROR_MESSAGE);
+                    page = PagePath.PAYMENT_PAGE;
                 }
             }
             OrderService orderService = OrderServiceImpl.getInstance();
@@ -105,7 +105,6 @@ public class CheckoutCommand implements ActionCommand {
                 logger.log(Level.ERROR, e);
             }
             session.setAttribute(AttributeName.CART_ITEMS, new HashMap<Dish, Integer>());
-            page = PagePath.ORDER_CONFIRM_PAGE;
         } else {
             page = PagePath.PAYMENT_PAGE;
         }

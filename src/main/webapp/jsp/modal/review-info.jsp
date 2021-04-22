@@ -16,32 +16,30 @@
 <fmt:message bundle="${loc}" key="lang.label.header" var="review_header"/>
 <fmt:message bundle="${loc}" key="lang.label.text" var="text"/>
 <fmt:message bundle="${loc}" key="lang.label.rating" var="rating"/>
-
 <body>
 <div class="edit" id="review-info">
     <div class="edit-body">
         <div class="edit-content">
             <div class="add-promo">
-                <form action="controller" method="post">
-                    <div class="edit-header">
-                        <h3 class="edit-title">${review}</h3>
-                        <a class="edit-close" id="edit-close">x</a>
+                <div class="edit-header">
+                    <h3 class="edit-title">${review}</h3>
+                    <a class="edit-close">x</a>
+                </div>
+                <div class="edit-form">
+                    <div class="edit-general">
+                        <span class="edit-label">${review_header}</span>
+                        <p class="edit-info" id="review-info-header"></p>
                     </div>
-                    <div class="edit-form">
-                        <div class="edit-general">
-                            <span class="edit-label">${review_header}</span>
-                            <p class="edit-info" id="review-info-header"></p>
-                        </div>
-                        <div class="edit-general">
-                            <span class="edit-label">${rating}</span>
-                            <p class="edit-info" id="review-info-rating"></p>
-                        </div>
-                        <div class="edit-general">
-                            <span class="edit-label" id="review-info-text">${text}</span>
-                            <p class="edit-info"></p>
-                        </div>
+                    <div class="edit-general">
+                        <span class="edit-label">${rating}</span>
+                        <p class="edit-info" id="review-info-rating"></p>
                     </div>
-                </form>
+                    <div class="edit-general">
+                        <span class="edit-label">${text}</span>
+                        <p class="edit-info" id="review-info-text"></p>
+                    </div>
+                </div>
+                <div class="edit-info-footer"></div>
             </div>
         </div>
     </div>
