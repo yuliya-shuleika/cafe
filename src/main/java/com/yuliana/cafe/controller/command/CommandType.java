@@ -2,6 +2,8 @@ package com.yuliana.cafe.controller.command;
 
 import com.yuliana.cafe.controller.command.impl.*;
 
+import java.util.EnumSet;
+
 public enum CommandType {
     TO_HOME {
         {
@@ -273,4 +275,6 @@ public enum CommandType {
     public ActionCommand getCurrentCommand() {
         return command;
     }
+
 }
+

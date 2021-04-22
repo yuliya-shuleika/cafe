@@ -1,10 +1,15 @@
 package com.yuliana.cafe.controller;
 
+import java.util.Set;
+
 public class PagePath {
 
     private PagePath() {
     }
 
+    public static Set<String> guestPages;
+    public static Set<String> userPages;
+    public static Set<String> adminPages;
     public static final String HOME_PAGE = "/jsp/home.jsp";
     public static final String MENU_PAGE = "/jsp/menu.jsp";
     public static final String REVIEWS_PAGE = "/jsp/reviews.jsp";
@@ -19,4 +24,10 @@ public class PagePath {
     public static final String ABOUT_PAGE = "/jsp/about.jsp";
     public static final String ERROR_404_PAGE = "/jsp/error/error404.jsp";
     public static final String ERROR_500_PAGE = "/jsp/error/error500.jsp";
+
+    static {
+        guestPages = Set.of(HOME_PAGE, MENU_PAGE, REVIEWS_PAGE);
+        adminPages = Set.of(HOME_PAGE, MENU_PAGE, REVIEWS_PAGE, ACCOUNT_PAGE, PAYMENT_PAGE, ORDER_CONFIRM_PAGE);
+        userPages = Set.of(USERS_LIST_PAGE, DISHES_LIST_PAGE, PROMO_CODES_LIST_PAGE, REVIEWS_LIST_PAGE);
+    }
 }
