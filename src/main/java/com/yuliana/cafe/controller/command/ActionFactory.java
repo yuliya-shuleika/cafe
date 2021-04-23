@@ -1,21 +1,24 @@
 package com.yuliana.cafe.controller.command;
 
-import com.yuliana.cafe.controller.command.impl.EmptyCommand;
+import com.yuliana.cafe.controller.RequestParameter;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class ActionFactory {
-    public ActionCommand defineCommand(HttpServletRequest request) {
-        ActionCommand current = new EmptyCommand();
-        String action = request.getParameter("command");
+    public ActionCommand defineCommand(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ActionCommand current = null;
+        String action = request.getParameter(RequestParameter.COMMAND);
         if (action == null || action.isEmpty()) {
-            return current;
-        }
-        try {
-            CommandType currentEnum = CommandType.valueOf(action.toUpperCase());
-            current = currentEnum.getCurrentCommand();
-        } catch (IllegalArgumentException e) {
-            request.setAttribute("wrongAction", action);
+            response.sendError(400);
+        } else {
+            try {
+                CommandType currentEnum = CommandType.valueOf(action.toUpperCase());
+                current = currentEnum.getCurrentCommand();
+            } catch (IllegalArgumentException e) {
+                response.sendError(400);
+            }
         }
         return current;
     }

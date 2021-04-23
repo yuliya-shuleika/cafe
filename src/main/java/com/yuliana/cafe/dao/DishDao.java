@@ -56,15 +56,15 @@ public interface DishDao extends BaseDao {
      * @return list of the dishes
      * @throws DaoException is thrown when occurred error with access to database
      */
-    List<Dish> findDishesSortedByPrice() throws DaoException;
+    List<Dish> findAllDishesSortedByPrice() throws DaoException;
 
     /**
-     * Find teh list of the dishes that have dishes with a discount at the start and rest dishes at the end.
+     * Find the list of the dishes that have dishes with a discount at the start and rest dishes at the end.
      *
      * @return list of the dishes
      * @throws DaoException is thrown when occurred error with access to database
      */
-    List<Dish> findDishesSortedByDiscount() throws DaoException;
+    List<Dish> findAllDishesSortedByDiscount() throws DaoException;
 
     /**
      * Find the dish by it's id.
@@ -81,7 +81,7 @@ public interface DishDao extends BaseDao {
      * @return list of the dishes
      * @throws DaoException is thrown when occurred error with access to database
      */
-    List<Dish> findDishesSortedByName() throws DaoException;
+    List<Dish> findAllDishesSortedByName() throws DaoException;
 
     /**
      * Delete the dish by it's id.
@@ -100,8 +100,6 @@ public interface DishDao extends BaseDao {
      */
     int addDish(Dish dish) throws DaoException;
 
-    List<Dish> findAllDishesSortedByName() throws DaoException;
-
     /**
      * Edit the dish.
      *
@@ -111,10 +109,21 @@ public interface DishDao extends BaseDao {
     void editDish(Dish dish) throws DaoException;
 
     /**
+     * Find the dishes that are considered new.
      *
-     * @param date
+     * @param addedDate the{@code Date} object.
+     *                  Dishes that was added from this date to now are considered new
      * @return list of the dishes
      * @throws DaoException is thrown when occurred error with access to database
      */
-    List<Dish> findNewDishes(Date date) throws DaoException;
+    List<Dish> findNewDishes(Date addedDate) throws DaoException;
+
+    /**
+     * Find all the dishes ordered by popularity.
+     * Popular dishes are the dishes that were ordered more times.
+     *
+     * @return list of the dishes
+     * @throws DaoException is thrown when occurred error with access to database
+     */
+    List<Dish> findAllDishesSortedByPopularity() throws DaoException;
 }

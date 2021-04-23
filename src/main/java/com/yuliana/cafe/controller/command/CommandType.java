@@ -2,8 +2,6 @@ package com.yuliana.cafe.controller.command;
 
 import com.yuliana.cafe.controller.command.impl.*;
 
-import java.util.EnumSet;
-
 public enum CommandType {
     TO_HOME {
         {
@@ -268,6 +266,11 @@ public enum CommandType {
     CHANGE_USER_ROLE {
         {
             this.command = new ChangeUserRoleCommand();
+        }
+    },
+    SORT_DISHES_BY_POPULARITY{
+        {
+            this.command = new SortDishesByPopularityCommands();
         }
     };
     ActionCommand command;

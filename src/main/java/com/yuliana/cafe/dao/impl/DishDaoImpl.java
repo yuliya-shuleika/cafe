@@ -54,6 +54,11 @@ public class DishDaoImpl implements DishDao {
     private static final String SELECT_NEW_DISHES = "SELECT dish_id, name, category, picture_name, price, " +
             "discount_percents, date, description, weight " +
             "FROM dishes WHERE date > ? ORDER BY date DESC";
+    private static final String SELECT_ALL_DISHES_SORTED_BY_POPULARITY = "SELECT dishes.dish_id, " +
+            "dishes.name, dishes.category, dishes.picture_name, dishes.price, " +
+            "dishes.discount_percents, dishes.date, dishes.description, dishes.weight " +
+            "FROM ordered_dishes JOIN dishes ON ordered_dishes.dish_id = dishes.dish_id " +
+            "GROUP BY ordered_dishes.dish_id ORDER BY SUM(ordered_dishes.count) DESC";
 
     @Override
     public List<Dish> findAllDishes() throws DaoException {
@@ -129,7 +134,7 @@ public class DishDaoImpl implements DishDao {
     }
 
     @Override
-    public List<Dish> findDishesSortedByPrice() throws DaoException {
+    public List<Dish> findAllDishesSortedByPrice() throws DaoException {
         Connection connection = pool.getConnection();
         List<Dish> dishes = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
@@ -146,7 +151,7 @@ public class DishDaoImpl implements DishDao {
     }
 
     @Override
-    public List<Dish> findDishesSortedByDiscount() throws DaoException {
+    public List<Dish> findAllDishesSortedByDiscount() throws DaoException {
         Connection connection = pool.getConnection();
         List<Dish> dishes = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
@@ -183,23 +188,6 @@ public class DishDaoImpl implements DishDao {
             pool.releaseConnection(connection);
         }
         return dishOptional;
-    }
-
-    @Override
-    public List<Dish> findDishesSortedByName() throws DaoException {
-        Connection connection = pool.getConnection();
-        List<Dish> dishes = new ArrayList<>();
-        try (Statement statement = connection.createStatement()) {
-            ResultSet result = statement.executeQuery(SELECT_DISHES_SORTED_BY_PRICE);
-            while (result.next()) {
-                dishes.add(createDish(result));
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
-        return dishes;
     }
 
     @Override
@@ -297,5 +285,21 @@ public class DishDaoImpl implements DishDao {
         return dishes;
     }
 
+    @Override
+    public List<Dish> findAllDishesSortedByPopularity() throws DaoException {
+        Connection connection = pool.getConnection();
+        List<Dish> dishes = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet result = statement.executeQuery(SELECT_ALL_DISHES_SORTED_BY_POPULARITY);
+            while (result.next()) {
+                dishes.add(createDish(result));
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
+        return dishes;
+    }
 
 }

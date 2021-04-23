@@ -41,4 +41,5 @@ public class RequestParameter {
     public static final String FLAT = "flat";
     public static final String PROMO_CODE_NAME_PART_PARAM = "promo_code_name_part";
     public static final String USER_EMAIL_PART_PARAM = "user_email_part";
+    public static final String COMMAND = "command";
 }

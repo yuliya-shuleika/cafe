@@ -27,7 +27,7 @@ public class PagePath {
 
     static {
         guestPages = Set.of(HOME_PAGE, MENU_PAGE, REVIEWS_PAGE);
-        adminPages = Set.of(HOME_PAGE, MENU_PAGE, REVIEWS_PAGE, ACCOUNT_PAGE, PAYMENT_PAGE, ORDER_CONFIRM_PAGE);
-        userPages = Set.of(USERS_LIST_PAGE, DISHES_LIST_PAGE, PROMO_CODES_LIST_PAGE, REVIEWS_LIST_PAGE);
+        userPages = Set.of(ACCOUNT_PAGE, PAYMENT_PAGE, ORDER_CONFIRM_PAGE);
+        adminPages = Set.of(USERS_LIST_PAGE, DISHES_LIST_PAGE, PROMO_CODES_LIST_PAGE, REVIEWS_LIST_PAGE);
     }
 }

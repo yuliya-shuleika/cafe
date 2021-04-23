@@ -13,14 +13,23 @@
 <fmt:setBundle basename="lang" var="loc"/>
 <fmt:message bundle="${loc}" key="lang.label.error404" var="error404"/>
 <fmt:message bundle="${loc}" key="lang.label.to_home" var="to_home"/>
+<fmt:message bundle="${loc}" key="lang.label.users_list" var="users_list"/>
 <body>
     <div class="error-container">
         <div class="error">
             <img class="cat-picture" src="${pageContext.request.contextPath}/images/sad_cat.png" alt="cats">
             <p class="error-info">404 - ${error404}</p>
             <form action="home.do" method="post">
-                <input type="hidden" name="command" value="to_home">
-                <button class="error-button">${to_home}</button>
+                <c:choose>
+                    <c:when test="${sessionScope.user.getRole() eq 'ADMIN'}">
+                        <input type="hidden" name="command" value="to_users_list">
+                        <button class="error-button">${users_list}</button>
+                    </c:when>
+                    <c:when test="${sessionScope.user == null || sessionScope.user.getRole() eq 'USER'}">
+                        <input type="hidden" name="command" value="to_home">
+                        <button class="error-button">${to_home}</button>
+                    </c:when>
+                </c:choose>
             </form>
         </div>
     </div>

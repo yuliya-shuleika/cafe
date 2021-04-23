@@ -11,7 +11,11 @@ import com.yuliana.cafe.service.validator.DishValidator;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.Optional;
+import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class DishServiceImpl implements DishService {
 
@@ -32,7 +36,7 @@ public class DishServiceImpl implements DishService {
     }
 
     public Optional<Dish> findDishById(int dishId) throws ServiceException {
-        Optional<Dish> dishOptional = Optional.empty();
+        Optional<Dish> dishOptional;
         try {
             dishOptional = dishDao.findDishById(dishId);
         } catch (DaoException e) {
@@ -53,9 +57,9 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public List<Dish> findDishesSortedByPrice() throws ServiceException {
-        List sortedItems;
+        List<Dish> sortedItems;
         try {
-            sortedItems = dishDao.findDishesSortedByPrice();
+            sortedItems = dishDao.findAllDishesSortedByPrice();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -89,7 +93,7 @@ public class DishServiceImpl implements DishService {
     public List<Dish> findDishesSortedByDiscount() throws ServiceException {
         List<Dish> menuItems;
         try {
-            menuItems = dishDao.findDishesSortedByDiscount();
+            menuItems = dishDao.findAllDishesSortedByDiscount();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -100,7 +104,7 @@ public class DishServiceImpl implements DishService {
     public List<Dish> findDishesSortedByName() throws ServiceException {
         List<Dish> dishes;
         try {
-            dishes = dishDao.findDishesSortedByName();
+            dishes = dishDao.findAllDishesSortedByName();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -163,10 +167,21 @@ public class DishServiceImpl implements DishService {
         return dishes;
     }
 
+    @Override
+    public List<Dish> findDishesSortedByPopularity() throws ServiceException {
+        List<Dish> dishes;
+        try {
+            dishes = dishDao.findAllDishesSortedByPopularity();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return dishes;
+    }
+
     private Dish createDish(Map<String, String> dishFields, String picture, DishCategory category) {
         String name = dishFields.get(FIELD_DISH_NAME);
         String dishPrice = dishFields.get(FIELD_DISH_PRICE);
-        Double price = Double.parseDouble(dishPrice);
+        double price = Double.parseDouble(dishPrice);
         String dishDiscount = dishFields.get(FIELD_DISH_DISCOUNT);
         short discount = Short.parseShort(dishDiscount);
         String description = dishFields.get(FIELD_DISH_DESCRIPTION);

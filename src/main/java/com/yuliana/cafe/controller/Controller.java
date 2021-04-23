@@ -27,7 +27,7 @@ public class Controller extends HttpServlet {
             throws ServletException, IOException {
         String page;
         ActionFactory client = new ActionFactory();
-        ActionCommand command = client.defineCommand(request);
+        ActionCommand command = client.defineCommand(request, response);
         page = command.execute(request, response);
         if (page != null) {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);

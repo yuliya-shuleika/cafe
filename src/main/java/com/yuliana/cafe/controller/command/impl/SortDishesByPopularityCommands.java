@@ -13,10 +13,9 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
-public class SortDishesByPriceCommand implements ActionCommand {
+public class SortDishesByPopularityCommands implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
@@ -24,7 +23,7 @@ public class SortDishesByPriceCommand implements ActionCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         DishService dishService = DishServiceImpl.getInstance();
         try {
-            List<Dish> dishes = dishService.findDishesSortedByPrice();
+            List<Dish> dishes = dishService.findDishesSortedByPopularity();
             request.setAttribute(AttributeName.DISHES_LIST, dishes);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
