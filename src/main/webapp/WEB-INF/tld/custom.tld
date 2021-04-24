@@ -11,7 +11,7 @@
 
     <tag>
         <name>countPrice</name>
-        <tag-class>com.yuliana.cafe.tag.CountPriceTag</tag-class>
+        <tag-class>com.yuliana.cafe.controller.tag.CountPriceTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>price</name>

@@ -126,7 +126,7 @@
                                         <ctg:countPrice price="${dish.getPrice()}" discount="${dish.getDiscountPercents()}"/>
                                     </c:if>
                                 </p>
-                                <span class="cart-item-price-currency">$</span>
+                                <span class="menu-item-price-currency">$</span>
                             </div>
                             <div id="add-item-form">
                                 <input type="hidden" name="command" value="add_to_cart"/>

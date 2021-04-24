@@ -70,8 +70,8 @@ form{
     font-weight: 500;
     font-size: 24px;
     width: 100%;
-    background: #eee;
-    color: #5d5d5d;
+    background: #a2a2a2;
+    color: #fff;
     padding: 8px 0 8px;
     transition: 0.2s;
 }
@@ -117,10 +117,10 @@ form{
     border: none;
     border-radius: 6px;
     transition: 0.2s;
-    background: #e0e0e0;
+    background: #a2a2a2;
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
-    color: #545454;
+    color: #fff;
     font-size: 18px;
     cursor: pointer;
     padding: 3px;
@@ -187,7 +187,7 @@ form{
     display: block;
     color: #4CAF50;
     font-family: 'Rubik', sans-serif;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 16px;
     font-style: italic;
     padding-bottom: 15px;
@@ -218,6 +218,13 @@ form{
     font-weight: 500;
 }
 
+.menu-item-price-currency {
+    font-size: 18px;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+}
+
 .menu-price-value-discount{
     margin-left: 5px;
 }
@@ -227,7 +234,7 @@ form{
     border-radius: 25px;
     color: #fff;
     font-family: 'Roboto', sans-serif;
-    font-weight: 600;
+    font-weight: 500;
     padding: 0.75em 1.25em;
     border: none;
     letter-spacing: 0.04em;

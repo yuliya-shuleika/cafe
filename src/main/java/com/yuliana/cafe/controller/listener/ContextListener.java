@@ -1,6 +1,6 @@
 package com.yuliana.cafe.controller.listener;
 
-import com.yuliana.cafe.connection.ConnectionPool;
+import com.yuliana.cafe.model.connection.ConnectionPool;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

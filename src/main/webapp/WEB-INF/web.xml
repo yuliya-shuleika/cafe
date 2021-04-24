@@ -21,4 +21,17 @@
         <location>/jsp/error/error500.jsp</location>
     </error-page>
 
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CommandAccessFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+        <url-pattern>/controller</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>PageAccessFilter</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
 </web-app>

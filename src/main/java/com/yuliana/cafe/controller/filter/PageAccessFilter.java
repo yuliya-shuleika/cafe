@@ -2,8 +2,8 @@ package com.yuliana.cafe.controller.filter;
 
 import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.PagePath;
-import com.yuliana.cafe.entity.User;
-import com.yuliana.cafe.entity.UserRole;
+import com.yuliana.cafe.model.entity.User;
+import com.yuliana.cafe.model.entity.UserRole;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebFilter(filterName = "PageAccessFilter", urlPatterns = {"*.jsp"})
+@WebFilter(filterName = "PageAccessFilter")
 public class PageAccessFilter implements Filter {
 
     private static final Logger logger = LogManager.getLogger();

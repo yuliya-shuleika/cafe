@@ -3,8 +3,8 @@ package com.yuliana.cafe.controller.filter;
 import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.RequestParameter;
 import com.yuliana.cafe.controller.command.CommandType;
-import com.yuliana.cafe.entity.User;
-import com.yuliana.cafe.entity.UserRole;
+import com.yuliana.cafe.model.entity.User;
+import com.yuliana.cafe.model.entity.UserRole;
 
 import javax.servlet.*;
 import javax.servlet.annotation.*;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.EnumSet;
 import java.util.Optional;
 
-@WebFilter(filterName = "CommandAccessFilter", urlPatterns = {"/controller", "*.do"})
+@WebFilter(filterName = "CommandAccessFilter")
 public class CommandAccessFilter implements Filter {
 
     private EnumSet<CommandType> guestCommands;
