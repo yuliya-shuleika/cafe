@@ -27,6 +27,7 @@
 <fmt:message bundle="${loc}" key="lang.label.discount_first" var="discount_first"/>
 <fmt:message bundle="${loc}" key="lang.label.show_filters" var="show_filters"/>
 <fmt:message bundle="${loc}" key="lang.label.dishes_not_found" var="dishes_not_found"/>
+<fmt:message bundle="${loc}" key="lang.label.by_popularity" var="by_popularity"/>
 <body>
     <c:choose>
         <c:when test="${sessionScope.user.getRole() eq 'USER'}">
@@ -74,14 +75,19 @@
             <div class="menu-panel">
                     <div class="menu-items-sort">
                         <p class="menu-sort-label">${sort}</p>
-                        <form action="controller" method="post" class="menu-sorting-form">
+                        <form action="menu.do" method="post" class="menu-sorting-form">
                             <input type="hidden" name="command" value="sort_by_price">
                             <button class="menu-sort-criteria" type="submit">${by_price}</button>
                         </form>
-                        <form action="controller" method="post" class="menu-sorting-form">
+                        <form action="menu.do" method="post" class="menu-sorting-form">
                             <input type="hidden" name="command" value="show_discounts">
                             <button class="menu-sort-criteria" type="submit">${discount_first}</button>
                         </form>
+                        <form action="menu.do" method="post" class="menu-sorting-form">
+                            <input type="hidden" name="command" value="sort_dishes_by_popularity">
+                            <button class="menu-sort-criteria" type="submit">${by_popularity}</button>
+                        </form>
+
                     </div>
                 <div class="menu-items">
                     <c:if test="${dishes_list != null}">
@@ -103,8 +109,11 @@
                                 </div>
                             </c:if>
                         </c:if>
-                        <img src="${pageContext.request.contextPath}${dish.getPictureName()}" alt="${dish.getName()}"
-                             class="menu-item-picture">
+                        <img src="${pageContext.request.contextPath}${dish.getPictureName()}"
+                             onclick="watchDish('${dish.getName()}', '${dish.getCategory()}', '${dish.getPrice()}',
+                                     '${dish.getDiscountPercents()}', '${dish.getDescription()}', '${dish.getWeight()}',
+                                     '${pageContext.request.contextPath}${dish.getPictureName()}')"
+                             class="menu-item-picture" alt="${dish.getName()}">
                         <div class="menu-item-content">
                             <h3 class="menu-item-title">${dish.getName()}</h3>
                             <p class = "menu-item-description">${dish.getDescription()}</p>

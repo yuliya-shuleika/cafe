@@ -70,6 +70,11 @@ $(document).ready(function () {
             }
         });
     });
+    $('.edit-close').on('click', function () {
+        let info = document.getElementById('dish-info')
+        info.style.display = 'none'
+        $('body').removeClass('stop-scrolling')
+    });
 });
 
 function changeCart() {
@@ -97,6 +102,43 @@ function findCurrentItemCount(dish_id) {
     }
     let item_count = cart_item.getElementsByClassName('cart-item-count-label')[0]
     return item_count;
+}
+
+function watchDish(nameVal, categoryVal, priceVal, discountVal, descriptionVal, weightVal, pictureName){
+    let name = document.getElementById('dish-info-name')
+    let category = document.getElementById('dish-info-category')
+    let price = document.getElementById('dish-info-price')
+    let description = document.getElementById('dish-info-description')
+    let weight = document.getElementById('dish-info-weight')
+    let picture = document.getElementById('dish-info-picture')
+    name.innerHTML = nameVal
+    category.innerHTML = getCategory(categoryVal)
+    let totalPrice = priceVal - (priceVal * discountVal / 100)
+    price.innerHTML = totalPrice.toString()
+    description.innerHTML = descriptionVal
+    weight.innerHTML = weightVal
+    picture.src = pictureName
+    let reviewInfo = document.getElementById('dish-info')
+    reviewInfo.style.display = 'block'
+    $('body').addClass('stop-scrolling')
+}
+
+function getCategory(categoryVal){
+    let category = ''
+    switch (categoryVal){
+        case 'SUSHI':
+            category = '${sushi}'
+            break
+        case 'SUSHI_SET':
+            category ='${sushi_set}'
+            break
+        case 'SOUP':
+            category = '${soup}'
+            break
+        case 'NOODLES':
+            category = '${noodles}'
+    }
+    return category
 }
 
 function createCartItem(cart_items_list, dish_id, dish_picture, dish_title, dish_description, dish_price) {

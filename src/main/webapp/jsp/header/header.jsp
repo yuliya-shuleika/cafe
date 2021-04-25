@@ -72,6 +72,7 @@
     <%@ include file="/jsp/modal/cart.jsp"%>
     <%@ include file="/jsp/modal/login.jsp"%>
     <%@ include file="/jsp/modal/register.jsp"%>
+    <%@ include file="/jsp/modal/dish-info.jsp"%>
     <c:if test="${register_error_message != null}">
         <script>
             let login = document.getElementById('register')

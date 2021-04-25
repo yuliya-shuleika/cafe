@@ -28,11 +28,6 @@ public enum CommandType {
             this.command = new ToDishesListCommand();
         }
     },
-    TO_ORDERS_LIST {
-        {
-            this.command = new ToOrdersListCommand();
-        }
-    },
     TO_REVIEWS_LIST {
         {
             this.command = new ToReviewsListCommand();

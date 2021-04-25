@@ -1,42 +1,90 @@
 package com.yuliana.cafe.model.entity;
 
+/**
+ * Promo code entity.
+ *
+ * @author Yulia Shuleiko
+ */
 public class PromoCode {
 
     private int promoCodeId;
     private String name;
     private short discountPercents;
 
+    /**
+     * Constructs the {@code PromoCode} object with given id, name and discount percents.
+     *
+     * @param promoCodeId id of the promo code
+     * @param name name of the promo code
+     * @param discountPercents discount percents that provides promo code
+     */
     public PromoCode(int promoCodeId, String name, short discountPercents) {
         this.promoCodeId = promoCodeId;
         this.name = name;
         this.discountPercents = discountPercents;
     }
 
+    /**
+     * Constructs the {@code PromoCode} object with given name and discount percents.
+     *
+     * @param name name of the promo code
+     * @param discountPercents discount percents that provides promo code
+     */
     public PromoCode(String name, short discountPercents) {
         this.name = name;
         this.discountPercents = discountPercents;
     }
 
+    /**
+     * Setter method of the promo code's id.
+     *
+     * @return id of the promo code
+     */
     public int getPromoCodeId() {
         return promoCodeId;
     }
 
+    /**
+     * Getter method of the promo code's id.
+     *
+     * @param promoCodeId id of the promo code
+     */
     public void setPromoCodeId(int promoCodeId) {
         this.promoCodeId = promoCodeId;
     }
 
+    /**
+     * Getter method of the name.
+     *
+     * @return name of the promo code
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Setter method of the name.
+     *
+     * @param name name of the promo code
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Getter method of the discount percents.
+     *
+     * @return discount percents that provides promo code
+     */
     public short getDiscountPercents() {
         return discountPercents;
     }
 
+    /**
+     * Setter method of the discount percents.
+     *
+     * @param discountPercents discount percents that provides promo code
+     */
     public void setDiscountPercents(short discountPercents) {
         this.discountPercents = discountPercents;
     }

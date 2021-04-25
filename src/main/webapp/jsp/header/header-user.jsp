@@ -20,6 +20,7 @@
 <body>
 <header class="header-page">
     <%@ include file="/jsp/modal/cart.jsp"%>
+    <%@ include file="/jsp/modal/dish-info.jsp"%>
     <div class="container header-container">
         <div class="header-start">
             <nav class="header-nav">

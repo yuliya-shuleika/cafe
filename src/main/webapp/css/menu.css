@@ -174,6 +174,10 @@ form{
     cursor: pointer;
 }
 
+.menu-item-picture:hover{
+    cursor: pointer;
+}
+
 .menu-item-title{
     display: block;
     margin: 20px 0 5px;

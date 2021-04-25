@@ -10,7 +10,11 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-
+/**
+ * Custom tag that counts total price of the dish from the default price and it's discount percents.
+ *
+ * @author Yulia Shuleiko
+ */
 public class CountPriceTag extends TagSupport {
 
     private static final Logger logger = LogManager.getLogger();

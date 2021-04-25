@@ -41,6 +41,10 @@ h3, p{
     font-weight: 500;
 }
 
+.edit-content-wide{
+    width: 55%;
+}
+
 .edit-content-dark{
     background: #5d5d5d;
     color: #fff;
@@ -106,7 +110,14 @@ h3, p{
 }
 
 .edit-label-dark{
+    white-space: nowrap;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    display: block;
+    text-align: end;
     color: #fff;
+    align-self: flex-start;
 }
 
 .edit-label{
@@ -270,13 +281,36 @@ h3, p{
     cursor: pointer;
 }
 
+/*edit info*/
+
+.edit-info-container{
+   display: flex;
+    flex-direction: row;
+}
+
+.edit-description-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-picture{
+    width: 300px;
+    height: 300px;
+    margin: 0 25px 20px;
+}
+
 .edit-info{
     word-break: break-word;
-    padding: 10px 0 10px 15px;
+    padding-left: 10px;
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
 }
 
 .edit-info-footer{
     margin: 20px;
+}
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
 }

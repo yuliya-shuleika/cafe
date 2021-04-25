@@ -1,5 +1,10 @@
 package com.yuliana.cafe.model.entity;
 
+/**
+ * Review entity.
+ *
+ * @author Yulia Shuleiko
+ */
 public class Review {
 
     private int reviewId;
@@ -11,6 +16,14 @@ public class Review {
     public Review() {
     }
 
+    /**
+     *
+     * @param reviewId
+     * @param header
+     * @param text
+     * @param rating
+     * @param status
+     */
     public Review(int reviewId, String header, String text, int rating, ReviewStatus status) {
         this.reviewId = reviewId;
         this.header = header;
@@ -19,6 +32,13 @@ public class Review {
         this.status = status;
     }
 
+    /**
+     *
+     * @param header
+     * @param text
+     * @param rating
+     * @param status
+     */
     public Review(String header, String text, int rating, ReviewStatus status) {
         this.header = header;
         this.text = text;

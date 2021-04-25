@@ -11,6 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Controller class used to process all requests from users with url pattern '*.do'.
+ *
+ * @author Yulia Shuleiko
+ */
 @WebServlet(name = "Controller", urlPatterns = {"/controller", "*.do"})
 public class Controller extends HttpServlet {
 

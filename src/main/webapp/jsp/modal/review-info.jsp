@@ -4,7 +4,7 @@
 
 <html>
 <head>
-    <title>Promo</title>
+    <title>Review info</title>
     <style><%@include file="/css/edit.css"%></style>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">

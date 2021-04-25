@@ -30,7 +30,6 @@ public class Address {
     }
 
     /**
-     *
      * @param addressId id of the address
      * @param city name of the city
      * @param street name of the street
@@ -55,6 +54,14 @@ public class Address {
         this.house = house;
     }
 
+    /**
+     * @param city name of the city
+     * @param street name of the street
+     * @param house number of the house
+     * @param entrance number of entrance in the house
+     * @param floor number of thr floor
+     * @param flat number of the flat
+     */
     public Address(String city, String street, short house, short entrance, short floor, short flat) {
         this.city = city;
         this.street = street;
@@ -67,58 +74,128 @@ public class Address {
     public Address() {
     }
 
+    /**
+     * Getter method of address id.
+     *
+     * @return id of the address
+     */
     public int getAddressId() {
         return addressId;
     }
 
+    /**
+     * Setter method of address id.
+     *
+     * @param addressId id of the address
+     */
     public void setAddressId(int addressId) {
         this.addressId = addressId;
     }
 
+    /**
+     * Getter method of city.
+     *
+     * @return name of the city
+     */
     public String getCity() {
         return city;
     }
 
+    /**
+     * Setter method of the city.
+     *
+     * @param city name of the city
+     */
     public void setCity(String city) {
         this.city = city;
     }
 
+    /**
+     * Getter method of the street.
+     *
+     * @return name of the street
+     */
     public String getStreet() {
         return street;
     }
 
+    /**
+     * Setter method of the street.
+     *
+     * @param street name of the street
+     */
     public void setStreet(String street) {
         this.street = street;
     }
 
+    /**
+     * Getter method of the house.
+     *
+     * @return number of the house
+     */
     public short getHouse() {
         return house;
     }
 
+    /**
+     * Setter method of the house.
+     *
+     * @param house number of the house
+     */
     public void setHouse(short house) {
         this.house = house;
     }
 
+    /**
+     * Getter method of the entrance.
+     *
+     * @return number of the entrance
+     */
     public short getEntrance() {
         return entrance;
     }
 
+    /**
+     * Setter method of the entrance.
+     *
+     * @param entrance number of the entrance
+     */
     public void setEntrance(byte entrance) {
         this.entrance = entrance;
     }
 
+    /**
+     * Getter method of the floor.
+     *
+     * @return number of the floor
+     */
     public short getFloor() {
         return floor;
     }
 
+    /**
+     * Setter method of the floor
+     *
+     * @param floor number of the floor
+     */
     public void setFloor(short floor) {
         this.floor = floor;
     }
 
+    /**
+     * Getter method of the flat.
+     *
+     * @return number of the flat
+     */
     public short getFlat() {
         return flat;
     }
 
+    /**
+     * Setter method of the flat.
+     *
+     * @param flat number of the flat
+     */
     public void setFlat(short flat) {
         this.flat = flat;
     }

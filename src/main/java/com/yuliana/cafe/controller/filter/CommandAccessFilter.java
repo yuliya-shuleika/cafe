@@ -15,6 +15,11 @@ import java.io.IOException;
 import java.util.EnumSet;
 import java.util.Optional;
 
+/**
+ * Filter prevents access to some commands if user doesn't have rights for it.
+ *
+ * @author Yulia Shuleiko
+ */
 @WebFilter(filterName = "CommandAccessFilter")
 public class CommandAccessFilter implements Filter {
 
@@ -38,7 +43,8 @@ public class CommandAccessFilter implements Filter {
                 CommandType.CHOOSE_CATEGORY,
                 CommandType.SHOW_NEW_DISHES,
                 CommandType.LOGIN,
-                CommandType.REGISTER);
+                CommandType.REGISTER,
+                CommandType.SORT_DISHES_BY_POPULARITY);
         userCommands = EnumSet.of(CommandType.CHANGE_LOCALE,
                 CommandType.LOGOUT,
                 CommandType.TO_MENU,
@@ -59,7 +65,8 @@ public class CommandAccessFilter implements Filter {
                 CommandType.EDIT_USER_ADDRESS,
                 CommandType.SEARCH_DISH_BY_NAME,
                 CommandType.SHOW_USER_ADDRESS_EDIT,
-                CommandType.TO_PAYMENT);
+                CommandType.TO_PAYMENT,
+                CommandType.SORT_DISHES_BY_POPULARITY);
         adminCommands = EnumSet.of(CommandType.CHANGE_LOCALE,
                 CommandType.LOGOUT,
                 CommandType.TO_REVIEWS_LIST,
