@@ -19,6 +19,11 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Action command that provides giving a feedback from users.
+ *
+ * @author Yulia Shuleiko
+ */
 public class GiveFeedbackCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
@@ -27,13 +32,10 @@ public class GiveFeedbackCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String page;
+        String page = PagePath.REVIEWS_PAGE;
         ReviewService service = ReviewServiceImpl.getInstance();
         Map<String, String> reviewFields = new HashMap<>();
-        String header = request.getParameter(RequestParameter.REVIEW_HEADER);
-        reviewFields.put(RequestParameter.REVIEW_HEADER, header);
-        String text = request.getParameter(RequestParameter.REVIEW_TEXT);
-        reviewFields.put(RequestParameter.REVIEW_TEXT, text);
+        fillReviewMap(reviewFields, request);
         String rating = request.getParameter(RequestParameter.REVIEW_RATING);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(AttributeName.USER);
@@ -52,7 +54,13 @@ public class GiveFeedbackCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        page = PagePath.REVIEWS_PAGE;
         return page;
+    }
+
+    private void fillReviewMap(Map<String, String> reviewFields, HttpServletRequest request){
+        String header = request.getParameter(RequestParameter.REVIEW_HEADER);
+        reviewFields.put(RequestParameter.REVIEW_HEADER, header);
+        String text = request.getParameter(RequestParameter.REVIEW_TEXT);
+        reviewFields.put(RequestParameter.REVIEW_TEXT, text);
     }
 }

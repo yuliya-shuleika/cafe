@@ -13,12 +13,18 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Action command that provides update of the review status.
+ *
+ * @author Yulia Shuleiko
+ */
 public class UpdateReviewStatusCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.REVIEWS_LIST_PAGE;
         String status = request.getParameter(RequestParameter.REVIEW_STATUS);
         String reviewIdParam = request.getParameter(RequestParameter.REVIEW_ID);
         int reviewId = Integer.parseInt(reviewIdParam);
@@ -28,7 +34,6 @@ public class UpdateReviewStatusCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.REVIEWS_LIST_PAGE;
         return page;
     }
 }

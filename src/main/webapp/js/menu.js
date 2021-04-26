@@ -18,7 +18,6 @@ $(document).ready(function () {
             type: 'POST',
             data: data,
             success: function () {
-                changeCart();
                 let hasItem = false;
                 for (let i = 0; i < cart_item_ids.length; i++) {
                     if (cart_item_ids[i] == dish_id) {
@@ -35,6 +34,8 @@ $(document).ready(function () {
                 }
                 let items_count = items_count_header.innerHTML
                 items_count_header.innerHTML = ++items_count
+                changeCart()
+                $('#total-price').html(countTotalPrice())
             }
         });
     });
@@ -77,23 +78,8 @@ $(document).ready(function () {
     });
 });
 
-function changeCart() {
-    let items_count_header = $('.header-items-count')[0]
-    let cart_items_container = $('.cart-items-container')[0]
-    let cart_empty = $('.cart-empty')[0]
-    if (items_count_header.innerHTML == '0') {
-        cart_items_container.style.display = 'none'
-        cart_empty.style.display = 'flex'
-    } else {
-        cart_items_container.style.display = 'flex'
-        cart_items_container.style.flexDirection = 'column'
-        cart_empty.style.display = 'none'
-    }
-}
-
 function findCurrentItemCount(dish_id) {
     let items = document.getElementsByName('cart_item_id')
-    console.log(items)
     let cart_item
     for (let i = 0; i < items.length; i++) {
         if (dish_id == items[i].getAttribute('value')) {
@@ -114,9 +100,9 @@ function watchDish(nameVal, categoryVal, priceVal, discountVal, descriptionVal, 
     name.innerHTML = nameVal
     category.innerHTML = getCategory(categoryVal)
     let totalPrice = priceVal - (priceVal * discountVal / 100)
-    price.innerHTML = totalPrice.toString()
+    price.innerHTML = totalPrice.toString() + ' $'
     description.innerHTML = descriptionVal
-    weight.innerHTML = weightVal
+    weight.innerHTML = weightVal + ' ${grams}'
     picture.src = pictureName
     let reviewInfo = document.getElementById('dish-info')
     reviewInfo.style.display = 'block'

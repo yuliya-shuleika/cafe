@@ -27,7 +27,7 @@ public class ReviewDaoImpl implements ReviewDao {
     private static final String UPDATE_REVIEW = "UPDATE reviews " +
             "SET header = ?, text = ?, rating = ?, status = ? WHERE reviewId = ?";
     private static final String UPDATE_STATUS = "UPDATE reviews SET status = ? WHERE review_id = ?";
-    private static final String SELECT_ALL_DISHES_SORTED_BY_HEADER = "SELECT review_id, header, text, rating " +
+    private static final String SELECT_ALL_DISHES_SORTED_BY_HEADER = "SELECT review_id, header, text, rating, status " +
             "FROM reviews ORDER BY header";
     private static final String SELECT_REVIEWS_BY_STATUS = "SELECT review_id, header, text, rating, status " +
             "FROM reviews WHERE status = ?";
@@ -54,7 +54,7 @@ public class ReviewDaoImpl implements ReviewDao {
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.log(Level.ERROR, e);
-            throw new DaoException();
+            throw new DaoException(e);
         } finally {
             pool.releaseConnection(connection);
         }

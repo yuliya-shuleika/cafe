@@ -165,4 +165,14 @@ public class RequestParameter {
      * Name of the parameter that contains command type.
      */
     public static final String COMMAND = "command";
+
+    /**
+     * Name of the parameter that contains current language.
+     */
+    public static final String LANGUAGE = "language";
+
+    /**
+     * Name of the parameter that contains a count of items to delete.
+     */
+    public static final String ITEMS_TO_DELETE = "items_count";
 }

@@ -70,14 +70,14 @@ form{
     font-weight: 500;
     font-size: 24px;
     width: 100%;
-    background: #a2a2a2;
+    background: #979797;
     color: #fff;
     padding: 8px 0 8px;
     transition: 0.2s;
 }
 
 .menu-categories-button:hover{
-    background: #d6d6d6;
+    background: #878787;
 }
 
 .menu-categories-button:active{
@@ -117,7 +117,7 @@ form{
     border: none;
     border-radius: 6px;
     transition: 0.2s;
-    background: #a2a2a2;
+    background: #979797;
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
     color: #fff;
@@ -128,7 +128,7 @@ form{
 }
 
 .menu-sort-criteria:hover{
-    background: #d1d1d1;
+    background: #878787;
 }
 
 /*menu-items*/

@@ -17,12 +17,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Action command that provides searching the promo code by the part of it's name.
+ *
+ * @author Yulia Shuleiko
+ */
 public class SearchPromoCodeByNamePartCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.PROMO_CODES_LIST_PAGE;
         String promoCodeNamePart = request.getParameter(RequestParameter.PROMO_CODE_NAME_PART_PARAM);
         PromoCodeService promoCodeService = PromoCodeServiceImpl.getInstance();
         List<PromoCode> promoCodes = new ArrayList<>();
@@ -32,7 +38,6 @@ public class SearchPromoCodeByNamePartCommand implements ActionCommand {
             logger.log(Level.ERROR, e);
         }
         request.setAttribute(AttributeName.PROMO_CODES_LIST, promoCodes);
-        String page = PagePath.PROMO_CODES_LIST_PAGE;
         return page;
     }
 }

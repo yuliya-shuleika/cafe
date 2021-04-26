@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
         try {
             userDao.updateStatus(userId, status);
         } catch (DaoException e) {
-            throw new ServiceException();
+            throw new ServiceException(e);
         }
     }
 

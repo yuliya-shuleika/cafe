@@ -7,7 +7,6 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
             type="text/javascript"></script>
     <script><%@include file="/js/cart.js"%></script>
-    <script><%@include file="/js/menu.js"%></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
@@ -38,7 +37,7 @@
                                      alt="${item.getKey().getName()}" class="cart-item-image">
                                 <div class="cart-item-title">
                                     <h4 class="cart-item-name">${item.getKey().getName()}</h4>
-                                    <p class="cart-item-description">something</p>
+                                    <p class="cart-item-description">${item.getKey().getDescription()}</p>
                                 </div>
                             </div>
                             <div class="cart-item-manage">

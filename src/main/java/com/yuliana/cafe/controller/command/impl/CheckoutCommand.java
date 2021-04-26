@@ -31,28 +31,18 @@ public class CheckoutCommand implements ActionCommand {
     private static final String DELIVERY = "delivery";
     private static final String PICKUP = "pickup";
     private static final int ADDRESS_FORM_SIZE = 6;
+    private String page;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String page = PagePath.ORDER_CONFIRM_PAGE;
+        page = PagePath.ORDER_CONFIRM_PAGE;
         String gettingType = request.getParameter(RequestParameter.ORDER_GETTING_TYPE);
         GettingType getting = GettingType.valueOf(gettingType.toUpperCase());
         int addressId = 0;
         switch (gettingType) {
             case DELIVERY:
                 Map<String, String> addressFields = new HashMap<>();
-                String city = request.getParameter(RequestParameter.CITY);
-                addressFields.put(RequestParameter.CITY, city);
-                String street = request.getParameter(RequestParameter.STREET);
-                addressFields.put(RequestParameter.STREET, street);
-                String house = request.getParameter(RequestParameter.HOUSE);
-                addressFields.put(RequestParameter.HOUSE, house);
-                String entrance = request.getParameter(RequestParameter.ENTRANCE);
-                addressFields.put(RequestParameter.ENTRANCE, entrance);
-                String floor = request.getParameter(RequestParameter.FLOOR);
-                addressFields.put(RequestParameter.FLOOR, floor);
-                String flat = request.getParameter(RequestParameter.FLAT);
-                addressFields.put(RequestParameter.FLAT, flat);
+                fillAddressMap(addressFields, request);
                 AddressService service = AddressServiceImpl.getInstance();
                 try {
                     addressId = service.addAddress(addressFields);
@@ -73,41 +63,77 @@ public class CheckoutCommand implements ActionCommand {
                 logger.log(Level.DEBUG, "No such getting type.");
         }
         if (addressId > 0) {
-            Map<String, String[]> parameters = request.getParameterMap();
-            int discount = 0;
-            if (parameters.containsKey(RequestParameter.PROMO_CODE_NAME)) {
-                String promoCodeName = request.getParameter(RequestParameter.PROMO_CODE_NAME);
-                PromoCodeService promoCodeService = PromoCodeServiceImpl.getInstance();
-                Optional<PromoCode> promoCode = Optional.empty();
+            int discount = findDiscountByPromoCode(request);
+            OrderService orderService = OrderServiceImpl.getInstance();
+            HttpSession session = request.getSession();
+            Object userAttribute = session.getAttribute(AttributeName.USER);
+            Optional<Object> userOptional = Optional.ofNullable(userAttribute);
+            if(userOptional.isPresent()) {
+                User user = (User) userOptional.get();
+                Map<Dish, Integer> cartItems = (Map<Dish, Integer>) session.getAttribute(AttributeName.CART_ITEMS);
+                String comment = request.getParameter(RequestParameter.ORDER_COMMENT);
+                String paymentType = request.getParameter(RequestParameter.ORDER_PAYMENT_TYPE);
+                PaymentType payment = PaymentType.valueOf(paymentType.toUpperCase());
                 try {
-                    promoCode = promoCodeService.findPromoCodeByName(promoCodeName);
+                    orderService.addOrder(user.getUserId(), addressId, discount, cartItems, getting, payment, comment);
                 } catch (ServiceException e) {
                     logger.log(Level.ERROR, e);
                 }
-                if (promoCode.isPresent()) {
-                    discount = promoCode.get().getDiscountPercents();
-                    request.setAttribute(AttributeName.PROMO_CODE, promoCodeName);
-                } else {
-                    request.setAttribute(AttributeName.CHECKOUT_ERROR_MESSAGE, PROMO_CODE_ERROR_MESSAGE);
-                    page = PagePath.PAYMENT_PAGE;
-                }
-            }
-            OrderService orderService = OrderServiceImpl.getInstance();
-            HttpSession session = request.getSession();
-            User user = (User) session.getAttribute(AttributeName.USER);
-            Map<Dish, Integer> cartItems = (Map<Dish, Integer>) session.getAttribute(AttributeName.CART_ITEMS);
-            String comment = request.getParameter(RequestParameter.ORDER_COMMENT);
-            String paymentType = request.getParameter(RequestParameter.ORDER_PAYMENT_TYPE);
-            PaymentType payment = PaymentType.valueOf(paymentType.toUpperCase());
-            try {
-                orderService.addOrder(user.getUserId(), addressId, discount, cartItems, getting, payment, comment);
-            } catch (ServiceException e) {
-                logger.log(Level.ERROR, e);
             }
             session.setAttribute(AttributeName.CART_ITEMS, new HashMap<Dish, Integer>());
         } else {
             page = PagePath.PAYMENT_PAGE;
         }
         return page;
+    }
+
+    /**
+     * Fill the map of string where key is field's name and values is a user's input.
+     * @param addressFields map of the string.
+     *                      The key represents field of the form and the value is the user's input
+     * @param request the {@code HttpServletRequest} object
+     */
+    private void fillAddressMap(Map<String, String> addressFields, HttpServletRequest request){
+        String city = request.getParameter(RequestParameter.CITY);
+        addressFields.put(RequestParameter.CITY, city);
+        String street = request.getParameter(RequestParameter.STREET);
+        addressFields.put(RequestParameter.STREET, street);
+        String house = request.getParameter(RequestParameter.HOUSE);
+        addressFields.put(RequestParameter.HOUSE, house);
+        String entrance = request.getParameter(RequestParameter.ENTRANCE);
+        addressFields.put(RequestParameter.ENTRANCE, entrance);
+        String floor = request.getParameter(RequestParameter.FLOOR);
+        addressFields.put(RequestParameter.FLOOR, floor);
+        String flat = request.getParameter(RequestParameter.FLAT);
+        addressFields.put(RequestParameter.FLAT, flat);
+    }
+
+    /**
+     * Define the discount by the promo code's name.
+     *
+     * @param request the {@code HttpServletRequest} object
+     * @return discount percents
+     */
+    private int findDiscountByPromoCode(HttpServletRequest request){
+        Map<String, String[]> parameters = request.getParameterMap();
+        int discount = 0;
+        if (parameters.containsKey(RequestParameter.PROMO_CODE_NAME)) {
+            String promoCodeName = request.getParameter(RequestParameter.PROMO_CODE_NAME);
+            PromoCodeService promoCodeService = PromoCodeServiceImpl.getInstance();
+            Optional<PromoCode> promoCode = Optional.empty();
+            try {
+                promoCode = promoCodeService.findPromoCodeByName(promoCodeName);
+            } catch (ServiceException e) {
+                logger.log(Level.ERROR, e);
+            }
+            if (promoCode.isPresent()) {
+                discount = promoCode.get().getDiscountPercents();
+                request.setAttribute(AttributeName.PROMO_CODE, promoCodeName);
+            } else {
+                request.setAttribute(AttributeName.CHECKOUT_ERROR_MESSAGE, PROMO_CODE_ERROR_MESSAGE);
+                page = PagePath.PAYMENT_PAGE;
+            }
+        }
+        return discount;
     }
 }

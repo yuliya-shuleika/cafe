@@ -13,12 +13,18 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Action command that provides deleting the dish from menu.
+ *
+ * @author Yulia Shuleiko
+ */
 public class DeleteDishFromMenuCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.DISHES_LIST_PAGE;
         String dishIdParam = request.getParameter(RequestParameter.DISH_ID);
         int dishId = Integer.parseInt(dishIdParam);
         DishService dishService = DishServiceImpl.getInstance();
@@ -27,7 +33,6 @@ public class DeleteDishFromMenuCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.DISHES_LIST_PAGE;
         return page;
     }
 }

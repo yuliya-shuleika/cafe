@@ -17,12 +17,18 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Optional;
 
+/**
+ * Action command that provides deleting all items from user's cart.
+ *
+ * @author Yulia Shuleiko
+ */
 public class CleanCartCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.MENU_PAGE;
         HttpSession session = request.getSession();
         CartServiceImpl cartService = CartServiceImpl.getInstance();
         Object userAttribute = session.getAttribute(AttributeName.USER);
@@ -37,7 +43,6 @@ public class CleanCartCommand implements ActionCommand {
             }
         }
         session.setAttribute(AttributeName.CART_ITEMS, new HashMap<Dish, Integer>());
-        String page = PagePath.MENU_PAGE;
         return page;
     }
 }

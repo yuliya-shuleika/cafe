@@ -16,6 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Action command that provides showing new dishes from menu to the user.
+ *
+ * @author Yulia Shuleiko
+ */
 public class ShowNewDishesCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();

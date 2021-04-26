@@ -17,6 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
+/**
+ * Action command that provides showing user's address edit form
+ * with all necessary information.
+ *
+ * @author Yulia Shuleiko
+ */
 public class ShowUserAddressEditCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();

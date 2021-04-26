@@ -16,12 +16,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Action command that provides logout from the account.
+ *
+ * @author Yulia Shuleiko
+ */
 public class LogoutCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.HOME_PAGE;
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(AttributeName.USER);
         int userId = user.getUserId();
@@ -31,7 +37,6 @@ public class LogoutCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.HOME_PAGE;
         session.invalidate();
         return page;
     }

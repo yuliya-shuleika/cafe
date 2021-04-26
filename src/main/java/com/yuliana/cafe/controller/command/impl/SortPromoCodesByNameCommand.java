@@ -16,12 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Action command that provides sorting promo codes by it's name.
+ *
+ * @author Yulia Shuleiko
+ */
 public class SortPromoCodesByNameCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.PROMO_CODES_LIST_PAGE;
         PromoCodeService promoCodeService = PromoCodeServiceImpl.getInstance();
         List<PromoCode> promoCodes = new ArrayList<>();
         try {
@@ -30,7 +36,6 @@ public class SortPromoCodesByNameCommand implements ActionCommand {
             logger.log(Level.ERROR, e);
         }
         request.setAttribute(AttributeName.PROMO_CODES_LIST, promoCodes);
-        String page = PagePath.PROMO_CODES_LIST_PAGE;
         return page;
     }
 }

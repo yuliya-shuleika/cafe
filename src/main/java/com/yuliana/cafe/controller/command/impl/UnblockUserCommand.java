@@ -14,12 +14,18 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Action command that provides unblock of the user.
+ *
+ * @author Yulia Shuleiko
+ */
 public class UnblockUserCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.USERS_LIST_PAGE;
         String userIdParam = request.getParameter(RequestParameter.USER_ID);
         int userId = Integer.parseInt(userIdParam);
         UserService userService = UserServiceImpl.getInstance();
@@ -28,7 +34,6 @@ public class UnblockUserCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.USERS_LIST_PAGE;
         return page;
     }
 }

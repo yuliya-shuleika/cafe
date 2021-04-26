@@ -15,12 +15,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Action command that provides showing all discounts to user first.
+ *
+ * @author Yulia Shuleiko
+ */
 public class ShowDiscountsCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.MENU_PAGE;
         DishService service = DishServiceImpl.getInstance();
         try {
             List<Dish> dishes = service.findDishesSortedByDiscount();
@@ -28,7 +34,6 @@ public class ShowDiscountsCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.MENU_PAGE;
         return page;
     }
 }

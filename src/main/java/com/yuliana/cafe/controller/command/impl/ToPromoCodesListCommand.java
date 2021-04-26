@@ -17,6 +17,11 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Action command that provides transition to the promo codes list admin page.
+ *
+ * @author Yulia Shuleiko
+ */
 public class ToPromoCodesListCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();

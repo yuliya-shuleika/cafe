@@ -18,12 +18,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
+/**
+ * Action command that provides repeating order from user's orders list.
+ *
+ * @author Yulia Shuleiko
+ */
 public class RepeatOrderCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.PAYMENT_PAGE;
         String orderIdParam = request.getParameter(RequestParameter.ORDER_ID);
         int orderId = Integer.parseInt(orderIdParam);
         OrderService orderService = OrderServiceImpl.getInstance();
@@ -37,19 +43,17 @@ public class RepeatOrderCommand implements ActionCommand {
             Order order = orderOptional.get();
             request.setAttribute(AttributeName.REPEATED_ORDER, order);
             if (order.getGettingType().equals(GettingType.DELIVERY)) {
-                Optional<Address> addressOptional = Optional.empty();
                 try {
-                    addressOptional = orderService.findAddressByOrderId(orderId);
+                    Optional<Address> addressOptional = orderService.findAddressByOrderId(orderId);
+                    if (addressOptional.isPresent()) {
+                        Address address = addressOptional.get();
+                        request.setAttribute(AttributeName.ORDER_ADDRESS, address);
+                    }
                 } catch (ServiceException e) {
                     logger.log(Level.ERROR, e);
                 }
-                if (addressOptional.isPresent()) {
-                    Address address = addressOptional.get();
-                    request.setAttribute(AttributeName.ORDER_ADDRESS, address);
-                }
             }
         }
-        String page = PagePath.PAYMENT_PAGE;
         return page;
     }
 }

@@ -16,12 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * Action command that provides transition to the users list admin page.
+ *
+ * @author Yulia Shuleiko
+ */
 public class ToUsersListCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.USERS_LIST_PAGE;
         UserService userService = UserServiceImpl.getInstance();
         try {
             List<User> users = userService.findAllUsers();
@@ -29,7 +35,6 @@ public class ToUsersListCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.USERS_LIST_PAGE;
         HttpSession session = request.getSession();
         session.setAttribute(AttributeName.CURRENT_PAGE, page);
         return page;

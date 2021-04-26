@@ -18,6 +18,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Action command that provides adding the promo code.
+ *
+ * @author Yulia Shuleiko
+ */
 public class AddPromoCodeCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
@@ -26,6 +31,7 @@ public class AddPromoCodeCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.PROMO_CODES_LIST_PAGE;
         Map<String, String> promoCodeFields = new HashMap<>();
         String name = request.getParameter(RequestParameter.PROMO_CODE_NAME);
         promoCodeFields.put(RequestParameter.PROMO_CODE_NAME, name);
@@ -37,7 +43,7 @@ public class AddPromoCodeCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        if (promoCodeFields.size() != PROMO_CODE_FORM_SIZE) {
+        if (promoCodeFields.size() < PROMO_CODE_FORM_SIZE) {
             request.setAttribute(AttributeName.EDIT_ERROR_MESSAGE, ERROR_MESSAGE);
             request.setAttribute(AttributeName.PROMO_CODE_FIELDS, promoCodeFields);
             logger.log(Level.DEBUG, "Error while filling promo code form.");
@@ -48,7 +54,6 @@ public class AddPromoCodeCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.PROMO_CODES_LIST_PAGE;
         return page;
     }
 }

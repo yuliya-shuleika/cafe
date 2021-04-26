@@ -18,7 +18,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Action command that provides editing the promo code.
+ *
+ * @author Yulia Shuleiko
+ */
 public class EditPromoCodeCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();

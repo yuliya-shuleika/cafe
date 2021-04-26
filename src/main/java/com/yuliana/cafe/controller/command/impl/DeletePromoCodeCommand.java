@@ -13,12 +13,18 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Action command that provides deleting the promo code.
+ *
+ * @author Yulia Shuleiko
+ */
 public class DeletePromoCodeCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.PROMO_CODES_LIST_PAGE;
         String promoCodeIdParam = request.getParameter(RequestParameter.PROMO_CODE_ID);
         int promoCodeId = Integer.parseInt(promoCodeIdParam);
         PromoCodeService promoCodeService = PromoCodeServiceImpl.getInstance();
@@ -27,7 +33,6 @@ public class DeletePromoCodeCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.PROMO_CODES_LIST_PAGE;
         return page;
     }
 }

@@ -20,6 +20,11 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Action command that provides searching the dish from menu by the part of it's name.
+ *
+ * @author Yulia Shuleiko
+ */
 public class SearchDishByNameCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();

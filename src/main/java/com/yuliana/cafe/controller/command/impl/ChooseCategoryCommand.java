@@ -17,6 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Action command that provides choosing a category of dishes from menu.
+ *
+ * @author Yulia Shuleiko
+ */
 public class ChooseCategoryCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();

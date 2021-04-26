@@ -21,6 +21,11 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Action command that provides adding dish to cart.
+ *
+ * @author Yulia Shuleiko
+ */
 public class AddToCartCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
@@ -68,9 +73,7 @@ public class AddToCartCommand implements ActionCommand {
             }
             session.setAttribute(AttributeName.CART_ITEMS, cartItems);
             session.setAttribute(AttributeName.CART_ITEMS_COUNT, cartItemsCount);
-            request.setAttribute(AttributeName.ADD_DISH_TO_CART, true);
-        } else {
-            logger.log(Level.DEBUG, "Dish wasn't found.");
+            //request.setAttribute(AttributeName.ADD_DISH_TO_CART, true);
         }
         return page;
     }

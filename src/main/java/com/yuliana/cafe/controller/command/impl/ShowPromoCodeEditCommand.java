@@ -17,12 +17,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Action command that provides showing promo code edit form with all necessary information.
+ *
+ * @author Yulia Shuleiko
+ */
 public class ShowPromoCodeEditCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.PROMO_CODES_LIST_PAGE;
         PromoCodeService promoCodeService = PromoCodeServiceImpl.getInstance();
         String promoCodeIdParam = request.getParameter(RequestParameter.PROMO_CODE_ID);
         int promoCodeId = Integer.parseInt(promoCodeIdParam);
@@ -42,7 +48,6 @@ public class ShowPromoCodeEditCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.PROMO_CODES_LIST_PAGE;
         return page;
     }
 }

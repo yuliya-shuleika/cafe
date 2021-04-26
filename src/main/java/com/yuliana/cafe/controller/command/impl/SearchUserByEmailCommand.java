@@ -16,12 +16,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Action command that provides searching the user by the part of it's email.
+ *
+ * @author Yulia Shuleiko
+ */
 public class SearchUserByEmailCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.USERS_LIST_PAGE;
         String email = request.getParameter(RequestParameter.USER_EMAIL);
         UserService userService = UserServiceImpl.getInstance();
         try {
@@ -30,7 +36,6 @@ public class SearchUserByEmailCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.USERS_LIST_PAGE;
         return page;
     }
 }

@@ -16,7 +16,7 @@
 <fmt:message bundle="${loc}" key="lang.label.category" var="category"/>
 <fmt:message bundle="${loc}" key="lang.label.ingredients" var="ingredients"/>
 <fmt:message bundle="${loc}" key="lang.label.discount" var="discount"/>
-<fmt:message bundle="${loc}" key="lang.label.weight" var="weight"/>
+<fmt:message bundle="${loc}" key="lang.label.weight_info" var="weight"/>
 <body>
 <div class="edit" id="dish-info">
     <div class="edit-body">

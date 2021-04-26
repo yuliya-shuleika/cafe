@@ -13,6 +13,7 @@ import static com.yuliana.cafe.model.dao.creator.EntityCreator.createAddress;
 public class AddressDaoImpl implements AddressDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
+    private static volatile AddressDaoImpl INSTANCE;
     private static final String INSERT_ADDRESS = "INSERT into addresses " +
             "(city, street, house, entrance, floor, flat) VALUES(?, ?, ?, ?, ?, ?)";
     private static final String SELECT_ADDRESS_BY_ID = "SELECT address_id, city, street, house, entrance, floor, flat " +
@@ -20,6 +21,21 @@ public class AddressDaoImpl implements AddressDao {
     private static final String UPDATE_ADDRESS = "UPDATE addresses " +
             "SET city = ?, street = ?, house = ?, entrance = ?, floor = ?, flat = ? " +
             "WHERE address_id = ?";
+
+    public static AddressDaoImpl getInstance() {
+        AddressDaoImpl localInstance = INSTANCE;
+        if (localInstance == null) {
+            synchronized (AddressDaoImpl.class) {
+                localInstance = INSTANCE;
+                if (localInstance == null) {
+                    INSTANCE = localInstance = new AddressDaoImpl();
+                }
+            }
+        }
+        return localInstance;
+    }
+
+    private AddressDaoImpl(){}
 
     @Override
     public int addAddress(Address address) throws DaoException {

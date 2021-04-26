@@ -16,12 +16,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Action command that provides deleting the dish from user's favorites list.
+ *
+ * @author Yulia Shuleiko
+ */
 public class DeleteFromFavoritesCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.MENU_PAGE;
         String dishIdParam = request.getParameter(RequestParameter.DISH_ID);
         int dish_id = Integer.parseInt(dishIdParam);
         FavoritesService favoritesService = FavoritesServiceImpl.getInstance();
@@ -33,7 +39,6 @@ public class DeleteFromFavoritesCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.MENU_PAGE;
         return page;
     }
 }

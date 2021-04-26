@@ -14,8 +14,7 @@ import java.util.Optional;
 public class AddressServiceImpl implements AddressService {
 
     private static final AddressServiceImpl INSTANCE = new AddressServiceImpl();
-    private AddressDao addressDao = new AddressDaoImpl();
-
+    private static final AddressDao addressDao = AddressDaoImpl.getInstance();
     private static final String CITY = "city";
     private static final String STREET = "street";
     private static final String ENTRANCE = "entrance";

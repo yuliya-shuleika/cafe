@@ -16,12 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Action command that provides sorting reviews by it's header.
+ *
+ * @author Yulia Shuleiko
+ */
 public class SortReviewsByHeaderCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.REVIEWS_LIST_PAGE;
         ReviewService reviewService = ReviewServiceImpl.getInstance();
         List<Review> reviews = new ArrayList<>();
         try {
@@ -30,7 +36,6 @@ public class SortReviewsByHeaderCommand implements ActionCommand {
             logger.log(Level.ERROR, e);
         }
         request.setAttribute(AttributeName.REVIEWS_LIST, reviews);
-        String page = PagePath.REVIEWS_LIST_PAGE;
         return page;
     }
 }

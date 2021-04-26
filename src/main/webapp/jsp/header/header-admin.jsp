@@ -33,7 +33,14 @@
                         <a class="header-link" href="promo-codes.do?command=to_promo_codes_list">${promo_codes}</a>
                     </li>
                     <li class="header-li">
-                        <a class="header-link" href="controller?command=change_locale">${translate}</a>
+                        <c:choose>
+                            <c:when test="${sessionScope.lang eq 'ru'}">
+                                <a class="header-link" href="controller?command=change_locale&language=en">${translate}</a>
+                            </c:when>
+                            <c:when test="${sessionScope.lang eq 'en'}">
+                                <a class="header-link" href="controller?command=change_locale&language=ru">${translate}</a>
+                            </c:when>
+                        </c:choose>
                     </li>
                 </ul>
             </nav>

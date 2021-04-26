@@ -26,6 +26,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Action command that provides editing the user's address.
+ *
+ * @author Yulia Shuleiko
+ */
 public class EditUserAddressCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
@@ -35,18 +40,7 @@ public class EditUserAddressCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Map<String, String> addressFields = new HashMap<>();
-        String city = request.getParameter(RequestParameter.CITY);
-        addressFields.put(RequestParameter.CITY, city);
-        String street = request.getParameter(RequestParameter.STREET);
-        addressFields.put(RequestParameter.STREET, street);
-        String house = request.getParameter(RequestParameter.HOUSE);
-        addressFields.put(RequestParameter.HOUSE, house);
-        String entrance = request.getParameter(RequestParameter.ENTRANCE);
-        addressFields.put(RequestParameter.ENTRANCE, entrance);
-        String floor = request.getParameter(RequestParameter.FLOOR);
-        addressFields.put(RequestParameter.FLOOR, floor);
-        String flat = request.getParameter(RequestParameter.FLAT);
-        addressFields.put(RequestParameter.FLAT, flat);
+        fillAddressMap(addressFields, request);
         UserService userService = UserServiceImpl.getInstance();
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(AttributeName.USER);
@@ -86,5 +80,20 @@ public class EditUserAddressCommand implements ActionCommand {
         }
         String page = PagePath.ACCOUNT_PAGE;
         return page;
+    }
+
+    private void fillAddressMap(Map<String, String> addressFields, HttpServletRequest request){
+        String city = request.getParameter(RequestParameter.CITY);
+        addressFields.put(RequestParameter.CITY, city);
+        String street = request.getParameter(RequestParameter.STREET);
+        addressFields.put(RequestParameter.STREET, street);
+        String house = request.getParameter(RequestParameter.HOUSE);
+        addressFields.put(RequestParameter.HOUSE, house);
+        String entrance = request.getParameter(RequestParameter.ENTRANCE);
+        addressFields.put(RequestParameter.ENTRANCE, entrance);
+        String floor = request.getParameter(RequestParameter.FLOOR);
+        addressFields.put(RequestParameter.FLOOR, floor);
+        String flat = request.getParameter(RequestParameter.FLAT);
+        addressFields.put(RequestParameter.FLAT, flat);
     }
 }

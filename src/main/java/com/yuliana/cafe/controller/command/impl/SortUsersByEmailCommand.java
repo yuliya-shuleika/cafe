@@ -16,12 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Action command that provides sorting users by it's email.
+ *
+ * @author Yulia Shuleiko
+ */
 public class SortUsersByEmailCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.USERS_LIST_PAGE;
         UserService userService = UserServiceImpl.getInstance();
         List<User> users = new ArrayList<>();
         try {
@@ -30,7 +36,6 @@ public class SortUsersByEmailCommand implements ActionCommand {
             logger.log(Level.ERROR, e);
         }
         request.setAttribute(AttributeName.USERS_LIST, users);
-        String page = PagePath.USERS_LIST_PAGE;
         return page;
     }
 }

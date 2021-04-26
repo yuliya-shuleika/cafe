@@ -17,12 +17,18 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Action command that provides transition to the menu page.
+ *
+ * @author Yulia Shuleiko
+ */
 public class ToMenuCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.MENU_PAGE;
         DishService dishService = DishServiceImpl.getInstance();
         List<Dish> dishes = new ArrayList<>();
         try {
@@ -31,7 +37,6 @@ public class ToMenuCommand implements ActionCommand {
             logger.log(Level.ERROR, e);
         }
         request.setAttribute(AttributeName.DISHES_LIST, dishes);
-        String page = PagePath.MENU_PAGE;
         HttpSession session = request.getSession();
         session.setAttribute(AttributeName.CURRENT_PAGE, page);
         return page;

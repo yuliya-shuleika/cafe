@@ -218,11 +218,6 @@ public enum CommandType {
             this.command = new ShowPromoCodeEditCommand();
         }
     },
-    SHOW_REVIEW_EDIT {
-        {
-            this.command = new ShowReviewEditCommand();
-        }
-    },
     UPDATE_REVIEW_STATUS {
         {
             this.command = new UpdateReviewStatusCommand();

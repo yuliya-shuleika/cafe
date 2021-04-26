@@ -107,6 +107,7 @@ h3, p{
     display: block;
     text-align: end;
     color: #484848;
+    align-self: flex-start;
 }
 
 .edit-label-dark{

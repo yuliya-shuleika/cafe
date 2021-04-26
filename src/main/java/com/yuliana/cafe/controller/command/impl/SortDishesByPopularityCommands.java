@@ -15,12 +15,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Action command that provides sorting dishes by it's popularity.
+ *
+ * @author Yulia Shuleiko
+ */
 public class SortDishesByPopularityCommands implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.MENU_PAGE;
         DishService dishService = DishServiceImpl.getInstance();
         try {
             List<Dish> dishes = dishService.findDishesSortedByPopularity();
@@ -28,7 +34,6 @@ public class SortDishesByPopularityCommands implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.MENU_PAGE;
         return page;
     }
 }

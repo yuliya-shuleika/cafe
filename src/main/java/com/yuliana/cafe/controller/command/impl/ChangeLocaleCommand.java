@@ -2,6 +2,7 @@ package com.yuliana.cafe.controller.command.impl;
 
 import com.yuliana.cafe.controller.AttributeName;
 import com.yuliana.cafe.controller.PagePath;
+import com.yuliana.cafe.controller.RequestParameter;
 import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.model.entity.Dish;
 import com.yuliana.cafe.model.entity.PromoCode;
@@ -26,23 +27,21 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Action command that provides changing the language.
+ *
+ * @author Yulia Shuleiko
+ */
 public class ChangeLocaleCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String LANG_EN = "en";
-    private static final String LANG_RU = "ru";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String language = request.getParameter(RequestParameter.LANGUAGE);
         HttpSession session = request.getSession();
-        String lang = (String) session.getAttribute(AttributeName.LANGUAGE);
-        if (lang.equals(LANG_EN)) {
-            session.setAttribute(AttributeName.LANGUAGE, LANG_RU);
-        } else {
-            session.setAttribute(AttributeName.LANGUAGE, LANG_EN);
-        }
+        session.setAttribute(AttributeName.LANGUAGE, language);
         String page = (String) session.getAttribute(AttributeName.CURRENT_PAGE);
-        ReviewService reviewService = ReviewServiceImpl.getInstance();
         switch (page) {
             case PagePath.MENU_PAGE:
             case PagePath.DISHES_LIST_PAGE:
@@ -56,6 +55,7 @@ public class ChangeLocaleCommand implements ActionCommand {
                 break;
             case PagePath.REVIEWS_PAGE:
                 try {
+                    ReviewService reviewService = ReviewServiceImpl.getInstance();
                     Map<Review, User> reviewsWithAuthors = reviewService.findApprovedReviewsWithAuthors();
                     request.setAttribute(AttributeName.REVIEWS_MAP, reviewsWithAuthors);
                 } catch (ServiceException e) {
@@ -64,6 +64,7 @@ public class ChangeLocaleCommand implements ActionCommand {
                 break;
             case PagePath.REVIEWS_LIST_PAGE:
                 try {
+                    ReviewService reviewService = ReviewServiceImpl.getInstance();
                     List<Review> reviews = reviewService.findAllReviews();
                     request.setAttribute(AttributeName.REVIEWS_LIST, reviews);
                 } catch (ServiceException e) {

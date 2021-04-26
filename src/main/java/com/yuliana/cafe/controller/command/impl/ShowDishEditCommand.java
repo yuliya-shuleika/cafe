@@ -17,12 +17,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Action command that provides showing dish edit form with all necessary information.
+ *
+ * @author Yulia Shuleiko
+ */
 public class ShowDishEditCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.DISHES_LIST_PAGE;
         DishService dishService = DishServiceImpl.getInstance();
         String dishIdParam = request.getParameter(RequestParameter.DISH_ID);
         int dishId = Integer.parseInt(dishIdParam);
@@ -42,7 +48,6 @@ public class ShowDishEditCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.DISHES_LIST_PAGE;
         return page;
     }
 }

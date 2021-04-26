@@ -14,25 +14,28 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Action command that provides searching the review by the part of it's header.
+ *
+ * @author Yulia Shuleiko
+ */
 public class SearchReviewByHeaderCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.REVIEWS_LIST_PAGE;
         String header = request.getParameter(RequestParameter.REVIEW_HEADER);
         ReviewService reviewService = ReviewServiceImpl.getInstance();
-        List<Review> reviews = new ArrayList<>();
         try {
-            reviews = reviewService.findReviewByHeader(header);
+            List<Review> reviews = reviewService.findReviewByHeader(header);
+            request.setAttribute(AttributeName.REVIEWS_LIST, reviews);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        request.setAttribute(AttributeName.REVIEWS_LIST, reviews);
-        String page = PagePath.REVIEWS_LIST_PAGE;
         return page;
     }
 }

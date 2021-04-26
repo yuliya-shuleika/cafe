@@ -8,6 +8,7 @@ import com.yuliana.cafe.model.entity.Dish;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.model.service.DishService;
 import com.yuliana.cafe.model.service.impl.DishServiceImpl;
+import com.yuliana.cafe.util.FileUploader;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -21,15 +22,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ArrayList;
 
+/**
+ * Action command that provides editing the dish from menu.
+ *
+ * @author Yulia Shuleiko
+ */
 public class EditDishCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String UPLOAD_PATH = "C:\\Users\\Yulia\\IdeaProjects\\Cafe\\src\\main\\webapp\\images\\dishes\\";
-    private static final String IMAGE_FOLDER = "/images/dishes/";
+    private static final String IMAGE_FOLDER = "dishes";
     private static final String ENCODING_UTF8 = "UTF-8";
     private static final String ERROR_MESSAGE = "edit_error";
     private static final int DISH_FORM_SIZE = 5;
@@ -75,19 +82,8 @@ public class EditDishCommand implements ActionCommand {
                         dishFields.put(name, value);
                 }
             } else {
-                String filename = item.getName();
-                if (!filename.equals("")) {
-                    Path path = Paths.get(filename);
-                    File uploadFile = new File(UPLOAD_PATH + path.getFileName());
-                    try {
-                        if (!uploadFile.exists()) {
-                            item.write(uploadFile);
-                        }
-                        pictureName = IMAGE_FOLDER + path.getFileName();
-                    } catch (Exception e) {
-                        logger.log(Level.ERROR, "Error saving photo.");
-                    }
-                }
+                FileUploader fileUploader = FileUploader.getInstance();
+                pictureName = fileUploader.uploadPicture(IMAGE_FOLDER, item);
             }
         }
         if (pictureName == null) {

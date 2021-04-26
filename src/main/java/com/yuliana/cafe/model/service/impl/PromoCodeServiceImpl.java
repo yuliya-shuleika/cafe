@@ -77,7 +77,7 @@ public class PromoCodeServiceImpl implements PromoCodeService {
             try {
                 promoCodeId = promoCodeDao.addPromoCode(promoCode);
             } catch (DaoException e) {
-                throw new ServiceException();
+                throw new ServiceException(e);
             }
         }
         return promoCodeId;

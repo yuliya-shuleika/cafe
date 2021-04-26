@@ -11,6 +11,7 @@ import com.yuliana.cafe.model.service.OrderService;
 import com.yuliana.cafe.model.service.UserService;
 import com.yuliana.cafe.model.service.impl.OrderServiceImpl;
 import com.yuliana.cafe.model.service.impl.UserServiceImpl;
+import com.yuliana.cafe.util.FileUploader;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -25,22 +26,28 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ArrayList;
 
+/**
+ * Action command that provides editing user's account.
+ *
+ * @author Yulia Shuleiko
+ */
 public class EditAccountCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String UPLOAD_PATH = "C:\\Users\\Yulia\\IdeaProjects\\Cafe\\src\\main\\webapp\\images\\avatars\\";
-    private static final String IMAGE_FOLDER = "/images/avatars/";
-    private static final String JPG_FORMAT = ".jpg";
+    private static final String IMAGE_FOLDER = "avatars";
     private static final String ENCODING_UTF8 = "UTF-8";
     private static final String ERROR_MESSAGE = "edit_profile_error";
     private static final int USER_FORM_SIZE = 2;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.ACCOUNT_PAGE;
         Map<String, String> userFields = new HashMap<>();
         List<FileItem> items = new ArrayList<>();
         try {
@@ -68,20 +75,8 @@ public class EditAccountCommand implements ActionCommand {
                 }
                 userFields.put(name, value);
             } else {
-                UUID uuid = UUID.randomUUID();
-                String filename = uuid.toString() + JPG_FORMAT;
-                if (!filename.equals("")) {
-                    Path path = Paths.get(filename);
-                    File uploadFile = new File(UPLOAD_PATH + path.getFileName());
-                    try {
-                        if (!uploadFile.exists()) {
-                            item.write(uploadFile);
-                        }
-                        avatar = IMAGE_FOLDER + path.getFileName();
-                    } catch (Exception e) {
-                        logger.log(Level.ERROR, "Error saving photo.");
-                    }
-                }
+                FileUploader fileUploader = FileUploader.getInstance();
+                avatar = fileUploader.uploadPicture(IMAGE_FOLDER, item);
             }
         }
         if (avatar == null) {
@@ -112,7 +107,6 @@ public class EditAccountCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.ACCOUNT_PAGE;
         return page;
     }
 }

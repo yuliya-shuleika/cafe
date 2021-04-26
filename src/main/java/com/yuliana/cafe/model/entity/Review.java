@@ -13,16 +13,20 @@ public class Review {
     private int rating;
     private ReviewStatus status;
 
+    /**
+     * Constructs the {@code Review} object
+     */
     public Review() {
     }
 
     /**
+     * Constructs the {@code Review} object with given review's id, header, text, rating, status.
      *
-     * @param reviewId
-     * @param header
-     * @param text
-     * @param rating
-     * @param status
+     * @param reviewId id of the review
+     * @param header header of the review
+     * @param text text of the review
+     * @param rating rating (from 1 to 5 points) of the review
+     * @param status {@code ReviewStatus} object represents status of the review (new, approved or rejected)
      */
     public Review(int reviewId, String header, String text, int rating, ReviewStatus status) {
         this.reviewId = reviewId;
@@ -33,11 +37,12 @@ public class Review {
     }
 
     /**
+     * Constructs the {@code Review} object with given header, text, rating, status.
      *
-     * @param header
-     * @param text
-     * @param rating
-     * @param status
+     * @param header header of the review
+     * @param text text of the review
+     * @param rating rating (from 1 to 5 points) of the review
+     * @param status {@code ReviewStatus} object represents status of the review (new, approved or rejected)
      */
     public Review(String header, String text, int rating, ReviewStatus status) {
         this.header = header;
@@ -46,38 +51,83 @@ public class Review {
         this.status = status;
     }
 
+    /**
+     * Getter method of the review's id.
+     *
+     * @return id of the review
+     */
     public int getReviewId() {
         return reviewId;
     }
 
+    /**
+     * Getter method of the header.
+     *
+     * @return header of the header
+     */
     public String getHeader() {
         return header;
     }
 
+    /**
+     * Getter method of the text.
+     *
+     * @return text of the review.
+     */
     public String getText() {
         return text;
     }
 
+    /**
+     * Getter method of the rating.
+     *
+     * @return rating (from 1 to 5 points) of the review
+     */
     public int getRating() {
         return rating;
     }
 
+    /**
+     * Setter method of the header.
+     *
+     * @param header header of the review
+     */
     public void setHeader(String header) {
         this.header = header;
     }
 
+    /**
+     * Setter method of the text.
+     *
+     * @param text text of the review
+     */
     public void setText(String text) {
         this.text = text;
     }
 
+    /**
+     * Setter method of the rating.
+     *
+     * @param rating rating (from 1 to 5 points) of the review
+     */
     public void setRating(int rating) {
         this.rating = rating;
     }
 
+    /**
+     * Getter method of the review's status.
+     *
+     * @return {@code ReviewStatus} object represents status of the review (new, approved or rejected)
+     */
     public ReviewStatus getStatus() {
         return status;
     }
 
+    /**
+     * Setter method of the review's status.
+     *
+     * @param status {@code ReviewStatus} object represents status of the review (new, approved or rejected)
+     */
     public void setStatus(ReviewStatus status) {
         this.status = status;
     }

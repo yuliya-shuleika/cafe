@@ -16,12 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Action command that provides sorting dishes by it's name.
+ *
+ * @author Yulia Shuleiko
+ */
 public class SortDishesByNameCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.DISHES_LIST_PAGE;
         List<Dish> dishes = new ArrayList<>();
         DishService dishService = DishServiceImpl.getInstance();
         try {
@@ -30,7 +36,6 @@ public class SortDishesByNameCommand implements ActionCommand {
             logger.log(Level.ERROR, e);
         }
         request.setAttribute(AttributeName.DISHES_LIST, dishes);
-        String page = PagePath.DISHES_LIST_PAGE;
         return page;
     }
 }

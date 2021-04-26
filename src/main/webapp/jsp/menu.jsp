@@ -28,6 +28,7 @@
 <fmt:message bundle="${loc}" key="lang.label.show_filters" var="show_filters"/>
 <fmt:message bundle="${loc}" key="lang.label.dishes_not_found" var="dishes_not_found"/>
 <fmt:message bundle="${loc}" key="lang.label.by_popularity" var="by_popularity"/>
+<fmt:message bundle="${loc}" key="lang.label.grams" var="grams"/>
 <body>
     <c:choose>
         <c:when test="${sessionScope.user.getRole() eq 'USER'}">

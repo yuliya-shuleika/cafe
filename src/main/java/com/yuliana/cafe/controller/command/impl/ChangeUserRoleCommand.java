@@ -13,12 +13,18 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Action command that provides changing user's role.
+ *
+ * @author Yulia Shuleiko
+ */
 public class ChangeUserRoleCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.USERS_LIST_PAGE;
         String role = request.getParameter(RequestParameter.USER_ROLE);
         String userIdParam = request.getParameter(RequestParameter.USER_ID);
         int userId = Integer.parseInt(userIdParam);
@@ -28,7 +34,6 @@ public class ChangeUserRoleCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.USERS_LIST_PAGE;
         return page;
     }
 }

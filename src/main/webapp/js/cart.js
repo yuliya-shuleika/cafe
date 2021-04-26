@@ -1,8 +1,6 @@
 $(document).ready(function () {
     changeCart()
-    //count price
     $('#total-price').html(countTotalPrice())
-    //delete item from cart
     $('.cart-items').on('click', '.cart-item-delete', function () {
         let cart_item = this.closest(".cart-item")
         let params = cart_item.getElementsByTagName('input')
@@ -32,6 +30,7 @@ $(document).ready(function () {
                 items_count_header.innerHTML = items_count
                 if (items_count == 0) {
                     changeCart();
+                    $('#total-price').html(countTotalPrice())
                 }
                 cart_item.remove()
                 removeFromCartIds(cart_item_id)
@@ -69,6 +68,7 @@ $(document).ready(function () {
                         cart_item.remove()
                         removeFromCartIds(cart_item_ids)
                         changeCart()
+                        $('#total-price').html(countTotalPrice())
                     } else {
                         itemCountVal--
                         itemCount.innerHTML = itemCountVal
@@ -96,7 +96,7 @@ $(document).ready(function () {
             success: function () {
                 console.log(cart_items.length)
                 for (let i = 0; i < cart_items.length; i++) {
-                    cart_items[0].remove()
+                    cart_items[i].remove()
                 }
             }
         });
@@ -105,9 +105,10 @@ $(document).ready(function () {
 
 function countTotalPrice() {
     let prices = document.getElementsByClassName('cart-item-price-value')
+    let counts = document.getElementsByClassName('cart-item-count-label')
     let total = 0
     for (let i = 0; i < prices.length; i++) {
-        total += Number.parseFloat(prices[i].innerHTML)
+        total += Number.parseFloat(prices[i].innerHTML) * Number.parseFloat(counts[i].innerHTML)
     }
     return total.toFixed(2);
 }
@@ -117,5 +118,19 @@ function removeFromCartIds(cart_item_id) {
         if (cart_item_id == cart_item_ids[i]) {
             cart_item_ids.splice(i, 1)
         }
+    }
+}
+
+function changeCart() {
+    let items_count_header = $('.header-items-count')[0]
+    let cart_items_container = $('.cart-items-container')[0]
+    let cart_empty = $('.cart-empty')[0]
+    if (items_count_header.innerHTML == '0') {
+        cart_items_container.style.display = 'none'
+        cart_empty.style.display = 'flex'
+    } else {
+        cart_items_container.style.display = 'flex'
+        cart_items_container.style.flexDirection = 'column'
+        cart_empty.style.display = 'none'
     }
 }

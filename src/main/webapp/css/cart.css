@@ -234,7 +234,7 @@ button:active, button:focus, input:active, input:focus{
 
 .cart-items-total-price{
     display: inline-flex;
-    padding: 20px 0 40px 40px;
+    padding: 20px 0 25px 40px;
     flex-direction: row;
 }
 
@@ -268,7 +268,7 @@ button:active, button:focus, input:active, input:focus{
 
 .cart-items-manage{
     display: inline-flex;
-    padding: 20px 40px 40px 0;
+    padding: 20px 40px 25px 0;
 }
 
 .checkout{

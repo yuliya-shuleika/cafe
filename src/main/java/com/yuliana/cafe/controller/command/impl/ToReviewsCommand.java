@@ -17,12 +17,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
+/**
+ * Action command that provides transition to the reviews page.
+ *
+ * @author Yulia Shuleiko
+ */
 public class ToReviewsCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.REVIEWS_PAGE;
         ReviewService reviewService = ReviewServiceImpl.getInstance();
         try {
             Map<Review, User> reviewsWithAuthors = reviewService.findApprovedReviewsWithAuthors();
@@ -30,7 +36,6 @@ public class ToReviewsCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.REVIEWS_PAGE;
         HttpSession session = request.getSession();
         session.setAttribute(AttributeName.CURRENT_PAGE, page);
         return page;

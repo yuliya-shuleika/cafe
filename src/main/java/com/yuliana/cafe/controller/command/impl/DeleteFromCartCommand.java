@@ -22,13 +22,18 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Action command that provides deleting the dish from user's cart.
+ *
+ * @author Yulia Shuleiko
+ */
 public class DeleteFromCartCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final String ITEMS_TO_DELETE_PARAM = "items_count";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.MENU_PAGE;
         DishService dishService = DishServiceImpl.getInstance();
         String dishIdParam = request.getParameter(RequestParameter.DISH_ID);
         int dishId = Integer.parseInt(dishIdParam);
@@ -40,7 +45,7 @@ public class DeleteFromCartCommand implements ActionCommand {
         }
         if (dishOptional.isPresent()) {
             HttpSession session = request.getSession();
-            String itemsToDeleteParam = request.getParameter(ITEMS_TO_DELETE_PARAM);
+            String itemsToDeleteParam = request.getParameter(RequestParameter.ITEMS_TO_DELETE);
             int itemsToDelete = Integer.parseInt(itemsToDeleteParam);
             Optional<Object> userOptional = Optional.ofNullable(session.getAttribute(AttributeName.USER));
             if (userOptional.isPresent()) {
@@ -71,10 +76,7 @@ public class DeleteFromCartCommand implements ActionCommand {
             }
             session.setAttribute(AttributeName.CART_ITEMS, cartItems);
             session.setAttribute(AttributeName.CART_ITEMS_COUNT, cartItemsCount);
-        } else {
-            logger.log(Level.DEBUG, "Dish wasn't found.");
         }
-        String page = PagePath.MENU_PAGE;
         return page;
     }
 }

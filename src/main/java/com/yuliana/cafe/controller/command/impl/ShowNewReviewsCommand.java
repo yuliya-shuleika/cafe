@@ -22,6 +22,7 @@ public class ShowNewReviewsCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.REVIEWS_LIST_PAGE;
         ReviewService reviewService = ReviewServiceImpl.getInstance();
         try {
             List<Review> reviews = reviewService.findReviewsByStatus(ReviewStatus.NEW);
@@ -29,7 +30,6 @@ public class ShowNewReviewsCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.REVIEWS_LIST_PAGE;
         return page;
     }
 }

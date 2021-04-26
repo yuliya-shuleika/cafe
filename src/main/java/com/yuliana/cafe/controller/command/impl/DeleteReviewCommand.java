@@ -13,12 +13,18 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Action command that provides deleting the review.
+ *
+ * @author Yulia Shuleiko
+ */
 public class DeleteReviewCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.REVIEWS_LIST_PAGE;
         String reviewIdParam = request.getParameter(RequestParameter.REVIEW_ID);
         int reviewId = Integer.parseInt(reviewIdParam);
         ReviewService reviewService = ReviewServiceImpl.getInstance();
@@ -27,7 +33,6 @@ public class DeleteReviewCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.REVIEWS_LIST_PAGE;
         return page;
     }
 }

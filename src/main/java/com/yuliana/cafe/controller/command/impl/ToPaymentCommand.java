@@ -16,12 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * Action command that provides transition to the payment page.
+ *
+ * @author Yulia Shuleiko
+ */
 public class ToPaymentCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String page = PagePath.PAYMENT_PAGE;
         CafeService cafeService = CafeServiceImpl.getInstance();
         try {
             List<Address> addresses = cafeService.findAllCafeAddresses();
@@ -29,7 +35,6 @@ public class ToPaymentCommand implements ActionCommand {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }
-        String page = PagePath.PAYMENT_PAGE;
         HttpSession session = request.getSession();
         session.setAttribute(AttributeName.CURRENT_PAGE, page);
         return page;

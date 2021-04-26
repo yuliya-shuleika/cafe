@@ -44,7 +44,9 @@ public class CommandAccessFilter implements Filter {
                 CommandType.SHOW_NEW_DISHES,
                 CommandType.LOGIN,
                 CommandType.REGISTER,
-                CommandType.SORT_DISHES_BY_POPULARITY);
+                CommandType.SORT_DISHES_BY_POPULARITY,
+                CommandType.TO_PAYMENT,
+                CommandType.CHECKOUT);
         userCommands = EnumSet.of(CommandType.CHANGE_LOCALE,
                 CommandType.LOGOUT,
                 CommandType.TO_MENU,
