@@ -172,7 +172,7 @@ input[type="checkbox"]:checked + label:after{
     display: flex;
     flex-direction: row;
     border-radius: 12px;
-    background: #a2a2a2;
+    background: #8b8b8b;
     overflow: hidden;
     margin: 20px 0;
 }
@@ -231,7 +231,7 @@ input[type="checkbox"]:checked + label:after{
     height: 30px;
     border: none;
     border-radius: 10px;
-    background: #a2a2a2;
+    background: #8b8b8b;
     margin-bottom: 15px;
     padding-left: 3px;
 }
@@ -242,7 +242,7 @@ input[type="checkbox"]:checked + label:after{
     height: 30px;
     border: none;
     border-radius: 10px;
-    background: #a2a2a2;
+    background: #8b8b8b;
     margin-bottom: 15px;
     text-align: center;
 }
@@ -266,7 +266,7 @@ input[type="checkbox"]:checked + label:after{
 .pickup-label{
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
-    color: #545454;
+    color: #fff;
     font-size: 18px;
 }
 
@@ -297,18 +297,19 @@ input[type="checkbox"]:checked + label:after{
     height: 35px;
     border: none;
     border-radius: 10px;
-    background: #a2a2a2;
+    background: #8b8b8b;
     margin-bottom: 18px;
     padding-left: 5px;
+    color:#fff;
 }
 
-.payment-select{
+.pickup-select {
     display: block;
     font-size: 18px;
     height: 40px;
     border-radius: 10px;
-    background: #ededed;
-    color: #545454;
+    background: #8b8b8b;
+    color: #fff;
     font-family: 'Rubik', sans-serif;
     border: none;
     margin-top: 20px;
@@ -343,7 +344,7 @@ input[type="checkbox"]:checked + label:after{
     height: 30px;
     border: none;
     border-radius: 10px;
-    background: #a2a2a2;
+    background: #8b8b8b;
     padding-left: 3px;
 }
 
@@ -353,7 +354,7 @@ input[type="checkbox"]:checked + label:after{
     height: 30px;
     border: none;
     border-radius: 10px;
-    background: #a2a2a2;
+    background: #8b8b8b;
     padding-left: 3px;
 
 }
@@ -368,7 +369,7 @@ input[type="checkbox"]:checked + label:after{
 .comment-order-input{
     width: 100%;
     resize: none;
-    background: #a2a2a2;
+    background: #8b8b8b;
     border: none;
     border-radius: 15px;
     font-family: 'Rubik', sans-serif;
@@ -378,6 +379,10 @@ input[type="checkbox"]:checked + label:after{
     padding: 10px 20px;
     outline: none;
     min-height: 140px;
+}
+
+.comment-order-input::placeholder{
+    color: #fff;
 }
 
 /*confirm-order*/

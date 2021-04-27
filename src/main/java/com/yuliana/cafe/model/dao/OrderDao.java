@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface OrderDao extends BaseDao {
 
     /**
-     * Add new order.
+     * Add new user's order.
      *
      * @param order the {@code Order} object
      * @param userId id of the user
@@ -23,8 +23,18 @@ public interface OrderDao extends BaseDao {
      * @return id of the added order
      * @throws DaoException is thrown when occurred error with access to database
      */
-    int addOrder(Order order, int userId, int addressId) throws DaoException;
+    int addUserOrder(Order order, int userId, int addressId) throws DaoException;
 
+    /**
+     * Add new order.
+     *
+     * @param order the {@code Order} object
+     * @param email the guest's email
+     * @param addressId id of the address
+     * @return id of the added order
+     * @throws DaoException is thrown when occurred error with access to database
+     */
+    int addGuestOrder(Order order, String email, int addressId) throws DaoException;
     /**
      * Find all orders.
      *

@@ -3,20 +3,31 @@ package com.yuliana.cafe.model.dao.impl;
 import com.yuliana.cafe.model.connection.ConnectionPool;
 import com.yuliana.cafe.model.dao.OrderDao;
 import com.yuliana.cafe.model.dao.creator.EntityCreator;
-import com.yuliana.cafe.model.entity.*;
+import com.yuliana.cafe.model.entity.Dish;
+import com.yuliana.cafe.model.entity.Order;
+import com.yuliana.cafe.model.entity.Address;
+import com.yuliana.cafe.model.entity.GettingType;
+import com.yuliana.cafe.model.entity.PaymentType;
 import com.yuliana.cafe.exception.DaoException;
 
 import java.sql.*;
 import java.util.Date;
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Optional;
 
 import static com.yuliana.cafe.model.dao.creator.EntityCreator.createAddress;
 
 public class OrderDaoImpl implements OrderDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
-    private static final String INSERT_ORDER = "INSERT into orders " +
+    private static final String INSERT_USER_ORDER = "INSERT into orders " +
             "(datetime, total, user_id, address_id, comment, getting_type, payment_type) " +
+            "VALUES(?, ?, ?, ?, ?, ?, ?)";
+    private static final String INSERT_GUEST_ORDER = "INSERT into orders " +
+            "(datetime, total, guest_email, address_id, comment, getting_type, payment_type) " +
             "VALUES(?, ?, ?, ?, ?, ?, ?)";
     private static final String SELECT_ALL_ORDERS = "SELECT order_id, datetime, total, user_id, address_id, " +
             "comment, getting_type, payment_type FROM orders";
@@ -41,17 +52,60 @@ public class OrderDaoImpl implements OrderDao {
             "WHERE orders.order_id = ?";
 
     @Override
-    public int addOrder(Order order, int userId, int addressId) throws DaoException {
+    public int addUserOrder(Order order, int userId, int addressId) throws DaoException {
         int orderId;
         PreparedStatement dishesStatement = null;
         Connection connection = pool.getConnection();
         setAutoCommit(connection, false);
-        try (PreparedStatement orderStatement = connection.prepareStatement(INSERT_ORDER, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement orderStatement = connection.prepareStatement(INSERT_USER_ORDER, Statement.RETURN_GENERATED_KEYS)) {
             Date datetime = order.getDate();
             Timestamp timestamp = new Timestamp(datetime.getTime());
             orderStatement.setTimestamp(1, timestamp);
             orderStatement.setDouble(2, order.getTotal());
             orderStatement.setInt(3, userId);
+            orderStatement.setInt(4, addressId);
+            orderStatement.setString(5, order.getComment());
+            String gettingType = order.getGettingType().name();
+            orderStatement.setString(6, gettingType.toLowerCase());
+            String paymentType = order.getPaymentType().name();
+            orderStatement.setString(7, paymentType.toLowerCase());
+            orderId = orderStatement.executeUpdate();
+            Map<Dish, Integer> orderedDishes = order.getOrderedDishes();
+            ResultSet generatedKeys = orderStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                orderId = generatedKeys.getInt(1);
+            }
+            dishesStatement = connection.prepareStatement(INSERT_ORDERED_DISH);
+            for (Dish dish : orderedDishes.keySet()) {
+                dishesStatement.setInt(1, orderedDishes.get(dish));
+                dishesStatement.setInt(2, orderId);
+                dishesStatement.setInt(3, dish.getDishId());
+                dishesStatement.executeUpdate();
+            }
+            commit(connection);
+        } catch (SQLException e) {
+            rollback(connection);
+            throw new DaoException(e);
+        } finally {
+            setAutoCommit(connection, true);
+            pool.releaseConnection(connection);
+            close(dishesStatement);
+        }
+        return orderId;
+    }
+
+    @Override
+    public int addGuestOrder(Order order, String email, int addressId) throws DaoException {
+        int orderId;
+        PreparedStatement dishesStatement = null;
+        Connection connection = pool.getConnection();
+        setAutoCommit(connection, false);
+        try (PreparedStatement orderStatement = connection.prepareStatement(INSERT_GUEST_ORDER, Statement.RETURN_GENERATED_KEYS)) {
+            Date datetime = order.getDate();
+            Timestamp timestamp = new Timestamp(datetime.getTime());
+            orderStatement.setTimestamp(1, timestamp);
+            orderStatement.setDouble(2, order.getTotal());
+            orderStatement.setString(3, email);
             orderStatement.setInt(4, addressId);
             orderStatement.setString(5, order.getComment());
             String gettingType = order.getGettingType().name();

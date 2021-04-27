@@ -5,11 +5,20 @@ import com.yuliana.cafe.model.dao.PromoCodeDao;
 import com.yuliana.cafe.model.entity.PromoCode;
 import com.yuliana.cafe.exception.DaoException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The class PromoCodeDaoImpl is an implementation of the PromoCodeDao.
+ *
+ * @author Yulia Shuleiko
+ */
 public class PromoCodeDaoImpl implements PromoCodeDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
@@ -37,9 +46,7 @@ public class PromoCodeDaoImpl implements PromoCodeDao {
             statement.setString(1, name);
             ResultSet result = statement.executeQuery();
             if (result.next()) {
-                int promoCodeId = result.getShort(1);
-                short discountPercents = result.getShort(2);
-                PromoCode promoCode = new PromoCode(promoCodeId, name, discountPercents);
+                PromoCode promoCode = createPromoCode(result);
                 promoCodeOptional = Optional.of(promoCode);
             }
         } catch (SQLException e) {
@@ -171,6 +178,14 @@ public class PromoCodeDaoImpl implements PromoCodeDao {
         return promoCodes;
     }
 
+    /**
+     * Create the {@code PromoCode} object from the {@code ResultSet} object.
+     *
+     * @param result the {@code ResultSet} object
+     * @return the {@code PromoCode} object
+     * @throws SQLException if there is an attempt to get data
+     * from the {@code ResultSet} object of the wrong datatype
+     */
     private PromoCode createPromoCode(ResultSet result) throws SQLException {
         int promoCodeId = result.getInt(1);
         String name = result.getString(2);

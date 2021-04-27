@@ -19,7 +19,7 @@ import java.util.Optional;
 public interface OrderService {
 
     /**
-     * Add new order. Validate the comment field.
+     * Add new user's order. Validate the comment field.
      *
      * @param userId id of the user that made order
      * @param addressId id of the user's or cafe's address
@@ -33,7 +33,25 @@ public interface OrderService {
      * @return id of the added order
      * @throws ServiceException if the {@code DaoException} was thrown
      */
-    int addOrder(int userId, int addressId, int discount, Map<Dish, Integer> dishes,
+    int addUserOrder(int userId, int addressId, int discount, Map<Dish, Integer> dishes,
+                 GettingType gettingType, PaymentType paymentType, String comment) throws ServiceException;
+
+    /**
+     * Add new guest's order. Validate the comment field.
+     *
+     * @param guestEmail email of the guest
+     * @param addressId id of the user's or cafe's address
+     * @param discount discount of the order from the promo code
+     * @param dishes map of the {@code Dish} objects and integers.
+     *               Key is a dish that was ordered by user.
+     *               Values represents a count of ordered dish.
+     * @param gettingType the {@code GettingType} object
+     * @param paymentType the {@code PaymentType} object
+     * @param comment comment of the order
+     * @return id of the added order
+     * @throws ServiceException if the {@code DaoException} was thrown
+     */
+    int addGuestOrder(String guestEmail, int addressId, int discount, Map<Dish, Integer> dishes,
                  GettingType gettingType, PaymentType paymentType, String comment) throws ServiceException;
 
     /**

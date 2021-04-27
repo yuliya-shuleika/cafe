@@ -15,10 +15,9 @@ import java.util.List;
 public class CafeDaoImpl implements CafeDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
-    private static final String SELECT_ALL_CAFE_ADDRESSES = "SELECT addresses.city, addresses.street, addresses.house " +
-            "FROM cafes JOIN " +
-            "addresses ON cafes.address_id = addresses.address_id";
-    private static final String SELECT_ALL_CAFES = "";
+    private static final String SELECT_ALL_CAFE_ADDRESSES = "SELECT addresses.address_id, " +
+            "addresses.city, addresses.street, addresses.house " +
+            "FROM cafes JOIN addresses ON cafes.address_id = addresses.address_id";
 
     @Override
     public List<Address> findAllCafeAddresses() throws DaoException {
@@ -27,10 +26,11 @@ public class CafeDaoImpl implements CafeDao {
         try (Statement statement = connection.createStatement()) {
             ResultSet result = statement.executeQuery(SELECT_ALL_CAFE_ADDRESSES);
             while (result.next()) {
-                String city = result.getString(1);
-                String street = result.getString(2);
-                short house = result.getShort(3);
-                Address address = new Address(city, street, house);
+                int addressId = result.getInt(1);
+                String city = result.getString(2);
+                String street = result.getString(3);
+                short house = result.getShort(4);
+                Address address = new Address(addressId, city, street, house);
                 addresses.add(address);
             }
         } catch (SQLException e) {

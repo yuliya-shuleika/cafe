@@ -48,8 +48,16 @@
 <fmt:message bundle="${loc}" key="lang.label.security_code" var="security_code"/>
 <fmt:message bundle="${loc}" key="lang.label.address_error" var="address_error"/>
 <fmt:message bundle="${loc}" key="lang.label.promo_code_error" var="promo_code_error"/>
+<fmt:message bundle="${loc}" key="lang.label.your_email" var="your_email"/>
 <body>
-    <%@ include file="/jsp/header/header-user.jsp"%>
+    <c:choose>
+        <c:when test="${sessionScope.user.getRole() eq 'USER'}">
+            <%@ include file="/jsp/header/header-user.jsp"%>
+        </c:when>
+        <c:when test="${sessionScope.user.getRole() == null}">
+            <%@ include file="/jsp/header/header.jsp"%>
+        </c:when>
+    </c:choose>
     <div class="payment-container">
         <div class="payment-header">
             <h2 class="payment-title">${checkout}</h2>
@@ -158,8 +166,8 @@
                     </li>
                 </ul>
             </div>
+            <input type="hidden" name="order_getting_type" id="order-getting-type" value="delivery">
             <div class="payment-delivery">
-                <input type="hidden" name="order_getting_type" value="delivery">
                 <c:if test="${repeated_order == null}">
                     <div class="choose">
                         <div id="delivery" class="choose-item is-active">${delivery}</div>
@@ -283,12 +291,10 @@
                         }
                     </script>
                 <div class="pickup-info">
-                    <input type="hidden" name="order_getting_type" value="pickup">
                     <p class="pickup-label">${choose_cafe}</p>
-                    <select class="payment-select">
+                    <select class="pickup-select" name="address_id">
                         <c:forEach var="address" items="${cafe_addresses}">
-                            <input type="hidden" name="address_id" value="${address.getAddressId()}">
-                            <option>
+                            <option value="${address.getAddressId()}">
                                 ${address.getCity()}, ${address.getStreet()}, ${address.getHouse()}
                             </option>
                         </c:forEach>
@@ -318,6 +324,13 @@
             </div>
         </div>
         <div class="payment-footer">
+            <c:if test="${sessionScope.user == null}">
+                <div class="promo-code-field">
+                    <label class="promo-code-label" for="promo-code">${your_email}</label>
+                    <input class="promo-code-input" id="guest-email" type="email" placeholder="${your_email}"
+                           name="guest_email">
+                </div>
+            </c:if>
             <c:if test="${repeated_order == null}">
                 <div class="comment-order">
                     <h4 class="payment-section-header">${your_comment}</h4>

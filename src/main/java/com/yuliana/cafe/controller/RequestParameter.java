@@ -175,4 +175,9 @@ public class RequestParameter {
      * Name of the parameter that contains a count of items to delete.
      */
     public static final String ITEMS_TO_DELETE = "items_count";
+
+    /**
+     * Name of the parameter that contains a guest's email.
+     */
+    public static final String GUEST_EMAIL = "guest_email";
 }
