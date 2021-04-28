@@ -8,9 +8,15 @@ import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.model.service.AddressService;
 import com.yuliana.cafe.model.service.validator.AddressValidator;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Implementation of the {@code AddressService} interface.
+ *
+ * @author Yulia Shuleiko
+ */
 public class AddressServiceImpl implements AddressService {
 
     private static final AddressServiceImpl INSTANCE = new AddressServiceImpl();
@@ -22,6 +28,9 @@ public class AddressServiceImpl implements AddressService {
     private static final String FLOOR = "floor";
     private static final String FLAT = "flat";
 
+    /**
+     * Forbid creation of the new objects of the class.
+     */
     private AddressServiceImpl() {
     }
 
@@ -68,6 +77,24 @@ public class AddressServiceImpl implements AddressService {
         }
     }
 
+    @Override
+    public List<Address> findAllCafeAddresses() throws ServiceException {
+        List<Address> addresses;
+        try {
+            addresses = addressDao.findAllCafeAddresses();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return addresses;
+    }
+
+    /**
+     * Create the {@code Address} object from user's input fields.
+     *
+     * @param addressForm  map of the string.
+     *                     The key represents field of the form and the value is the user's input
+     * @return the {@code Address} object
+     */
     private Address createAddress(Map<String, String> addressForm) {
         String city = addressForm.get(CITY);
         String street = addressForm.get(STREET);

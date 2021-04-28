@@ -20,7 +20,7 @@ public interface ReviewDao extends BaseDao {
      *
      * @param review the {@code Review} object
      * @param userId id of the user that added review
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     void addReview(Review review, int userId) throws DaoException;
 
@@ -28,7 +28,7 @@ public interface ReviewDao extends BaseDao {
      * Find all the reviews.
      *
      * @return list of the reviews
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<Review> findAllReviews() throws DaoException;
 
@@ -37,7 +37,7 @@ public interface ReviewDao extends BaseDao {
      *
      * @param header part of the header of the review
      * @return list of the reviews
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<Review> findReviewByHeader(String header) throws DaoException;
 
@@ -45,7 +45,7 @@ public interface ReviewDao extends BaseDao {
      * Delete review by id.
      *
      * @param reviewId id of the review
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     void deleteReview(int reviewId) throws DaoException;
 
@@ -53,7 +53,7 @@ public interface ReviewDao extends BaseDao {
      * Edit the review.
      *
      * @param review the {@code Review} object
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     void editReview(Review review) throws DaoException;
 
@@ -62,7 +62,7 @@ public interface ReviewDao extends BaseDao {
      *
      * @param status the {@code ReviewStatus} object, status of the review
      * @param reviewId id of the review
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     void updateStatus(ReviewStatus status, int reviewId) throws DaoException;
 
@@ -70,7 +70,7 @@ public interface ReviewDao extends BaseDao {
      * Find the reviews ordered by header.
      *
      * @return list of the reviews
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<Review> findAllReviewsSortedByHeader() throws DaoException;
 
@@ -79,7 +79,7 @@ public interface ReviewDao extends BaseDao {
      *
      * @param status status the {@code ReviewStatus} object, status of the review
      * @return list of the reviews
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<Review> findReviewsByStatus(ReviewStatus status) throws DaoException;
 
@@ -88,7 +88,7 @@ public interface ReviewDao extends BaseDao {
      *
      * @param reviewId id of the review
      * @return the {@code Review} object
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     Optional<Review> findReviewById(int reviewId) throws DaoException;
 
@@ -97,7 +97,7 @@ public interface ReviewDao extends BaseDao {
      *
      * @param userId id of the user
      * @return list of the reviews
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<Review> findAllUserReviews(int userId) throws DaoException;
 
@@ -106,7 +106,7 @@ public interface ReviewDao extends BaseDao {
      *
      * @param reviewId id of the review
      * @return the {@code User} object
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     Optional<User> findUserByReviewId(int reviewId) throws DaoException;
 }

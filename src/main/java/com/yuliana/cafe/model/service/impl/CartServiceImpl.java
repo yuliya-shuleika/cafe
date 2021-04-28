@@ -9,11 +9,19 @@ import com.yuliana.cafe.model.service.CartService;
 
 import java.util.Map;
 
+/**
+ * Implementation of the {@code CartService} interface.
+ *
+ * @author Yulia Shuleiko
+ */
 public class CartServiceImpl implements CartService {
 
     private static final CartServiceImpl INSTANCE = new CartServiceImpl();
-    private CartDao cartDao = new CartDaoImpl();
+    private CartDao cartDao = CartDaoImpl.getInstance();
 
+    /**
+     * Forbid creation of the new objects of the class.
+     */
     private CartServiceImpl() {
     }
 

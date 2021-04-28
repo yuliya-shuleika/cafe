@@ -17,19 +17,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Implementation of the {@code UserService} interface.
+ *
+ * @author Yulia Shuleiko
+ */
 public class UserServiceImpl implements UserService {
 
     private static final String FIELD_USER_NAME = "user_name";
     private static final String FIELD_USER_EMAIL = "user_email";
     private static final String FIELD_USER_PASSWORD = "user_password";
     private static final UserServiceImpl INSTANCE = new UserServiceImpl();
-    private static final UserDao userDao = new UserDaoImpl();
+    private static final UserDao userDao = UserDaoImpl.getInstance();
+
+    /**
+     * Forbid creation of the new objects of the class.
+     */
+    private UserServiceImpl() {
+    }
 
     public static UserServiceImpl getInstance() {
         return INSTANCE;
-    }
-
-    private UserServiceImpl() {
     }
 
     public Optional<User> loginUser(Map<String, String> loginFields) throws ServiceException {

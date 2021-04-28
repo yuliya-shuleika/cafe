@@ -8,15 +8,24 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementation of the {@code ReviewDao} interface.
+ *
+ * @author Yulia Shuleiko
+ */
 public class ReviewDaoImpl implements ReviewDao {
 
     private static final Logger logger = LogManager.getLogger();
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
+    private static final ReviewDaoImpl INSTANCE = new ReviewDaoImpl();
     private static final String INSERT_REVIEW = "INSERT INTO reviews (user_id, header, text, rating, status) " +
             "VALUES (?, ?, ?, ?, ?)";
     private static final String SELECT_ALL_REVIEWS = "SELECT review_id, header, text, rating, status " +
@@ -39,6 +48,20 @@ public class ReviewDaoImpl implements ReviewDao {
             "users.email, users.role, users.status, users.avatar FROM reviews " +
             "JOIN users ON users.user_id = reviews.user_id " +
             "WHERE reviews.review_id = ?";
+
+    /**
+     * Forbid creation of the new objects of the class.
+     */
+    private ReviewDaoImpl(){}
+
+    /**
+     *
+     *
+     * @return the {@code ReviewDaoIml} object
+     */
+    public static ReviewDaoImpl getInstance(){
+        return INSTANCE;
+    }
 
     @Override
     public void addReview(Review review, int userId) throws DaoException {
@@ -248,6 +271,14 @@ public class ReviewDaoImpl implements ReviewDao {
         return userOptional;
     }
 
+    /**
+     * Create the {@code Review} object from the {@code ResultSet} object.
+     *
+     * @param userData the {@code ResultSet} object
+     * @return the {@code Review} object
+     * @throws SQLException if there is an attempt to get data
+     * from the {@code ResultSet} object of the wrong datatype
+     */
     private Review createReview(ResultSet userData) throws SQLException {
         int reviewId = userData.getInt(1);
         String header = userData.getString(2);

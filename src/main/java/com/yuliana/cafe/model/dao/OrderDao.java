@@ -21,7 +21,7 @@ public interface OrderDao extends BaseDao {
      * @param userId id of the user
      * @param addressId id of the address
      * @return id of the added order
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     int addUserOrder(Order order, int userId, int addressId) throws DaoException;
 
@@ -32,14 +32,14 @@ public interface OrderDao extends BaseDao {
      * @param email the guest's email
      * @param addressId id of the address
      * @return id of the added order
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     int addGuestOrder(Order order, String email, int addressId) throws DaoException;
     /**
      * Find all orders.
      *
      * @return list of the orders
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<Order> findAllOrders() throws DaoException;
 
@@ -48,7 +48,7 @@ public interface OrderDao extends BaseDao {
      *
      * @param userId id of the user
      * @return list of the orders
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<Order> findOrdersByUserId(int userId) throws DaoException;
 
@@ -57,7 +57,7 @@ public interface OrderDao extends BaseDao {
      *
      * @param orderId id of the order
      * @return the {@code Order} object
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     Optional<Order> findOrderById(int orderId) throws DaoException;
 
@@ -66,7 +66,7 @@ public interface OrderDao extends BaseDao {
      *
      * @param orderId id of the order
      * @return the {@code Address} object
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     Optional<Address> findAddressByOrderId(int orderId) throws DaoException;
 

@@ -8,16 +8,24 @@ import com.yuliana.cafe.model.entity.UserRole;
 import com.yuliana.cafe.model.entity.UserStatus;
 import com.yuliana.cafe.exception.DaoException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.yuliana.cafe.model.dao.creator.EntityCreator.createAddress;
-
+/**
+ * Implementation of the {@code UserDao} interface.
+ *
+ * @author Yulia Shuleiko
+ */
 public class UserDaoImpl implements UserDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
+    private static final UserDaoImpl INSTANCE = new UserDaoImpl();
     private static final String SELECT_USER_BY_EMAIL_AND_PASSWORD = "SELECT user_id, name, email, role, status, avatar " +
             "FROM users WHERE email = ? AND password = ?";
     private static final String INSERT_USER = "INSERT INTO users ( name , email , password , role, status) " +
@@ -44,6 +52,15 @@ public class UserDaoImpl implements UserDao {
             "FROM users WHERE email = ?";
     private static final String UPDATE_USER_ADDRESS = "UPDATE users SET address_id = ? " +
             "WHERE user_id = ?";
+
+    /**
+     * Forbid creation of the objects of the new class.
+     */
+    private UserDaoImpl(){}
+
+    public static UserDaoImpl getInstance(){
+        return INSTANCE;
+    }
 
     @Override
     public void register(User user, String password) throws DaoException {
@@ -250,6 +267,14 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * Create the {@code User} object from the {@code ResultSet} object.
+     *
+     * @param userData {@code ResultSet} object
+     * @return the {@code User} object
+     * @throws SQLException if there is an attempt to get data
+     * from the {@code ResultSet} object of the wrong datatype
+     */
     private User createUser(ResultSet userData) throws SQLException {
         User user;
         int userId = userData.getInt(1);
@@ -264,4 +289,23 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
+    /**
+     * Create the {@code Address} object from the {@code ResultSet} object.
+     *
+     * @param addressData {@code ResultSet} object
+     * @return the {@code Address} object
+     * @throws SQLException if there is an attempt to get data
+     * from the {@code ResultSet} object of the wrong datatype
+     */
+    public static Address createAddress(ResultSet addressData) throws SQLException {
+        int addressId = addressData.getInt(1);
+        String city = addressData.getString(2);
+        String street = addressData.getString(3);
+        short house = addressData.getShort(4);
+        short entrance = addressData.getShort(5);
+        short floor = addressData.getShort(6);
+        short flat = addressData.getShort(7);
+        Address address = new Address(addressId, city, street, house, entrance, floor, flat);
+        return address;
+    }
 }

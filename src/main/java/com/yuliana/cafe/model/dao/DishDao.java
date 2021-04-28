@@ -19,7 +19,7 @@ public interface DishDao extends BaseDao {
      * Find all the dishes.
      *
      * @return list of the all dishes
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<Dish> findAllDishes() throws DaoException;
 
@@ -37,7 +37,7 @@ public interface DishDao extends BaseDao {
      *
      * @param category the {@code DishCategory} object
      * @return list of the dishes
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<Dish> findDishesByCategory(DishCategory category) throws DaoException;
 
@@ -46,7 +46,7 @@ public interface DishDao extends BaseDao {
      *
      * @param name part of the dish name
      * @return list of the dishes
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<Dish> findDishesByName(String name) throws DaoException;
 
@@ -54,7 +54,7 @@ public interface DishDao extends BaseDao {
      * Find all the dishes ordered by price.
      *
      * @return list of the dishes
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<Dish> findAllDishesSortedByPrice() throws DaoException;
 
@@ -62,7 +62,7 @@ public interface DishDao extends BaseDao {
      * Find the list of the dishes that have dishes with a discount at the start and rest dishes at the end.
      *
      * @return list of the dishes
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<Dish> findAllDishesSortedByDiscount() throws DaoException;
 
@@ -71,7 +71,7 @@ public interface DishDao extends BaseDao {
      *
      * @param dishId id of the dish
      * @return the {@code Dish} object
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     Optional<Dish> findDishById(int dishId) throws DaoException;
 
@@ -79,7 +79,7 @@ public interface DishDao extends BaseDao {
      * Find all the dishes ordered by name.
      *
      * @return list of the dishes
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<Dish> findAllDishesSortedByName() throws DaoException;
 
@@ -87,7 +87,7 @@ public interface DishDao extends BaseDao {
      * Delete the dish by it's id.
      *
      * @param dishId id of the dish
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     void deleteDishById(int dishId) throws DaoException;
 
@@ -96,7 +96,7 @@ public interface DishDao extends BaseDao {
      *
      * @param dish the {@code Dish} object
      * @return id of the added dish
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     int addDish(Dish dish) throws DaoException;
 
@@ -104,7 +104,7 @@ public interface DishDao extends BaseDao {
      * Edit the dish.
      *
      * @param dish the {@code Dish} object
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     void editDish(Dish dish) throws DaoException;
 
@@ -114,7 +114,7 @@ public interface DishDao extends BaseDao {
      * @param addedDate the{@code Date} object.
      *                  Dishes that was added from this date to now are considered new
      * @return list of the dishes
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<Dish> findNewDishes(Date addedDate) throws DaoException;
 
@@ -123,7 +123,7 @@ public interface DishDao extends BaseDao {
      * Popular dishes are the dishes that were ordered more times.
      *
      * @return list of the dishes
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<Dish> findAllDishesSortedByPopularity() throws DaoException;
 }

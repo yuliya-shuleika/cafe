@@ -10,15 +10,19 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-import static com.yuliana.cafe.model.dao.creator.EntityCreator.createAddress;
-
+/**
+ * Implementation of the {@code AddressDao} interface.
+ *
+ * @author Yulia Shuleiko
+ */
 public class AddressDaoImpl implements AddressDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
-    private static volatile AddressDaoImpl INSTANCE;
+    private static volatile AddressDaoImpl INSTANCE = new AddressDaoImpl();
     private static final String INSERT_ADDRESS = "INSERT into addresses " +
             "(city, street, house, entrance, floor, flat) VALUES(?, ?, ?, ?, ?, ?)";
     private static final String SELECT_ADDRESS_BY_ID = "SELECT address_id, city, street, house, entrance, floor, flat " +
@@ -26,20 +30,17 @@ public class AddressDaoImpl implements AddressDao {
     private static final String UPDATE_ADDRESS = "UPDATE addresses " +
             "SET city = ?, street = ?, house = ?, entrance = ?, floor = ?, flat = ? " +
             "WHERE address_id = ?";
+    private static final String SELECT_ALL_CAFE_ADDRESSES = "SELECT addresses.address_id, " +
+            "addresses.city, addresses.street, addresses.house " +
+            "FROM cafes JOIN addresses ON cafes.address_id = addresses.address_id";
 
     public static AddressDaoImpl getInstance() {
-        AddressDaoImpl localInstance = INSTANCE;
-        if (localInstance == null) {
-            synchronized (AddressDaoImpl.class) {
-                localInstance = INSTANCE;
-                if (localInstance == null) {
-                    INSTANCE = localInstance = new AddressDaoImpl();
-                }
-            }
-        }
-        return localInstance;
+        return INSTANCE;
     }
 
+    /**
+     * Forbid creation of the new objects of the class.
+     */
     private AddressDaoImpl(){}
 
     @Override
@@ -104,4 +105,45 @@ public class AddressDaoImpl implements AddressDao {
         }
     }
 
+    @Override
+    public List<Address> findAllCafeAddresses() throws DaoException {
+        List<Address> addresses = new ArrayList<>();
+        Connection connection = pool.getConnection();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet result = statement.executeQuery(SELECT_ALL_CAFE_ADDRESSES);
+            while (result.next()) {
+                int addressId = result.getInt(1);
+                String city = result.getString(2);
+                String street = result.getString(3);
+                short house = result.getShort(4);
+                Address address = new Address(addressId, city, street, house);
+                addresses.add(address);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            pool.releaseConnection(connection);
+        }
+        return addresses;
+    }
+
+    /**
+     * Create the {@code Address} object from the {@code ResultSet} object.
+     *
+     * @param addressData {@code ResultSet} object
+     * @return the {@code Address} object
+     * @throws SQLException if there is an attempt to get data
+     * from the {@code ResultSet} object of the wrong datatype
+     */
+    public static Address createAddress(ResultSet addressData) throws SQLException {
+        int addressId = addressData.getInt(1);
+        String city = addressData.getString(2);
+        String street = addressData.getString(3);
+        short house = addressData.getShort(4);
+        short entrance = addressData.getShort(5);
+        short floor = addressData.getShort(6);
+        short flat = addressData.getShort(7);
+        Address address = new Address(addressId, city, street, house, entrance, floor, flat);
+        return address;
+    }
 }

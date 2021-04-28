@@ -18,7 +18,7 @@ public interface FavoritesDao extends BaseDao {
      *
      * @param dishId id of the dish
      * @param userId id of the user
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     void deleteFromFavorites(int dishId, int userId) throws DaoException;
 
@@ -28,7 +28,7 @@ public interface FavoritesDao extends BaseDao {
      * @param dishId id of the dish
      * @param userId id of the user
      * @param date the {@code User} object. Current date
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     void addToFavorites(int dishId, int userId, Date date) throws DaoException;
 
@@ -37,7 +37,7 @@ public interface FavoritesDao extends BaseDao {
      *
      * @param userId id of the user
      * @return list of the dishes
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<Dish> findUserFavorites(int userId) throws DaoException;
 

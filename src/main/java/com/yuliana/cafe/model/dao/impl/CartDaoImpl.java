@@ -4,19 +4,25 @@ import com.yuliana.cafe.model.connection.ConnectionPool;
 import com.yuliana.cafe.model.dao.CartDao;
 import com.yuliana.cafe.model.entity.Dish;
 import com.yuliana.cafe.exception.DaoException;
+import com.yuliana.cafe.model.entity.DishCategory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.yuliana.cafe.model.dao.creator.EntityCreator.createDish;
-
+/**
+ * Implementation of the {@code CartDao} interface.
+ *
+ * @author Yulia Shuleiko
+ */
 public class CartDaoImpl implements CartDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
+    private static final CartDaoImpl INSTANCE = new CartDaoImpl();
     private static final String SELECT_ITEM_COUNT = "SELECT count FROM cart_items " +
             "WHERE dish_id = ? AND user_id = ?";
     private static final String UPDATE_ITEM_COUNT = "UPDATE cart_items SET count = ? " +
@@ -29,6 +35,15 @@ public class CartDaoImpl implements CartDao {
     private static final String ADD_ITEM = "INSERT INTO cart_items (count, user_id, dish_id) VALUES (?, ?, ?)";
     private static final String DELETE_ITEM = "DELETE FROM cart_items WHERE dish_id = ? AND user_id = ?";
     private static final String DELETE_ALL_ITEMS = "DELETE FROM cart_items";
+
+    /**
+     * Forbid creation of the new objects of the class.
+     */
+    private CartDaoImpl(){}
+
+    public static CartDaoImpl getInstance(){
+        return INSTANCE;
+    }
 
     @Override
     public void addItem(int userId, int dishId) throws DaoException {
@@ -119,4 +134,27 @@ public class CartDaoImpl implements CartDao {
         }
     }
 
+    /**
+     * Create the {@code Dish} object from the {@code ResultSet} object.
+     *
+     * @param dishData the {@code ResultSet} object
+     * @return the {@code Dish} object
+     * @throws SQLException if there is an attempt to get data
+     * from the {@code ResultSet} object of the wrong datatype
+     */
+    public static Dish createDish(ResultSet dishData) throws SQLException {
+        int dishId = dishData.getInt(1);
+        String name = dishData.getString(2);
+        String dishCategory = dishData.getString(3);
+        DishCategory category = DishCategory.valueOf(dishCategory.toUpperCase());
+        String pictureName = dishData.getString(4);
+        double price = dishData.getDouble(5);
+        short discount = dishData.getShort(6);
+        Date addedDate = dishData.getDate(7);
+        String description = dishData.getString(8);
+        short weight = dishData.getShort(9);
+        Dish dish = new Dish(dishId, name, category, pictureName,
+                price, discount, addedDate, description, weight);
+        return dish;
+    }
 }

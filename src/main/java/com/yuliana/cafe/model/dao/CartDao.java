@@ -17,7 +17,7 @@ public interface CartDao extends BaseDao {
      *
      * @param userId id of the user
      * @param dishId id of the dish
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     void addItem(int userId, int dishId) throws DaoException;
 
@@ -27,7 +27,7 @@ public interface CartDao extends BaseDao {
      * @param userId id of the user
      * @param dishId id of the dish
      * @param count count of items to delete
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     void deleteItem(int userId, int dishId, int count) throws DaoException;
 
@@ -36,7 +36,7 @@ public interface CartDao extends BaseDao {
      *
      * @param userId id of the user
      * @return map of the dishes and integers. Dish is the cart item and integer is it's count
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException iif occurred an error with access to database
      */
     Map<Dish, Integer> findUserItems(int userId) throws DaoException;
 
@@ -44,7 +44,7 @@ public interface CartDao extends BaseDao {
      * delete all items from the user's cart by user id.
      *
      * @param userId id of the user
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     void deleteAllItems(int userId) throws DaoException;
 }

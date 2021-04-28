@@ -6,14 +6,22 @@ import com.yuliana.cafe.model.entity.Dish;
 import com.yuliana.cafe.model.entity.DishCategory;
 import com.yuliana.cafe.exception.DaoException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static com.yuliana.cafe.model.dao.creator.EntityCreator.createDish;
-
+/**
+ * Implementation of the {@code DishDao} interface.
+ *
+ * @author Yulia Shuleiko
+ */
 public class DishDaoImpl implements DishDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
@@ -61,6 +69,9 @@ public class DishDaoImpl implements DishDao {
             "FROM ordered_dishes JOIN dishes ON ordered_dishes.dish_id = dishes.dish_id " +
             "GROUP BY ordered_dishes.dish_id ORDER BY SUM(ordered_dishes.count) DESC";
 
+    /**
+     * Forbid creation of the new objects of the class.
+     */
     private DishDaoImpl(){}
 
     public static DishDaoImpl getInstance(){
@@ -309,4 +320,27 @@ public class DishDaoImpl implements DishDao {
         return dishes;
     }
 
+    /**
+     * Create the {@code Dish} object from the {@code ResultSet} object.
+     *
+     * @param dishData the {@code ResultSet} object
+     * @return the {@code Dish} object
+     * @throws SQLException if there is an attempt to get data
+     * from the {@code ResultSet} object of the wrong datatype
+     */
+    public static Dish createDish(ResultSet dishData) throws SQLException {
+        int dishId = dishData.getInt(1);
+        String name = dishData.getString(2);
+        String dishCategory = dishData.getString(3);
+        DishCategory category = DishCategory.valueOf(dishCategory.toUpperCase());
+        String pictureName = dishData.getString(4);
+        double price = dishData.getDouble(5);
+        short discount = dishData.getShort(6);
+        Date addedDate = dishData.getDate(7);
+        String description = dishData.getString(8);
+        short weight = dishData.getShort(9);
+        Dish dish = new Dish(dishId, name, category, pictureName,
+                price, discount, addedDate, description, weight);
+        return dish;
+    }
 }

@@ -3,6 +3,7 @@ package com.yuliana.cafe.model.service;
 import com.yuliana.cafe.model.entity.Address;
 import com.yuliana.cafe.exception.ServiceException;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -40,4 +41,13 @@ public interface AddressService {
      * @throws ServiceException if the {@code DaoException} was thrown
      */
     void updateAddress(Map<String, String> addressForm, int addressId) throws ServiceException;
+
+    /**
+     * Find all addresses where cafes are located.
+     *
+     * @return list of the {@code Address} objects
+     * @throws ServiceException if the {@code DaoException} was thrown
+     */
+    List<Address> findAllCafeAddresses() throws ServiceException;
+
 }

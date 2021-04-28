@@ -33,6 +33,9 @@ public class DishServiceImpl implements DishService {
     private static final String FIELD_DISH_DESCRIPTION = "dish_description";
     private static final String FIELD_DISH_WEIGHT = "dish_weight";
 
+    /**
+     * Forbid creation of the new objects of the class.
+     */
     private DishServiceImpl() {
     }
 

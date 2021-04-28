@@ -2,15 +2,20 @@ package com.yuliana.cafe.model.dao.impl;
 
 import com.yuliana.cafe.model.connection.ConnectionPool;
 import com.yuliana.cafe.model.dao.OrderDao;
-import com.yuliana.cafe.model.dao.creator.EntityCreator;
 import com.yuliana.cafe.model.entity.Dish;
 import com.yuliana.cafe.model.entity.Order;
 import com.yuliana.cafe.model.entity.Address;
 import com.yuliana.cafe.model.entity.GettingType;
 import com.yuliana.cafe.model.entity.PaymentType;
+import com.yuliana.cafe.model.entity.DishCategory;
 import com.yuliana.cafe.exception.DaoException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map;
 import java.util.HashMap;
@@ -18,11 +23,15 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static com.yuliana.cafe.model.dao.creator.EntityCreator.createAddress;
-
+/**
+ * Implementation of the {@code OrderDao} interface.
+ *
+ * @author Yulia Shuleiko
+ */
 public class OrderDaoImpl implements OrderDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
+    private static final OrderDaoImpl INSTANCE = new OrderDaoImpl();
     private static final String INSERT_USER_ORDER = "INSERT into orders " +
             "(datetime, total, user_id, address_id, comment, getting_type, payment_type) " +
             "VALUES(?, ?, ?, ?, ?, ?, ?)";
@@ -50,6 +59,15 @@ public class OrderDaoImpl implements OrderDao {
             "addresses.entrance, addresses.floor, addresses.flat " +
             "FROM orders JOIN addresses ON addresses.address_id = orders.address_id " +
             "WHERE orders.order_id = ?";
+
+    /**
+     * Forbid creation of the new objects of the class.
+     */
+    private OrderDaoImpl(){}
+
+    public static OrderDaoImpl getInstance(){
+        return INSTANCE;
+    }
 
     @Override
     public int addUserOrder(Order order, int userId, int addressId) throws DaoException {
@@ -152,7 +170,7 @@ public class OrderDaoImpl implements OrderDao {
                 ResultSet dishesResult = dishesStatement.executeQuery();
                 while (dishesResult.next()) {
                     int count = dishesResult.getInt(10);
-                    Dish dish = EntityCreator.createDish(dishesResult);
+                    Dish dish = createDish(dishesResult);
                     dishes.put(dish, count);
                 }
                 Order order = createOrder(orderResult, dishes);
@@ -183,7 +201,7 @@ public class OrderDaoImpl implements OrderDao {
                 ResultSet dishesResult = dishesStatement.executeQuery();
                 while (dishesResult.next()) {
                     int count = dishesResult.getInt(10);
-                    Dish dish = EntityCreator.createDish(dishesResult);
+                    Dish dish = createDish(dishesResult);
                     dishes.put(dish, count);
                 }
                 Order order = createOrder(orderResult, dishes);
@@ -212,7 +230,7 @@ public class OrderDaoImpl implements OrderDao {
                 dishesStatement.setInt(1, orderId);
                 ResultSet dishesResult = dishesStatement.executeQuery();
                 while (dishesResult.next()) {
-                    Dish dish = EntityCreator.createDish(dishesResult);
+                    Dish dish = createDish(dishesResult);
                     int count = dishesResult.getInt(10);
                     orderedDishes.put(dish, count);
                 }
@@ -247,6 +265,15 @@ public class OrderDaoImpl implements OrderDao {
         return addressOptional;
     }
 
+    /**
+     * Create the {@code Order} object from the {@code ResultSet} object.
+     *
+     * @param orderData the {@code ResultSet} object
+     * @param orderedDishes map of the {@code Dish} objects and integers.
+     * @return the {@code Order} object
+     * @throws SQLException if there is an attempt to get data
+     * from the {@code ResultSet} object of the wrong datatype
+     */
     private Order createOrder(ResultSet orderData, Map<Dish, Integer> orderedDishes) throws SQLException {
         Order order;
         int orderId = orderData.getInt(1);
@@ -262,4 +289,47 @@ public class OrderDaoImpl implements OrderDao {
         return order;
     }
 
+    /**
+     * Create the {@code Dish} object from the {@code ResultSet} object.
+     *
+     * @param dishData the {@code ResultSet} object
+     * @return the {@code Dish} object
+     * @throws SQLException if there is an attempt to get data
+     * from the {@code ResultSet} object of the wrong datatype
+     */
+    public static Dish createDish(ResultSet dishData) throws SQLException {
+        int dishId = dishData.getInt(1);
+        String name = dishData.getString(2);
+        String dishCategory = dishData.getString(3);
+        DishCategory category = DishCategory.valueOf(dishCategory.toUpperCase());
+        String pictureName = dishData.getString(4);
+        double price = dishData.getDouble(5);
+        short discount = dishData.getShort(6);
+        Date addedDate = dishData.getDate(7);
+        String description = dishData.getString(8);
+        short weight = dishData.getShort(9);
+        Dish dish = new Dish(dishId, name, category, pictureName,
+                price, discount, addedDate, description, weight);
+        return dish;
+    }
+
+    /**
+     * Create the {@code Address} object from the {@code ResultSet} object.
+     *
+     * @param addressData {@code ResultSet} object
+     * @return the {@code Address} object
+     * @throws SQLException if there is an attempt to get data
+     * from the {@code ResultSet} object of the wrong datatype
+     */
+    public static Address createAddress(ResultSet addressData) throws SQLException {
+        int addressId = addressData.getInt(1);
+        String city = addressData.getString(2);
+        String street = addressData.getString(3);
+        short house = addressData.getShort(4);
+        short entrance = addressData.getShort(5);
+        short floor = addressData.getShort(6);
+        short flat = addressData.getShort(7);
+        Address address = new Address(addressId, city, street, house, entrance, floor, flat);
+        return address;
+    }
 }

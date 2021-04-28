@@ -10,11 +10,19 @@ import com.yuliana.cafe.model.service.FavoritesService;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Implementation of the {@code FavoritesService} interface.
+ *
+ * @author Yulia Shuleiko
+ */
 public class FavoritesServiceImpl implements FavoritesService {
 
     private static final FavoritesServiceImpl INSTANCE = new FavoritesServiceImpl();
-    private FavoritesDao favoritesDao = new FavoritesDaoImpl();
+    private FavoritesDao favoritesDao = FavoritesDaoImpl.getInstance();
 
+    /**
+     * Forbid creation of the new objects of the class.
+     */
     private FavoritesServiceImpl() {
     }
 

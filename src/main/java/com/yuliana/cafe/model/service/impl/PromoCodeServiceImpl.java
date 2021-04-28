@@ -12,12 +12,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Implementation of the {@code PromoCodeService} interface.
+ *
+ * @author Yulia Shuleiko
+ */
 public class PromoCodeServiceImpl implements PromoCodeService {
 
     private static final PromoCodeServiceImpl INSTANCE = new PromoCodeServiceImpl();
-    private PromoCodeDao promoCodeDao = new PromoCodeDaoImpl();
+    private PromoCodeDao promoCodeDao = PromoCodeDaoImpl.getInstance();
     private static final String PROMO_CODE_NAME = "promo_code_name";
     private static final String PROMO_CODE_DISCOUNT_PERCENTS = "promo_code_discount_percents";
+
+    /**
+     * Forbid creation of the new objects of the class.
+     */
+    private PromoCodeServiceImpl(){}
 
     public static PromoCodeService getInstance() {
         return INSTANCE;
@@ -119,6 +129,13 @@ public class PromoCodeServiceImpl implements PromoCodeService {
         return promoCodes;
     }
 
+    /**
+     * Create the {@code PromoCode} object from user's input.
+     *
+     * @param promoCodeFields map of the string.
+     *                        The key represents field of the form and the value is the user's input
+     * @return the {@code PromoCode} object
+     */
     private PromoCode createPromoCode(Map<String, String> promoCodeFields) {
         String name = promoCodeFields.get(PROMO_CODE_NAME);
         String discountPercents = promoCodeFields.get(PROMO_CODE_DISCOUNT_PERCENTS);

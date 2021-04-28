@@ -5,8 +5,8 @@ import com.yuliana.cafe.controller.PagePath;
 import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.model.entity.Address;
 import com.yuliana.cafe.exception.ServiceException;
-import com.yuliana.cafe.model.service.CafeService;
-import com.yuliana.cafe.model.service.impl.CafeServiceImpl;
+import com.yuliana.cafe.model.service.AddressService;
+import com.yuliana.cafe.model.service.impl.AddressServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +28,7 @@ public class ToPaymentCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page = PagePath.PAYMENT_PAGE;
-        CafeService cafeService = CafeServiceImpl.getInstance();
+        AddressService cafeService = AddressServiceImpl.getInstance();
         try {
             List<Address> addresses = cafeService.findAllCafeAddresses();
             request.setAttribute(AttributeName.CAFE_ADDRESSES, addresses);

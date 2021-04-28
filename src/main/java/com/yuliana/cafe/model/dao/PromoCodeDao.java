@@ -18,7 +18,7 @@ public interface PromoCodeDao extends BaseDao {
      *
      * @param name name of the promo code
      * @return the {@code PromoCode} object
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     Optional<PromoCode> findPromoCodeByName(String name) throws DaoException;
 
@@ -27,7 +27,7 @@ public interface PromoCodeDao extends BaseDao {
      *
      * @param promoCodeId
      * @return
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     Optional<PromoCode> findPromoCodeById(int promoCodeId) throws DaoException;
 
@@ -36,7 +36,7 @@ public interface PromoCodeDao extends BaseDao {
      *
      * @param promoCode the {@code PromoCode} object
      * @return id of the added promo code
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     int addPromoCode(PromoCode promoCode) throws DaoException;
 
@@ -44,7 +44,7 @@ public interface PromoCodeDao extends BaseDao {
      * Delete promo code by it's id.
      *
      * @param promoCodeId id of the promo code
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     void deletePromoCode(int promoCodeId) throws DaoException;
 
@@ -53,7 +53,7 @@ public interface PromoCodeDao extends BaseDao {
      *
      * @param namePart part of the name of the promo code
      * @return the {@code PromoCode} object
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<PromoCode> findPromoCodesByNamePart(String namePart) throws DaoException;
 
@@ -61,7 +61,7 @@ public interface PromoCodeDao extends BaseDao {
      * Find all the promo codes.
      *
      * @return list of the promo codes
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<PromoCode> findAllPromoCodes() throws DaoException;
 
@@ -69,7 +69,7 @@ public interface PromoCodeDao extends BaseDao {
      * Edit the promo code.
      *
      * @param promoCode the {@code PromoCode} object
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     void editPromoCode(PromoCode promoCode) throws DaoException;
 
@@ -77,7 +77,7 @@ public interface PromoCodeDao extends BaseDao {
      * Find promo codes ordered by it's name.
      *
      * @return list of the promo codes
-     * @throws DaoException is thrown when occurred error with access to database
+     * @throws DaoException if occurred an error with access to database
      */
     List<PromoCode> findAllPromoCodesSortedByName() throws DaoException;
 }

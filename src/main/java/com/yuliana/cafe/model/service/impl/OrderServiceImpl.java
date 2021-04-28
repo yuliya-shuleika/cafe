@@ -16,10 +16,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Implementation of the {@code OrderService} interface.
+ *
+ * @author Yulia Shuleiko
+ */
 public class OrderServiceImpl implements OrderService {
 
     private static final OrderServiceImpl INSTANCE = new OrderServiceImpl();
-    private OrderDao orderDao = new OrderDaoImpl();
+    private OrderDao orderDao = OrderDaoImpl.getInstance();
+
+    /**
+     * Forbid creation of the new objects of the class.
+     */
+    private OrderServiceImpl(){}
 
     public static OrderServiceImpl getInstance() {
         return INSTANCE;
@@ -41,7 +51,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public int addGuestOrder(String guestEmail, int addressId, int discount, Map<Dish, Integer> dishes, GettingType gettingType, PaymentType paymentType, String comment) throws ServiceException {
+    public int addGuestOrder(String guestEmail, int addressId, int discount,
+                             Map<Dish, Integer> dishes, GettingType gettingType,
+                             PaymentType paymentType, String comment) throws ServiceException {
         Date date = new Date();
         double total = countOrderPrice(dishes, discount);
         int orderId;
@@ -98,6 +110,14 @@ public class OrderServiceImpl implements OrderService {
         return addressOptional;
     }
 
+    /**
+     * Count total price of the order.
+     *
+     * @param orderedDishes map of the {@code Dish} objects and integers.
+     *                      Key is ordered dish ang value is it's count.
+     * @param discount discount percents of the order
+     * @return total price of thr order
+     */
     private double countOrderPrice(Map<Dish, Integer> orderedDishes, int discount){
         double price = 0.0;
         for (Dish dish : orderedDishes.keySet()) {

@@ -10,17 +10,28 @@ import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.model.service.ReviewService;
 import com.yuliana.cafe.model.service.validator.ReviewValidator;
 
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Optional;
 
+/**
+ * Implementation of the {@code ReviewService} interface.
+ *
+ * @author Yulia Shuleiko
+ */
 public class ReviewServiceImpl implements ReviewService {
 
     private static final ReviewServiceImpl INSTANCE = new ReviewServiceImpl();
-    private ReviewDao reviewDao = new ReviewDaoImpl();
+    private ReviewDao reviewDao = ReviewDaoImpl.getInstance();
     private static final String FIELD_REVIEW_HEADER = "review_header";
     private static final String FIELD_REVIEW_TEXT = "review_text";
 
-    private ReviewServiceImpl() {
-    }
+    /**
+     * Forbid creation of the new objects of the class.
+     */
+    private ReviewServiceImpl() {}
 
     public static ReviewServiceImpl getInstance() {
         return INSTANCE;

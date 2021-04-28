@@ -15,13 +15,14 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * The class PromoCodeDaoImpl is an implementation of the PromoCodeDao.
+ * Implementation of the {@code AddressDao} interface.
  *
  * @author Yulia Shuleiko
  */
 public class PromoCodeDaoImpl implements PromoCodeDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
+    private static final PromoCodeDaoImpl INSTANCE = new PromoCodeDaoImpl();
     private static final String SELECT_PROMO_CODE_BY_NAME = "SELECT promo_code_id, name, discount_percents " +
             "FROM promo_codes WHERE name = ?";
     private static final String SELECT_PROMO_CODES_BY_NAME_PART = "SELECT promo_code_id, name, discount_percents " +
@@ -37,6 +38,15 @@ public class PromoCodeDaoImpl implements PromoCodeDao {
             "SET name = ?, discount_percents = ? WHERE promo_code_id = ?";
     private static final String SELECT_ALL_PROMO_CODES_SORTED_BY_NAME = "SELECT promo_code_id, name, discount_percents " +
             "FROM promo_codes ORDER BY name";
+
+    /**
+     * Forbid creation of the objects of the class.
+     */
+    private PromoCodeDaoImpl(){}
+
+    public static PromoCodeDaoImpl getInstance(){
+        return INSTANCE;
+    }
 
     @Override
     public Optional<PromoCode> findPromoCodeByName(String name) throws DaoException {
