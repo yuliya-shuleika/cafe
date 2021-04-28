@@ -17,7 +17,7 @@ public class ReviewValidator extends BaseValidator {
     private static final String FIELD_REVIEW_HEADER = "review_header";
     private static final String FIELD_REVIEW_TEXT = "review_text";
     private static final String HEADER_REGEX = ".{1,50}";
-    private static final String TEXT_REGEX = ".{1,500}";
+    private static final String TEXT_REGEX = "(\\s|.){1,500}";
 
     /**
      * Validate the fields from the review form. Form consists of the 2 fields.
@@ -57,11 +57,11 @@ public class ReviewValidator extends BaseValidator {
     /**
      * Validate header part input.
      *
-     * @param header review's header part
+     * @param headerPart review's header part
      * @return {@code true} if input is valid otherwise {@code false}
      */
-    public static boolean isValidHeader(String header) {
-        boolean isValid = isValidField(HEADER_REGEX, header);
+    public static boolean isValidReviewSearch(String headerPart) {
+        boolean isValid = isValidField(HEADER_REGEX, headerPart);
         return isValid;
     }
 }

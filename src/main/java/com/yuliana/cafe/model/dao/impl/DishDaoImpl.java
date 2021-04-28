@@ -17,6 +17,7 @@ import static com.yuliana.cafe.model.dao.creator.EntityCreator.createDish;
 public class DishDaoImpl implements DishDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
+    private static final DishDaoImpl INSTANCE = new DishDaoImpl();
     private static final String SELECT_ALL_DISHES = "SELECT dish_id, name, category, picture_name, price, " +
             "discount_percents, date, description, weight " +
             "FROM dishes";
@@ -59,6 +60,12 @@ public class DishDaoImpl implements DishDao {
             "dishes.discount_percents, dishes.date, dishes.description, dishes.weight " +
             "FROM ordered_dishes JOIN dishes ON ordered_dishes.dish_id = dishes.dish_id " +
             "GROUP BY ordered_dishes.dish_id ORDER BY SUM(ordered_dishes.count) DESC";
+
+    private DishDaoImpl(){}
+
+    public static DishDaoImpl getInstance(){
+        return INSTANCE;
+    }
 
     @Override
     public List<Dish> findAllDishes() throws DaoException {

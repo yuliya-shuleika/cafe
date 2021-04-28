@@ -25,7 +25,7 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 
     @Override
     public Optional<PromoCode> findPromoCodeByName(String name) throws ServiceException {
-        boolean isValid = PromoCodeValidator.isValidPromoCode(name);
+        boolean isValid = PromoCodeValidator.isValidPromoCodeName(name);
         Optional<PromoCode> promoCodeOptional = Optional.empty();
         if (isValid) {
             try {

@@ -17,10 +17,15 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Implementation of the {@code DishService} class.
+ *
+ * @author Yulia Shuleiko
+ */
 public class DishServiceImpl implements DishService {
 
     private static final DishServiceImpl INSTANCE = new DishServiceImpl();
-    private DishDao dishDao = new DishDaoImpl();
+    private final DishDao dishDao = DishDaoImpl.getInstance();
     private static final String FIELD_DISH_NAME = "dish_name";
     private static final String FIELD_DISH_CATEGORY = "dish_category";
     private static final String FIELD_DISH_PRICE = "dish_price";
@@ -35,6 +40,7 @@ public class DishServiceImpl implements DishService {
         return INSTANCE;
     }
 
+    @Override
     public Optional<Dish> findDishById(int dishId) throws ServiceException {
         Optional<Dish> dishOptional;
         try {
@@ -45,6 +51,7 @@ public class DishServiceImpl implements DishService {
         return dishOptional;
     }
 
+    @Override
     public List<Dish> findAllDishes() throws ServiceException {
         List<Dish> menuItems;
         try {
@@ -66,6 +73,7 @@ public class DishServiceImpl implements DishService {
         return sortedItems;
     }
 
+    @Override
     public List<Dish> findDishesByCategory(DishCategory category) throws ServiceException {
         List<Dish> menuItems;
         try {
@@ -76,6 +84,7 @@ public class DishServiceImpl implements DishService {
         return menuItems;
     }
 
+    @Override
     public List<Dish> findDishesByName(String name) throws ServiceException {
         List<Dish> menuItems = new ArrayList<>();
         boolean isValid = DishValidator.isValidDishSearch(name);
@@ -178,6 +187,15 @@ public class DishServiceImpl implements DishService {
         return dishes;
     }
 
+    /**
+     * Create dish from user's input data.
+     *
+     * @param dishFields map of the strings where
+     *                   key is name of the field and value is user's input.
+     * @param picture filepath of the picture of the dish
+     * @param category the {@code DishCategory} object
+     * @return the {@code Dish} object
+     */
     private Dish createDish(Map<String, String> dishFields, String picture, DishCategory category) {
         String name = dishFields.get(FIELD_DISH_NAME);
         String dishPrice = dishFields.get(FIELD_DISH_PRICE);

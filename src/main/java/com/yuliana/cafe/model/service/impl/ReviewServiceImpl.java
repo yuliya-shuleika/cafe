@@ -57,7 +57,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<Review> findReviewByHeader(String header) throws ServiceException {
         List<Review> reviews = new ArrayList<>();
-        boolean isValid = ReviewValidator.isValidHeader(header);
+        boolean isValid = ReviewValidator.isValidReviewSearch(header);
         if (isValid) {
             try {
                 reviews = reviewDao.findReviewByHeader(header);

@@ -54,13 +54,14 @@ public class PromoCodeValidator extends BaseValidator {
         }
         return isValidForm;
     }
+
     /**
      * Validate promo code name input.
      *
      * @param promoCode promo code name
      * @return {@code true} if input is valid otherwise {@code false}
      */
-    public static boolean isValidPromoCode(String promoCode) {
+    public static boolean isValidPromoCodeName(String promoCode) {
         boolean isValid = isValidField(NAME_REGEX, promoCode);
         return isValid;
     }
