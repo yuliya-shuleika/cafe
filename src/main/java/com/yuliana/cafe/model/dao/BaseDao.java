@@ -75,7 +75,7 @@ public interface BaseDao {
             try {
                 statement.close();
             } catch (SQLException e) {
-                logger.log(Level.ERROR, "Statement was`t closed.", e);
+                logger.log(Level.ERROR, e);
             }
         }
     }

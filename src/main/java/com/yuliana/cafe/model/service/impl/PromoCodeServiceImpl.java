@@ -29,6 +29,11 @@ public class PromoCodeServiceImpl implements PromoCodeService {
      */
     private PromoCodeServiceImpl(){}
 
+    /**
+     * Getter method of the instance of the {@code PromoCodeServiceImpl} class.
+     *
+     * @return the {@code AddressDaoImpl} object
+     */
     public static PromoCodeService getInstance() {
         return INSTANCE;
     }

@@ -47,6 +47,7 @@ public class LoginCommand implements ActionCommand {
                 userOptional = userService.loginUser(loginForm);
             } catch (ServiceException e) {
                 logger.log(Level.ERROR, e);
+                response.sendError(500);
             }
             if (userOptional.isPresent()) {
                 User user = userOptional.get();

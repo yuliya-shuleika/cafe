@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,8 @@ public class EditUserAddressCommand implements ActionCommand {
     private static final int ADDRESS_FORM_SIZE = 6;
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String page = PagePath.ACCOUNT_PAGE;
         Map<String, String> addressFields = new HashMap<>();
         fillAddressMap(addressFields, request);
         UserService userService = UserServiceImpl.getInstance();
@@ -74,14 +76,22 @@ public class EditUserAddressCommand implements ActionCommand {
                 request.setAttribute(AttributeName.USER_ORDERS, orders);
             } catch (ServiceException e) {
                 logger.log(Level.ERROR, e);
+                response.sendError(500);
             }
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
+            response.sendError(500);
         }
-        String page = PagePath.ACCOUNT_PAGE;
         return page;
     }
 
+    /**
+     * Fill the map of string where key is field's name and values is a user's input.
+     *
+     * @param addressFields map of the string.
+     *                      The key represents field of the form and the value is the user's input
+     * @param request the {@code HttpServletRequest} object
+     */
     private void fillAddressMap(Map<String, String> addressFields, HttpServletRequest request){
         String city = request.getParameter(RequestParameter.CITY);
         addressFields.put(RequestParameter.CITY, city);

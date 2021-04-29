@@ -19,14 +19,24 @@ import java.io.IOException;
 @WebServlet(name = "Controller", urlPatterns = {"/controller", "*.do"})
 public class Controller extends HttpServlet {
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request,
+                         HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
+    /**
+     * Define tha action command and execute it.
+     *
+     * @param request the {@code HttpServletRequest} object
+     * @param response the {@code HttpServletResponse} object
+     * @throws ServletException if there is an error of the servlet
+     * @throws IOException if occurred an error with I/O operations
+     */
     private void processRequest(HttpServletRequest request,
                                 HttpServletResponse response) throws ServletException, IOException {
         String page;

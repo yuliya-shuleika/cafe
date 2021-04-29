@@ -11,6 +11,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * Class provides creation of the {@code Connection} objects.
+ *
+ * @author Yulia Shuleiko
+ */
 class ConnectionCreator {
 
     private static final Logger logger = LogManager.getLogger();
@@ -31,11 +36,19 @@ class ConnectionCreator {
         }
     }
 
+
+    /**
+     * Forbid creation of the new objects of the class.
+     */
     private ConnectionCreator() {
     }
 
+    /**
+     *
+     * @return the {@code Connection} object
+     */
     static Connection createConnection() {
-        Connection connection = null;
+        Connection connection;
         try {
             connection = DriverManager.getConnection(PROPERTIES.getProperty(URL_PROPERTY), PROPERTIES);
         } catch (SQLException throwables) {

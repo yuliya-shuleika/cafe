@@ -7,9 +7,6 @@ package com.yuliana.cafe.controller;
  */
 public class RequestParameter {
 
-    private RequestParameter() {
-    }
-
     /**
      * Name of the parameter that contains id of the dish.
      */
@@ -180,4 +177,10 @@ public class RequestParameter {
      * Name of the parameter that contains a guest's email.
      */
     public static final String GUEST_EMAIL = "guest_email";
+
+    /**
+     * Forbid creation of the new objects of the class.
+     */
+    private RequestParameter() {
+    }
 }

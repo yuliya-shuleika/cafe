@@ -6,45 +6,78 @@ import com.yuliana.cafe.model.entity.Dish;
 import com.yuliana.cafe.model.entity.DishCategory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 @Test
 public class DishDaoImplTest {
 
     private DishDao dishDao;
+    private String namePart;
+    private int dishId;
 
     @BeforeTest
     public void init(){
         dishDao = DishDaoImpl.getInstance();
-    }
-
-    @DataProvider
-    public static Object[][] dish() {
-        int dishId = 20;
-        String name = "Сайонара сет";
-        DishCategory category = DishCategory.SUSHI_SET;
-        double price = 12.20;
-        short discount = 12;
-        String description = "";
-        short flat = 57;
-        Dish dish = new Dish();
-        return new Object[][]{{dish}};
+        namePart = "маки";
+        dishId = 15;
     }
 
     @Test
     public void findAllDishesTest() throws DaoException {
         List<Dish> dishes = dishDao.findAllDishes();
+        int size = dishes.size();
+        Assert.assertNotEquals(size, 0);
+    }
+
+    @Test
+    public void findAllDishesSortedByDiscountTest() throws DaoException {
+        List<Dish> dishes = dishDao.findAllDishesSortedByDiscount();
+        int size = dishes.size();
+        Assert.assertNotEquals(size, 0);
+    }
+
+    @Test
+    public void findAllDishesSortedByNameTest() throws DaoException {
+        List<Dish> dishes = dishDao.findAllDishesSortedByName();
+        int size = dishes.size();
+        Assert.assertNotEquals(size, 0);
+    }
+
+    @Test
+    public void findAllDishesSortedByPopularityTest() throws DaoException {
+        List<Dish> dishes = dishDao.findAllDishesSortedByPopularity();
+        int size = dishes.size();
+        Assert.assertNotEquals(size, 0);
+    }
+
+    @Test
+    public void findAllDishesSortedByPriceTest() throws DaoException {
+        List<Dish> dishes = dishDao.findAllDishesSortedByPrice();
+        int size = dishes.size();
+        Assert.assertNotEquals(size, 0);
+    }
+
+    @Test
+    public void findDishesByCategoryTest() throws DaoException {
+        DishCategory category = DishCategory.SUSHI;
+        List<Dish> dishes = dishDao.findDishesByCategory(category);
+        int size = dishes.size();
+        Assert.assertNotEquals(size, 0);
+    }
+
+    @Test
+    public void findDishesByNameTest() throws DaoException {
+        List<Dish> dishes = dishDao.findDishesByName(namePart);
         int dishesCount = dishes.size();
         Assert.assertNotEquals(dishesCount, 0);
     }
 
-    @Test(dataProvider = "dish")
-    public void addAddressTest(Dish dish) throws DaoException{
-        int dishId = dishDao.addDish(dish);
-        Assert.assertNotEquals(dishId, 0);
+    @Test
+    public void findDishByIdTest() throws DaoException {
+        Optional<Dish> dishOptional = dishDao.findDishById(dishId);
+        Assert.assertNotEquals(dishOptional, Optional.empty());
     }
-
 }

@@ -33,6 +33,11 @@ public class ReviewServiceImpl implements ReviewService {
      */
     private ReviewServiceImpl() {}
 
+    /**
+     * Getter method of the instance of the {@code ReviewServiceImpl} class.
+     *
+     * @return the {@code AddressDaoImpl} object
+     */
     public static ReviewServiceImpl getInstance() {
         return INSTANCE;
     }
@@ -136,17 +141,6 @@ public class ReviewServiceImpl implements ReviewService {
             throw new ServiceException(e);
         }
         return reviewOptional;
-    }
-
-    @Override
-    public List<Review> findAllUserReviews(int userId) throws ServiceException {
-        List<Review> reviews;
-        try {
-            reviews = reviewDao.findAllUserReviews(userId);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-        return reviews;
     }
 
     @Override

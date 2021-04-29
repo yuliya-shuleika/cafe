@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,32 +31,40 @@ public class EditPromoCodeCommand implements ActionCommand {
     private static final int PROMO_CODE_FORM_SIZE = 2;
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, String> promoCodeFields = new HashMap<>();
-        String name = request.getParameter(RequestParameter.PROMO_CODE_NAME);
-        promoCodeFields.put(RequestParameter.PROMO_CODE_NAME, name);
-        String discountPercents = request.getParameter(RequestParameter.PROMO_CODE_DISCOUNT_PERCENTS);
-        promoCodeFields.put(RequestParameter.PROMO_CODE_DISCOUNT_PERCENTS, discountPercents);
+        fillPromoCodeMap(promoCodeFields, request);
         String promoCodeIdParam = request.getParameter(RequestParameter.PROMO_CODE_ID);
         int promoCodeId = Integer.parseInt(promoCodeIdParam);
         PromoCodeService promoCodeService = PromoCodeServiceImpl.getInstance();
         try {
             promoCodeService.editPromoCode(promoCodeFields, promoCodeId);
+            List<PromoCode> promoCodes = promoCodeService.findAllPromoCodes();
+            request.setAttribute(AttributeName.PROMO_CODES_LIST, promoCodes);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
+            response.sendError(500);
         }
         if (promoCodeFields.size() < PROMO_CODE_FORM_SIZE) {
             request.setAttribute(AttributeName.EDIT_ERROR_MESSAGE, ERROR_MESSAGE);
             request.setAttribute(AttributeName.PROMO_CODE_FIELDS, promoCodeFields);
             request.setAttribute(AttributeName.PROMO_CODE_ID, promoCodeId);
         }
-        try {
-            List<PromoCode> promoCodes = promoCodeService.findAllPromoCodes();
-            request.setAttribute(AttributeName.PROMO_CODES_LIST, promoCodes);
-        } catch (ServiceException e) {
-            logger.log(Level.ERROR, e);
-        }
         String page = PagePath.PROMO_CODES_LIST_PAGE;
         return page;
+    }
+
+    /**
+     * Fill the map of string where key is field's name and values is a user's input.
+     *
+     * @param promoCodeFields map of the string.
+     *                     The key represents field of the form and the value is the user's input
+     * @param request the {@code HttpServletRequest} object
+     */
+    private void fillPromoCodeMap(Map<String, String> promoCodeFields, HttpServletRequest request){
+        String name = request.getParameter(RequestParameter.PROMO_CODE_NAME);
+        promoCodeFields.put(RequestParameter.PROMO_CODE_NAME, name);
+        String discountPercents = request.getParameter(RequestParameter.PROMO_CODE_DISCOUNT_PERCENTS);
+        promoCodeFields.put(RequestParameter.PROMO_CODE_DISCOUNT_PERCENTS, discountPercents);
     }
 }

@@ -44,6 +44,11 @@ public class PromoCodeDaoImpl implements PromoCodeDao {
      */
     private PromoCodeDaoImpl(){}
 
+    /**
+     * Getter method of the instance of the {@code PromoCodeDaoImpl} class.
+     *
+     * @return the {@code PromoCodeDaoImpl} object
+     */
     public static PromoCodeDaoImpl getInstance(){
         return INSTANCE;
     }

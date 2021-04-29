@@ -2,7 +2,11 @@ package com.yuliana.cafe.model.dao.impl;
 
 import com.yuliana.cafe.model.connection.ConnectionPool;
 import com.yuliana.cafe.model.dao.ReviewDao;
-import com.yuliana.cafe.model.entity.*;
+import com.yuliana.cafe.model.entity.Review;
+import com.yuliana.cafe.model.entity.UserRole;
+import com.yuliana.cafe.model.entity.UserStatus;
+import com.yuliana.cafe.model.entity.ReviewStatus;
+import com.yuliana.cafe.model.entity.User;
 import com.yuliana.cafe.exception.DaoException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -26,12 +30,13 @@ public class ReviewDaoImpl implements ReviewDao {
     private static final Logger logger = LogManager.getLogger();
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
     private static final ReviewDaoImpl INSTANCE = new ReviewDaoImpl();
-    private static final String INSERT_REVIEW = "INSERT INTO reviews (user_id, header, text, rating, status) " +
+    private static final String INSERT_REVIEW = "INSERT INTO reviews " +
+            "(user_id, header, text, rating, status) " +
             "VALUES (?, ?, ?, ?, ?)";
     private static final String SELECT_ALL_REVIEWS = "SELECT review_id, header, text, rating, status " +
             "FROM reviews";
     private static final String SELECT_REVIEWS_BY_HEADER = "SELECT review_id, header, text, rating, status " +
-            "FROM reviews WHERE email COLLATE UTF8_GENERAL_CI LIKE ?";
+            "FROM reviews WHERE header COLLATE UTF8_GENERAL_CI LIKE ?";
     private static final String DELETE_REVIEW = "DELETE FROM reviews WHERE review_id = ?";
     private static final String UPDATE_REVIEW = "UPDATE reviews " +
             "SET header = ?, text = ?, rating = ?, status = ? WHERE reviewId = ?";
@@ -40,8 +45,6 @@ public class ReviewDaoImpl implements ReviewDao {
             "FROM reviews ORDER BY header";
     private static final String SELECT_REVIEWS_BY_STATUS = "SELECT review_id, header, text, rating, status " +
             "FROM reviews WHERE status = ?";
-    private static final String SELECT_USER_REVIEWS = "SELECT review_id, header, text, rating, status " +
-            "FROM reviews WHERE user_id = ?";
     private static final String SELECT_REVIEWS_BY_ID = "SELECT review_id, header, text, rating, status " +
             "FROM reviews WHERE review_id = ?";
     private static final String SELECT_USER_BY_REVIEWS_ID = "SELECT users.user_id, users.name, " +
@@ -55,9 +58,9 @@ public class ReviewDaoImpl implements ReviewDao {
     private ReviewDaoImpl(){}
 
     /**
+     * Getter method of the instance of the {@code ReviewDaoImpl} class.
      *
-     *
-     * @return the {@code ReviewDaoIml} object
+     * @return the {@code ReviewDaoImpl} object
      */
     public static ReviewDaoImpl getInstance(){
         return INSTANCE;
@@ -223,25 +226,6 @@ public class ReviewDaoImpl implements ReviewDao {
             pool.releaseConnection(connection);
         }
         return reviewOptional;
-    }
-
-    @Override
-    public List<Review> findAllUserReviews(int userId) throws DaoException {
-        Connection connection = pool.getConnection();
-        List<Review> reviews = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_USER_REVIEWS)) {
-            statement.setInt(1, userId);
-            ResultSet result = statement.executeQuery();
-            while (result.next()) {
-                Review review = createReview(result);
-                reviews.add(review);
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
-        return reviews;
     }
 
     @Override

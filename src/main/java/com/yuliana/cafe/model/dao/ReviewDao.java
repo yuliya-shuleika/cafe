@@ -93,15 +93,6 @@ public interface ReviewDao extends BaseDao {
     Optional<Review> findReviewById(int reviewId) throws DaoException;
 
     /**
-     * Find the reviews written by user.
-     *
-     * @param userId id of the user
-     * @return list of the reviews
-     * @throws DaoException if occurred an error with access to database
-     */
-    List<Review> findAllUserReviews(int userId) throws DaoException;
-
-    /**
      * Find the author of the review.
      *
      * @param reviewId id of the review

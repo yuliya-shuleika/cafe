@@ -17,19 +17,9 @@ public class Address {
     private short flat;
 
     /**
-     * @param addressId id of the address
-     * @param city name of the city
-     * @param street name of the street
-     * @param house number of the house
-     */
-    public Address(int addressId, String city, String street, short house) {
-        this.addressId = addressId;
-        this.city = city;
-        this.street = street;
-        this.house = house;
-    }
-
-    /**
+     * Constructs the {@code Address} object with given id,
+     * city, street, house, entrance, floor, flat.
+     *
      * @param addressId id of the address
      * @param city name of the city
      * @param street name of the street
@@ -48,13 +38,25 @@ public class Address {
         this.flat = flat;
     }
 
-    public Address(String city, String street, short house) {
+    /**
+     * Constructs the {@code Address} object with given id, city, street, house.
+     *
+     * @param addressId id of the address
+     * @param city name of the city
+     * @param street name of the street
+     * @param house number of the house
+     */
+    public Address(int addressId, String city, String street, short house) {
+        this.addressId = addressId;
         this.city = city;
         this.street = street;
         this.house = house;
     }
 
     /**
+     * Constructs the {@code Address} object with given city, street,
+     * house, entrance, floor, flat.
+     *
      * @param city name of the city
      * @param street name of the street
      * @param house number of the house

@@ -3,11 +3,30 @@ package com.yuliana.cafe.model.connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.CallableStatement;
+import java.sql.DatabaseMetaData;
+import java.sql.Savepoint;
+import java.sql.SQLWarning;
+import java.sql.Array;
+import java.sql.Struct;
+import java.sql.Blob;
+import java.sql.Clob;
+import java.sql.NClob;
+import java.sql.SQLXML;
+import java.sql.SQLClientInfoException;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+/**
+ * Implementation of the {@code Connection} interface with a proxy pattern.
+ *
+ * @author Yulia Shuleiko
+ */
 public class ProxyConnection implements Connection {
 
     private static final Logger logger = LogManager.getLogger();
@@ -57,11 +76,21 @@ public class ProxyConnection implements Connection {
         connection.rollback();
     }
 
+    /**
+     * Return the connection to the queue of free connections in the connection pool.
+     *
+     * @throws SQLException if a database access error occurs
+     */
     @Override
     public void close() throws SQLException {
         ConnectionPool.INSTANCE.releaseConnection(this);
     }
 
+    /**
+     * Close connection.
+     *
+     * @throws SQLException if a database access error occurs
+     */
     void reallyClose() throws SQLException {
         connection.close();
     }

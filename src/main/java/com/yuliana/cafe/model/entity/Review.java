@@ -20,13 +20,15 @@ public class Review {
     }
 
     /**
-     * Constructs the {@code Review} object with given review's id, header, text, rating, status.
+     * Constructs the {@code Review} object with given review's id,
+     * header, text, rating, status.
      *
      * @param reviewId id of the review
      * @param header header of the review
      * @param text text of the review
      * @param rating rating (from 1 to 5 points) of the review
-     * @param status {@code ReviewStatus} object represents status of the review (new, approved or rejected)
+     * @param status {@code ReviewStatus} object represents status
+     *                                   of the review (new, approved or rejected)
      */
     public Review(int reviewId, String header, String text, int rating, ReviewStatus status) {
         this.reviewId = reviewId;
@@ -42,7 +44,8 @@ public class Review {
      * @param header header of the review
      * @param text text of the review
      * @param rating rating (from 1 to 5 points) of the review
-     * @param status {@code ReviewStatus} object represents status of the review (new, approved or rejected)
+     * @param status {@code ReviewStatus} object represents status
+     *                                   of the review (new, approved or rejected)
      */
     public Review(String header, String text, int rating, ReviewStatus status) {
         this.header = header;
@@ -117,7 +120,8 @@ public class Review {
     /**
      * Getter method of the review's status.
      *
-     * @return {@code ReviewStatus} object represents status of the review (new, approved or rejected)
+     * @return {@code ReviewStatus} object represents status
+     * of the review (new, approved or rejected)
      */
     public ReviewStatus getStatus() {
         return status;
@@ -126,7 +130,8 @@ public class Review {
     /**
      * Setter method of the review's status.
      *
-     * @param status {@code ReviewStatus} object represents status of the review (new, approved or rejected)
+     * @param status {@code ReviewStatus} object represents status
+     *                                   of the review (new, approved or rejected)
      */
     public void setStatus(ReviewStatus status) {
         this.status = status;

@@ -39,6 +39,11 @@ public class DishServiceImpl implements DishService {
     private DishServiceImpl() {
     }
 
+    /**
+     * Getter method of the instance of the {@code DishServiceImpl} class.
+     *
+     * @return the {@code AddressDaoImpl} object
+     */
     public static DishServiceImpl getInstance() {
         return INSTANCE;
     }
@@ -133,7 +138,8 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public int addDishToMenu(Map<String, String> dishFields, String pictureName) throws ServiceException {
+    public int addDishToMenu(Map<String, String> dishFields,
+                             String pictureName) throws ServiceException {
         String category = dishFields.remove(FIELD_DISH_CATEGORY);
         DishCategory dishCategory = DishCategory.valueOf(category.toUpperCase());
         boolean isValid = DishValidator.isValidDishForm(dishFields);
@@ -150,7 +156,8 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public void editDish(Map<String, String> dishFields, String pictureName, int dishId) throws ServiceException {
+    public void editDish(Map<String, String> dishFields,
+                         String pictureName, int dishId) throws ServiceException {
         String category = dishFields.remove(FIELD_DISH_CATEGORY);
         DishCategory dishCategory = DishCategory.valueOf(category.toUpperCase());
         boolean isValid = DishValidator.isValidDishForm(dishFields);
@@ -199,7 +206,8 @@ public class DishServiceImpl implements DishService {
      * @param category the {@code DishCategory} object
      * @return the {@code Dish} object
      */
-    private Dish createDish(Map<String, String> dishFields, String picture, DishCategory category) {
+    private Dish createDish(Map<String, String> dishFields,
+                            String picture, DishCategory category) {
         String name = dishFields.get(FIELD_DISH_NAME);
         String dishPrice = dishFields.get(FIELD_DISH_PRICE);
         double price = Double.parseDouble(dishPrice);

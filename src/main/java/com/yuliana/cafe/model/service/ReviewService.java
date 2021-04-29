@@ -80,8 +80,6 @@ public interface ReviewService {
      */
     Optional<Review> findReviewById(int reviewId) throws ServiceException;
 
-    List<Review> findAllUserReviews(int userId) throws ServiceException;
-
     /**
      * Update status of the review to one of this: new, approved or rejected
      *

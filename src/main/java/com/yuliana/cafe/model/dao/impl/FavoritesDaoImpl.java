@@ -24,10 +24,11 @@ public class FavoritesDaoImpl implements FavoritesDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
     private static final FavoritesDaoImpl INSTANCE = new FavoritesDaoImpl();
-    private static final String DELETE_FROM_FAVORITES = "DELETE FROM favorites WHERE dish_id = ? AND user_id = ?";
-    private static final String SELECT_ALL_USER_FAVORITES = "SELECT dishes.dish_id, dishes.name, dishes.category, " +
-            "dishes.picture_name, dishes.price, dishes.discount_percents, " +
-            "dishes.date, dishes.description, dishes.weight " +
+    private static final String DELETE_FROM_FAVORITES = "DELETE FROM favorites " +
+            "WHERE dish_id = ? AND user_id = ?";
+    private static final String SELECT_ALL_USER_FAVORITES = "SELECT dishes.dish_id, " +
+            "dishes.name, dishes.category, dishes.picture_name, dishes.price, " +
+            "dishes.discount_percents, dishes.date, dishes.description, dishes.weight " +
             "FROM favorites " +
             "JOIN dishes ON favorites.dish_id = dishes.dish_id " +
             "WHERE favorites.user_id = ? ORDER BY favorites.datetime";
@@ -35,10 +36,15 @@ public class FavoritesDaoImpl implements FavoritesDao {
             "VALUES (?, ?, ?)";
 
     /**
-     * Forbid creation of the objects new of the class.
+     * Forbid creation of the new objects of the class.
      */
     private FavoritesDaoImpl(){}
 
+    /**
+     * Getter method of the instance of the {@code FavoritesDaoImpl} class.
+     *
+     * @return the {@code FavoritesDaoImpl} object
+     */
     public static FavoritesDaoImpl getInstance(){
         return INSTANCE;
     }

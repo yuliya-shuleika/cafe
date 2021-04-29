@@ -34,13 +34,12 @@ public class AddPromoCodeCommand implements ActionCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String page = PagePath.PROMO_CODES_LIST_PAGE;
         Map<String, String> promoCodeFields = new HashMap<>();
-        String name = request.getParameter(RequestParameter.PROMO_CODE_NAME);
-        promoCodeFields.put(RequestParameter.PROMO_CODE_NAME, name);
-        String discountPercents = request.getParameter(RequestParameter.PROMO_CODE_DISCOUNT_PERCENTS);
-        promoCodeFields.put(RequestParameter.PROMO_CODE_DISCOUNT_PERCENTS, discountPercents);
+        fillPromoCodeMap(promoCodeFields, request);
         PromoCodeService promoCodeService = PromoCodeServiceImpl.getInstance();
         try {
             promoCodeService.addPromoCode(promoCodeFields);
+            List<PromoCode> promoCodes = promoCodeService.findAllPromoCodes();
+            request.setAttribute(AttributeName.PROMO_CODES_LIST, promoCodes);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
             response.sendError(500);
@@ -50,13 +49,20 @@ public class AddPromoCodeCommand implements ActionCommand {
             request.setAttribute(AttributeName.PROMO_CODE_FIELDS, promoCodeFields);
             logger.log(Level.DEBUG, "Error while filling promo code form.");
         }
-        try {
-            List<PromoCode> promoCodes = promoCodeService.findAllPromoCodes();
-            request.setAttribute(AttributeName.PROMO_CODES_LIST, promoCodes);
-        } catch (ServiceException e) {
-            logger.log(Level.ERROR, e);
-            response.sendError(500);
-        }
         return page;
+    }
+
+    /**
+     * Fill the map of string where key is field's name and values is a user's input.
+     *
+     * @param promoCodeFields map of the string.
+     *                     The key represents field of the form and the value is the user's input
+     * @param request the {@code HttpServletRequest} object
+     */
+    private void fillPromoCodeMap(Map<String, String> promoCodeFields, HttpServletRequest request){
+        String name = request.getParameter(RequestParameter.PROMO_CODE_NAME);
+        promoCodeFields.put(RequestParameter.PROMO_CODE_NAME, name);
+        String discountPercents = request.getParameter(RequestParameter.PROMO_CODE_DISCOUNT_PERCENTS);
+        promoCodeFields.put(RequestParameter.PROMO_CODE_DISCOUNT_PERCENTS, discountPercents);
     }
 }

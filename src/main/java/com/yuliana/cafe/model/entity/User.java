@@ -15,7 +15,8 @@ public class User {
     private String avatar;
 
     /**
-     * Constructs the {@code User} object with given name, email, role, status and avatar.
+     * Constructs the {@code User} object with given name,
+     * email, role, status and avatar.
      *
      * @param name name of the user
      * @param email email of the user
@@ -32,7 +33,8 @@ public class User {
     }
 
     /**
-     * Constructs the {@code User} object with given name, email, role, status and avatar.
+     * Constructs the {@code User} object with given name,
+     * email, role, status and avatar.
      * @param name name of the user
      * @param email email of the user
      * @param role {@code UserRole} object represents role of the user
@@ -46,7 +48,8 @@ public class User {
     }
 
     /**
-     * Constructs the {@code User} object with given id, name, email, role, status and avatar.
+     * Constructs the {@code User} object with given id,
+     * name, email, role, status and avatar.
      *
      * @param userId id of the user
      * @param name name of the user

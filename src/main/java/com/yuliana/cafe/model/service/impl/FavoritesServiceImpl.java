@@ -26,6 +26,11 @@ public class FavoritesServiceImpl implements FavoritesService {
     private FavoritesServiceImpl() {
     }
 
+    /**
+     * Getter method of the instance of the {@code FavoritesServiceImpl} class.
+     *
+     * @return the {@code AddressDaoImpl} object
+     */
     public static FavoritesServiceImpl getInstance() {
         return INSTANCE;
     }

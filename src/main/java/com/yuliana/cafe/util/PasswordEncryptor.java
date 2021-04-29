@@ -8,11 +8,22 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Password encryptor provides encryption operations with the password strings.
+ *
+ * @author Yulia Shuleiko
+ */
 public class PasswordEncryptor {
 
     private static final Logger logger = LogManager.getLogger();
     private static final String HASH_FUNCTION = "SHA-256";
 
+    /**
+     * Encrypt the password with a help of the hash function sha-256.
+     *
+     * @param password user's password
+     * @return hash of the user's password
+     */
     public static String encrypt(String password) {
         String result = "";
         try {

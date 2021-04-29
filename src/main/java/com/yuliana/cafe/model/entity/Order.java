@@ -20,13 +20,16 @@ public class Order {
     private GettingType gettingType;
 
     /**
-     * Constructs the {@code Order} object with given date, total, comment, paymentType and gettingType.
+     * Constructs the {@code Order} object with given date,
+     * total, comment, paymentType and gettingType.
      *
      * @param date {@code Date} object that represents the date of order
      * @param total total amount of money
      * @param comment comment of the order
-     * @param paymentType {@code PaymentType} object that represents type of the payment (cash or bank card)
-     * @param gettingType {@code GettingType} object that represents type of the getting order (delivery or pickup)
+     * @param paymentType {@code PaymentType} object that represents type
+     *                                       of the payment (cash or bank card)
+     * @param gettingType {@code GettingType} object that represents type
+     *                                       of the getting order (delivery or pickup)
      */
     public Order(Date date, double total, String comment, PaymentType paymentType, GettingType gettingType) {
         this.date = date;
@@ -46,8 +49,10 @@ public class Order {
      * @param comment comment of the order
      * @param orderedDishes map of the {@code Dish} object and integer.
      *                      The key represents ordered dish and the value is it's count.
-     * @param paymentType {@code PaymentType} object that represents type of the payment (cash or bank card)
-     * @param gettingType {@code GettingType} object that represents type of the getting order (delivery or pickup)
+     * @param paymentType {@code PaymentType} object that represents type
+     *                                       of the payment (cash or bank card)
+     * @param gettingType {@code GettingType} object that represents type
+     *                                       of the getting order (delivery or pickup)
      */
     public Order(int orderId, Date date, double total, String comment, Map<Dish,
             Integer> orderedDishes, PaymentType paymentType, GettingType gettingType) {
@@ -69,8 +74,10 @@ public class Order {
      * @param comment comment of the order
      * @param orderedDishes map of the {@code Dish} object and integer.
      *                      The key represents ordered dish and the value is it's count.
-     * @param paymentType {@code PaymentType} object that represents type of the payment (cash or bank card)
-     * @param gettingType {@code GettingType} object that represents type of the getting order (delivery or pickup)
+     * @param paymentType {@code PaymentType} object that represents type
+     *                                       of the payment (cash or bank card)
+     * @param gettingType {@code GettingType} object that represents type
+     *                                       of the getting order (delivery or pickup)
      */
     public Order(Date date, double total, String comment, Map<Dish, Integer> orderedDishes,
                  PaymentType paymentType, GettingType gettingType) {
@@ -173,7 +180,8 @@ public class Order {
     /**
      * Setter method of the payment type.
      *
-     * @param paymentType {@code PaymentType} object that represents type of the payment (cash or bank card)
+     * @param paymentType {@code PaymentType} object that represents type
+     *                                       of the payment (cash or bank card)
      */
     public void setPaymentType(PaymentType paymentType) {
         this.paymentType = paymentType;
@@ -182,7 +190,8 @@ public class Order {
     /**
      * Getter method of the getting type.
      *
-     * @return {@code GettingType} object that represents type of the getting order (delivery or pickup)
+     * @return {@code GettingType} object that represents type
+     * of the getting order (delivery or pickup)
      */
     public GettingType getGettingType() {
         return gettingType;
@@ -191,7 +200,8 @@ public class Order {
     /**
      * Setter method of the getting type.
      *
-     * @param gettingType {@code GettingType} object that represents type of the getting order (delivery or pickup)
+     * @param gettingType {@code GettingType} object that represents type
+     *                                       of the getting order (delivery or pickup)
      */
     public void setGettingType(GettingType gettingType) {
         this.gettingType = gettingType;

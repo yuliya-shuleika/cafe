@@ -31,6 +31,11 @@ public class OrderServiceImpl implements OrderService {
      */
     private OrderServiceImpl(){}
 
+    /**
+     * Getter method of the instance of the {@code OrderServiceImpl} class.
+     *
+     * @return the {@code AddressDaoImpl} object
+     */
     public static OrderServiceImpl getInstance() {
         return INSTANCE;
     }

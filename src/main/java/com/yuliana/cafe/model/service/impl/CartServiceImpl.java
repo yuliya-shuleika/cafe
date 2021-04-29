@@ -25,6 +25,11 @@ public class CartServiceImpl implements CartService {
     private CartServiceImpl() {
     }
 
+    /**
+     * Getter method of the instance of the {@code CartServiceImpl} class.
+     *
+     * @return the {@code AddressDaoImpl} object
+     */
     public static CartServiceImpl getInstance() {
         return INSTANCE;
     }

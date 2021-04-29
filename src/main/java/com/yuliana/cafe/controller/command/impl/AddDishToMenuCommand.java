@@ -63,6 +63,8 @@ public class AddDishToMenuCommand implements ActionCommand {
         DishService dishService = DishServiceImpl.getInstance();
         try {
             dishService.addDishToMenu(dishFields, pictureName);
+            List<Dish> dishes = dishService.findAllDishes();
+            request.setAttribute(AttributeName.DISHES_LIST, dishes);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
             response.sendError(500);
@@ -71,13 +73,6 @@ public class AddDishToMenuCommand implements ActionCommand {
             request.setAttribute(AttributeName.EDIT_ERROR_MESSAGE, ERROR_MESSAGE);
             request.setAttribute(AttributeName.DISH_FIELDS, dishFields);
         }
-        try {
-            List<Dish> dishes = dishService.findAllDishes();
-            request.setAttribute(AttributeName.DISHES_LIST, dishes);
-        } catch (ServiceException e) {
-            logger.log(Level.ERROR, e);
-            response.sendError(500);
-        }
         return page;
     }
 
@@ -85,7 +80,7 @@ public class AddDishToMenuCommand implements ActionCommand {
      * Process list of the {@code FileItem} objects.
      * Upload picture of the dish and save user's input.
      *
-     * @param iterator
+     * @param iterator the {@code Iterator<T>} object
      * @param dishFields map of the string.
      *                   The key represents field of the form and the value is the user's input
      * @param response the {@code HttpServletResponse} object

@@ -7,9 +7,6 @@ package com.yuliana.cafe.controller;
  */
 public class PagePath {
 
-    private PagePath() {
-    }
-
     /**
      * The path to the home page.
      */
@@ -62,22 +59,8 @@ public class PagePath {
     public static final String ABOUT_PAGE = "/jsp/about.jsp";
 
     /**
-     * The path of error 400 page.
+     * Forbid creation of the new objects of the class.
      */
-    public static final String ERROR_400_PAGE = "/jsp/error/error400.jsp";
-
-    /**
-     * The path of error 403 page.
-     */
-    public static final String ERROR_403_PAGE = "/jsp/error/error403.jsp";
-
-    /**
-     * The path of error 404 page.
-     */
-    public static final String ERROR_404_PAGE = "/jsp/error/error404.jsp";
-
-    /**
-     * The path of error 500 page.
-     */
-    public static final String ERROR_500_PAGE = "/jsp/error/error500.jsp";
+    private PagePath() {
+    }
 }

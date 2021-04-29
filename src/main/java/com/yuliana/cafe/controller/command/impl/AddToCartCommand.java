@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 
@@ -31,7 +32,7 @@ public class AddToCartCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         String page = (String) session.getAttribute(AttributeName.CURRENT_PAGE);
         DishService dishService = DishServiceImpl.getInstance();
@@ -42,22 +43,10 @@ public class AddToCartCommand implements ActionCommand {
             dishOptional = dishService.findDishById(dishId);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
+            response.sendError(500);
         }
         if (dishOptional.isPresent()) {
-            Object userAttribute = session.getAttribute(AttributeName.USER);
-            Optional<Object> userOptional = Optional.ofNullable(userAttribute);
-            if (userOptional.isPresent()) {
-                User user = (User) userOptional.get();
-                UserRole role = user.getRole();
-                if (role.equals(UserRole.USER)) {
-                    CartService cartService = CartServiceImpl.getInstance();
-                    try {
-                        cartService.addItem(user.getUserId(), dishId);
-                    } catch (ServiceException e) {
-                        logger.log(Level.ERROR, e);
-                    }
-                }
-            }
+            addDishToUserCart(dishId, session, response);
             Object cartItemsAttribute = session.getAttribute(AttributeName.CART_ITEMS);
             Map<Dish, Integer> cartItems = (Map<Dish, Integer>) cartItemsAttribute;
             Dish dish = dishOptional.get();
@@ -73,8 +62,34 @@ public class AddToCartCommand implements ActionCommand {
             }
             session.setAttribute(AttributeName.CART_ITEMS, cartItems);
             session.setAttribute(AttributeName.CART_ITEMS_COUNT, cartItemsCount);
-            //request.setAttribute(AttributeName.ADD_DISH_TO_CART, true);
         }
         return page;
+    }
+
+    /**
+     * Add dish to the user's cart.
+     *
+     * @param dishId id of the added dish
+     * @param session the {@code HttpSession} object
+     * @param response the {@code HttpServletResponse} object
+     * @throws IOException if occurs an error while sending error's code with response
+     */
+    private void addDishToUserCart(int dishId, HttpSession session,
+                                    HttpServletResponse response) throws IOException {
+        Object userAttribute = session.getAttribute(AttributeName.USER);
+        Optional<Object> userOptional = Optional.ofNullable(userAttribute);
+        if (userOptional.isPresent()) {
+            User user = (User) userOptional.get();
+            UserRole role = user.getRole();
+            if (role.equals(UserRole.USER)) {
+                CartService cartService = CartServiceImpl.getInstance();
+                try {
+                    cartService.addItem(user.getUserId(), dishId);
+                } catch (ServiceException e) {
+                    logger.log(Level.ERROR, e);
+                    response.sendError(500);
+                }
+            }
+        }
     }
 }

@@ -25,7 +25,8 @@ public class AddressDaoImpl implements AddressDao {
     private static volatile AddressDaoImpl INSTANCE = new AddressDaoImpl();
     private static final String INSERT_ADDRESS = "INSERT into addresses " +
             "(city, street, house, entrance, floor, flat) VALUES(?, ?, ?, ?, ?, ?)";
-    private static final String SELECT_ADDRESS_BY_ID = "SELECT address_id, city, street, house, entrance, floor, flat " +
+    private static final String SELECT_ADDRESS_BY_ID = "SELECT address_id, city, street, " +
+            "house, entrance, floor, flat " +
             "FROM addresses WHERE address_id = ?";
     private static final String UPDATE_ADDRESS = "UPDATE addresses " +
             "SET city = ?, street = ?, house = ?, entrance = ?, floor = ?, flat = ? " +
@@ -34,14 +35,19 @@ public class AddressDaoImpl implements AddressDao {
             "addresses.city, addresses.street, addresses.house " +
             "FROM cafes JOIN addresses ON cafes.address_id = addresses.address_id";
 
-    public static AddressDaoImpl getInstance() {
-        return INSTANCE;
-    }
-
     /**
      * Forbid creation of the new objects of the class.
      */
     private AddressDaoImpl(){}
+
+    /**
+     * Getter method of the instance of the {@code AddressDaoImpl} class.
+     *
+     * @return the {@code AddressDaoImpl} object
+     */
+    public static AddressDaoImpl getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public int addAddress(Address address) throws DaoException {
@@ -135,7 +141,7 @@ public class AddressDaoImpl implements AddressDao {
      * @throws SQLException if there is an attempt to get data
      * from the {@code ResultSet} object of the wrong datatype
      */
-    public static Address createAddress(ResultSet addressData) throws SQLException {
+    private static Address createAddress(ResultSet addressData) throws SQLException {
         int addressId = addressData.getInt(1);
         String city = addressData.getString(2);
         String street = addressData.getString(3);

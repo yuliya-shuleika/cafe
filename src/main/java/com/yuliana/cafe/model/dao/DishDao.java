@@ -24,15 +24,6 @@ public interface DishDao extends BaseDao {
     List<Dish> findAllDishes() throws DaoException;
 
     /**
-     *
-     * @param min
-     * @param max
-     * @return
-     * @throws DaoException
-     */
-    List<Dish> findDishesByPrice(double min, double max) throws DaoException;
-
-    /**
      * Find the dishes that relate to the certain category.
      *
      * @param category the {@code DishCategory} object

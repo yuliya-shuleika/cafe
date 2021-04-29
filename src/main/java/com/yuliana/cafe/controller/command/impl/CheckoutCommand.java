@@ -33,8 +33,6 @@ public class CheckoutCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static final String ADDRESS_ERROR_MESSAGE = "address_error";
     private static final String PROMO_CODE_ERROR_MESSAGE = "promo_code_error";
-    private static final String DELIVERY = "delivery";
-    private static final String PICKUP = "pickup";
     private static final int ADDRESS_FORM_SIZE = 6;
     private String page;
 

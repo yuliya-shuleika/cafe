@@ -22,7 +22,7 @@ import java.util.Optional;
  *
  * @author Yulia Shuleiko
  */
-public class UserDaoImpl implements UserDao {
+public class  UserDaoImpl implements UserDao {
 
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
     private static final UserDaoImpl INSTANCE = new UserDaoImpl();
@@ -30,7 +30,8 @@ public class UserDaoImpl implements UserDao {
             "FROM users WHERE email = ? AND password = ?";
     private static final String INSERT_USER = "INSERT INTO users ( name , email , password , role, status) " +
             "VALUES ( ?, ?, ?, ?, ? )";
-    private static final String SELECT_ALL_USERS = "SELECT user_id, name, email, role, status, avatar FROM users";
+    private static final String SELECT_ALL_USERS = "SELECT user_id, name, email, role, status, avatar " +
+            "FROM users";
     private static final String SELECT_USER_SORTED_BY_EMAIL = "SELECT user_id, name, email, role, status, avatar " +
             "FROM users ORDER BY email";
     private static final String SELECT_USERS_BY_EMAIL = "SELECT user_id, name, email, role, status, avatar " +
@@ -58,6 +59,11 @@ public class UserDaoImpl implements UserDao {
      */
     private UserDaoImpl(){}
 
+    /**
+     * Getter method of the instance of the {@code UserDaoImpl} class.
+     *
+     * @return the {@code UserDaoImpl} object
+     */
     public static UserDaoImpl getInstance(){
         return INSTANCE;
     }

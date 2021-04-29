@@ -141,9 +141,6 @@ public class AttributeName {
      */
     public static final String REGISTER_ERROR_MESSAGE = "register_error_message";
 
-
-    public static final String ADD_DISH_TO_CART = "add_dish_to_cart";
-
     /**
      * Name of the attribute that represents the {@code Order} object.
      * This is an order that user wants to repeat.
@@ -205,6 +202,9 @@ public class AttributeName {
      */
     public static final String DISH_PICTURE = "dish_picture";
 
+    /**
+     * Forbid creation of the new objects of the class.
+     */
     private AttributeName() {
     }
 }

@@ -38,7 +38,7 @@ public class OrderDaoImpl implements OrderDao {
     private static final String INSERT_GUEST_ORDER = "INSERT into orders " +
             "(datetime, total, guest_email, address_id, comment, getting_type, payment_type) " +
             "VALUES(?, ?, ?, ?, ?, ?, ?)";
-    private static final String SELECT_ALL_ORDERS = "SELECT order_id, datetime, total, user_id, address_id, " +
+    private static final String SELECT_ALL_ORDERS = "SELECT order_id, datetime, total, " +
             "comment, getting_type, payment_type FROM orders";
     private static final String SELECT_ORDER_BY_USER_ID = "SELECT order_id, datetime, total, " +
             "comment, getting_type, payment_type " +
@@ -65,6 +65,11 @@ public class OrderDaoImpl implements OrderDao {
      */
     private OrderDaoImpl(){}
 
+    /**
+     * Getter method of the instance of the {@code OrderDaoImpl} class.
+     *
+     * @return the {@code OrderDaoImpl} object
+     */
     public static OrderDaoImpl getInstance(){
         return INSTANCE;
     }

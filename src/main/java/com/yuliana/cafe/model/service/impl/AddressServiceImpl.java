@@ -34,6 +34,11 @@ public class AddressServiceImpl implements AddressService {
     private AddressServiceImpl() {
     }
 
+    /**
+     * Getter method of the instance of the {@code AddressServiceImpl} class.
+     *
+     * @return the {@code AddressDaoImpl} object
+     */
     public static AddressServiceImpl getInstance() {
         return INSTANCE;
     }

@@ -41,6 +41,11 @@ public class CartDaoImpl implements CartDao {
      */
     private CartDaoImpl(){}
 
+    /**
+     * Getter method of the instance of the {@code CartDaoImpl} class.
+     *
+     * @return the {@code CartDaoImpl} object
+     */
     public static CartDaoImpl getInstance(){
         return INSTANCE;
     }

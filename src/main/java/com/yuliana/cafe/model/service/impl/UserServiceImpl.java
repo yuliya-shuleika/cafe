@@ -36,6 +36,11 @@ public class UserServiceImpl implements UserService {
     private UserServiceImpl() {
     }
 
+    /**
+     * Getter method of the instance of the {@code UserServiceImpl} class.
+     *
+     * @return the {@code AddressDaoImpl} object
+     */
     public static UserServiceImpl getInstance() {
         return INSTANCE;
     }
