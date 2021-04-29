@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 
@@ -32,7 +33,7 @@ public class DeleteFromCartCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String page = PagePath.MENU_PAGE;
         DishService dishService = DishServiceImpl.getInstance();
         String dishIdParam = request.getParameter(RequestParameter.DISH_ID);
@@ -42,6 +43,7 @@ public class DeleteFromCartCommand implements ActionCommand {
             dishOptional = dishService.findDishById(dishId);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
+            response.sendError(500);
         }
         if (dishOptional.isPresent()) {
             HttpSession session = request.getSession();
@@ -57,6 +59,7 @@ public class DeleteFromCartCommand implements ActionCommand {
                         cartService.deleteItem(user.getUserId(), dishId, itemsToDelete);
                     } catch (ServiceException e) {
                         logger.log(Level.ERROR, e);
+                        response.sendError(500);
                     }
                 }
             }

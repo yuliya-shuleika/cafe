@@ -64,7 +64,7 @@ public class EditDishCommand implements ActionCommand {
             FileItem item = iter.next();
             if (item.isFormField()) {
                 String name = item.getFieldName();
-                String value = null;
+                String value = "";
                 try {
                     value = item.getString(ENCODING_UTF8);
                 } catch (UnsupportedEncodingException e) {
@@ -72,8 +72,7 @@ public class EditDishCommand implements ActionCommand {
                 }
                 switch (name) {
                     case RequestParameter.DISH_ID:
-                        String dishIdParam = value;
-                        dishId = Integer.parseInt(dishIdParam);
+                        dishId = Integer.parseInt(value);
                         break;
                     case RequestParameter.DISH_PICTURE:
                         dishPicture = value;
@@ -92,12 +91,6 @@ public class EditDishCommand implements ActionCommand {
         DishService dishService = DishServiceImpl.getInstance();
         try {
             dishService.editDish(dishFields, pictureName, dishId);
-        } catch (ServiceException e) {
-            logger.log(Level.ERROR, e);
-        }
-        try {
-            List<Dish> dishes = dishService.findAllDishes();
-            request.setAttribute(AttributeName.DISHES_LIST, dishes);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
         }

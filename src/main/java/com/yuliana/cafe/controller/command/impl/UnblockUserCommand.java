@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Action command that provides unblock of the user.
@@ -24,7 +25,7 @@ public class UnblockUserCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String page = PagePath.USERS_LIST_PAGE;
         String userIdParam = request.getParameter(RequestParameter.USER_ID);
         int userId = Integer.parseInt(userIdParam);
@@ -33,6 +34,7 @@ public class UnblockUserCommand implements ActionCommand {
             userService.updateStatus(userId, UserStatus.OFFLINE);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
+            response.sendError(500);
         }
         return page;
     }

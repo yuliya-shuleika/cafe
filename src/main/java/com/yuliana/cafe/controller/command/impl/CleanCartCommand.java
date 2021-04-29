@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ public class CleanCartCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String page = PagePath.MENU_PAGE;
         HttpSession session = request.getSession();
         CartServiceImpl cartService = CartServiceImpl.getInstance();
@@ -40,6 +41,7 @@ public class CleanCartCommand implements ActionCommand {
                 cartService.deleteAllItems(userId);
             } catch (ServiceException e) {
                 logger.log(Level.ERROR, e);
+                response.sendError(500);
             }
         }
         session.setAttribute(AttributeName.CART_ITEMS, new HashMap<Dish, Integer>());

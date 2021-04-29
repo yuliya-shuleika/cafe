@@ -28,8 +28,7 @@ public class Controller extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request,
-                                HttpServletResponse response)
-            throws ServletException, IOException {
+                                HttpServletResponse response) throws ServletException, IOException {
         String page;
         ActionFactory client = new ActionFactory();
         ActionCommand command = client.defineCommand(request, response);
@@ -38,8 +37,7 @@ public class Controller extends HttpServlet {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
             dispatcher.forward(request, response);
         } else {
-            page = PagePath.HOME_PAGE;
-            response.sendRedirect(request.getContextPath() + page);
+            response.sendError(400);
         }
     }
 }

@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class RegisterCommand implements ActionCommand {
     private static final String ACCOUNT_EXISTS = "account_exists";
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException{
         HttpSession session = request.getSession();
         String page = (String) session.getAttribute(AttributeName.CURRENT_PAGE);
         UserService userService = UserServiceImpl.getInstance();
@@ -41,6 +42,7 @@ public class RegisterCommand implements ActionCommand {
             emailExists = userService.findEmail(email);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
+            response.sendError(500);
         }
         if (!emailExists) {
             String name = request.getParameter(RequestParameter.USER_NAME);
@@ -49,11 +51,26 @@ public class RegisterCommand implements ActionCommand {
                 userService.registerUser(name, email, password);
             } catch (ServiceException e) {
                 logger.log(Level.ERROR, e);
+                response.sendError(500);
             }
         } else {
             request.setAttribute(AttributeName.REGISTER_ERROR_MESSAGE, ACCOUNT_EXISTS);
             logger.log(Level.DEBUG, "Error register user.");
         }
+        loadPageData(page, request, response);
+        return page;
+    }
+
+    /**
+     * Load all necessary data to the current page.
+     *
+     * @param page path of the current page
+     * @param request the {@code HttpServletRequest} object
+     * @param response the {@code HttpServletResponse} object
+     * @throws IOException if occurs an error while sending error's code with response
+     */
+    private void loadPageData(String page, HttpServletRequest request,
+                              HttpServletResponse response) throws IOException {
         switch (page) {
             case PagePath.MENU_PAGE:
                 DishService dishService = DishServiceImpl.getInstance();
@@ -62,6 +79,7 @@ public class RegisterCommand implements ActionCommand {
                     request.setAttribute(AttributeName.DISHES_LIST, dishes);
                 } catch (ServiceException e) {
                     logger.log(Level.ERROR, e);
+                    response.sendError(500);
                 }
                 break;
             case PagePath.REVIEWS_PAGE:
@@ -71,9 +89,9 @@ public class RegisterCommand implements ActionCommand {
                     request.setAttribute(AttributeName.REVIEWS_MAP, reviewsWithAuthors);
                 } catch (ServiceException e) {
                     logger.log(Level.ERROR, e);
+                    response.sendError(500);
                 }
                 break;
         }
-        return page;
     }
 }

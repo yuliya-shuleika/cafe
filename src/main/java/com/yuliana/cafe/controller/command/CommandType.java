@@ -2,6 +2,11 @@ package com.yuliana.cafe.controller.command;
 
 import com.yuliana.cafe.controller.command.impl.*;
 
+/**
+ * Command type's enum.
+ *
+ * @author Yulia Shuleiko
+ */
 public enum CommandType {
     TO_HOME {
         {
@@ -265,6 +270,11 @@ public enum CommandType {
     };
     ActionCommand command;
 
+    /**
+     * Getter method of the command.
+     *
+     * @return the {@code ActionCommand} object
+     */
     public ActionCommand getCurrentCommand() {
         return command;
     }

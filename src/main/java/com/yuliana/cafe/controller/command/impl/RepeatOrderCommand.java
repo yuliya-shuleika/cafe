@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -28,7 +29,7 @@ public class RepeatOrderCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String page = PagePath.PAYMENT_PAGE;
         String orderIdParam = request.getParameter(RequestParameter.ORDER_ID);
         int orderId = Integer.parseInt(orderIdParam);
@@ -38,6 +39,7 @@ public class RepeatOrderCommand implements ActionCommand {
             orderOptional = orderService.findOrderById(orderId);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
+            response.sendError(500);
         }
         if (orderOptional.isPresent()) {
             Order order = orderOptional.get();
@@ -51,6 +53,7 @@ public class RepeatOrderCommand implements ActionCommand {
                     }
                 } catch (ServiceException e) {
                     logger.log(Level.ERROR, e);
+                    response.sendError(500);
                 }
             }
         }

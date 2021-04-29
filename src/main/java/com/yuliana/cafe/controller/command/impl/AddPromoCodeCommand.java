@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class AddPromoCodeCommand implements ActionCommand {
     private static final int PROMO_CODE_FORM_SIZE = 2;
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String page = PagePath.PROMO_CODES_LIST_PAGE;
         Map<String, String> promoCodeFields = new HashMap<>();
         String name = request.getParameter(RequestParameter.PROMO_CODE_NAME);
@@ -42,6 +43,7 @@ public class AddPromoCodeCommand implements ActionCommand {
             promoCodeService.addPromoCode(promoCodeFields);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
+            response.sendError(500);
         }
         if (promoCodeFields.size() < PROMO_CODE_FORM_SIZE) {
             request.setAttribute(AttributeName.EDIT_ERROR_MESSAGE, ERROR_MESSAGE);
@@ -53,6 +55,7 @@ public class AddPromoCodeCommand implements ActionCommand {
             request.setAttribute(AttributeName.PROMO_CODES_LIST, promoCodes);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
+            response.sendError(500);
         }
         return page;
     }

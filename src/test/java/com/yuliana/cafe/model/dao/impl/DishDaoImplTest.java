@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
+@Test
 public class DishDaoImplTest {
 
     private DishDao dishDao;
@@ -25,9 +26,9 @@ public class DishDaoImplTest {
         int dishId = 20;
         String name = "Сайонара сет";
         DishCategory category = DishCategory.SUSHI_SET;
-        short house = 122;
-        short  entrance = 2;
-        short floor = 6;
+        double price = 12.20;
+        short discount = 12;
+        String description = "";
         short flat = 57;
         Dish dish = new Dish();
         return new Object[][]{{dish}};

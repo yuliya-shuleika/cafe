@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,26 +28,27 @@ public class ShowDishEditCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String page = PagePath.DISHES_LIST_PAGE;
         DishService dishService = DishServiceImpl.getInstance();
         String dishIdParam = request.getParameter(RequestParameter.DISH_ID);
         int dishId = Integer.parseInt(dishIdParam);
-        Optional<Dish> dishOptional = Optional.empty();
         try {
-            dishOptional = dishService.findDishById(dishId);
+            Optional<Dish> dishOptional = dishService.findDishById(dishId);
+            if (dishOptional.isPresent()) {
+                Dish dish = dishOptional.get();
+                request.setAttribute(AttributeName.SELECTED_DISH, dish);
+            }
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
-        }
-        if (dishOptional.isPresent()) {
-            Dish dish = dishOptional.get();
-            request.setAttribute(AttributeName.SELECTED_DISH, dish);
+            response.sendError(500);
         }
         try {
             List<Dish> dishes = dishService.findAllDishes();
             request.setAttribute(AttributeName.DISHES_LIST, dishes);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
+            response.sendError(500);
         }
         return page;
     }

@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class SearchUserByEmailCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String page = PagePath.USERS_LIST_PAGE;
         String email = request.getParameter(RequestParameter.USER_EMAIL);
         UserService userService = UserServiceImpl.getInstance();
@@ -35,6 +36,7 @@ public class SearchUserByEmailCommand implements ActionCommand {
             request.setAttribute(AttributeName.USERS_LIST, users);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
+            response.sendError(500);
         }
         return page;
     }

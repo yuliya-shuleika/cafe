@@ -23,6 +23,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -38,39 +39,16 @@ public class CheckoutCommand implements ActionCommand {
     private String page;
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException{
         page = PagePath.ORDER_CONFIRM_PAGE;
-        String gettingType = request.getParameter(RequestParameter.ORDER_GETTING_TYPE);
-        GettingType getting = GettingType.valueOf(gettingType.toUpperCase());
-        int addressId = 0;
-        switch (gettingType) {
-            case DELIVERY:
-                Map<String, String> addressFields = new HashMap<>();
-                fillAddressMap(addressFields, request);
-                AddressService service = AddressServiceImpl.getInstance();
-                try {
-                    addressId = service.addAddress(addressFields);
-                } catch (ServiceException e) {
-                    logger.log(Level.ERROR, e);
-                }
-                request.setAttribute(AttributeName.ADDRESS_FIELDS, addressFields);
-                if (addressFields.size() < ADDRESS_FORM_SIZE) {
-                    request.setAttribute(AttributeName.CHECKOUT_ERROR_MESSAGE, ADDRESS_ERROR_MESSAGE);
-                    request.setAttribute(AttributeName.ADDRESS_FIELDS, addressFields);
-                }
-                break;
-            case PICKUP:
-                String address = request.getParameter(RequestParameter.ADDRESS_ID);
-                addressId = Integer.parseInt(address);
-                break;
-            default:
-                logger.log(Level.DEBUG, "No such getting type.");
-        }
+        String gettingTypeParam = request.getParameter(RequestParameter.ORDER_GETTING_TYPE);
+        GettingType gettingType = GettingType.valueOf(gettingTypeParam.toUpperCase());
+        int addressId = defineOrderAddress(gettingType, request, response);
         if (addressId > 0) {
-            int discount = defineDiscountByPromoCode(request);
+            int discount = defineDiscountByPromoCode(request, response);
             String comment = request.getParameter(RequestParameter.ORDER_COMMENT);
-            String paymentType = request.getParameter(RequestParameter.ORDER_PAYMENT_TYPE);
-            PaymentType payment = PaymentType.valueOf(paymentType.toUpperCase());
+            String paymentTypeParam = request.getParameter(RequestParameter.ORDER_PAYMENT_TYPE);
+            PaymentType paymentType = PaymentType.valueOf(paymentTypeParam.toUpperCase());
             HttpSession session = request.getSession();
             Map<Dish, Integer> cartItems = (Map<Dish, Integer>) session.getAttribute(AttributeName.CART_ITEMS);
             OrderService orderService = OrderServiceImpl.getInstance();
@@ -79,16 +57,20 @@ public class CheckoutCommand implements ActionCommand {
             if(userOptional.isPresent()) {
                 User user = (User) userOptional.get();
                 try {
-                    orderService.addUserOrder(user.getUserId(), addressId, discount, cartItems, getting, payment, comment);
+                    orderService.addUserOrder(user.getUserId(), addressId, discount,
+                            cartItems, gettingType, paymentType, comment);
                 } catch (ServiceException e) {
                     logger.log(Level.ERROR, e);
+                    response.sendError(500);
                 }
             } else {
                 String guestEmail = request.getParameter(RequestParameter.GUEST_EMAIL);
                 try {
-                    orderService.addGuestOrder(guestEmail, addressId, discount, cartItems, getting, payment, comment);
+                    orderService.addGuestOrder(guestEmail, addressId, discount,
+                            cartItems, gettingType, paymentType, comment);
                 } catch (ServiceException e) {
                     logger.log(Level.ERROR, e);
+                    response.sendError(500);
                 }
             }
             session.setAttribute(AttributeName.CART_ITEMS, new HashMap<Dish, Integer>());
@@ -100,6 +82,7 @@ public class CheckoutCommand implements ActionCommand {
 
     /**
      * Fill the map of string where key is field's name and values is a user's input.
+     *
      * @param addressFields map of the string.
      *                      The key represents field of the form and the value is the user's input
      * @param request the {@code HttpServletRequest} object
@@ -123,9 +106,11 @@ public class CheckoutCommand implements ActionCommand {
      * Define the discount by the promo code's name.
      *
      * @param request the {@code HttpServletRequest} object
+     * @param response the {@code HttpServletResponse} object
      * @return discount percents
+     * @throws IOException if occurs an error while sending error's code with response
      */
-    private int defineDiscountByPromoCode(HttpServletRequest request){
+    private int defineDiscountByPromoCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String promoCodeName = request.getParameter(RequestParameter.PROMO_CODE_NAME);
         int discount = 0;
         if (!promoCodeName.equals("")) {
@@ -141,8 +126,49 @@ public class CheckoutCommand implements ActionCommand {
                 }
             } catch (ServiceException e) {
                 logger.log(Level.ERROR, e);
+                response.sendError(500);
             }
         }
         return discount;
+    }
+
+    /**
+     * Defines id of the order's address.
+     *
+     * @param gettingType the {@code GettingType} object.
+     * @param request the {@code HttpServletRequest} object
+     * @param response the {@code HttpServletResponse} object
+     * @return id of the address
+     * @throws IOException if occurs an error while sending error's code with response
+     */
+    public int defineOrderAddress(GettingType gettingType,
+                                  HttpServletRequest request,
+                                  HttpServletResponse response) throws IOException {
+        int addressId = 0;
+        switch (gettingType) {
+            case DELIVERY:
+                Map<String, String> addressFields = new HashMap<>();
+                fillAddressMap(addressFields, request);
+                AddressService service = AddressServiceImpl.getInstance();
+                try {
+                    addressId = service.addAddress(addressFields);
+                } catch (ServiceException e) {
+                    logger.log(Level.ERROR, e);
+                    response.sendError(500);
+                }
+                request.setAttribute(AttributeName.ADDRESS_FIELDS, addressFields);
+                if (addressFields.size() < ADDRESS_FORM_SIZE) {
+                    request.setAttribute(AttributeName.CHECKOUT_ERROR_MESSAGE, ADDRESS_ERROR_MESSAGE);
+                    request.setAttribute(AttributeName.ADDRESS_FIELDS, addressFields);
+                }
+                break;
+            case PICKUP:
+                String address = request.getParameter(RequestParameter.ADDRESS_ID);
+                addressId = Integer.parseInt(address);
+                break;
+            default:
+                logger.log(Level.DEBUG, "No such getting type.");
+        }
+        return addressId;
     }
 }

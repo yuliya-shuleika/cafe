@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -26,16 +26,16 @@ public class ShowNewDishesCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String page = PagePath.MENU_PAGE;
         DishService dishService = DishServiceImpl.getInstance();
-        List<Dish> dishes = new ArrayList<>();
         try {
-            dishes = dishService.findNewDishes();
+            List<Dish> dishes = dishService.findNewDishes();
+            request.setAttribute(AttributeName.DISHES_LIST, dishes);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
+            response.sendError(500);
         }
-        request.setAttribute(AttributeName.DISHES_LIST, dishes);
-        String page = PagePath.MENU_PAGE;
         return page;
     }
 }

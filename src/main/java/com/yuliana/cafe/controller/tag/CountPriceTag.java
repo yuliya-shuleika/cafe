@@ -22,10 +22,20 @@ public class CountPriceTag extends TagSupport {
     private double price;
     private int discount;
 
+    /**
+     * Setter method for the price.
+     *
+     * @param price price of the dish
+     */
     public void setPrice(double price) {
         this.price = price;
     }
 
+    /**
+     * Setter method for the discount
+     *
+     * @param discount discount percents of the dish
+     */
     public void setDiscount(int discount) {
         this.discount = discount;
     }

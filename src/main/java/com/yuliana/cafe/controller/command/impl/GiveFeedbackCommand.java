@@ -57,6 +57,13 @@ public class GiveFeedbackCommand implements ActionCommand {
         return page;
     }
 
+    /**
+     * Fill the map of string where key is field's name and values is a user's input.
+     *
+     * @param reviewFields map of the string.
+     *                     The key represents field of the form and the value is the user's input
+     * @param request the {@code HttpServletRequest} object
+     */
     private void fillReviewMap(Map<String, String> reviewFields, HttpServletRequest request){
         String header = request.getParameter(RequestParameter.REVIEW_HEADER);
         reviewFields.put(RequestParameter.REVIEW_HEADER, header);
