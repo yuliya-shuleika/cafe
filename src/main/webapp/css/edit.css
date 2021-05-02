@@ -107,7 +107,7 @@ h3, p{
     display: block;
     text-align: end;
     color: #484848;
-    align-self: flex-start;
+    align-self: center;
 }
 
 .edit-label-dark{
@@ -118,7 +118,7 @@ h3, p{
     display: block;
     text-align: end;
     color: #fff;
-    align-self: flex-start;
+    align-self: center;
 }
 
 .edit-label{
@@ -309,6 +309,28 @@ h3, p{
 
 .edit-info-footer{
     margin: 20px;
+}
+
+.edit-info-label {
+    white-space: nowrap;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    display: block;
+    text-align: end;
+    color: #545454;
+    align-self: flex-start;
+}
+
+.edit-info-label-dark {
+    white-space: nowrap;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    display: block;
+    text-align: end;
+    color: #fff;
+    align-self: flex-start;
 }
 
 .stop-scrolling {

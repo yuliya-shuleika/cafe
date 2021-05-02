@@ -147,10 +147,6 @@ td{
     color: #545454;
 }
 
-td:hover{
-    cursor: pointer;
-}
-
 a{
     text-decoration: none;
     transition: 0.2s;
@@ -162,6 +158,7 @@ a{
 
 .admin-edit:hover{
     color: #3d8a40;
+    cursor: pointer;
 }
 
 .admin-delete{
@@ -170,6 +167,7 @@ a{
 
 .admin-delete:hover{
     color: #bf3b5c;
+    cursor: pointer;
 }
 
 .admin-select{

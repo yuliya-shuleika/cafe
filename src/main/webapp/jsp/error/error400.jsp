@@ -18,7 +18,7 @@
 <div class="error-container">
     <div class="error">
         <img class="cat-picture" src="${pageContext.request.contextPath}/images/sad_cat.png" alt="cats">
-        <p class="error-info">401 - ${error400}</p>
+        <p class="error-info">400 - ${error400}</p>
         <form action="home.do" method="post">
             <c:choose>
                 <c:when test="${sessionScope.user.getRole() eq 'ADMIN'}">

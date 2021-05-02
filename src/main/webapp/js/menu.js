@@ -29,7 +29,8 @@ $(document).ready(function () {
                 if (!hasItem) {
                     cart_item_ids.push(dish_id)
                     if (cart_items_list !== undefined) {
-                        createCartItem(cart_items_list, dish_id, dish_picture, dish_title, dish_description, dish_price)
+                        createCartItem(cart_items_list, dish_id,
+                            dish_picture, dish_title, dish_description, dish_price)
                     }
                 }
                 let items_count = items_count_header.innerHTML

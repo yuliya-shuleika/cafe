@@ -1,6 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<fmt:setLocale value='<%=request.getSession().getAttribute("lang")%>'/>
+<fmt:setBundle basename="lang" var="loc"/>
+<fmt:message bundle="${loc}" key="lang.label.fill_fields_correct" var="fill_fields_correct"/>
 <html>
 <head>
     <title>Menu</title>
@@ -12,8 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&family=Rubik:wght@400;500&display=swap" rel="stylesheet">
 </head>
-<fmt:setLocale value='<%=request.getSession().getAttribute("lang")%>'/>
-<fmt:setBundle basename="lang" var="loc"/>
 <fmt:message bundle="${loc}" key="lang.label.give_feedback" var="give_feedback"/>
 <fmt:message bundle="${loc}" key="lang.label.your_feedback" var="your_feedback"/>
 <fmt:message bundle="${loc}" key="lang.label.feedback_header" var="feedback_header"/>

@@ -3,6 +3,9 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ctg" uri="custom_tag" %>
 <html>
+<fmt:setLocale value='<%=request.getSession().getAttribute("lang")%>'/>
+<fmt:setBundle basename="lang" var="loc"/>
+<fmt:message bundle="${loc}" key="lang.label.fill_fields_correct" var="fill_fields_correct"/>
 <head>
     <title>Account</title>
     <style><%@include file="/css/account.css"%></style>
@@ -13,8 +16,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&family=Rubik:wght@400;500&display=swap" rel="stylesheet">
 </head>
-<fmt:setLocale value='<%=request.getSession().getAttribute("lang")%>'/>
-<fmt:setBundle basename="lang" var="loc"/>
 <fmt:message bundle="${loc}" key="lang.label.username" var="username"/>
 <fmt:message bundle="${loc}" key="lang.label.email" var="email"/>
 <fmt:message bundle="${loc}" key="lang.label.edit" var="edit"/>
@@ -37,7 +38,6 @@
 <fmt:message bundle="${loc}" key="lang.label.add" var="add"/>
 <fmt:message bundle="${loc}" key="lang.label.avatar" var="avatar"/>
 <fmt:message bundle="${loc}" key="lang.label.logout" var="logout"/>
-
 <body>
     <%@ include file="/jsp/header/header-user.jsp"%>
     <%@ include file="/jsp/modal/edit-profile.jsp"%>
@@ -150,43 +150,43 @@
                     </div>
                 </c:if>
                 <c:if test="${!user_favorites.isEmpty()}">
-                <c:forEach var="dish" items="${user_favorites}">
-                    <div class="favorite-info">
-                        <div class="favorite-info-start">
-                            <img class="favorite-image" src="${pageContext.request.contextPath}${dish.getPictureName()}">
-                            <div class="favorite-header">
+                    <c:forEach var="dish" items="${user_favorites}">
+                        <div class="favorite-info">
+                            <div class="favorite-info-start">
+                                <img class="favorite-image" src="${pageContext.request.contextPath}${dish.getPictureName()}">
                                 <div class="favorite-header">
-                                    <h4 class="favorite-title">${dish.getName()}</h4>
+                                    <div class="favorite-header">
+                                        <h4 class="favorite-title">${dish.getName()}</h4>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="favorite-info-end">
-                            <div class="favorite-price">
-                                <c:if test="${dish.getDiscountPercents() == 0}">
-                                    <p class="favorite-price-value">
-                                        <fmt:formatNumber maxFractionDigits="2" value="${dish.getPrice()}"/>
-                                    </p>
-                                </c:if>
-                                <c:if test="${dish.getDiscountPercents() > 0}">
-                                    <strike class="favorite-price-value">
-                                        <fmt:formatNumber maxFractionDigits="2" value="${dish.getPrice()}"/>
-                                    </strike>
-                                </c:if>
-                                <p class="favorite-price-value-discount">
-                                    <c:if test="${dish.getDiscountPercents() > 0}">
-                                        <ctg:countPrice price="${dish.getPrice()}" discount="${dish.getDiscountPercents()}"/>
+                            <div class="favorite-info-end">
+                                <div class="favorite-price">
+                                    <c:if test="${dish.getDiscountPercents() == 0}">
+                                        <p class="favorite-price-value">
+                                            <fmt:formatNumber maxFractionDigits="2" value="${dish.getPrice()}"/>
+                                        </p>
                                     </c:if>
-                                </p>
-                                <span class="cart-item-price-currency">$</span>
+                                    <c:if test="${dish.getDiscountPercents() > 0}">
+                                        <strike class="favorite-price-value">
+                                            <fmt:formatNumber maxFractionDigits="2" value="${dish.getPrice()}"/>
+                                        </strike>
+                                    </c:if>
+                                    <p class="favorite-price-value-discount">
+                                        <c:if test="${dish.getDiscountPercents() > 0}">
+                                            <ctg:countPrice price="${dish.getPrice()}" discount="${dish.getDiscountPercents()}"/>
+                                        </c:if>
+                                    </p>
+                                    <span class="cart-item-price-currency">$</span>
+                                </div>
+                                <form action="account.do" method="post">
+                                <input type="hidden" name="command" value="add_to_cart"/>
+                                <input type="hidden" name="dish_id" value="${dish.getDishId()}"/>
+                                <button class="account-action-button menu-item-button">${add_to_cart}</button>
+                                </form>
                             </div>
-                            <form action="account.do" method="post">
-                            <input type="hidden" name="command" value="add_to_cart"/>
-                            <input type="hidden" name="dish_id" value="${dish.getDishId()}"/>
-                            <button class="account-action-button menu-item-button">${add_to_cart}</button>
-                            </form>
                         </div>
-                    </div>
-                </c:forEach>
+                    </c:forEach>
                 </c:if>
             </div>
             <div class="account-extra" id="account-extra">

@@ -2,6 +2,9 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<fmt:setLocale value='<%=request.getSession().getAttribute("lang")%>'/>
+<fmt:setBundle basename="lang" var="loc"/>
+<fmt:message bundle="${loc}" key="lang.label.fill_fields_correct" var="fill_fields_correct"/>
 <head>
     <title>Users</title>
     <style><%@include file="/css/admin.css"%></style>
@@ -12,8 +15,6 @@
             type="text/javascript"></script>
     <script><%@include file="/js/promo-codes-list.js"%></script>
 </head>
-<fmt:setLocale value='<%=request.getSession().getAttribute("lang")%>'/>
-<fmt:setBundle basename="lang" var="loc"/>
 <fmt:message bundle="${loc}" key="lang.label.number" var="number"/>
 <fmt:message bundle="${loc}" key="lang.label.action" var="action"/>
 <fmt:message bundle="${loc}" key="lang.label.promo_code" var="promo_code"/>
@@ -67,11 +68,11 @@
                 </form>
             </div>
             <div class="admin-manage-end">
-                <form action="controller" method="post" class="admin-searching-form">
+                <form action="promo-codes.do" method="post" class="admin-searching-form"
+                      onsubmit="validatePromoCodeSearch(this); return false;">
                     <input type="hidden" name="command" value="search_promo_code_by_name_part">
-                    <input class="admin-search" type="search" id="search_user" name="promo_code_name_part"
-                           placeholder="Search..." required
-                           minlength="1" maxlength="20">
+                    <input class="admin-search" type="search" id="search_promo_code" name="promo_code_name_part"
+                           placeholder="Search...">
                 </form>
             </div>
         </div>
@@ -89,7 +90,7 @@
                                 <td>${loop.index + 1}</td>
                                 <td>${promoCode.getName()}</td>
                                 <td>
-                                    <a href="promo-codes-list.do?command=show_promo_code_edit&promo_code_id=${promoCode.getPromoCodeId()}"
+                                    <a href="promo-codes.do?command=show_promo_code_edit&promo_code_id=${promoCode.getPromoCodeId()}"
                                         class="admin-edit">${edit}</a>
                                 </td>
                                 <td>

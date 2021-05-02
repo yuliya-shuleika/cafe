@@ -27,26 +27,26 @@
                     <a class="login-close" href="#">x</a>
                 </div>
                 <div class="login-form-container">
-                    <form class="login-form" action="controller" method="post">
+                    <form class="login-form" action="controller" method="post"
+                          onsubmit="return validateLoginForm()">
                         <input type="hidden" name="command" value="login">
                         <div class="login-form-field">
                             <c:if test="${login_fields != null && login_fields.containsKey('user_email')}">
-                                <input class="login-field-input" type="email" name = "user_email"
-                                       placeholder="${email}" required value="${login_fields.getValue('user_email')}">
+                                <input class="login-field-input" type="text" name = "user_email"
+                                       placeholder="${email}" value="${login_fields.getValue('user_email')}">
                             </c:if>
                             <c:if test="${login_fields == null || !login_fields.containsKey('user_email')}">
-                                <input class="login-field-input" type="email" name = "user_email"
-                                       placeholder="${email}" required>
+                                <input class="login-field-input" type="text" name = "user_email"
+                                       placeholder="${email}">
                             </c:if>
                         </div>
                         <div class="login-form-field">
                             <c:if test="${login_fields != null && login_fields.containsKey('user_email')}">
                                 <input class="login-field-input" type="password" name = "user_password" placeholder="${password}"
-                                       required pattern="[A-Za-z0-9_]{5,20}" value="${login_fields.getValue('user_password')}">
+                                       value="${login_fields.getValue('user_password')}">
                             </c:if>
                             <c:if test="${login_fields == null || !login_fields.containsKey('user_password')}">
-                                <input class="login-field-input" type="password" name = "user_password" placeholder="${password}"
-                                       required pattern="[A-Za-z0-9_]{5,20}">
+                                <input class="login-field-input" type="password" name = "user_password" placeholder="${password}">
                             </c:if>
                         </div>
                         <c:if test="${login_error_message != null}">

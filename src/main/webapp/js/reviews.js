@@ -54,5 +54,50 @@ $(document).ready(function (){
             j++;
         }
     }
-
 });
+
+function validateGiveFeedbackForm() {
+    let header = document.getElementById('add-review-header')
+    let text = document.getElementById('add-review-text')
+    let error = document.getElementById('add-review-error-label')
+    let isValid = validateReviewFields(header, text)
+    if (!isValid) {
+        error.innerHTML = '${fill_fields_correct}'
+    }
+    return isValid
+}
+
+function validateReviewFields(header, text){
+    let isValid
+    if (!validateHeader(header)){
+        isValid = false
+    }
+    if (!validateText(text)){
+        isValid = false
+    }
+    return isValid
+}
+
+function validateHeader(header){
+    let isValid
+    const regExp = /^.{1,50}$/
+    if(regExp.test(header.value)){
+        isValid = true
+    } else {
+        header.value = ""
+        isValid = false
+    }
+    return isValid
+}
+
+function validateText(text){
+    let isValid
+    const regExp = /^(\s|.){1,500}$/
+    if(regExp.test(text.value)){
+        isValid = true
+    } else {
+        text.value = ""
+        isValid = false
+    }
+    return isValid
+}

@@ -44,11 +44,11 @@
                     </form>
                 </div>
                 <div class="admin-manage-end">
-                    <form action="controller" method="post" class="admin-searching-form">
+                    <form action="users.do" method="post" class="admin-searching-form"
+                          onsubmit="validateUserSearch(this); return false;">
                         <input type="hidden" name="command" value="search_user_by_email">
                         <input class="admin-search" type="search" id="search_user" name="user_email"
-                               placeholder="Search..."
-                               minlength="1" maxlength="30">
+                               placeholder="Search...">
                     </form>
                 </div>
             </div>

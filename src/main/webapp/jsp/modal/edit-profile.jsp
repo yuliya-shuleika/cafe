@@ -24,7 +24,7 @@
         <div class="edit-content edit-content-dark">
             <div class="add-promo">
                 <form action="controller?command=edit_account&user_id=${sessionScope.user.userId}&user_avatar=${sessionScope.user.avatar}"
-                      method="post" enctype="multipart/form-data">
+                      method="post" enctype="multipart/form-data" onsubmit="return validateAccountEditForm()">
                     <div class="edit-header">
                         <h3 class="edit-title edit-title-dark">${account}</h3>
                         <a class="edit-close edit-close-dark" id="edit-close">x</a>
@@ -43,7 +43,6 @@
                                     <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${username}" name="user_name">
                                 </c:when>
                             </c:choose>
-                            <!--required pattern="[A-Za-zА-Яа-яёЁ]{3,25}"-->
                         </div>
                         <div class="edit-general">
                             <span class="edit-label edit-label-dark">${email}</span>

@@ -32,6 +32,8 @@ public class EditPromoCodeCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String page = PagePath.PROMO_CODES_LIST_PAGE;
+
         Map<String, String> promoCodeFields = new HashMap<>();
         fillPromoCodeMap(promoCodeFields, request);
         String promoCodeIdParam = request.getParameter(RequestParameter.PROMO_CODE_ID);
@@ -50,7 +52,6 @@ public class EditPromoCodeCommand implements ActionCommand {
             request.setAttribute(AttributeName.PROMO_CODE_FIELDS, promoCodeFields);
             request.setAttribute(AttributeName.PROMO_CODE_ID, promoCodeId);
         }
-        String page = PagePath.PROMO_CODES_LIST_PAGE;
         return page;
     }
 

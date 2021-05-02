@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- *
+ * Class represents the factory of the {@code ActionCommand} objects.
  *
  * @author Yulia Shuleiko
  */

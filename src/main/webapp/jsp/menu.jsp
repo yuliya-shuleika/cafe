@@ -3,8 +3,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="ctg" uri="custom_tag" %>
 <html>
+<fmt:setLocale value='<%=request.getSession().getAttribute("lang")%>'/>
+<fmt:setBundle basename="lang" var="loc"/>
+<fmt:message bundle="${loc}" key="lang.label.grams" var="grams"/>
+<fmt:message bundle="${loc}" key="lang.label.sushi" var="sushi"/>
+<fmt:message bundle="${loc}" key="lang.label.sushi_set" var="sushi_set"/>
+<fmt:message bundle="${loc}" key="lang.label.soup" var="soup"/>
+<fmt:message bundle="${loc}" key="lang.label.noodles" var="noodles"/>
+<fmt:message bundle="${loc}" key="lang.label.menu" var="menu"/>
 <head>
-    <title>Menu</title>
+    <title>${menu}</title>
     <style><%@include file="/css/menu.css"%></style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
             type="text/javascript"></script>
@@ -14,13 +22,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&family=Rubik:wght@400;500&display=swap" rel="stylesheet">
 </head>
-<fmt:setLocale value='<%=request.getSession().getAttribute("lang")%>'/>
-<fmt:setBundle basename="lang" var="loc"/>
-<fmt:message bundle="${loc}" key="lang.label.menu" var="menu"/>
-<fmt:message bundle="${loc}" key="lang.label.sushi" var="sushi"/>
-<fmt:message bundle="${loc}" key="lang.label.sushi_set" var="sushi_set"/>
-<fmt:message bundle="${loc}" key="lang.label.soup" var="soup"/>
-<fmt:message bundle="${loc}" key="lang.label.noodles" var="noodles"/>
 <fmt:message bundle="${loc}" key="lang.label.add_to_cart" var="add_to_cart"/>
 <fmt:message bundle="${loc}" key="lang.label.sort" var="sort"/>
 <fmt:message bundle="${loc}" key="lang.label.by_price" var="by_price"/>
@@ -28,7 +29,6 @@
 <fmt:message bundle="${loc}" key="lang.label.show_filters" var="show_filters"/>
 <fmt:message bundle="${loc}" key="lang.label.dishes_not_found" var="dishes_not_found"/>
 <fmt:message bundle="${loc}" key="lang.label.by_popularity" var="by_popularity"/>
-<fmt:message bundle="${loc}" key="lang.label.grams" var="grams"/>
 <body>
     <c:choose>
         <c:when test="${sessionScope.user.getRole() eq 'USER'}">
@@ -92,60 +92,60 @@
                     </div>
                 <div class="menu-items">
                     <c:if test="${dishes_list != null}">
-                    <c:forEach var="dish" items="${dishes_list}">
-                    <div class="menu-item">
-                        <c:if test="${sessionScope.user.getRole() eq 'USER'}">
-                            <c:if test="${!user_favorites.contains(dish)}">
-                                <div class="add-to-favorites">
-                                    <input type="hidden" name="command" value="add_dish_to_favorites">
-                                    <input type="hidden" name="dish_id" value="${dish.getDishId()}">
-                                    <i class="fa fa-heart menu-favorite"></i>
-                                </div>
-                            </c:if>
-                            <c:if test="${user_favorites.contains(dish)}">
-                                <div class="add-to-favorites">
-                                    <input type="hidden" name="command" value="delete_from_favorites">
-                                    <input type="hidden" name="dish_id" value="${dish.getDishId()}">
-                                    <i class="fa fa-heart menu-favorite-added"></i>
-                                </div>
-                            </c:if>
-                        </c:if>
-                        <img src="${pageContext.request.contextPath}${dish.getPictureName()}"
-                             onclick="watchDish('${dish.getName()}', '${dish.getCategory()}', '${dish.getPrice()}',
-                                     '${dish.getDiscountPercents()}', '${dish.getDescription()}', '${dish.getWeight()}',
-                                     '${pageContext.request.contextPath}${dish.getPictureName()}')"
-                             class="menu-item-picture" alt="${dish.getName()}">
-                        <div class="menu-item-content">
-                            <h3 class="menu-item-title">${dish.getName()}</h3>
-                            <p class = "menu-item-description">${dish.getDescription()}</p>
-                        </div>
-                        <div class="menu-item-bottom">
-                            <div class="menu-item-price">
-                                <c:if test="${dish.getDiscountPercents() == 0}">
-                                    <p class="menu-price-value">
-                                        <fmt:formatNumber maxFractionDigits="2" value="${dish.getPrice()}"/>
-                                    </p>
-                                </c:if>
-                                <c:if test="${dish.getDiscountPercents() > 0}">
-                                    <strike class="menu-price-value">
-                                        <fmt:formatNumber maxFractionDigits="2" value="${dish.getPrice()}"/>
-                                    </strike>
-                                </c:if>
-                                <p class="menu-price-value-discount">
-                                    <c:if test="${dish.getDiscountPercents() > 0}">
-                                        <ctg:countPrice price="${dish.getPrice()}" discount="${dish.getDiscountPercents()}"/>
+                        <c:forEach var="dish" items="${dishes_list}">
+                            <div class="menu-item">
+                                <c:if test="${sessionScope.user.getRole() eq 'USER'}">
+                                    <c:if test="${!user_favorites.contains(dish)}">
+                                        <div class="add-to-favorites">
+                                            <input type="hidden" name="command" value="add_dish_to_favorites">
+                                            <input type="hidden" name="dish_id" value="${dish.getDishId()}">
+                                            <i class="fa fa-heart menu-favorite"></i>
+                                        </div>
                                     </c:if>
-                                </p>
-                                <span class="menu-item-price-currency">$</span>
+                                    <c:if test="${user_favorites.contains(dish)}">
+                                        <div class="add-to-favorites">
+                                            <input type="hidden" name="command" value="delete_from_favorites">
+                                            <input type="hidden" name="dish_id" value="${dish.getDishId()}">
+                                            <i class="fa fa-heart menu-favorite-added"></i>
+                                        </div>
+                                    </c:if>
+                                </c:if>
+                                <img src="${pageContext.request.contextPath}${dish.getPictureName()}"
+                                     onclick="watchDish('${dish.getName()}', '${dish.getCategory()}', '${dish.getPrice()}',
+                                             '${dish.getDiscountPercents()}', '${dish.getDescription()}', '${dish.getWeight()}',
+                                             '${pageContext.request.contextPath}${dish.getPictureName()}')"
+                                     class="menu-item-picture" alt="${dish.getName()}">
+                                <div class="menu-item-content">
+                                    <h3 class="menu-item-title">${dish.getName()}</h3>
+                                    <p class = "menu-item-description">${dish.getDescription()}</p>
+                                </div>
+                                <div class="menu-item-bottom">
+                                    <div class="menu-item-price">
+                                        <c:if test="${dish.getDiscountPercents() == 0}">
+                                            <p class="menu-price-value">
+                                                <fmt:formatNumber maxFractionDigits="2" value="${dish.getPrice()}"/>
+                                            </p>
+                                        </c:if>
+                                        <c:if test="${dish.getDiscountPercents() > 0}">
+                                            <strike class="menu-price-value">
+                                                <fmt:formatNumber maxFractionDigits="2" value="${dish.getPrice()}"/>
+                                            </strike>
+                                        </c:if>
+                                        <p class="menu-price-value-discount">
+                                            <c:if test="${dish.getDiscountPercents() > 0}">
+                                                <ctg:countPrice price="${dish.getPrice()}" discount="${dish.getDiscountPercents()}"/>
+                                            </c:if>
+                                        </p>
+                                        <span class="menu-item-price-currency">$</span>
+                                    </div>
+                                    <div id="add-item-form">
+                                        <input type="hidden" name="command" value="add_to_cart"/>
+                                        <input type="hidden" name="dish_id" value="${dish.getDishId()}"/>
+                                        <button class="menu-item-button" type="button">${add_to_cart}</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div id="add-item-form">
-                                <input type="hidden" name="command" value="add_to_cart"/>
-                                <input type="hidden" name="dish_id" value="${dish.getDishId()}"/>
-                                <button class="menu-item-button" type="button">${add_to_cart}</button>
-                            </div>
-                        </div>
-                    </div>
-                    </c:forEach>
+                        </c:forEach>
                     </c:if>
                     <c:if test="${dishes_list == null}">
                        <div class="empty-dishes-list">

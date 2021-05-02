@@ -69,42 +69,42 @@
                 <h4 class="payment-section-header">${your_order}</h4>
                 <ul class="payment-cart-items">
                     <c:if test="${repeated_order == null}">
-                    <c:forEach var="item" items="${cart_items}">
-                        <li class="payment-cart-item">
-                            <input type="hidden" name="cart_item_id" value="${item.getKey().getDishId()}">
-                            <div class="cart-item-information">
-                                <img src="${pageContext.request.contextPath}${item.getKey().getPictureName()}"
-                                     alt="${item.getKey().getName()}" class="cart-item-image">
-                                <div class="cart-item-title">
-                                    <h4 class="cart-item-name">${item.getKey().getName()}</h4>
-                                    <p class="cart-item-description">${item.getKey().getDescription()}</p>
-                                </div>
-                            </div>
-                            <div class="cart-item-manage">
-                                <div class="cart-item-price">
-                                    <p class="cart-item-price-value">${item.getKey().getPrice()}</p>
-                                    <span class="cart-item-price-currency">$</span>
-                                </div>
-                                <div class="cart-item-count">
-                                    <div class="cart-item-count-update">
-                                        <input type="hidden" name ="command" value="add_to_guest_cart">
-                                        <span class="plus-minus-button">+</span>
+                        <c:forEach var="item" items="${cart_items}">
+                            <li class="payment-cart-item">
+                                <input type="hidden" name="cart_item_id" value="${item.getKey().getDishId()}">
+                                <div class="cart-item-information">
+                                    <img src="${pageContext.request.contextPath}${item.getKey().getPictureName()}"
+                                         alt="${item.getKey().getName()}" class="cart-item-image">
+                                    <div class="cart-item-title">
+                                        <h4 class="cart-item-name">${item.getKey().getName()}</h4>
+                                        <p class="cart-item-description">${item.getKey().getDescription()}</p>
                                     </div>
-                                    <p class="cart-item-count-label">${item.getValue()}</p>
-                                    <div class="cart-item-count-update">
+                                </div>
+                                <div class="cart-item-manage">
+                                    <div class="cart-item-price">
+                                        <p class="cart-item-price-value">${item.getKey().getPrice()}</p>
+                                        <span class="cart-item-price-currency">$</span>
+                                    </div>
+                                    <div class="cart-item-count">
+                                        <div class="cart-item-count-update">
+                                            <input type="hidden" name ="command" value="add_to_guest_cart">
+                                            <span class="plus-minus-button">+</span>
+                                        </div>
+                                        <p class="cart-item-count-label">${item.getValue()}</p>
+                                        <div class="cart-item-count-update">
+                                            <input type="hidden" name ="command" value="delete_from_guest_cart">
+                                            <span class="plus-minus-button">-</span>
+                                        </div>
+                                    </div>
+                                    <div class="cart-item-delete">
                                         <input type="hidden" name ="command" value="delete_from_guest_cart">
-                                        <span class="plus-minus-button">-</span>
+                                        <div class="cart-item-delete-button">
+                                            <i class="fa fa-trash" id="delete-item-from-order"></i>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="cart-item-delete">
-                                    <input type="hidden" name ="command" value="delete_from_guest_cart">
-                                    <div class="cart-item-delete-button">
-                                        <i class="fa fa-trash" id="delete-item-from-order"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </c:forEach>
+                            </li>
+                        </c:forEach>
                     </c:if>
                     <c:if test="${repeated_order != null}">
                         <c:forEach var="item" items="${repeated_order.getOrderedDishes()}">

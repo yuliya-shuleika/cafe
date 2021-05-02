@@ -18,66 +18,77 @@
 <fmt:message bundle="${loc}" key="lang.label.discount" var="discount"/>
 <fmt:message bundle="${loc}" key="lang.label.fill_fields_correct" var="fill_fields_correct"/>
 <body>
-<div class="edit" id="edit-promo">
-    <div class="edit-body">
-        <div class="edit-content">
-            <div class="add-promo">
-                <form action="controller" method="post">
-                    <div class="edit-header">
-                        <h3 class="edit-title">${promo_code}</h3>
-                        <a class="edit-close" id="edit-close">x</a>
-                    </div>
-                    <div class="edit-form">
-                        <input type="hidden" name="command" value="edit_promo_code">
-                        <c:if test="${selected_promo_code != null}">
-                            <input type="hidden" name="promo_code_id" value="${selected_promo_code.getPromoCodeId()}">
-                        </c:if>
-                        <c:if test="${promo_code_id != null}">
-                            <input type="hidden" name="promo_code_id" value="${promo_code_id}">
-                        </c:if>
-                        <div class="edit-general">
-                            <span class="edit-label">${name}</span>
-                            <c:if test="${selected_promo_code != null}">
-                                <input class="edit-general-input" type="text" placeholder="${name}" name="promo_code_name"
-                                       value="${selected_promo_code.getName()}" required pattern="[A-Za-zА-Яа-яёЁ0-9_]{5,45}">
-                            </c:if>
-                            <c:if test="${promo_code_fields != null && promo_code_fields.containsKey('promo_code_name')}">
-                                <input class="edit-general-input" type="text" placeholder="${name}" name="promo_code_name"
-                                       value="${promo_code_fields.get('promo_code_name')}" required pattern="[A-Za-zА-Яа-яёЁ0-9_]{5,45}">
-                            </c:if>
-                            <c:if test="${selected_promo_code == null && (promo_code_fields == null || !promo_code_fields.containsKey('promo_code_name'))}">
-                                <input class="edit-general-input" type="text" placeholder="${name}" name="promo_code_name"
-                                       required pattern="[A-Za-zА-Яа-яёЁ0-9_]{5,45}">
-                            </c:if>
+    <div class="edit" id="edit-promo">
+        <div class="edit-body">
+            <div class="edit-content">
+                <div class="add-promo">
+                    <form action="promo-codes.do" method="post"
+                          onsubmit="validatePromoCodeEditFields(this); return false;">
+                        <div class="edit-header">
+                            <h3 class="edit-title">${promo_code}</h3>
+                            <a class="edit-close" id="edit-close">x</a>
                         </div>
-                        <div class="edit-general">
-                            <span class="edit-label">${discount_percents}</span>
-                            <c:if test="${selected_promo_code != null}">
-                                <input class="edit-general-input" type="text" placeholder="${discount}"
-                                       name="promo_code_discount_percents" required pattern="[1-9][0-9]?"
-                                       value="${selected_promo_code.getDiscountPercents()}">
-                            </c:if>
-                            <c:if test="${promo_code_fields != null && promo_code_fields.containsKey('promo_code_discount_percents')}">
-                                <input class="edit-general-input" type="text" placeholder="${discount}"
-                                       value="${promo_code_fields.get('promo_code_discount_percents')}"
-                                       name="promo_code_discount_percents" required pattern="[1-9][0-9]?">
-                            </c:if>
-                            <c:if test="${selected_promo_code == null && (promo_code_fields == null || !promo_code_fields.containsKey('promo_code_discount_percents'))}">
-                                <input class="edit-general-input" type="text" placeholder="${discount}"
-                                        name="promo_code_discount_percents" required pattern="[1-9][0-9]?">
-                            </c:if>
+                        <div class="edit-form">
+                            <input type="hidden" name="command" value="edit_promo_code">
+                            <c:choose>
+                                <c:when test="${selected_promo_code != null}">
+                                    <input type="hidden" name="promo_code_id"
+                                           value="${selected_promo_code.getPromoCodeId()}">
+                                </c:when>
+                                <c:when test="${promo_code_id != null}">
+                                    <input type="hidden" name="promo_code_id" value="${promo_code_id}">
+                                </c:when>
+                            </c:choose>
+                            <div class="edit-general">
+                                <span class="edit-label">${name}</span>
+                                <c:choose>
+                                    <c:when test="${selected_promo_code != null}">
+                                        <input class="edit-general-input" type="text" placeholder="${name}"
+                                               name="promo_code_name" id="edit-promo-code-name"
+                                               value="${selected_promo_code.getName()}">
+                                    </c:when>
+                                    <c:when test="${promo_code_fields != null && promo_code_fields.containsKey('promo_code_name')}">
+                                        <input class="edit-general-input" type="text" placeholder="${name}"
+                                               name="promo_code_name" id="edit-promo-code-name"
+                                               value="${promo_code_fields.get('promo_code_name')}">
+                                    </c:when>
+                                    <c:when test="${selected_promo_code == null && (promo_code_fields == null || !promo_code_fields.containsKey('promo_code_name'))}">
+                                        <input class="edit-general-input" type="text" placeholder="${name}"
+                                               name="promo_code_name" id="edit-promo-code-name">
+                                    </c:when>
+                                </c:choose>
+                            </div>
+                            <div class="edit-general">
+                                <span class="edit-label">${discount_percents}</span>
+                                <c:choose>
+                                    <c:when test="${selected_promo_code != null}">
+                                        <input class="edit-general-input" type="text" placeholder="${discount}"
+                                               name="promo_code_discount_percents" id="edit-promo-code-discount-percents"
+                                               value="${selected_promo_code.getDiscountPercents()}">
+                                    </c:when>
+                                    <c:when test="${promo_code_fields != null && promo_code_fields.containsKey('promo_code_discount_percents')}">
+                                        <input class="edit-general-input" type="text" placeholder="${discount}"
+                                               value="${promo_code_fields.get('promo_code_discount_percents')}"
+                                               name="promo_code_discount_percents" id="edit-promo-code-discount-percents">
+                                    </c:when>
+                                    <c:when test="${selected_promo_code == null && (promo_code_fields == null || !promo_code_fields.containsKey('promo_code_discount_percents'))}">
+                                        <input class="edit-general-input" type="text" placeholder="${discount}"
+                                                name="promo_code_discount_percents" id="edit-promo-code-discount-percents">
+                                    </c:when>
+                                </c:choose>
+                            </div>
                         </div>
-                    </div>
-                    <div class="edit-footer">
-                        <c:if test="${edit_error_message != null}">
-                            <p class="edit-error-message">${fill_fields_correct}</p>
-                        </c:if>
-                        <button class="edit-submit" type="submit">${submit}</button>
-                    </div>
-                </form>
+                        <div class="edit-footer">
+                            <c:if test="${edit_error_message != null}">
+                                <p class="edit-error-message"
+                                   id="edit-promo-code-error-message">${fill_fields_correct}</p>
+                            </c:if>
+                            <button class="edit-submit" type="submit">${submit}</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </body>
 </html>

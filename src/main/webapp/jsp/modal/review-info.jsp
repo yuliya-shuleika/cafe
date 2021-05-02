@@ -27,15 +27,15 @@
                 </div>
                 <div class="edit-form">
                     <div class="edit-general">
-                        <span class="edit-label">${review_header}</span>
+                        <span class="edit-info-label">${review_header}</span>
                         <p class="edit-info" id="review-info-header"></p>
                     </div>
                     <div class="edit-general">
-                        <span class="edit-label">${rating}</span>
+                        <span class="edit-info-label">${rating}</span>
                         <p class="edit-info" id="review-info-rating"></p>
                     </div>
                     <div class="edit-general">
-                        <span class="edit-label">${text}</span>
+                        <span class="edit-info-label">${text}</span>
                         <p class="edit-info" id="review-info-text"></p>
                     </div>
                 </div>

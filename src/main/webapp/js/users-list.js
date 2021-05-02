@@ -74,3 +74,13 @@ $(document).ready(function (){
         return result
     }
 });
+
+function validateUserSearch(form){
+    let emailPart = document.getElementById('search_user')
+    const regExp = /^.{1,30}$/
+    if(regExp.test(emailPart.value)){
+        form.submit()
+    } else {
+        emailPart.value = ""
+    }
+}
