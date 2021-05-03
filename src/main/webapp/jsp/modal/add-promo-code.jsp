@@ -58,8 +58,12 @@
                         </div>
                     </div>
                     <div class="edit-footer">
+                        <p class="edit-error-message" id="add-promo-code-error-message"></p>
                         <c:if test="${edit_error_message != null}">
-                            <p class="edit-error-message" id="add-promo-code-error-message">${fill_fields_correct}</p>
+                            <script>
+                                let error = document.getElementById('add-promo-code-error-message')
+                                error.innerHTML = ${fill_fields_correct}
+                            </script>
                         </c:if>
                         <button class="edit-submit" type="submit">${submit}</button>
                     </div>

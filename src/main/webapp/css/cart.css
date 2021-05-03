@@ -340,6 +340,10 @@ button:active, button:focus, input:active, input:focus{
     background: #439648;
 }
 
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}
 
 
 

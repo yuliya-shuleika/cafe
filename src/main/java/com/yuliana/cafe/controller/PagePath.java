@@ -56,7 +56,6 @@ public class PagePath {
      * The path of the page with order confirmation.
      */
     public static final String ORDER_CONFIRM_PAGE = "/jsp/checkout-confirm.jsp";
-    public static final String ABOUT_PAGE = "/jsp/about.jsp";
 
     /**
      * Forbid creation of the new objects of the class.

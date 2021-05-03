@@ -1,7 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <html>
+<fmt:message bundle="${loc}" key="lang.label.fill_fields_correct" var="fill_fields_correct"/>
 <head>
     <title>Header</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+            type="text/javascript"></script>
+    <script><%@include file="/js/register.js"%></script>
+    <script><%@include file="/js/header.js"%></script>
     <style><%@include file="/css/header.css"%></style>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -17,6 +22,7 @@
 <fmt:message bundle="${loc}" key="lang.label.login" var="login"/>
 <fmt:message bundle="${loc}" key="lang.label.register" var="register"/>
 <fmt:message bundle="${loc}" key="lang.label.translate" var="translate"/>
+<fmt:message bundle="${loc}" key="lang.label.search" var="search"/>
 <body>
     <header class="header-page">
         <div class="container header-container">
@@ -31,9 +37,6 @@
                         </li>
                         <li class="header-li">
                             <a class="header-link" href="reviews.do?command=to_reviews">${reviews}</a>
-                        </li>
-                        <li class="header-li">
-                            <a class="header-link" href="about.do?command=to_about">${about}</a>
                         </li>
                         <li class="header-li">
                             <c:choose>
@@ -52,11 +55,11 @@
                 <div class = "header-user">
                     <ul class="header-ul">
                         <li>
-                            <form class="header-form" method="post" action="controller">
+                            <form class="header-form" method="post" action="menu.do"
+                                  onsubmit="validateUserDishSearch(this); return false;">
                                 <input type="hidden" name="command" value="search_dish_by_name" />
-                                <input class="header-search" type="search" id="mySearch" name="dish_name"
-                                   placeholder="Search..." required
-                                   minlength="1" maxlength="20">
+                                <input class="header-search" type="search" id="user-search-dish" name="dish_name"
+                                   placeholder="${search}">
                             </form>
                         </li>
                         <li class="header-icon">
@@ -82,14 +85,14 @@
     <%@ include file="/jsp/modal/dish-info.jsp"%>
     <c:if test="${register_error_message != null}">
         <script>
-            let login = document.getElementById('register')
-            login.style.display = 'block'
+            let registerForm = document.getElementById('register')
+            registerForm.style.display = 'block'
         </script>
     </c:if>
     <c:if test="${login_error_message != null}">
         <script>
-            let login = document.getElementById('login')
-            login.style.display = 'block'
+            let loginForm = document.getElementById('login')
+            loginForm.style.display = 'block'
         </script>
     </c:if>
     <script>

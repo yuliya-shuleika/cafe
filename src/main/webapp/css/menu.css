@@ -127,8 +127,16 @@ form{
     margin-left: 15px;
 }
 
-.menu-sort-criteria:hover{
+.menu-sort-criteria:hover {
     background: #878787;
+}
+
+.menu-not-found-label {
+    font-size: 16px;
+    color: #fff;
+    font-family: 'Rubik', sans-serif;
+    padding-left: 10px;
+    align-self: center;
 }
 
 /*menu-items*/
@@ -249,4 +257,22 @@ form{
     cursor: pointer;
     background: #439648;
     padding: 0.75em 1.35em;
+}
+
+/* menu-empty */
+
+.empty-dishes-list{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 500px;
+}
+
+.empty-dishes-list{
+    text-align: center;
+    font-size: 22px;
+    color: #fff;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    margin: 100px 150px 0 0 ;
 }

@@ -27,47 +27,51 @@
                     <a class="login-close" href="#">x</a>
                 </div>
                 <div class="login-form-container">
-                    <form class="login-form" action="controller" method="post"
-                          onsubmit="return validateLoginForm()">
+                    <form class="login-form" action="login.do" method="post"
+                          onsubmit="validateLoginForm(this); return false;">
                         <input type="hidden" name="command" value="login">
                         <div class="login-form-field">
-                            <c:if test="${login_fields != null && login_fields.containsKey('user_email')}">
-                                <input class="login-field-input" type="text" name = "user_email"
-                                       placeholder="${email}" value="${login_fields.getValue('user_email')}">
-                            </c:if>
-                            <c:if test="${login_fields == null || !login_fields.containsKey('user_email')}">
-                                <input class="login-field-input" type="text" name = "user_email"
-                                       placeholder="${email}">
-                            </c:if>
+                            <c:choose>
+                                <c:when test="${login_fields != null && login_fields.containsKey('user_email')}">
+                                    <input class="login-field-input" type="text" name = "user_email" id="login-user-email"
+                                           placeholder="${email}" value="${login_fields.getValue('user_email')}">
+                                </c:when>
+                                <c:when test="${login_fields == null || !login_fields.containsKey('user_email')}">
+                                    <input class="login-field-input" type="text" name = "user_email" id="login-user-email"
+                                           placeholder="${email}">
+                                </c:when>
+                            </c:choose>
                         </div>
                         <div class="login-form-field">
-                            <c:if test="${login_fields != null && login_fields.containsKey('user_email')}">
-                                <input class="login-field-input" type="password" name = "user_password" placeholder="${password}"
-                                       value="${login_fields.getValue('user_password')}">
-                            </c:if>
-                            <c:if test="${login_fields == null || !login_fields.containsKey('user_password')}">
-                                <input class="login-field-input" type="password" name = "user_password" placeholder="${password}">
-                            </c:if>
+                            <c:choose>
+                                <c:when test="${login_fields != null && login_fields.containsKey('user_email')}">
+                                    <input class="login-field-input" type="password" name = "user_password"
+                                           placeholder="${password}" id="login-user-password"
+                                           value="${login_fields.getValue('user_password')}">
+                                </c:when>
+                                <c:when test="${login_fields == null || !login_fields.containsKey('user_password')}">
+                                    <input class="login-field-input" type="password" name = "user_password"
+                                           placeholder="${password}" id="login-user-password">
+                                </c:when>
+                            </c:choose>
                         </div>
-                        <c:if test="${login_error_message != null}">
-                            <p class="login-error-label">
-                                <c:choose>
-                                    <c:when test="${login_error_message eq 'wrong_password'}">
-                                        ${wrong_password}
-                                    </c:when>
-                                    <c:when test="${login_error_message eq 'account_not_exists'}">
-                                        ${account_not_exist}
-                                    </c:when>
-                                    <c:when test="${login_error_message eq 'added_to_blacklist'}">
-                                        ${added_to_blacklist}
-                                    </c:when>
-                                    <c:when test="${login_error_message eq 'fill_fields_correct'}">
-                                        ${fill_fields_correct}
-                                    </c:when>
-                                </c:choose>
-                            </p>
-                        </c:if>
-                        <input class="login-form-submit" type="submit" value="Войти">
+                        <p class="login-error-label" id="login-user-error-message">
+                            <c:choose>
+                                <c:when test="${login_error_message eq 'wrong_password'}">
+                                    ${wrong_password}
+                                </c:when>
+                                <c:when test="${login_error_message eq 'account_not_exists'}">
+                                    ${account_not_exist}
+                                </c:when>
+                                <c:when test="${login_error_message eq 'added_to_blacklist'}">
+                                    ${added_to_blacklist}
+                                </c:when>
+                                <c:when test="${login_error_message eq 'fill_fields_correct'}">
+                                    ${fill_fields_correct}
+                                </c:when>
+                            </c:choose>
+                        </p>
+                        <input class="login-form-submit" type="submit" value="${login}">
                     </form>
                 </div>
                 <footer class="login-footer">

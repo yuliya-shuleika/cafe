@@ -56,19 +56,21 @@ $(document).ready(function (){
     }
 });
 
-function validateGiveFeedbackForm() {
+function validateGiveFeedbackForm(form) {
+    console.log("rdieriooierio")
     let header = document.getElementById('add-review-header')
     let text = document.getElementById('add-review-text')
     let error = document.getElementById('add-review-error-label')
     let isValid = validateReviewFields(header, text)
     if (!isValid) {
         error.innerHTML = '${fill_fields_correct}'
+    } else {
+        form.submit()
     }
-    return isValid
 }
 
 function validateReviewFields(header, text){
-    let isValid
+    let isValid = true
     if (!validateHeader(header)){
         isValid = false
     }

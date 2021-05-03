@@ -103,14 +103,6 @@ public interface DishService {
     void editDish(Map<String, String> dishFields, String pictureName, int dishId) throws ServiceException;
 
     /**
-     * Find the dishes that are considered new.
-     *
-     * @return list of the dishes
-     * @throws ServiceException if the {@code DaoException} was thrown
-     */
-    List<Dish> findNewDishes() throws ServiceException;
-
-    /**
      * Find all the dishes sorted by it's popularity.
      *
      * @return list of the dishes

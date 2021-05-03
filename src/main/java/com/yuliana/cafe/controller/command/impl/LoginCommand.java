@@ -92,17 +92,26 @@ public class LoginCommand implements ActionCommand {
     private void prepareUserData(User user, HttpSession session, UserService userService,
                                  HttpServletResponse response) throws IOException {
         int userId = user.getUserId();
-        List<Dish> favorites = new ArrayList<>();
         Map<Dish, Integer> cartItems = new HashMap<>();
+        Optional<Address> addressOptional = Optional.empty();
         try {
+            addressOptional = userService.findUserAddress(userId);
             userService.updateStatus(userId, UserStatus.ONLINE);
             FavoritesService favoritesService = FavoritesServiceImpl.getInstance();
-            favorites = favoritesService.findUserFavorites(userId);
+            List<Dish> favorites = favoritesService.findUserFavorites(userId);
+            session.setAttribute(AttributeName.USER_FAVORITES, favorites);
             CartService cartService = CartServiceImpl.getInstance();
             cartItems = cartService.findUserItems(userId);
+            OrderService orderService = OrderServiceImpl.getInstance();
+            List<Order> userOrders = orderService.findOrdersByUserId(userId);
+            session.setAttribute(AttributeName.USER_ORDERS, userOrders);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
             response.sendError(500);
+        }
+        if(addressOptional.isPresent()) {
+            Address userAddress = addressOptional.get();
+            session.setAttribute(AttributeName.USER_ADDRESS, userAddress);
         }
         int cartItemsCount = 0;
         for (int count : cartItems.values()) {
@@ -110,7 +119,6 @@ public class LoginCommand implements ActionCommand {
         }
         session.setAttribute(AttributeName.CART_ITEMS_COUNT, cartItemsCount);
         session.setAttribute(AttributeName.CART_ITEMS, cartItems);
-        session.setAttribute(AttributeName.USER_FAVORITES, favorites);
     }
 
     /**

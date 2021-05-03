@@ -1,6 +1,8 @@
+let totalPrice
 $(document).ready(function () {
+    totalPrice = document.getElementById('total-price')
     changeCart()
-    $('#total-price').html(countTotalPrice())
+    totalPrice.innerHTML = countTotalPrice()
     $('.cart-items').on('click', '.cart-item-delete', function () {
         let cart_item = this.closest(".cart-item")
         let params = cart_item.getElementsByTagName('input')
@@ -30,11 +32,11 @@ $(document).ready(function () {
                 items_count_header.innerHTML = items_count
                 if (items_count == 0) {
                     changeCart();
-                    $('#total-price').html(countTotalPrice())
+                    totalPrice.innerHTML = countTotalPrice()
                 }
                 cart_item.remove()
                 removeFromCartIds(cart_item_id)
-                $('#total-price').html(countTotalPrice())
+                totalPrice.innerHTML = countTotalPrice()
             }
         });
     });
@@ -68,7 +70,7 @@ $(document).ready(function () {
                         cart_item.remove()
                         removeFromCartIds(cart_item_ids)
                         changeCart()
-                        $('#total-price').html(countTotalPrice())
+                        totalPrice.innerHTML = countTotalPrice()
                     } else {
                         itemCountVal--
                         itemCount.innerHTML = itemCountVal
@@ -81,7 +83,7 @@ $(document).ready(function () {
                     itemCountVal++;
                     itemCount.innerHTML = itemCountVal
                 }
-                $('#total-price').html(countTotalPrice())
+                totalPrice.innerHTML = countTotalPrice()
             }
         });
     });
@@ -133,4 +135,16 @@ function changeCart() {
         cart_items_container.style.flexDirection = 'column'
         cart_empty.style.display = 'none'
     }
+}
+
+function findCurrentItemCount(dish_id) {
+    let items = document.getElementsByName('cart_item_id')
+    let cart_item
+    for (let i = 0; i < items.length; i++) {
+        if (dish_id == items[i].getAttribute('value')) {
+            cart_item = items[i].closest('li')
+        }
+    }
+    let item_count = cart_item.getElementsByClassName('cart-item-count-label')[0]
+    return item_count;
 }

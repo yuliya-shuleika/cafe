@@ -25,7 +25,7 @@
             <div class="edit-content edit-content-dark">
                 <div class="add-promo">
                     <form action="controller?command=edit_user_address" method="post"
-                          onsubmit="return validateUserAddressForm()">
+                          onsubmit="validateUserAddressForm(this); return false;">
                         <div class="edit-header">
                             <h3 class="edit-title edit-title-dark">${address}</h3>
                             <a class="edit-close edit-close-dark" id="edit-close">x</a>
@@ -150,9 +150,13 @@
                             </div>
                         </div>
                         <div class="edit-footer">
+                            <p class="edit-error-message edit-error-message-dark"
+                               id="edit-user-address-error-message">${fill_fields_correct}</p>
                             <c:if test="${edit_error_message != null}">
-                                <p class="edit-error-message edit-error-message-dark"
-                                   id="edit-user-address-error-message">${fill_fields_correct}</p>
+                                <script>
+                                    let error = document.getElementById('edit-user-address-error-message')
+                                    error.innerHTML = ${fill_fields_correct}
+                                </script>
                             </c:if>
                             <button class="edit-submit" type="submit">${submit}</button>
                         </div>

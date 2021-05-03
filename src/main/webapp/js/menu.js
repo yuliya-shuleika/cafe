@@ -29,8 +29,9 @@ $(document).ready(function () {
                 if (!hasItem) {
                     cart_item_ids.push(dish_id)
                     if (cart_items_list !== undefined) {
+                        let dish_price_formatted = parseFloat(dish_price.replace(/,/g, '.'));
                         createCartItem(cart_items_list, dish_id,
-                            dish_picture, dish_title, dish_description, dish_price)
+                            dish_picture, dish_title, dish_description, dish_price_formatted)
                     }
                 }
                 let items_count = items_count_header.innerHTML
@@ -79,18 +80,6 @@ $(document).ready(function () {
     });
 });
 
-function findCurrentItemCount(dish_id) {
-    let items = document.getElementsByName('cart_item_id')
-    let cart_item
-    for (let i = 0; i < items.length; i++) {
-        if (dish_id == items[i].getAttribute('value')) {
-            cart_item = items[i].closest('li')
-        }
-    }
-    let item_count = cart_item.getElementsByClassName('cart-item-count-label')[0]
-    return item_count;
-}
-
 function watchDish(nameVal, categoryVal, priceVal, discountVal, descriptionVal, weightVal, pictureName){
     let name = document.getElementById('dish-info-name')
     let category = document.getElementById('dish-info-category')
@@ -127,6 +116,7 @@ function getCategory(categoryVal){
     }
     return category
 }
+
 
 function createCartItem(cart_items_list, dish_id, dish_picture, dish_title, dish_description, dish_price) {
     let cart_item = document.createElement('li')

@@ -96,7 +96,7 @@ function validateDiscount(discount) {
 }
 
 function validatePromoCodeSearch(form){
-    let promoCodePart = document.getElementById('search_promo_code')
+    let promoCodePart = document.getElementById('search-promo-code')
     const regExp = /^.{1,30}$/
     if(regExp.test(promoCodePart.value)){
         form.submit()

@@ -179,8 +179,6 @@ public class AttributeName {
      * Value is a user's input.
      */
     public static final String USER_FIELDS = "user_fields";
-    public static final String REGISTER_FIELDS = "register_fields";
-    public static final String LOGIN_FIELDS = "login_fields";
 
     /**
      * Name of the attribute that represents id of the promo code.
@@ -201,6 +199,11 @@ public class AttributeName {
      * Name of the attribute that represents filepath of the dish picture.
      */
     public static final String DISH_PICTURE = "dish_picture";
+
+    /**
+     * Name of the attribute that represents a message that dishes weren't found.
+     */
+    public static final String DISHES_NOT_FOUND = "dishes_not_found";
 
     /**
      * Forbid creation of the new objects of the class.

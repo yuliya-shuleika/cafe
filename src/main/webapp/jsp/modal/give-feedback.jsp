@@ -18,7 +18,8 @@
         <div class="edit-body">
             <div class="edit-content edit-content-dark">
                 <div class="edit-container">
-                    <form action="controller" method="post" onsubmit="return validateGiveFeedbackForm()">
+                    <form onsubmit="validateGiveFeedbackForm(this); return false;"
+                          action="reviews.do" method="post">
                         <div class="edit-header">
                             <h3 class="edit-title edit-title-dark">${review}</h3>
                             <a class="edit-close edit-close-dark" id="edit-close">x</a>
@@ -26,7 +27,7 @@
                         <div class="edit-form">
                             <input type="hidden" name="command" value="give_feedback">
                             <div class="edit-general">
-                                <span class="edit-label edit-label-dark">${feedback_header}</span>
+                                <span class="edit-label-dark">${feedback_header}</span>
                                 <c:choose>
                                     <c:when test="${review_fields != null && review_fields.containsKey('review_header')}">
                                     <input class="edit-general-input edit-general-input-dark" type="text"
@@ -40,7 +41,7 @@
                                 </c:choose>
                             </div>
                             <div class="edit-mark">
-                                <span class="edit-label edit-label-dark">${your_mark}</span>
+                                <span class="edit-label-dark">${your_mark}</span>
                                 <div class="edit-rating">
                                     <input type="hidden" name="review_rating" value="5">
                                     <span class="fa fa-star edit-star" id="star_one"></span>
@@ -51,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="edit-text-container">
-                                <span class="edit-label edit-label-dark">${your_feedback}</span>
+                                <span class="edit-label-dark">${your_feedback}</span>
                                 <c:choose>
                                     <c:when test="${review_fields != null && review_fields.containsKey('review_text')}">
                                         <textarea class="edit-text edit-text-dark" id="add-review-text"
@@ -65,9 +66,13 @@
                             </div>
                         </div>
                         <div class="edit-footer">
+                            <p class="edit-error-message edit-error-message-dark"
+                               id="add-review-error-label"></p>
                             <c:if test="${edit_error_message != null}">
-                                <p class="edit-error-message edit-error-message-dark"
-                                   id="add-review-error-label">${fill_fields_correct}</p>
+                                <script>
+                                    let error = document.getElementById('add-review-error-label')
+                                    error.innerHTML = ${fill_fields_correct}
+                                </script>
                             </c:if>
                             <button class="edit-submit" type="submit">${submit}</button>
                         </div>

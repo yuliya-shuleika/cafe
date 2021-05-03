@@ -71,7 +71,7 @@ $(document).ready(function (){
 });
 
 function validateReviewSearch(form){
-    let reviewPart = document.getElementById('search_review')
+    let reviewPart = document.getElementById('search-review')
     const regExp = /^.{1,30}$/
     if(regExp.test(reviewPart.value)){
         form.submit()

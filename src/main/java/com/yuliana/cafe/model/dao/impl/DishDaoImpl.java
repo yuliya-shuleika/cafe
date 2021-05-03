@@ -58,9 +58,6 @@ public class DishDaoImpl implements DishDao {
             "SET name = ?, category = ?, picture_name = ?, price = ?, " +
             "discount_percents = ?, description = ?, weight = ? " +
             "WHERE dish_id = ?";
-    private static final String SELECT_NEW_DISHES = "SELECT dish_id, name, category, " +
-            "picture_name, price, discount_percents, date, description, weight " +
-            "FROM dishes WHERE date > ? ORDER BY date DESC";
     private static final String SELECT_ALL_DISHES_SORTED_BY_POPULARITY = "SELECT dishes.dish_id, " +
             "dishes.name, dishes.category, dishes.picture_name, dishes.price, " +
             "dishes.discount_percents, dishes.date, dishes.description, dishes.weight " +
@@ -266,25 +263,6 @@ public class DishDaoImpl implements DishDao {
         } finally {
             pool.releaseConnection(connection);
         }
-    }
-
-    @Override
-    public List<Dish> findNewDishes(Date date) throws DaoException {
-        Connection connection = pool.getConnection();
-        List<Dish> dishes = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_NEW_DISHES)) {
-            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-            statement.setDate(1, sqlDate);
-            ResultSet result = statement.executeQuery();
-            while (result.next()) {
-                dishes.add(createDish(result));
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
-        return dishes;
     }
 
     @Override

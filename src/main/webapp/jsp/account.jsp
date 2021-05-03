@@ -108,13 +108,13 @@
                 <button class="account-tab" id="extra">${extra}</button>
             </div>
             <div class="account-orders" id="account-orders">
-            <c:if test="${user_orders.isEmpty()}">
+            <c:if test="${sessionScope.user_orders.isEmpty()}">
                 <div class="account-empty">
                     <p class="account-empty-label">${no_orders}</p>
                 </div>
             </c:if>
-            <c:if test="${!user_orders.isEmpty()}">
-                <c:forEach var="order" items="${user_orders}">
+            <c:if test="${!sessionScope.user_orders.isEmpty()}">
+                <c:forEach var="order" items="${sessionScope.user_orders}">
                     <div class="order-info">
                         <div class="order-start">
                             <p class="order-date"><fmt:formatDate value="${order.getDate()}" type = "date" /></p>
@@ -190,20 +190,20 @@
                 </c:if>
             </div>
             <div class="account-extra" id="account-extra">
-                <c:if test="${user_address == null}">
+                <c:if test="${sessionScope.user_address == null}">
                     <div class="account-empty">
                         <p class="account-empty-label">${no_extra}. </p>
                         <a class="account-empty-link" href="#">${add}</a>
                     </div>
                 </c:if>
-                <c:if test="${user_address != null}">
+                <c:if test="${sessionScope.user_address != null}">
                     <div class="extra-container">
-                        <p class="extra-info">${city}: <span class="extra-info-span">${user_address.getCity()}</span></p>
-                        <p class="extra-info">${street}: <span class="extra-info-span">${user_address.getStreet()}</span></p>
-                        <p class="extra-info">${house}: <span class="extra-info-span">${user_address.getHouse()}</span></p>
-                        <p class="extra-info">${entrance}: <span class="extra-info-span">${user_address.getEntrance()}</span></p>
-                        <p class="extra-info">${floor}: <span class="extra-info-span">${user_address.getFloor()}</span></p>
-                        <p class="extra-info">${flat}: <span class="extra-info-span">${user_address.getFlat()}</span></p>
+                        <p class="extra-info">${city}: <span class="extra-info-span">${sessionScope.user_address.getCity()}</span></p>
+                        <p class="extra-info">${street}: <span class="extra-info-span">${sessionScope.user_address.getStreet()}</span></p>
+                        <p class="extra-info">${house}: <span class="extra-info-span">${sessionScope.user_address.getHouse()}</span></p>
+                        <p class="extra-info">${entrance}: <span class="extra-info-span">${sessionScope.user_address.getEntrance()}</span></p>
+                        <p class="extra-info">${floor}: <span class="extra-info-span">${sessionScope.user_address.getFloor()}</span></p>
+                        <p class="extra-info">${flat}: <span class="extra-info-span">${sessionScope.user_address.getFlat()}</span></p>
                         <a class="account-empty-link" href="#">${edit}</a>
                     </div>
                 </c:if>

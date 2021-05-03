@@ -194,25 +194,23 @@
                                 <label class="delivery-address-label" for="city">${city}</label>
                                 <c:if test="${address_fields == null || !address_fields.containsKey('city')}">
                                     <input class="delivery-address-input-long" id="city" type="text"
-                                           name="city" placeholder="Город">
+                                           name="city" placeholder="${city}">
                                 </c:if>
                                 <c:if test="${address_fields != null && address_fields.containsKey('city')}">
                                 <input class="delivery-address-input-long" type="text" value="${address_fields.get('city')}"
-                                       name="city" placeholder="Город">
+                                       name="city" placeholder="${city}">
                                 </c:if>
-                                <!--required pattern="[A-Za-zА-Яа-я][a-zа-я]{1,30}"-->
                             </div>
                             <div class="delivery-address-field">
                                 <label class="delivery-address-label" for="street">${street}</label>
                                 <c:if test="${address_fields == null || !address_fields.containsKey('street')}">
                                     <input class="delivery-address-input-long" id="street" type="text"
-                                           name="street" placeholder="Улица">
+                                           name="street" placeholder="${street}">
                                 </c:if>
                                 <c:if test="${address_fields != null && address_fields.containsKey('street')}">
                                     <input class="delivery-address-input-long" type="text" value="${address_fields.get('street')}"
-                                           name="street" placeholder="Улица">
+                                           name="street" placeholder="${street}">
                                 </c:if>
-                                <!--required pattern="[A-Za-zА-Яа-я][a-zа-я]{1,30}"-->
                             </div>
                         </div>
                         <div class="delivery-address-house">
@@ -220,49 +218,45 @@
                                 <label class="delivery-address-label" for="house">${house}</label>
                                 <c:if test="${address_fields == null || !address_fields.containsKey('house')}">
                                     <input class="delivery-address-input-short" id="house" type="text"
-                                           name="house" placeholder="Дом">
+                                           name="house" placeholder="${house}">
                                 </c:if>
                                 <c:if test="${address_fields != null && address_fields.containsKey('house')}">
                                     <input class="delivery-address-input-short" type="text" value="${address_fields.get('house')}"
-                                           name="house" placeholder="Дом">
+                                           name="house" placeholder="${house}">
                                 </c:if>
-                                <!-- required pattern="[1-9][0-9]{0,3}"-->
                             </div>
                             <div class="delivery-address-field">
                                 <label class="delivery-address-label" for="entrance">${entrance}</label>
                                 <c:if test="${address_fields == null || !address_fields.containsKey('entrance')}">
                                     <input class="delivery-address-input-short" id="entrance" type="text"
-                                           name="entrance" placeholder="Подъезд">
+                                           name="entrance" placeholder="${entrance}">
                                 </c:if>
                                 <c:if test="${address_fields != null && address_fields.containsKey('entrance')}">
                                     <input class="delivery-address-input-short" type="text" value="${address_fields.get('entrance')}"
-                                           name="entrance" placeholder="Подъезд">
+                                           name="entrance" placeholder="${entrance}">
                                 </c:if>
-                                <!-- pattern="[1-9][0-9]{0,2}"-->
                             </div>
                             <div class="delivery-address-field">
                                 <label class="delivery-address-label" for="floor">${floor}</label>
                                 <c:if test="${address_fields == null || !address_fields.containsKey('floor')}">
                                     <input class="delivery-address-input-short" id="floor" type="text"
-                                           name="floor" placeholder="Этаж">
+                                           name="floor" placeholder="${floor}">
                                 </c:if>
                                 <c:if test="${address_fields != null && address_fields.containsKey('floor')}">
                                     <input class="delivery-address-input-short" type="text" value="${address_fields.get('floor')}"
-                                           name="floor" placeholder="Этаж">
+                                           name="floor" placeholder="${floor}">
                                 </c:if>
-                                <!-- pattern="(-|[1-9])[0-9]{0,3}"-->
                             </div>
                             <div class="delivery-address-field">
                                 <label class="delivery-address-label" for="flat">${flat}</label>
                                 <c:if test="${address_fields == null || !address_fields.containsKey('flat')}">
                                     <input class="delivery-address-input-short" id="flat" type="text"
-                                           name="flat" placeholder="Квартира">
+                                           name="flat" placeholder="${flat}">
                                 </c:if>
                                 <c:if test="${address_fields != null && address_fields.containsKey('flat')}">
                                     <input class="delivery-address-input-short" type="text" value="${address_fields.get('flat')}"
-                                           name="flat" placeholder="Квартира">
+                                           name="flat" placeholder="${flat}">
                                 </c:if>
-                                <!--pattern="[1-9][0-9]{0,5}"-->
                             </div>
                         </div>
                     </div>

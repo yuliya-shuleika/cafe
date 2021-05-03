@@ -28,8 +28,8 @@
                     </div>
                     <div class="edit-info-container">
                         <div class="edit-picture-container">
-                            <img src="${pageContext.request.contextPath}" alt="dish"
-                                 id="dish-info-picture" class="edit-picture">
+                            <img src="${pageContext.request.contextPath}/images/sad_cat.png"
+                                 alt="dish" id="dish-info-picture" class="edit-picture">
                         </div>
                         <div class="edit-description-container">
                             <div class="edit-general">

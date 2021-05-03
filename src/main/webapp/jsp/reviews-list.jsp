@@ -66,7 +66,7 @@
                     <form action="reviews.do" method="post" class="admin-searching-form"
                           onsubmit="validateReviewSearch(this); return false;">
                         <input type="hidden" name="command" value="search_review_by_header">
-                        <input class="admin-search" type="search" id="search_review" name="review_header"
+                        <input class="admin-search" type="search" id="search-review" name="review_header"
                                placeholder="Search...">
                     </form>
                 </div>

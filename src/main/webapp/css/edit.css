@@ -201,9 +201,6 @@ h3, p{
     margin-left: 10px;
 }
 
-.edit-rating-dark{
-    color: #fff;
-}
 
 .edit-text-container{
     display: inline-flex;
@@ -222,6 +219,8 @@ h3, p{
     min-height: 250px;
     margin-left: 10px;
     resize: none;
+    color: #fff;
+    padding: 5px;
 }
 
 .edit-text-short{

@@ -14,12 +14,11 @@
 <fmt:setBundle basename="lang" var="loc"/>
 <fmt:message bundle="${loc}" key="lang.label.menu" var="menu"/>
 <fmt:message bundle="${loc}" key="lang.label.follow_us" var="follow_us"/>
-<fmt:message bundle="${loc}" key="lang.label.about" var="about"/>
 <fmt:message bundle="${loc}" key="lang.label.discounts" var="discounts"/>
 <fmt:message bundle="${loc}" key="lang.label.all" var="all"/>
 <fmt:message bundle="${loc}" key="lang.label.new" var="new"/>
 <fmt:message bundle="${loc}" key="lang.label.sushi_sets" var="sushi_sets"/>
-<fmt:message bundle="${loc}" key="lang.label.new" var="new_dishes"/>
+<fmt:message bundle="${loc}" key="lang.label.popular" var="popular"/>
 <fmt:message bundle="${loc}" key="lang.label.sushi_sets" var="sushi_sets"/>
 <fmt:message bundle="${loc}" key="lang.label.information" var="information"/>
 <fmt:message bundle="${loc}" key="lang.label.reviews" var="reviews"/>
@@ -33,7 +32,7 @@
                     <ul>
                         <li class="footer-item"><a class="footer-link" href="menu.do?command=to_menu">${all}</a></li>
                         <li class="footer-item"><a class="footer-link" href="menu.do?command=show_discounts">${discounts}</a></li>
-                        <li class="footer-item"><a class="footer-link" href="menu.do?command=show_new_dishes">${new_dishes}</a></li>
+                        <li class="footer-item"><a class="footer-link" href="menu.do?command=sort_dishes_by_popularity">${popular}</a></li>
                         <li class="footer-item"><a class="footer-link" href="menu.do?command=choose_category&dish_category=sushi_set">${sushi_sets}</a></li>
                     </ul>
                 </div>
@@ -41,7 +40,6 @@
                     <h4 class="footer-title">${about}</h4>
                     <ul>
                         <li class="footer-item"><a class="footer-link" href="home.do?command=to_home">${home}</a></li>
-                        <li class="footer-item"><a class="footer-link" href="about.do?command=to_about">${information}</a></li>
                         <li class="footer-item"><a class="footer-link" href="reviews.do?command=to_reviews">${reviews}</a></li>
                     </ul>
                 </div>

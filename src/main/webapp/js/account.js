@@ -56,7 +56,7 @@ $(document).ready(function () {
     });
 });
 
-function validateUserAddressForm(){
+function validateUserAddressForm(form){
     let city = document.getElementById('edit-city')
     let street = document.getElementById('edit-street')
     let house = document.getElementById('edit-house')
@@ -67,24 +67,36 @@ function validateUserAddressForm(){
     let isValid = validateAddressForm(city, street, house, entrance, floor, flat)
     if(!isValid) {
         error.innerHTML = '${fill_fields_correct}'
+    } else {
+        form.submit()
     }
-    return isValid
 }
 
-function validateAccountEditForm(){
-    let isValid = true
+function validateAccountEditForm(form){
     let name = document.getElementsByName('user_name')[0].value
     let email = document.getElementsByName('user_email')[0].value
     let error = document.getElementsByClassName('edit-error-message')[0]
-    if (!validateName(name) || !validateEmail(email)) {
-        isValid = false
+    let isValid = validateUser(name, email)
+    if (!isValid) {
         error.innerHTML = '${fill_fields_correct}'
+    } else {
+        form.submit()
+    }
+}
+
+function validateUser(name, email){
+    let isValid = true
+    if (!validateName(name)){
+        isValid = false
+    }
+    if (!validateEmail(email)){
+        isValid = false
     }
     return isValid
 }
 
 function validateAddressForm(city, street, house, entrance, floor, flat){
-    let isValid
+    let isValid = true
     if (!validateCity(city)){
         isValid = false
     }

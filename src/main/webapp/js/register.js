@@ -1,47 +1,89 @@
-$(document).ready(function (){
-    $('#repeat_password').addEventListener('change', (event) => {
-        let parent = $('#repeat_password').parentElement
-        let password = parent.getElementsByTagName('input[password]')
-    });
-});
-
-function validateRegisterForm(){
-    let isValid = true
-    let name = document.getElementsByName('user_name')[0].value
-    let email = document.getElementsByName('user_email')[0].value
-    let password = document.getElementsByName('user_password')[0].value
-    let error = document.getElementsByClassName('edit-error-message')[0]
-    if (!validateName(name) || !validateEmail(email) ||
-        !validatePassword(password)) {
-        isValid = false
+function validateRegisterForm(form){
+    let name = document.getElementById('register-user-name')
+    let email = document.getElementById('register-user-email')
+    let password = document.getElementById('register-user-password')
+    let passwordRepeat = document.getElementById('repeat_password')
+    let error = document.getElementById('register-error-label')
+    let isValid = validateRegisterFields(name, email, password, passwordRepeat)
+    if (!isValid) {
         error.innerHTML = '${fill_fields_correct}'
+    } else {
+        form.submit()
+    }
+}
+
+function validateLoginForm(form){
+    let email = document.getElementById('login-user-email')
+    let password = document.getElementById('login-user-password')
+    let error = document.getElementById('login-user-error-message')
+    let isValid = validateLoginFields(email, password)
+    if (!isValid) {
+        error.innerHTML = '${fill_fields_correct}'
+    } else {
+        form.submit()
+    }
+}
+
+function validateLoginFields(email, password){
+    let isValid = true
+    if (!validateEmail(email)){
+        isValid = false
+    }
+    if (!validatePassword(password)){
+        isValid = false
     }
     return isValid
 }
 
-function validateLoginForm(){
+function validateRegisterFields(name, email, password, repeatPassword){
     let isValid = true
-    let email = document.getElementsByName('user_email')[0].value
-    let password = document.getElementsByName('user_password')[0].value
-    let error = document.getElementsByClassName('edit-error-message')[0]
-    if (!validateEmail(email) || !validatePassword(password)) {
+    if (!validateUserName(name)){
         isValid = false
-        error.innerHTML = '${fill_fields_correct}'
+    }
+    if (!validateEmail(email)){
+        isValid = false
+    }
+    if (!validatePassword(password)){
+        isValid = false
+    }
+    if (!validatePassword(repeatPassword)){
+        isValid = false
     }
     return isValid
 }
 
-function validateName(name){
-    const regExp = /^[A-Za-zА-Яа-яёЁ]{3,25}$/;
-    return regExp.test(name);
+function validateUserName(name){
+    let isValid
+    const regExp = /^[A-Za-zА-Яа-яёЁ]{3,25}$/
+    if(regExp.test(name.value)){
+        isValid = true
+    } else {
+        name.value = ""
+        isValid = false
+    }
+    return isValid
 }
 
 function validateEmail(email){
-    const regExp = /^[A-Za-z0-9_.]{2,22}@[a-z]{2,10}\.[a-z]{2,6}$/;
-    return regExp.test(email);
+    let isValid
+    const regExp = /^[A-Za-z0-9_.]{2,22}@[a-z]{2,10}\.[a-z]{2,6}$/
+    if(regExp.test(email.value)){
+        isValid = true
+    } else {
+        email.value = ""
+        isValid = false
+    }
+    return isValid
 }
 
 function validatePassword(password){
-    const regExp = /^[A-Za-z0-9_]{5,20}$/;
-    return regExp.test(password);
+    let isValid
+    const regExp = /^[A-Za-z0-9_]{5,20}$/
+    if(regExp.test(password.value)){
+        isValid = true
+    } else {
+        password.value = ""
+        isValid = false
+    }
+    return isValid
 }

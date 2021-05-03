@@ -71,7 +71,7 @@
                 <form action="promo-codes.do" method="post" class="admin-searching-form"
                       onsubmit="validatePromoCodeSearch(this); return false;">
                     <input type="hidden" name="command" value="search_promo_code_by_name_part">
-                    <input class="admin-search" type="search" id="search_promo_code" name="promo_code_name_part"
+                    <input class="admin-search" type="search" id="search-promo-code" name="promo_code_name_part"
                            placeholder="Search...">
                 </form>
             </div>

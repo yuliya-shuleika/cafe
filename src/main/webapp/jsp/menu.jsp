@@ -27,7 +27,7 @@
 <fmt:message bundle="${loc}" key="lang.label.by_price" var="by_price"/>
 <fmt:message bundle="${loc}" key="lang.label.discount_first" var="discount_first"/>
 <fmt:message bundle="${loc}" key="lang.label.show_filters" var="show_filters"/>
-<fmt:message bundle="${loc}" key="lang.label.dishes_not_found" var="dishes_not_found"/>
+<fmt:message bundle="${loc}" key="lang.label.dishes_not_found" var="dish_not_found"/>
 <fmt:message bundle="${loc}" key="lang.label.by_popularity" var="by_popularity"/>
 <body>
     <c:choose>
@@ -88,10 +88,14 @@
                             <input type="hidden" name="command" value="sort_dishes_by_popularity">
                             <button class="menu-sort-criteria" type="submit">${by_popularity}</button>
                         </form>
-
+                        <p class="menu-not-found-label">
+                            <c:if test="${dishes_not_found != null}">
+                                ${dish_not_found}
+                            </c:if>
+                        </p>
                     </div>
                 <div class="menu-items">
-                    <c:if test="${dishes_list != null}">
+                    <c:if test="${dishes_list != null && !dishes_list.isEmpty()}">
                         <c:forEach var="dish" items="${dishes_list}">
                             <div class="menu-item">
                                 <c:if test="${sessionScope.user.getRole() eq 'USER'}">
@@ -147,10 +151,10 @@
                             </div>
                         </c:forEach>
                     </c:if>
-                    <c:if test="${dishes_list == null}">
+                    <c:if test="${dishes_list == null || dishes_list.isEmpty()}">
                        <div class="empty-dishes-list">
                            <p class="empty-dishes-list-label">
-                               ${dishes_not_found}
+                               ${dish_not_found}
                            </p>
                        </div>
                     </c:if>

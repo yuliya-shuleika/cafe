@@ -173,20 +173,6 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public List<Dish> findNewDishes() throws ServiceException {
-        List<Dish> dishes;
-        ZoneId defaultZoneId = ZoneId.systemDefault();
-        LocalDate localDate = LocalDate.now().minusDays(30);
-        Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
-        try {
-            dishes = dishDao.findNewDishes(date);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-        return dishes;
-    }
-
-    @Override
     public List<Dish> findDishesSortedByPopularity() throws ServiceException {
         List<Dish> dishes;
         try {

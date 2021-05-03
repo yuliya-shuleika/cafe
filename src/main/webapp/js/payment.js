@@ -31,3 +31,4 @@ $(document).ready(function () {
         bankCard.classList.add('is-active')
     });
 });
+

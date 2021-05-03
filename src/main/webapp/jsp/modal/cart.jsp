@@ -1,6 +1,7 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+ <%@ taglib prefix="ctg" uri="custom_tag" %>
+ <html>
 <head>
     <title>Cart</title>
     <style><%@include file="/css/cart.css"%></style>
@@ -42,7 +43,7 @@
                             </div>
                             <div class="cart-item-manage">
                                 <div class="cart-item-price">
-                                    <p class="cart-item-price-value">${item.getKey().getPrice()}</p>
+                                    <p class="cart-item-price-value"><ctg:formatPrice price="${item.getKey().getPrice()}"/></p>
                                     <span class="cart-item-price-currency">$</span>
                                 </div>
                                 <div class="cart-item-count">
@@ -71,7 +72,7 @@
             <div class="cart-footer">
                 <div class="cart-items-total-price">
                     <p class="total-label">${total}</p>
-                    <p class="cart-items-total" id="total-price">20.90</p>
+                    <p class="cart-items-total" id="total-price">23.32</p>
                     <span class="total-currency">$</span>
                 </div>
                 <div class="cart-items-manage">

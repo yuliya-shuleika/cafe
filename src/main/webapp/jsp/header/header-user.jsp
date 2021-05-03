@@ -2,6 +2,9 @@
 <html>
 <head>
     <title>Header</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+            type="text/javascript"></script>
+    <script><%@include file="/js/header.js"%></script>
     <style><%@include file="/css/header.css"%></style>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -17,6 +20,7 @@
 <fmt:message bundle="${loc}" key="lang.label.login" var="login"/>
 <fmt:message bundle="${loc}" key="lang.label.register" var="register"/>
 <fmt:message bundle="${loc}" key="lang.label.translate" var="translate"/>
+<fmt:message bundle="${loc}" key="lang.label.search" var="search"/>
 <body>
 <header class="header-page">
     <%@ include file="/jsp/modal/cart.jsp"%>
@@ -35,9 +39,6 @@
                         <a class="header-link" href="reviews.do?command=to_reviews">${reviews}</a>
                     </li>
                     <li class="header-li">
-                        <a class="header-link" href="about.do?command=to_about">${about}</a>
-                    </li>
-                    <li class="header-li">
                         <c:choose>
                             <c:when test="${sessionScope.lang eq 'ru'}">
                                 <a class="header-link" href="controller?command=change_locale&language=en">${translate}</a>
@@ -54,11 +55,11 @@
             <div class = "header-user">
                 <ul class="header-ul">
                     <li>
-                        <form class="header-form" method="post" action="controller">
+                        <form class="header-form" method="post" action="controller"
+                              onsubmit="validateUserDishSearch(this); return false;">
                             <input type="hidden" name="command" value="search_dish_by_name" />
-                            <input class="header-search" type="search" id="mySearch" name="dish_name"
-                                   placeholder="Search..." required
-                                   minlength="1" maxlength="20">
+                            <input class="header-search" type="search" id="user-search-dish" name="dish_name"
+                                   placeholder="${search}">
                         </form>
                     </li>
                     <li class="header-icon">

@@ -9,15 +9,15 @@ $(document).ready(function (){
         let addDish = document.getElementById('add-dish')
         if(addDish.style.display == 'block'){
             let name = document.getElementById('add-dish-name')
-            name.innerHTML = ""
+            name.value = ""
             let price = document.getElementById('add-dish-price')
-            price.innerHTML = ""
+            price.value = ""
             let discount = document.getElementById('add-dish-discount')
-            discount.innerHTML = ""
+            discount.value = ""
             let description = document.getElementById('add-dish-description')
-            description.innerHTML = ""
+            description.value = ""
             let weight = document.getElementById('add-dish-weight')
-            weight.innerHTML = ""
+            weight.value = ""
             addDish.style.display = 'none';
         } else {
             let editDish = document.getElementById('edit-dish')
@@ -50,11 +50,14 @@ function validateDishAddFields(form) {
     let error = document.getElementById('add-dish-error-message')
     let isValid = validateDishFields(name, price, discount, description, weight)
     if(!isValid){
+        console.log('error')
         error.innerHTML = '${fill_fields_correct}'
     } else {
         form.submit()
+        console.log(
+
+        )
     }
-    return isValid
 }
 
 function validateDishEditFields(form) {
@@ -70,11 +73,10 @@ function validateDishEditFields(form) {
     } else {
         form.submit()
     }
-    return isValid
 }
 
 function validateDishFields(name, price, discount, description, weight){
-    let isValid
+    let isValid = true
     if (!validateName(name)){
         isValid = false
     }
@@ -107,7 +109,7 @@ function validateName(name){
 
 function validatePrice(price){
     let isValid
-    const regExp = /^[1-9][0-9]{0,4}\.[0-9]?[1-9]$/
+    const regExp = /^[1-9][0-9]{0,4}\.[0-9]?[0-9]$/
     if(regExp.test(price.value)){
         isValid = true
     } else {
@@ -154,7 +156,7 @@ function validateWeight(weight){
 }
 
 function validateDishSearch(form){
-    let dishPart = document.getElementById('search_dish')
+    let dishPart = document.getElementById('search-dish')
     const regExp = /^.{1,30}$/
     if(regExp.test(dishPart.value)){
         form.submit()

@@ -53,11 +53,6 @@ public enum CommandType {
             this.command = new ToAccountCommand();
         }
     },
-    TO_ABOUT {
-        {
-            this.command = new ToAboutCommand();
-        }
-    },
     ADD_TO_CART {
         {
             this.command = new AddToCartCommand();
@@ -208,9 +203,9 @@ public enum CommandType {
             this.command = new DeleteFromFavoritesCommand();
         }
     },
-    SHOW_NEW_DISHES {
+    SHOW_NEW_REVIEWS {
         {
-            this.command = new ShowNewDishesCommand();
+            this.command = new ShowNewReviewsCommand();
         }
     },
     SHOW_DISH_EDIT {
@@ -226,11 +221,6 @@ public enum CommandType {
     UPDATE_REVIEW_STATUS {
         {
             this.command = new UpdateReviewStatusCommand();
-        }
-    },
-    SHOW_NEW_REVIEWS {
-        {
-            this.command = new ShowNewReviewsCommand();
         }
     },
     EDIT_ACCOUNT {

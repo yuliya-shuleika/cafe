@@ -76,7 +76,7 @@ $(document).ready(function (){
 });
 
 function validateUserSearch(form){
-    let emailPart = document.getElementById('search_user')
+    let emailPart = document.getElementById('search-user')
     const regExp = /^.{1,30}$/
     if(regExp.test(emailPart.value)){
         form.submit()

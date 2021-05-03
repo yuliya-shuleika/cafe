@@ -2,6 +2,10 @@
     box-sizing: border-box;
 }
 
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance:none;
+}
+
 .header-page{
     position: fixed;
     top: 0;
@@ -36,6 +40,11 @@
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
     font-size: 18px;
+    transition: 0.2s;
+}
+
+.header-link:hover{
+    color: #4CAF50;
 }
 
 .header-icon{
@@ -66,4 +75,11 @@
     height: 30px;
     background: #5e5e5e;
     border-style: none;
+    color: #ffffff;
+    padding: 5px
+;
+}
+
+.header-search::placeholder{
+    color: #262626;
 }

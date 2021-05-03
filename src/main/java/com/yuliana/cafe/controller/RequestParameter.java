@@ -156,7 +156,6 @@ public class RequestParameter {
      * Name of the parameter that contains part of the name of the promo code.
      */
     public static final String PROMO_CODE_NAME_PART_PARAM = "promo_code_name_part";
-    public static final String USER_EMAIL_PART_PARAM = "user_email_part";
 
     /**
      * Name of the parameter that contains command type.

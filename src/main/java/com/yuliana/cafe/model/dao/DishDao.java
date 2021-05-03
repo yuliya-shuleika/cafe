@@ -100,16 +100,6 @@ public interface DishDao extends BaseDao {
     void editDish(Dish dish) throws DaoException;
 
     /**
-     * Find the dishes that are considered new.
-     *
-     * @param addedDate the{@code Date} object.
-     *                  Dishes that was added from this date to now are considered new
-     * @return list of the dishes
-     * @throws DaoException if occurred an error with access to database
-     */
-    List<Dish> findNewDishes(Date addedDate) throws DaoException;
-
-    /**
      * Find all the dishes ordered by popularity.
      * Popular dishes are the dishes that were ordered more times.
      *

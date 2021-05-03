@@ -24,4 +24,14 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
+    <tag>
+        <name>formatPrice</name>
+        <tag-class>com.yuliana.cafe.controller.tag.FormatPriceTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>price</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
 </taglib>

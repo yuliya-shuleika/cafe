@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,13 +30,15 @@ import java.util.Optional;
 public class SearchDishByNameCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger();
+    private static final String DISHES_NOT_FOUND_MESSAGE = "dishes_not_found";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter(RequestParameter.DISH_NAME);
-        DishService service = DishServiceImpl.getInstance();
+        DishService dishService = DishServiceImpl.getInstance();
+        List<Dish> dishes = new ArrayList<>();
         try {
-            List<Dish> dishes = service.findDishesByName(name);
+            dishes = dishService.findDishesByName(name);
             request.setAttribute(AttributeName.DISHES_LIST, dishes);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
@@ -55,6 +58,15 @@ public class SearchDishByNameCommand implements ActionCommand {
             }
         } else {
             page = PagePath.MENU_PAGE;
+        }
+        if(page.equals(PagePath.MENU_PAGE) && dishes.isEmpty()){
+            try {
+                dishes = dishService.findAllDishes();
+                request.setAttribute(AttributeName.DISHES_LIST, dishes);
+                request.setAttribute(AttributeName.DISHES_NOT_FOUND, DISHES_NOT_FOUND_MESSAGE);
+            } catch (ServiceException e) {
+                logger.log(Level.ERROR, e);
+            }
         }
         return page;
     }

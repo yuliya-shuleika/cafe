@@ -5,14 +5,11 @@ import com.yuliana.cafe.controller.PagePath;
 import com.yuliana.cafe.controller.RequestParameter;
 import com.yuliana.cafe.controller.command.ActionCommand;
 import com.yuliana.cafe.model.entity.Address;
-import com.yuliana.cafe.model.entity.Order;
 import com.yuliana.cafe.model.entity.User;
 import com.yuliana.cafe.exception.ServiceException;
 import com.yuliana.cafe.model.service.AddressService;
-import com.yuliana.cafe.model.service.OrderService;
 import com.yuliana.cafe.model.service.UserService;
 import com.yuliana.cafe.model.service.impl.AddressServiceImpl;
-import com.yuliana.cafe.model.service.impl.OrderServiceImpl;
 import com.yuliana.cafe.model.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -62,21 +59,13 @@ public class EditUserAddressCommand implements ActionCommand {
                 addressOptional = addressService.findAddressById(addressId);
                 if (addressOptional.isPresent()) {
                     Address address = addressOptional.get();
-                    request.setAttribute(AttributeName.USER_ADDRESS, address);
+                    session.setAttribute(AttributeName.USER_ADDRESS, address);
                 }
             }
             if (addressFields.size() < ADDRESS_FORM_SIZE) {
                 request.setAttribute(AttributeName.EDIT_ERROR_MESSAGE, ERROR_MESSAGE);
                 request.setAttribute(AttributeName.ADDRESS_FIELDS, addressFields);
                 request.setAttribute(AttributeName.ADDRESS_ID, addressId);
-            }
-            OrderService orderService = OrderServiceImpl.getInstance();
-            try {
-                List<Order> orders = orderService.findOrdersByUserId(userId);
-                request.setAttribute(AttributeName.USER_ORDERS, orders);
-            } catch (ServiceException e) {
-                logger.log(Level.ERROR, e);
-                response.sendError(500);
             }
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);

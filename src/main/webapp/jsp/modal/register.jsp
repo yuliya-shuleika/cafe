@@ -29,38 +29,49 @@
             </div>
             <div class="login-form-container">
                 <form class="login-form" action="controller" method="post"
-                      onsubmit="return validateRegisterForm()">
+                      onsubmit="validateRegisterForm(this); return false;">
                     <input type="hidden" name="command" value="register">
                     <div class="login-form-field">
-                        <c:if test="${register_fields != null && register_fields.containsKey('user_name')}">
-                            <input class="login-field-input" type="text" name="user_name" placeholder="${username}"
-                                   value="${register_fields.getValue('user_name')}">
-                        </c:if>
-                        <c:if test="${register_fields == null || !register_fields.containsKey('user_name')}">
-                            <input class="login-field-input" type="text" name="user_name" placeholder="${username}">
-                        </c:if>
+                        <c:choose>
+                            <c:when test="${register_fields != null && register_fields.containsKey('user_name')}">
+                                <input class="login-field-input" type="text" name="user_name"
+                                       placeholder="${username}" id="register-user-name"
+                                       value="${register_fields.getValue('user_name')}">
+                            </c:when>
+                            <c:when test="${register_fields == null || !register_fields.containsKey('user_name')}">
+                                <input class="login-field-input" type="text" name="user_name"
+                                       placeholder="${username}" id="register-user-name">
+                            </c:when>
+                        </c:choose>
                     </div>
                     <div class="login-form-field">
-                        <c:if test="${register_fields != null && register_fields.containsKey('user_email')}">
-                            <input class="login-field-input" type="text" name = "user_email"
-                                   placeholder="${email}" value="${register_fields.getValue('user_email')}">
-                        </c:if>
-                        <c:if test="${register_fields == null || !register_fields.containsKey('user_email')}">
-                            <input class="login-field-input" type="text" name = "user_email"
-                                   placeholder="${email}">
-                        </c:if>
+                        <c:choose>
+                            <c:when test="${register_fields != null && register_fields.containsKey('user_email')}">
+                                <input class="login-field-input" type="text" name = "user_email" id="register-user-email"
+                                       placeholder="${email}" value="${register_fields.getValue('user_email')}">
+                            </c:when>
+                            <c:when test="${register_fields == null || !register_fields.containsKey('user_email')}">
+                                <input class="login-field-input" type="text" name = "user_email"
+                                       placeholder="${email}" id="register-user-email">
+                            </c:when>
+                        </c:choose>
                     </div>
                     <div class="login-form-field">
-                        <c:if test="${register_fields != null && register_fields.containsKey('user_email')}">
-                            <input class="login-field-input" type="password" name = "user_password" placeholder="${password}"
-                                   value="${register_fields.getValue('user_password')}">
-                        </c:if>
-                        <c:if test="${register_fields == null || !register_fields.containsKey('user_password')}">
-                            <input class="login-field-input" type="password" name = "user_password" placeholder="${password}">
-                        </c:if>
+                        <c:choose>
+                            <c:when test="${register_fields != null && register_fields.containsKey('user_email')}">
+                                <input class="login-field-input" type="password" name = "user_password"
+                                       placeholder="${password}" id="register-user-password"
+                                       value="${register_fields.getValue('user_password')}">
+                            </c:when>
+                            <c:when test="${register_fields == null || !register_fields.containsKey('user_password')}">
+                                <input class="login-field-input" type="password" name = "user_password"
+                                       placeholder="${password}" id="register-user-password">
+                            </c:when>
+                        </c:choose>
                     </div>
                     <div class="login-form-field">
-                        <input class="login-field-input" type="password" id="repeat_password" placeholder="${repeat_password}">
+                        <input class="login-field-input" type="password"
+                               id="repeat_password" placeholder="${repeat_password}">
                         <p class="login-error-label" id="register-error-label"></p>
                         <c:if test="${register_error_message != null}">
                             <script>
@@ -82,19 +93,25 @@
 <script>
     $(document).ready(function () {
         $('#repeat_password').on('input', function (){
-            let password = document.getElementById('password').value
-            let repeatPassword = document.getElementById('repeat_password').value
-            let registerButton = document.getElementById('register-button')
-            registerButton.disabled = true
-            if (password.localeCompare(repeatPassword)){
-                document.getElementById('register-error-label').innerText = "${password_mismatch}"
-                registerButton.disabled = true
-            } else {
-                document.getElementById('register-error-label').innerText = ""
-                registerButton.disabled = false
-            }
+            showDifference()
+        });
+        $('#register-user-password').on('input', function (){
+            showDifference()
         });
     });
+    function showDifference(){
+        let password = document.getElementById('register-user-password').value
+        let repeatPassword = document.getElementById('repeat_password').value
+        let registerButton = document.getElementById('register-button')
+        registerButton.disabled = true
+        if (password.localeCompare(repeatPassword)){
+            document.getElementById('register-error-label').innerText = "${password_mismatch}"
+            registerButton.disabled = true
+        } else {
+            document.getElementById('register-error-label').innerText = ""
+            registerButton.disabled = false
+        }
+    }
 </script>
 </body>
 </html>

@@ -34,4 +34,9 @@
         <filter-name>PageAccessFilter</filter-name>
         <url-pattern>*.jsp</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>XssFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+        <url-pattern>/controller</url-pattern>
+    </filter-mapping>
 </web-app>

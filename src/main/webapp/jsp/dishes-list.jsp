@@ -72,7 +72,7 @@
                           onsubmit="validateDishSearch(this); return false;">
                         <input type="hidden" name="command" value="search_dish_by_name">
                         <input class="admin-search" type="search" name="dish_name"
-                               placeholder="Search...">
+                               placeholder="Search..." id="search-dish">
                     </form>
                 </div>
             </div>

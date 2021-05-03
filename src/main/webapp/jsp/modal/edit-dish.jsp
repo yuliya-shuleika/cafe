@@ -152,17 +152,21 @@
                             </div>
                             <div class="edit-general">
                                 <span class="edit-label">${photo}</span>
-                                <input class="edit-file-input" type="file"
-                                       name="dish_picture_name" id="add-dish-photo">
-                                <label for="add-dish-photo" class="load-file-input">
+                                <input class="edit-file-input" type="file" accept=".jpg, .jpeg, .png"
+                                       name="dish_picture_name" id="edit-dish-photo">
+                                <label for="edit-dish-photo" class="load-file-input">
                                     <span class="load-file">Загрузить файл</span>
                                     <i class="icon fa fa-upload"></i>
                                 </label>
                             </div>
                         </div>
                         <div class="edit-footer">
+                            <p class="edit-error-message" id="edit-dish-error-message"></p>
                             <c:if test="${edit_error_message != null}">
-                                <p class="edit-error-message" id="edit-dish-error-message">${fill_fields_correct}</p>
+                                <script>
+                                    let error = document.getElementById('edit-dish-error-message')
+                                    error.innerHTML = ${fill_fields_correct}
+                                </script>
                             </c:if>
                             <button class="edit-submit" type="submit">${submit}</button>
                         </div>

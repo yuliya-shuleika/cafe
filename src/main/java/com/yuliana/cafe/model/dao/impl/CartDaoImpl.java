@@ -85,19 +85,20 @@ public class CartDaoImpl implements CartDao {
             selectStatement.setInt(1, dishId);
             selectStatement.setInt(2, userId);
             ResultSet resultSet = selectStatement.executeQuery();
-            selectStatement.executeQuery();
             if (resultSet.next()) {
                 int itemCount = resultSet.getInt(1);
-                updateStatement = connection.prepareStatement(UPDATE_ITEM_COUNT);
-                updateStatement.setInt(1, itemCount - count);
-                updateStatement.setInt(2, userId);
-                updateStatement.setInt(3, dishId);
-            } else {
-                updateStatement = connection.prepareStatement(DELETE_ITEM);
-                updateStatement.setInt(1, userId);
-                updateStatement.setInt(2, dishId);
+                if (itemCount > count) {
+                    updateStatement = connection.prepareStatement(UPDATE_ITEM_COUNT);
+                    updateStatement.setInt(1, itemCount - count);
+                    updateStatement.setInt(2, dishId);
+                    updateStatement.setInt(3, userId);
+                } else {
+                    updateStatement = connection.prepareStatement(DELETE_ITEM);
+                    updateStatement.setInt(1, dishId);
+                    updateStatement.setInt(2, userId);
+                }
+                updateStatement.executeUpdate();
             }
-            updateStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
