@@ -63,13 +63,15 @@
                             </form>
                         </li>
                         <li class="header-icon">
-                            <i class="fas fa-shopping-cart"> </i>
-                            <c:if test="${sessionScope.cart_items == null || sessionScope.cart_items.size() == 0}">
-                                <a class="header-icon-link" href="#cart">${cart}(<span class="header-items-count">0</span>)</a>
-                            </c:if>
-                            <c:if test="${sessionScope.cart_items != null && sessionScope.cart_items.size() > 0}">
-                                <a class="header-icon-link" href="#cart">${cart}(<span class="header-items-count">${sessionScope.cart_items_count}</span>)</a>
-                            </c:if>
+                            <i class="fas fa-shopping-cart"></i>
+                            <c:choose>
+                                <c:when test="${sessionScope.cart_items == null || sessionScope.cart_items.size() == 0}">
+                                    <a class="header-icon-link" href="#cart" >${cart}(<span class="header-items-count">0</span>)</a>
+                                </c:when>
+                                <c:when test="${sessionScope.cart_items != null && sessionScope.cart_items.size() > 0}">
+                                    <a class="header-icon-link" href="#cart">${cart}(<span class="header-items-count">${sessionScope.cart_items_count}</span>)</a>
+                                </c:when>
+                            </c:choose>
                         </li>
                         <li class="header-li">
                             <a class="header-link" id="open_login" href="#">${login}</a>

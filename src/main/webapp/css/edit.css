@@ -139,6 +139,7 @@ h3, p{
     background: #ededed;
     margin-left: 10px;
     color: #545454;
+    padding: 5px;
 }
 
 .edit-general-input-dark{
@@ -335,4 +336,8 @@ h3, p{
 .stop-scrolling {
     height: 100%;
     overflow: hidden;
+}
+
+.edit-star{
+    color: #545454;
 }

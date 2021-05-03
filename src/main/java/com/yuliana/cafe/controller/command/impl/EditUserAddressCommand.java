@@ -52,15 +52,14 @@ public class EditUserAddressCommand implements ActionCommand {
                 Address address = addressOptional.get();
                 addressId = address.getAddressId();
                 addressService.updateAddress(addressFields, addressId);
-                request.setAttribute(AttributeName.USER_ADDRESS, address);
             } else {
                 addressId = addressService.addAddress(addressFields);
                 userService.addUserAddress(addressId, userId);
-                addressOptional = addressService.findAddressById(addressId);
-                if (addressOptional.isPresent()) {
-                    Address address = addressOptional.get();
-                    session.setAttribute(AttributeName.USER_ADDRESS, address);
-                }
+            }
+            addressOptional = addressService.findAddressById(addressId);
+            if (addressOptional.isPresent()) {
+                Address address = addressOptional.get();
+                session.setAttribute(AttributeName.USER_ADDRESS, address);
             }
             if (addressFields.size() < ADDRESS_FORM_SIZE) {
                 request.setAttribute(AttributeName.EDIT_ERROR_MESSAGE, ERROR_MESSAGE);

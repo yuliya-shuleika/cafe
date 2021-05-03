@@ -53,15 +53,6 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void deleteAllItems(int userId) throws ServiceException {
-        try {
-            cartDao.deleteAllItems(userId);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-    }
-
-    @Override
     public Map<Dish, Integer> findUserItems(int userId) throws ServiceException {
         Map<Dish, Integer> cartItems;
         try {

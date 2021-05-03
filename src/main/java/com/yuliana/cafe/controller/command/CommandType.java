@@ -108,11 +108,6 @@ public enum CommandType {
             this.command = new GiveFeedbackCommand();
         }
     },
-    CLEAN_CART {
-        {
-            this.command = new CleanCartCommand();
-        }
-    },
     CHECKOUT {
         {
             this.command = new CheckoutCommand();

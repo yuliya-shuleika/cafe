@@ -73,9 +73,9 @@ function validateUserAddressForm(form){
 }
 
 function validateAccountEditForm(form){
-    let name = document.getElementsByName('user_name')[0].value
-    let email = document.getElementsByName('user_email')[0].value
-    let error = document.getElementsByClassName('edit-error-message')[0]
+    let name = document.getElementById('edit-user-name')
+    let email = document.getElementById('edit-user-email')
+    let error = document.getElementById('edit-profile-error-message')
     let isValid = validateUser(name, email)
     if (!isValid) {
         error.innerHTML = '${fill_fields_correct}'
@@ -86,7 +86,7 @@ function validateAccountEditForm(form){
 
 function validateUser(name, email){
     let isValid = true
-    if (!validateName(name)){
+    if (!validateUserName(name)){
         isValid = false
     }
     if (!validateEmail(email)){
@@ -94,6 +94,31 @@ function validateUser(name, email){
     }
     return isValid
 }
+
+function validateUserName(name){
+    let isValid
+    const regExp = /^[A-Za-zА-Яа-яёЁ]{3,25}$/
+    if(regExp.test(name.value)){
+        isValid = true
+    } else {
+        name.value = ""
+        isValid = false
+    }
+    return isValid
+}
+
+function validateEmail(email){
+    let isValid
+    const regExp = /^[A-Za-z0-9_.]{2,22}@[a-z]{2,10}\.[a-z]{2,6}$/
+    if(regExp.test(email.value)){
+        isValid = true
+    } else {
+        email.value = ""
+        isValid = false
+    }
+    return isValid
+}
+
 
 function validateAddressForm(city, street, house, entrance, floor, flat){
     let isValid = true

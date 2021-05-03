@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+    <Properties>
+        <property name="pattern_console">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %level %logger{1} - %msg%n
+        </property>
+        <property name="pattern_file">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %level %logger{5} - %msg%n
+        </property>
+    </Properties>
+    <Appenders>
+        <Console name="console">
+            <PatternLayout pattern="${pattern_console}"/>
+        </Console>
+        <File name="txt_file" filename="C:\project logs\log.txt">
+            <PatternLayout pattern="${pattern_file}"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="debug">
+            <Appender-ref ref="console" level="debug"/>
+            <Appender-ref ref="txt_file" level="info"/>
+        </Root>
+    </Loggers>
+</Configuration>

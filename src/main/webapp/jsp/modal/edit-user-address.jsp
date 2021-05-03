@@ -151,7 +151,7 @@
                         </div>
                         <div class="edit-footer">
                             <p class="edit-error-message edit-error-message-dark"
-                               id="edit-user-address-error-message">${fill_fields_correct}</p>
+                               id="edit-user-address-error-message"></p>
                             <c:if test="${edit_error_message != null}">
                                 <script>
                                     let error = document.getElementById('edit-user-address-error-message')

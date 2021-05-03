@@ -78,7 +78,7 @@ public class EditAccountCommand implements ActionCommand {
         } else {
             user.setName(userFields.get(RequestParameter.USER_NAME));
             user.setEmail(userFields.get(RequestParameter.USER_EMAIL));
-            user.setAvatar(userFields.get(avatar));
+            user.setAvatar(avatar);
             session.setAttribute(AttributeName.USER, user);
         }
         OrderService orderService = OrderServiceImpl.getInstance();
@@ -119,8 +119,10 @@ public class EditAccountCommand implements ActionCommand {
                 }
                 userFields.put(name, value);
             } else {
-                FileUploader fileUploader = FileUploader.getInstance();
-                avatar = fileUploader.uploadPicture(IMAGE_FOLDER, item);
+                if(item.getSize() > 0) {
+                    FileUploader fileUploader = FileUploader.getInstance();
+                    avatar = fileUploader.uploadPicture(IMAGE_FOLDER, item);
+                }
             }
         }
         if (avatar == null) {

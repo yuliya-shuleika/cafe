@@ -76,7 +76,6 @@
                     <span class="total-currency">$</span>
                 </div>
                 <div class="cart-items-manage">
-                    <button class="clean-cart" id="clean-cart">${clear_cart}</button>
                     <form action="controller" method="post">
                         <input type="hidden" name="command" value="to_payment">
                         <button class="checkout" type="submit">${checkout}</button>

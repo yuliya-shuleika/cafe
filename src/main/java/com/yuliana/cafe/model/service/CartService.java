@@ -32,14 +32,6 @@ public interface CartService {
     void deleteItem(int userId, int dishId, int count) throws ServiceException;
 
     /**
-     * Delete all items from user's cart.
-     *
-     * @param userId id of the user
-     * @throws ServiceException if the {@code DaoException} was thrown
-     */
-    void deleteAllItems(int userId) throws ServiceException;
-
-    /**
      * Find all user's cart items.
      *
      * @param userId id of the user

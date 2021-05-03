@@ -82,10 +82,10 @@
     <div class="account-container">
         <div class="profile">
             <div class="profile-image">
-                <c:if test="${sessionScope.user.avatar == null}">
+                <c:if test="${sessionScope.user.getAvatar() == null}">
                     <img width="300px" height="300px" src="${pageContext.request.contextPath}/images/guest.jpg" alt="${avatar}">
                 </c:if>
-                <c:if test="${sessionScope.user.avatar != null}">
+                <c:if test="${sessionScope.user.getAvatar() != null}">
                     <img width="300px" height="300px" src="${pageContext.request.contextPath}${sessionScope.user.getAvatar()}" alt="${avatar}">
                 </c:if>
             </div>

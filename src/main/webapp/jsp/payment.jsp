@@ -86,22 +86,9 @@
                                         <span class="cart-item-price-currency">$</span>
                                     </div>
                                     <div class="cart-item-count">
-                                        <div class="cart-item-count-update">
-                                            <input type="hidden" name ="command" value="add_to_guest_cart">
-                                            <span class="plus-minus-button">+</span>
-                                        </div>
-                                        <p class="cart-item-count-label">${item.getValue()}</p>
-                                        <div class="cart-item-count-update">
-                                            <input type="hidden" name ="command" value="delete_from_guest_cart">
-                                            <span class="plus-minus-button">-</span>
-                                        </div>
+                                        <p class="cart-item-count-label">x ${item.getValue()}</p>
                                     </div>
-                                    <div class="cart-item-delete">
-                                        <input type="hidden" name ="command" value="delete_from_guest_cart">
-                                        <div class="cart-item-delete-button">
-                                            <i class="fa fa-trash" id="delete-item-from-order"></i>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </li>
                         </c:forEach>

@@ -24,58 +24,68 @@
         <div class="edit-content edit-content-dark">
             <div class="add-promo">
                 <form action="controller?command=edit_account&user_id=${sessionScope.user.userId}&user_avatar=${sessionScope.user.avatar}"
-                      method="post" enctype="multipart/form-data" onsubmit="return validateAccountEditForm()">
+                      method="post" enctype="multipart/form-data" onsubmit="validateAccountEditForm(this); return false;">
                     <div class="edit-header">
                         <h3 class="edit-title edit-title-dark">${account}</h3>
                         <a class="edit-close edit-close-dark" id="edit-close">x</a>
                     </div>
                     <div class="edit-form">
                         <div class="edit-general">
-                            <span class="edit-label edit-label-dark">${username}</span>
+                            <span class="edit-label-dark">${username}</span>
                             <c:choose>
                                 <c:when test="${user_address != null}">
-                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${username}" name="user_name" value="${sessionScope.user.name}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text"  id="edit-user-name"
+                                           placeholder="${username}" name="user_name" value="${sessionScope.user.name}">
                                 </c:when>
                                 <c:when test="${user_fields != null && user_fields.containsKey('user_name')}">
-                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${username}" name="user_name" value="${user_fields.get('user_name')}">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" id="edit-user-name"
+                                           placeholder="${username}" name="user_name" value="${user_fields.get('user_name')}">
                                 </c:when>
                                 <c:when test="${user_fields == null || !user_fields.containsKey('user_name')}">
-                                    <input class="edit-general-input edit-general-input-dark" type="text" placeholder="${username}" name="user_name">
+                                    <input class="edit-general-input edit-general-input-dark" type="text" id="edit-user-name"
+                                           placeholder="${username}" name="user_name">
                                 </c:when>
                             </c:choose>
                         </div>
                         <div class="edit-general">
-                            <span class="edit-label edit-label-dark">${email}</span>
+                            <span class="edit-label-dark">${email}</span>
                             <c:choose>
                                 <c:when test="${user_address != null}">
-                                    <input class="edit-general-input edit-general-input-dark" type="email" placeholder="${email}"
-                                           name="user_email"
+                                    <input class="edit-general-input edit-general-input-dark"
+                                           type="text" placeholder="${email}"
+                                           name="user_email" id="edit-user-email"
                                            value="${sessionScope.user.email}">
                                 </c:when>
                                 <c:when test="${user_fields != null && user_fields.containsKey('user_email')}">
-                                    <input class="edit-general-input edit-general-input-dark" type="email" placeholder="${email}"
-                                           name="user_email"
+                                    <input class="edit-general-input edit-general-input-dark"
+                                           type="text" placeholder="${email}"
+                                           name="user_email" id="edit-user-email"
                                            value="${user_fields.get('user_email')}">
                                 </c:when>
                                 <c:when test="${user_fields == null || !user_fields.containsKey('user_email')}">
-                                    <input class="edit-general-input edit-general-input-dark" type="email" placeholder="${email}"
+                                    <input class="edit-general-input edit-general-input-dark"
+                                           type="text" placeholder="${email}" id="edit-user-email"
                                            name="user_email">
                                 </c:when>
                             </c:choose>
                         </div>
                         <div class="edit-general">
-                            <span class="edit-label edit-label-dark">${photo}</span>
+                            <span class="edit-label-dark">${photo}</span>
                             <input class="edit-file-input" type="file"
-                                   name="user_avatar" id="add-dish-photo">
-                            <label for="add-dish-photo" class="load-file-input load-file-input-dark">
+                                   name="user_avatar" id="add-user-photo">
+                            <label for="add-user-photo" class="load-file-input load-file-input-dark">
                                 <span class="load-file">${load_file}</span>
                                 <i class="icon fa fa-upload"></i>
                             </label>
                         </div>
                     </div>
                     <div class="edit-footer">
+                        <p class="edit-error-message edit-error-message-dark" id="edit-profile-error-message"></p>
                         <c:if test="${edit_error_message != null}">
-                            <p class="edit-error-message edit-error-message-dark">${fill_fields_correct}</p>
+                            <script>
+                                let errorMessage = document.getElementById('edit-profile-error-message')
+                                errorMessage.innerHTML = ${fill_fields_correct}
+                            </script>
                         </c:if>
                         <button class="edit-submit" type="submit">${submit}</button>
                     </div>

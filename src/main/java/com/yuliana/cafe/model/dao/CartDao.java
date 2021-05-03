@@ -39,12 +39,4 @@ public interface CartDao extends BaseDao {
      * @throws DaoException iif occurred an error with access to database
      */
     Map<Dish, Integer> findUserItems(int userId) throws DaoException;
-
-    /**
-     * delete all items from the user's cart by user id.
-     *
-     * @param userId id of the user
-     * @throws DaoException if occurred an error with access to database
-     */
-    void deleteAllItems(int userId) throws DaoException;
 }

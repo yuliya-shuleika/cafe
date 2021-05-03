@@ -87,22 +87,6 @@ $(document).ready(function () {
             }
         });
     });
-    $('#clean-cart').click(function () {
-        let command = 'clean_cart'
-        let data = {command: command};
-        let cart_items = document.getElementsByClassName('cart-item')
-        $.ajax({
-            url: 'controller',
-            type: 'POST',
-            data: data,
-            success: function () {
-                console.log(cart_items.length)
-                for (let i = 0; i < cart_items.length; i++) {
-                    cart_items[i].remove()
-                }
-            }
-        });
-    })
 });
 
 function countTotalPrice() {

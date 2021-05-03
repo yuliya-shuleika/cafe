@@ -34,7 +34,6 @@ public class CartDaoImpl implements CartDao {
             "WHERE cart_items.user_id = ?";
     private static final String ADD_ITEM = "INSERT INTO cart_items (count, user_id, dish_id) VALUES (?, ?, ?)";
     private static final String DELETE_ITEM = "DELETE FROM cart_items WHERE dish_id = ? AND user_id = ?";
-    private static final String DELETE_ALL_ITEMS = "DELETE FROM cart_items";
 
     /**
      * Forbid creation of the new objects of the class.
@@ -125,19 +124,6 @@ public class CartDaoImpl implements CartDao {
             pool.releaseConnection(connection);
         }
         return cartItems;
-    }
-
-    @Override
-    public void deleteAllItems(int userId) throws DaoException {
-        Connection connection = pool.getConnection();
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_ALL_ITEMS)) {
-            statement.setInt(1, userId);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            pool.releaseConnection(connection);
-        }
     }
 
     /**
